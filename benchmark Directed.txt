@@ -1,0 +1,360 @@
+Directed 12
+Timer, MainLoop(10): 7.94378s
+Timer, ComputeMoments(20): 4.38726s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0240009s
+Timer, Stream(60): 3.19661s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.335839s
+Timer, MainLoop(10): 8.17304s
+Timer, ComputeMoments(20): 4.4097s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0248926s
+Timer, Stream(60): 3.3287s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.409671s
+Timer, MainLoop(10): 8.08758s
+Timer, ComputeMoments(20): 4.41442s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0253478s
+Timer, Stream(60): 3.27242s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.375326s
+Timer, MainLoop(10): 8.03579s
+Timer, ComputeMoments(20): 4.42344s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0244313s
+Timer, Stream(60): 3.24008s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.347768s
+Timer, MainLoop(10): 7.98374s
+Timer, ComputeMoments(20): 4.41484s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0237272s
+Timer, Stream(60): 3.16252s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.382588s
+Timer, MainLoop(10): 8.01449s
+Timer, ComputeMoments(20): 4.38725s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0247328s
+Timer, Stream(60): 3.1825s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.419934s
+Timer, MainLoop(10): 8.11485s
+Timer, ComputeMoments(20): 4.42291s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0239133s
+Timer, Stream(60): 3.27865s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.389309s
+Timer, MainLoop(10): 7.84726s
+Timer, ComputeMoments(20): 4.26729s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0233287s
+Timer, Stream(60): 3.17026s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.386309s
+Timer, MainLoop(10): 7.88275s
+Timer, ComputeMoments(20): 4.25501s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0240099s
+Timer, Stream(60): 3.22765s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.376019s
+Timer, MainLoop(10): 7.96045s
+Timer, ComputeMoments(20): 4.35448s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0233639s
+Timer, Stream(60): 3.2042s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.378336s
+
+Directed 24
+Timer, MainLoop(10): 9.8164s
+Timer, ComputeMoments(20): 5.62847s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0224493s
+Timer, Stream(60): 3.41382s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.751594s
+Timer, MainLoop(10): 9.022s
+Timer, ComputeMoments(20): 5.34101s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0214425s
+Timer, Stream(60): 3.10099s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.558503s
+Timer, MainLoop(10): 9.01206s
+Timer, ComputeMoments(20): 5.29198s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0206563s
+Timer, Stream(60): 3.10855s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.59081s
+Timer, MainLoop(10): 9.15231s
+Timer, ComputeMoments(20): 5.37534s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0218836s
+Timer, Stream(60): 3.18944s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.565587s
+Timer, MainLoop(10): 9.31384s
+Timer, ComputeMoments(20): 5.4898s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0239508s
+Timer, Stream(60): 3.20034s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.599687s
+Timer, MainLoop(10): 9.31402s
+Timer, ComputeMoments(20): 5.38785s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0226415s
+Timer, Stream(60): 3.27966s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.623804s
+Timer, MainLoop(10): 9.25881s
+Timer, ComputeMoments(20): 5.42029s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0213813s
+Timer, Stream(60): 3.18051s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.636565s
+Timer, MainLoop(10): 9.33832s
+Timer, ComputeMoments(20): 5.42568s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0234022s
+Timer, Stream(60): 3.2665s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.622676s
+Timer, MainLoop(10): 9.13282s
+Timer, ComputeMoments(20): 5.34081s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0216443s
+Timer, Stream(60): 3.19952s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.570786s
+Timer, MainLoop(10): 9.00579s
+Timer, ComputeMoments(20): 5.35139s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0209397s
+Timer, Stream(60): 3.08177s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.551629s
+
+Directed 36
+Timer, MainLoop(10): 10.7684s
+Timer, ComputeMoments(20): 6.73121s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0232793s
+Timer, Stream(60): 3.15116s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.862701s
+Timer, MainLoop(10): 10.6051s
+Timer, ComputeMoments(20): 6.68131s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.022424s
+Timer, Stream(60): 3.12861s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.77268s
+Timer, MainLoop(10): 10.8034s
+Timer, ComputeMoments(20): 6.78678s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0232072s
+Timer, Stream(60): 3.17782s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.815569s
+Timer, MainLoop(10): 10.7103s
+Timer, ComputeMoments(20): 6.72729s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0235127s
+Timer, Stream(60): 3.10501s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.854439s
+Timer, MainLoop(10): 10.5926s
+Timer, ComputeMoments(20): 6.62264s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0228838s
+Timer, Stream(60): 3.13514s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.811835s
+Timer, MainLoop(10): 10.7261s
+Timer, ComputeMoments(20): 6.71093s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0218899s
+Timer, Stream(60): 3.14308s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.850136s
+Timer, MainLoop(10): 10.9566s
+Timer, ComputeMoments(20): 6.81221s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0214633s
+Timer, Stream(60): 3.21037s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.912525s
+Timer, MainLoop(10): 10.5496s
+Timer, ComputeMoments(20): 6.62577s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.02191s
+Timer, Stream(60): 3.11927s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.782544s
+Timer, MainLoop(10): 10.7503s
+Timer, ComputeMoments(20): 6.73998s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0217796s
+Timer, Stream(60): 3.16229s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.82624s
+Timer, MainLoop(10): 10.7347s
+Timer, ComputeMoments(20): 6.7745s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.024447s
+Timer, Stream(60): 3.13686s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.798818s
+
+Directed 48
+Timer, MainLoop(10): 10.2297s
+Timer, ComputeMoments(20): 6.89795s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0186388s
+Timer, Stream(60): 2.4189s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.894158s
+Timer, MainLoop(10): 10.3768s
+Timer, ComputeMoments(20): 6.99609s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.018635s
+Timer, Stream(60): 2.47103s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.890948s
+Timer, MainLoop(10): 10.2981s
+Timer, ComputeMoments(20): 6.93309s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0185979s
+Timer, Stream(60): 2.43323s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.913066s
+Timer, MainLoop(10): 10.2122s
+Timer, ComputeMoments(20): 6.88169s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0186126s
+Timer, Stream(60): 2.42418s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.887704s
+Timer, MainLoop(10): 10.2766s
+Timer, ComputeMoments(20): 6.91886s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0185919s
+Timer, Stream(60): 2.42293s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.916099s
+Timer, MainLoop(10): 10.3107s
+Timer, ComputeMoments(20): 6.96739s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0186044s
+Timer, Stream(60): 2.4505s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.874123s
+Timer, MainLoop(10): 10.3188s
+Timer, ComputeMoments(20): 6.96434s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0187654s
+Timer, Stream(60): 2.44458s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.891039s
+Timer, MainLoop(10): 10.3373s
+Timer, ComputeMoments(20): 6.93349s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.018695s
+Timer, Stream(60): 2.47652s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.908512s
+Timer, MainLoop(10): 10.2546s
+Timer, ComputeMoments(20): 6.90579s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0186695s
+Timer, Stream(60): 2.43382s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.896262s
+Timer, MainLoop(10): 10.238s
+Timer, ComputeMoments(20): 6.90794s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0185193s
+Timer, Stream(60): 2.43694s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 0.874514s
+
+Directed 60
+Timer, MainLoop(10): 17.2654s
+Timer, ComputeMoments(20): 10.7928s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0253384s
+Timer, Stream(60): 5.03851s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 1.40858s
+Timer, MainLoop(10): 17.1611s
+Timer, ComputeMoments(20): 10.755s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0260345s
+Timer, Stream(60): 4.98531s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 1.39468s
+Timer, MainLoop(10): 17.2045s
+Timer, ComputeMoments(20): 10.7537s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0246576s
+Timer, Stream(60): 4.98723s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 1.43883s
+Timer, MainLoop(10): 17.4241s
+Timer, ComputeMoments(20): 10.8685s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0248896s
+Timer, Stream(60): 5.07731s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 1.45331s
+Timer, MainLoop(10): 17.1312s
+Timer, ComputeMoments(20): 10.8137s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0260132s
+Timer, Stream(60): 4.91713s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 1.37426s
+Timer, MainLoop(10): 17.0572s
+Timer, ComputeMoments(20): 10.8073s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0279625s
+Timer, Stream(60): 4.85948s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 1.3624s
+Timer, MainLoop(10): 17.0904s
+Timer, ComputeMoments(20): 10.7033s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0252176s
+Timer, Stream(60): 4.95708s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 1.40474s
+Timer, MainLoop(10): 17.1752s
+Timer, ComputeMoments(20): 10.8044s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.0251708s
+Timer, Stream(60): 4.95777s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 1.38777s
+Timer, MainLoop(10): 17.0329s
+Timer, ComputeMoments(20): 10.6911s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.027661s
+Timer, Stream(60): 5.00098s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 1.31307s
+
+Timer, MainLoop(10): 17.3429s
+Timer, ComputeMoments(20): 10.9285s
+Timer, WriteDataToJson(30): 0s
+Timer, Collide(40): 0.026826s
+Timer, Stream(60): 4.99996s
+Timer, KeepSourceNodesActive(70): 0s
+Timer, Rotate Stencil(90): 1.38755s

@@ -1,0 +1,14 @@
+# Obj files:
+*.o
+
+# Output folder:
+output/
+
+# Binaries:
+paper
+test
+main
+eigen
+tests/testStencil
+tests/testMetric2D
+results.json
