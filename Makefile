@@ -13,10 +13,7 @@ OBJ_FILES  := $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES))
 INC_FILES  := $(wildcard $(SRC_DIR)/*.hh)
 
 
-all: main test paper eigen
-
-main: $(OBJ_FILES) $(INC_FILES) main.cpp
-	$(CC) $(CXXFLAGS) $(DEBUGFLAGS) $(OPTIMFLAGS) -o $@ $^ $(POSTFLAFS)
+all: test paper
 
 test: $(OBJ_FILES) $(INC_FILES) test.cpp
 	$(CC) $(CXXFLAGS) $(DEBUGFLAGS) $(OPTIMFLAGS) -o $@ $^ $(POSTFLAFS)
@@ -29,25 +26,18 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 
 
-eigen: obj/Utility.o eigen.cpp
-	$(CC) $(CXXFLAGS) $(DEBUGFLAGS) $(OPTIMFLAGS) -o $@ $^ $(POSTFLAFS)
 
 
-
-
-
-.Phony: run
-run:
-	./main 0 100 100 8
-	./main 1 100 100 8
+#.Phony: run
+#run:
+#	./main 0 100 100 8
+#	./main 1 100 100 8
 
 .Phony: clean
 clean:
 	-rm obj/*.o
-	-rm main
 	-rm test
 	-rm paper
-	-rm eigen
 
 .Phony: outputClean
 outputClean:

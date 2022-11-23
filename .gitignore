@@ -11,4 +11,3 @@ main
 eigen
 tests/testStencil
 tests/testMetric2D
-results.json

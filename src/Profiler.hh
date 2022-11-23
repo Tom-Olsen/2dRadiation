@@ -50,7 +50,7 @@ private:
 public:
     Profiler() : m_CurrentSession(nullptr), m_ProfileCount(0) {}
 
-    void BeginSession(const std::string& name, const std::string& filepath = "results.json")
+    void BeginSession(const std::string& name, const std::string& filepath = "output/results.json")
     {
         m_OutputStream.open(filepath);
         WriteHeader();
