@@ -238,6 +238,7 @@ void Grid2D<Coord>::WriteFrametoJson
 (float time, double* r, double* g, double* b, double* a,
  int frameNumber, std::string directory, std::string name)
 {
+    PROFILE_FUNCTION();
     // main body:
     Json::Value jsonData;
 

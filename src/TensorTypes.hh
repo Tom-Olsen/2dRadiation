@@ -2,9 +2,9 @@
 #define __INCLUDE_GUARD_TesorTypes_hh__
 #include <iomanip>                  // std::setprecision()
 #include <iostream>                 // cout
-#include "ControlFlowClasses.hh"    // used for template arguments
+#include "ControlFlow.hh"           // used for template arguments
 #include "eigen/Eigen/Dense"        // Eigen library for solving linear systems
-#include "Utility.h"                // utility functions and constants
+#include "Utility.hh"               // utility functions and constants
 
 
 

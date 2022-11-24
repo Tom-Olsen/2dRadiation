@@ -4,7 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
-#include "Utility.h"
+#include "Utility.hh"
 #include "TensorTypes.hh"
 #include "Distribution.hh"
 #include "eigen/Eigen/Dense"
@@ -22,21 +22,23 @@
 struct Stencil
 {
     int nDir;
+    double sigma;
 
     // Inverse of Phi(d). Returns index d of angle phi.
     inline __attribute__((always_inline)) virtual double Index(double phi, double rotation=0) const
     { exit_on_error("Stencil Index(phi) override is missing!"); return 0; }
+
     // d = direction € [-0.5,nDir-0.5], continous values possible.
     // Returns angle of direction 'd' in global space, meaning:
     // 0->right, pi/2->up, pi->left, 3pi/2->down, 2pi->right.
     inline __attribute__((always_inline)) virtual double Phi(double d, double rotation=0) const
     { exit_on_error("Stencil Phi(d) override is missing!"); return 0; }
+
     // Weights are only defined for discrete directions, int d.
     inline __attribute__((always_inline)) virtual double W(int d) const
     { exit_on_error("Stencil W(d) override is missing!"); return 0; }
-    inline __attribute__((always_inline)) virtual double Sigma() const
-    { exit_on_error("Stencil Sigma() override is missing!"); return 0; }
 
+    // Velocity vector.
     inline __attribute__((always_inline)) double Cx(double d, double rotation=0) const
     { return cos(Phi(d,rotation)); }
     inline __attribute__((always_inline)) double Cy(double d, double rotation=0) const
@@ -44,9 +46,10 @@ struct Stencil
     inline __attribute__((always_inline)) Tensor2<xy,IF> Cxy(double d, double rotation=0) const
     { return Tensor2<xy,IF>(Cx(d,rotation), Cy(d,rotation)); }
     
-    // returns number between 0 and 1 for all d € [-0.5,nDir-0.5].
+    // Maps the interval [-0.5,nDir-0.5] -> [0,1]
     inline __attribute__((always_inline)) double X(double d) const
-    { return (d + 0.5) / nDir; }
+    { return (d) / nDir; }
+    // { return (d + 0.5) / nDir; }
 
     void Print()
     {
@@ -61,8 +64,11 @@ struct Stencil
 
 struct UniformStencil : Stencil
 {
-    UniformStencil(int nDir_)
-    { nDir = nDir_; }
+    UniformStencil(int nDir_, double sigma_=1)
+    {
+        nDir = nDir_;
+        sigma = sigma_;
+    }
 
     inline __attribute__((always_inline)) double Index(double phi, double rotation=0) const override
     { return 0.5 * phi * nDir / M_PI - 0.5; }
@@ -74,17 +80,39 @@ struct UniformStencil : Stencil
 
 
 
+struct RotStencil : Stencil
+{
+    RotStencil(int nDir_, double sigma_=1)
+    {
+        nDir = nDir_;
+        sigma = sigma_;
+    }
+
+    inline __attribute__((always_inline)) double Index(double phi, double rotation=0) const override
+    {
+        double angle = fmod(phi - rotation + 2.0 * M_PI, 2.0 * M_PI);
+        return nDir * angle / (2.0 * M_PI) - 0.5;
+    }
+    inline __attribute__((always_inline)) double Phi(double d, double rotation=0) const override
+    { return fmod(2.0 * M_PI * X(d) + rotation, 2.0 * M_PI); }
+    inline __attribute__((always_inline)) double W(int d) const override
+    { return 2.0 / nDir; }
+};
+
+
+
 // Directed stencil is more dense around phi=0.
 struct DirectedStencil : Stencil
 {
     Distribution& distribution;
 
-    DirectedStencil(int nDir_, Distribution& distribution_)
+    DirectedStencil(int nDir_, Distribution& distribution_, double sigma_=1)
     : distribution(distribution_)
     {
         if(nDir_%2 != 0)
             exit_on_error("number of directions in stencil must be even!");
         nDir   = nDir_;
+        sigma = sigma_;
     }
 
     inline __attribute__((always_inline)) double Index(double phi, double rotation=0) const override
@@ -100,27 +128,6 @@ struct DirectedStencil : Stencil
     {
         exit_on_error("Weights for directed stencil do not exist!");
         return 0;
-    }
-    inline __attribute__((always_inline)) double Sigma() const override
-    {
-        if (nDir == 10)
-            return 0.1000;
-        if (nDir == 20)
-            return 0.0800;
-        if (nDir == 30)
-            return 0.0600;
-        if (nDir == 40)
-            return 0.0670;
-        if (nDir == 50)
-            return 0.0395;// return 0.0470;
-        if (nDir == 60)
-            return 0.0400;
-        if (nDir == 80)
-            return 0.0315;
-        if (nDir == 100)
-            return 0.0225;
-
-        return Phi(1) / sqrt(log(1.0/0.945));
     }
 };
 

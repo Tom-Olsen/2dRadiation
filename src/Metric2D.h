@@ -1,8 +1,8 @@
 #ifndef __INCLUDE_GUARD_Metric2D_h__
 #define __INCLUDE_GUARD_Metric2D_h__
 #include <string>
-#include "ControlFlowClasses.hh"// used for template arguments
-#include "Utility.h"            // basic utility functions
+#include "ControlFlow.hh"       // used for template arguments
+#include "Utility.hh"           // basic utility functions
 #include "TensorTypes.hh"       // simple containers for rank 1-3 tensors
 #include "Grid2D.h"             // underlying numerical Grid
 #include "Interpolation.hh"     // biilinear interpolation

@@ -11,7 +11,121 @@ using namespace std;
 
 
 
-void RingWaveFlatDirected(double sigma_, int nDir_, int nGrid_, float cfl_)
+void RingWaveFlatRot(double sigma_, int nDir_, int nGrid_, double cfl_)
+{
+    double simTime = 1;
+    int nDir = nDir_;
+    int nGrid = nGrid_;
+    double sigma = sigma_;
+    string fileName = "RingWaveFlatRot NN" + std::to_string(nGrid) +
+        " N" + std::to_string(nDir) +
+        " cfl"  + std::to_string(cfl_);
+
+    Int2 N(nGrid,nGrid);
+    Coordinate2<xy> Start(-1.1, -1.1);
+    Coordinate2<xy> End(1.1, 1.1);
+    Grid2D<xy> grid(N,Start,End);
+    grid.SetCFL(cfl_);
+    Minkowski<xy> metric(grid,1.0,0.0);
+    RotStencil stencil(nDir_,sigma_);
+    UniformStencil fourierStencil(5);
+    
+    // Initialize simulation:
+    RadiationNew radiation(grid,metric,stencil,fourierStencil);
+
+    double r0 = 0.1;
+    double rSigma = 0.04;
+    for(int j=0; j<grid.n2; j++)
+    {
+        for(int i=0; i<grid.n1; i++)
+        {
+            double r = grid.rCoord(i,j);
+            double ph = grid.phCoord(i,j);
+            int ij = grid.Index(i,j);
+            if(r < 4*r0)
+            {
+                radiation.isInitialGridPoint[ij] = true;
+                radiation.initialE[ij] = exp(-0.5 * pow((r - r0)/rSigma,2));
+                radiation.initialRotation[ij] = ph;
+                radiation.initialKappa0[ij] = 0;
+                radiation.initialKappa1[ij] = 0;
+                radiation.initialKappaA[ij] = 0;
+                radiation.initialEta[ij] = 0;
+            }
+        }
+    }
+    
+    // Run simulation:
+    int writeFrequency = 2;
+    bool updateFourierHarmonics = false;
+    bool keepSourceNodesActive = false;
+    bool writeData = true;
+    // bool writeData = false;
+    bool printToTerminal = true;
+    radiation.RunSimulation(fileName,simTime,writeFrequency,updateFourierHarmonics,keepSourceNodesActive,writeData,printToTerminal);
+}
+void CurvedBeamCloseRot(double sigma_, int nDir_, int nGrid_, int nFourier_, double cfl_)
+{
+    double simTime = 10;
+    int nDir = nDir_;
+    int nFourier = nFourier_;
+    int nGrid = nGrid_;
+    double sigma = sigma_;
+    string fileName = "CurvedBeamCloseRot NN" + std::to_string(nGrid) +
+        " N" + std::to_string(nDir) + 
+        " F" + std::to_string(nFourier) + 
+        " s" + std::to_string(sigma) +
+        " cfl" + std::to_string(cfl_);
+
+    Int2 N(nGrid,nGrid);
+    Coordinate2<xy> Start(-0.1, -1.0);
+    Coordinate2<xy> End(6.0, 5.0);
+    Grid2D<xy> grid(N,Start,End);
+    grid.SetCFL(cfl_);
+    // KerrSchild<xy> metric(grid,1.0,0.5);
+    SchwarzSchild<xy> metric(grid,1.0,0.0);
+    // Minkowski<xy> metric(grid,1.0,0.0);
+    RotStencil stencil(nDir_,sigma_);
+    UniformStencil fourierStencil(5);
+    
+    // Initialize simulation:
+    RadiationNew radiation(grid,metric,stencil,fourierStencil);
+
+    for(int j=0; j<grid.n2; j++)
+    {
+        for(int i=0; i<grid.n1; i++)
+        {
+            if(3.0 < grid.yCoord(i,j) && grid.yCoord(i,j) < 3.5 && grid.xCoord(i,j) < 0.0)
+            {
+                int ij = grid.Index(i,j);
+                Coordinate2<xy> x = grid.xyCoord(i,j);
+                Tensor3<xy,LF> u(1,1,0);
+                u.NullNormalize(metric.GetMetric_ll(x));
+                Tensor2<xy,IF> v = Vec2ObservedByEulObs<xy,LF,IF>(u,x,metric);
+
+                radiation.isInitialGridPoint[ij] = true;
+                radiation.initialE[ij] = 1;
+                radiation.initialRotation[ij] = v.Angle();
+                radiation.initialKappa0[ij] = 0;
+                radiation.initialKappa1[ij] = 0;
+                radiation.initialKappaA[ij] = 0;
+                radiation.initialEta[ij] = 0;
+            }
+        }
+    }
+
+    // Run simulation:
+    int writeFrequency = 5;
+    bool updateFourierHarmonics = false;
+    bool keepSourceNodesActive = true;
+    bool writeData = true;
+    bool printToTerminal = true;
+    radiation.RunSimulation(fileName,simTime,writeFrequency,updateFourierHarmonics,keepSourceNodesActive,writeData,printToTerminal);
+}
+
+
+
+void RingWaveFlatDirected(double sigma_, int nDir_, int nGrid_, double cfl_)
 {
     double simTime = 1;
     int nDir = nDir_;
@@ -63,7 +177,7 @@ void RingWaveFlatDirected(double sigma_, int nDir_, int nGrid_, float cfl_)
 
 
 
-void RingWaveFlatUniform(int nDir_, int nGrid_, float cfl_)
+void RingWaveFlatUniform(int nDir_, int nGrid_, double cfl_)
 {
     double simTime = 1;
     int nDir = nDir_;
@@ -380,8 +494,14 @@ void RecreateMetricDataForLukasM1Data()
 
 int main()
 {
-    RingWaveFlatDirected(1,60,200,0.5);
-    RingWaveFlatUniform(60,200,0.5);
+    RingWaveFlatRot(1,12,200,0.5);
+    RingWaveFlatRot(1,24,200,0.5);
+    RingWaveFlatRot(1,36,200,0.5);
+    RingWaveFlatRot(1,48,200,0.5);
+    RingWaveFlatRot(1,60,200,0.5);
+    // CurvedBeamCloseRot(0.01,60,200,5,0.5);
+    // RingWaveFlatDirected(1,60,200,0.5);
+    // RingWaveFlatUniform(60,200,0.5);
     return 0;
 
     //// Ring Wave:

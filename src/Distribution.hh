@@ -2,7 +2,7 @@
 #define __INCLUDE_GUARD_Distribution_hh__
 
 #include <math.h>
-#include "Utility.h"
+#include "Utility.hh"
 
 
 

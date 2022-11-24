@@ -2,11 +2,11 @@
 #define __INCLUDE_GUARD_SimulationData_h__
 #include <fstream>                  // std::file
 #include <vector>                   // std::vector datastructure (analog to list in c#)
-#include "ControlFlowClasses.hh"	// used for template arguments
-#include "Stencil.hh"                // velocity stencil
+#include "ControlFlow.hh"	        // used for template arguments
+#include "Stencil.hh"               // velocity stencil
 #include "Grid2D.h"                 // structure of numerical Grid
 #include "Metric2D.h"	            // Metric data
-#include "Utility.h"	            // basic utility
+#include "Utility.hh"	            // basic utility
 
 
 template<class Coord>
@@ -50,7 +50,6 @@ struct SimulationData
 
     // Methods:
     void AddTimeMeasurement(std::string timeName, double timeMeasurement);
-    void CreateDirectories();
     void LogSimulationParameters();
 };
 

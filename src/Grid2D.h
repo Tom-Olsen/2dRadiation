@@ -3,8 +3,8 @@
 #include <iomanip>              // std::setprecision
 #include <fstream>              // file input/output
 #include <jsoncpp/json/json.h>  // everything about json files
-#include "ControlFlowClasses.hh"// used for template arguments
-#include "Utility.h"            // exit_on_error(char* msg)
+#include "ControlFlow.hh"// used for template arguments
+#include "Utility.hh"            // exit_on_error(char* msg)
 #include "TensorTypes.hh"       // simple containers for rank 1-3 tensors
 #include "Profiler.hh"
 

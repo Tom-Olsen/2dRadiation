@@ -1,7 +1,7 @@
 #ifndef __INCLUDE_GUARD_Matrix_hh__
 #define __INCLUDE_GUARD_Matrix_hh__
 #include <iostream>             // cout etc.
-#include "Utility.h"            // basic utility
+#include "Utility.hh"            // basic utility
 #include "eigen/Eigen/Dense"    // linear algebra
 
 

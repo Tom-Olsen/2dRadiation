@@ -3,7 +3,7 @@
 #include <math.h>
 #include <vector>
 #include <iostream>
-#include "Utility.h"
+#include "Utility.hh"
 #include "Stencil.hh"
 
 // This namespace holds the Fourier Harmonics basis polynomials

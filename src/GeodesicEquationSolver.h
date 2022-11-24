@@ -1,7 +1,7 @@
 #ifndef __INCLUDE_GUARD_GeodesicEquationSolver_h__
 #define __INCLUDE_GUARD_GeodesicEquationSolver_h__
 #include <fstream>                      // file input/output
-#include "Utility.h"                    // small useful functions.
+#include "Utility.hh"                    // small useful functions.
 #include "TensorTypes.hh"                // simple containers for rank 1-3 tensors
 #include "Metric2D.h"                     // metric data
 #include "AdvancedUtiltiy.h"            // utiliy depending on more complex classes

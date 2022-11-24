@@ -1,7 +1,7 @@
 #ifndef __INCLUDE_GUARD_Spacetimes_h__
 #define __INCLUDE_GUARD_Spacetimes_h__
 #include <string>
-#include "ControlFlowClasses.hh"// used for template arguments
+#include "ControlFlow.hh"       // used for template arguments
 #include "TensorTypes.hh"       // simple containers for rank 1-3 tensors
 #include "Grid2D.h"             // underlying numerical Grid
 #include "Metric2D.h"           // metric base class

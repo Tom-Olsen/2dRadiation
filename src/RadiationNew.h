@@ -1,8 +1,10 @@
-#ifndef __INCLUDE_GUARD_Radiation_h__
-#define __INCLUDE_GUARD_Radiation_h__
+#ifndef __INCLUDE_GUARD_RadiationNew_h__
+#define __INCLUDE_GUARD_RadiationNew_h__
 #include <math.h>
 #include <omp.h>
 #include <fstream>
+#include <vector>
+#include <string>
 #include "ControlFlow.hh"			// used for template arguments
 #include "Utility.hh"				// basic utility functions
 #include "Stencil.hh"				// velocity stencils.
@@ -11,22 +13,29 @@
 #include "Metric2D.h"				// 2D Metric data. The numerical domain is defined by Grid3D.
 #include "FourierHarmonics.h"		// fourier interpolation thorugh discrete number of points in 2d plane.
 #include "GeodesicEquationSolver.h"	// used to solve geodesic equation on spacelike hypersurface.
-#include "SimulationData.h"			// Summary of simulation parameters.
+#include "Log.hh"
+#include "Utility.hh"
 
 
 
 template<class Coord>
-class Radiation
+class RadiationNew
 {
 public:
-    SimulationData<Coord>& simData;
 	Grid2D<Coord>& grid;
 	Metric2D<Coord>& metric;
-	int nDir;
-	Stencil& uniStencil;
-	Stencil& dirStencil;
-	Stencil& momentStencil;
+	Stencil& stencil;
 	Stencil& fourierStencil;
+	int nDir;
+
+	bool* isInitialGridPoint;
+	double* initialE;
+	double* initialRotation;
+	double* initialKappa0;
+	double* initialKappa1;
+	double* initialKappaA;
+	double* initialEta;
+
 	double* rotation;
 	double* E;
 	double* Fx;
@@ -57,26 +66,23 @@ private:
 	Coordinate2<Coord> GetTempCoordinate(int i, int j, double phi);
 	Tensor2<Coord,LF> GetTemp2Velocity(int i, int j, double phi);
 	double GetFrequencyShift(int i, int j, double phi);
-	double InterpolateIntensity(int ij, double phi);
-	void SaveStreamingFourierExtrapolation();
+	double IntensityAt(int ij, double phi);
 
 public:
-	Radiation() = delete;
-	Radiation(SimulationData<Coord>& simData_);
-	~Radiation();
+	RadiationNew() = delete;
+	RadiationNew(Grid2D<Coord>& grid_, Metric2D<Coord>& metric_, Stencil& stencil_, Stencil& fourierStencil_);
+	~RadiationNew();
 
 	void LoadInitialData();
 	void NormalizeInitialData();
 	void UpdateFourierCoefficients();
-	void InitVakuumMicrophysics();
 	void ComputeMomentsIF();
 	void ComputeMomentsLF();
 	void RotateStencil();
 	void Stream();
-	void GeodesicStream();
 	void FlatStream();
 	void Collide();
 
-	void RunSimulation(int writeFrequency = 1, bool updateFourierHarmonics = false, bool keepSourceNodesActive = true, bool writeData = true, bool printToTerminal = true);
+	void RunSimulation(std::string name, double simTime, int writeFrequency = 1, bool updateFourierHarmonics = false, bool keepSourceNodesActive = true, bool writeData = true, bool printToTerminal = true);
 };
-#endif //__INCLUDE_GUARD_Radiation_h__
+#endif //__INCLUDE_GUARD_RadiationNew_h__

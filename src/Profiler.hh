@@ -5,153 +5,201 @@
 //
 // Profiler::Get().BeginSession("Session Name");        // Begin session 
 // {
-//     ProfileTimer timer("Profiled Scope Name");   // Place code like this in scopes you'd like to include in profiling
+//     Timer timer("Profiled Scope Name");   // Place code like this in scopes you'd like to include in profiling
 //     // Code
 // }
 // Profiler::Get().EndSession();                        // End Session
 //
 // You will probably want to macro-fy this, to switch on/off easily and use things like __FUNCSIG__ for the profile name.
 //
-#ifndef __INCLUDE_INSTRUMENTOR_hh__
-#define __INCLUDE_INSTRUMENTOR_hh__
+#ifndef __INCLUDE_Profiler_hh__
+#define __INCLUDE_Profiler_hh__
+#include <iostream>
 #include <string>
 #include <chrono>
 #include <algorithm>
 #include <fstream>
-// #include <mutex>
-// #include <thread>
+#include <mutex>
+#include <omp.h>
+#include <vector>
 
 
-
-struct ProfileResult
+namespace Profiler
 {
-    std::string Name;
-    long long Start, End;
-    uint32_t ThreadID;
-};
-
-
-
-struct ProfileSession
-{
-    std::string Name;
-};
-
-
-
-class Profiler
-{
-private:
-    ProfileSession* m_CurrentSession;
-    std::ofstream m_OutputStream;
-    int m_ProfileCount;
-    // std::mutex m_lock;
-
-public:
-    Profiler() : m_CurrentSession(nullptr), m_ProfileCount(0) {}
-
-    void BeginSession(const std::string& name, const std::string& filepath = "output/results.json")
+    struct Result
     {
-        m_OutputStream.open(filepath);
-        WriteHeader();
-        m_CurrentSession = new ProfileSession{ name };
+        std::string name;
+        long long start, end;
+        uint32_t threadID;
+        double DurationNS() const
+        { return end - start; }
+        double DurationMS() const
+        { return (end - start) / 1000.0; }
+        double DurationS () const
+        { return (end - start) / 1000000.0; }
+        inline __attribute__((always_inline)) friend std::ostream& operator<<(std::ostream& os, const Result& result);
+    };
+    inline __attribute__((always_inline)) std::ostream& operator<<(std::ostream& os, const Result& result)
+    {
+        os << "Name:     " << result.name << "\n"
+           << "Start:    " << result.start << "\n"
+           << "End:      " << result.end << "\n"
+           << "Duration: " << result.DurationS() << "\n"
+           << "ThreadID: " << result.threadID << "\n";
+        return os;
     }
 
-    void EndSession()
+
+
+    class Session
     {
-        WriteFooter();
-        m_OutputStream.close();
-        delete m_CurrentSession;
-        m_CurrentSession = nullptr;
-        m_ProfileCount = 0;
-    }
+    private:
+        std::string sessionName;
+        std::ofstream outputStream;
+        int profileCount;
+        std::mutex writeMutex;
+    public:
+        std::vector<Result> results;
+        int numResults;
 
-    void WriteProfile(const ProfileResult& result)
+    private:
+        // Singleton Pattern: hide these constructors from user!
+        Session() : sessionName(""), profileCount(0), numResults(0) {}
+        Session(Session const&) = delete;
+        void operator=(Session const&) = delete;
+
+    public:
+        // Only way to access the Session is via Session::Get().
+        // All constructors are either hidden and/or deleted.
+        // You can still save a reference to the singleton:
+        // Profiler::Session& session = Profiler::Session::Get();
+        static Session& Get()
+        {
+            static Session instance;
+            return instance;
+        }
+
+        // These two functions need to embrace the code you want to benchmark:
+        void Start(const std::string& name, const std::string& filepath = "results.json")
+        {
+            results.resize(1000,{});
+            outputStream.open(filepath);
+            WriteHeader();
+            sessionName = name;
+        }
+        void End()
+        {
+            WriteFooter();
+            results.resize(numResults);
+            outputStream.close();
+            sessionName = "";
+            profileCount = 0;
+        }
+
+        // Write data to json:
+        void WriteProfile(const Result& result)
+        {
+            std::lock_guard<std::mutex> lock(writeMutex);
+
+            numResults++;
+            if(results.size() < numResults)
+                results.resize(results.size() + 1000);
+            results[numResults - 1] = result;
+
+            if (profileCount++ > 0)
+                outputStream << ",\n";
+
+            std::string name = result.name;
+            std::replace(name.begin(), name.end(), '"', '\'');
+
+            outputStream << "\t\t{\n";
+            outputStream << "\t\t\t\"cat\":\"function\",\n";
+            outputStream << "\t\t\t\"dur\":" << (result.end - result.start) << ",\n";
+            outputStream << "\t\t\t\"name\":\"" << name << "\",\n";
+            outputStream << "\t\t\t\"ph\":\"X\",\n";
+            outputStream << "\t\t\t\"pid\":0,\n";
+            outputStream << "\t\t\t\"tid\":" << result.threadID << ",\n";
+            outputStream << "\t\t\t\"ts\":" << result.start << "\n";
+            outputStream << "\t\t}";
+        }
+        void WriteHeader()
+        {
+            outputStream << "{\n";
+            outputStream << "\t\"otherData\": {},\n";
+            outputStream << "\t\"traceEvents\":\n";
+            outputStream << "\t[\n";
+        }
+        void WriteFooter()
+        {
+            outputStream << "\n\t]\n";
+            outputStream << "}";
+            outputStream.flush();
+        }
+
+        // Result analysis:
+        void PrintResults()
+        {
+            for(int i=0; i<results.size(); i++)
+                std::cout << results[i] << std::endl;
+        }
+        double GetTotalTime(std::string functionName)
+        {
+            double duration = 0;
+            for(int i=0; i<results.size(); i++)
+            {
+                if(results[i].name == functionName)
+                    duration += results[i].DurationS();
+            }
+            return duration;
+        }
+        std::vector<std::string> GetAllFunctionNames()
+        {
+            std::vector<std::string> names;
+            for(int i=0; i<results.size(); i++)
+            {
+                if(std::find(names.begin(), names.end(), results[i].name) != names.end())
+                    continue;
+                else
+                    names.push_back(results[i].name);
+            }
+            return names;
+        }
+        void PrintFunctionDuration(std::string name)
+        { std::cout << name << ": " << GetTotalTime(name) << "s\n"; }
+    };
+
+
+
+    class Timer
     {
-        // std::lock_guard<std::mutex> lock(m_lock);
+    private:
+        const char* name;
+        std::chrono::time_point<std::chrono::steady_clock> startTimepoint;
+        bool isStopped;
 
-        if (m_ProfileCount++ > 0)
-            m_OutputStream << ",\n";
+    public:
+        Timer(const char* name_)
+        : name(name_), isStopped(false)
+        { startTimepoint = std::chrono::steady_clock::now(); }
 
-        std::string name = result.Name;
-        std::replace(name.begin(), name.end(), '"', '\'');
+        ~Timer()
+        {
+            if (!isStopped)
+                Stop();
+        }
 
-        m_OutputStream << "\t\t{\n";
-        m_OutputStream << "\t\t\t\"cat\":\"function\",\n";
-        m_OutputStream << "\t\t\t\"dur\":" << (result.End - result.Start) << ",\n";
-        m_OutputStream << "\t\t\t\"name\":\"" << name << "\",\n";
-        m_OutputStream << "\t\t\t\"ph\":\"X\",\n";
-        m_OutputStream << "\t\t\t\"pid\":0,\n";
-        m_OutputStream << "\t\t\t\"tid\":" << result.ThreadID << ",\n";
-        m_OutputStream << "\t\t\t\"ts\":" << result.Start << "\n";
-        m_OutputStream << "\t\t}";
+        void Stop()
+        {
+            auto endTimepoint = std::chrono::steady_clock::now();
 
-        m_OutputStream.flush();
-    }
+            long long start = std::chrono::time_point_cast<std::chrono::microseconds>(startTimepoint).time_since_epoch().count();
+            long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
 
-    void WriteHeader()
-    {
-        m_OutputStream << "{\n";
-        m_OutputStream << "\t\"otherData\": {},\n";
-        m_OutputStream << "\t\"traceEvents\":\n";
-        m_OutputStream << "\t[\n";
-        m_OutputStream.flush();
-    }
+            uint32_t threadID = omp_get_thread_num();
+            Session::Get().WriteProfile({ name, start, end, threadID });
 
-    void WriteFooter()
-    {
-        m_OutputStream << "\n\t]\n";
-        m_OutputStream << "}";
-        m_OutputStream.flush();
-    }
-
-    static Profiler& Get()
-    {
-        static Profiler instance;
-        return instance;
-    }
-};
-
-
-
-class ProfileTimer
-{
-public:
-    ProfileTimer(const char* name) : m_Name(name), m_Stopped(false)
-    { m_StartTimepoint = std::chrono::steady_clock::now(); }
-
-    ~ProfileTimer()
-    {
-        if (!m_Stopped)
-            Stop();
-    }
-
-    void Stop()
-    {
-        auto endTimepoint = std::chrono::steady_clock::now();
-
-        long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
-        long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
-
-        uint32_t threadID = 0;//std::hash<std::thread::id>{}(std::this_thread::get_id());
-        Profiler::Get().WriteProfile({ m_Name, start, end, threadID });
-
-        m_Stopped = true;
-    }
-private:
-    const char* m_Name;
-    std::chrono::time_point<std::chrono::steady_clock> m_StartTimepoint;
-    bool m_Stopped;
-};
-
-
-
-#define PROFILING 0
-#if PROFILING
-    #define PROFILE_SCOPE(name) ProfileTimer timer##__LINE__(name)
-    #define PROFILE_FUNCTION() PROFILE_SCOPE(__PRETTY_FUNCTION__)
-#else
-    #define PROFILE_FUNCTION()
-#endif
-
-#endif //__INCLUDE_INSTRUMENTOR_hh__
+            isStopped = true;
+        }
+    };
+}
+#endif //__INCLUDE_Profiler_hh__

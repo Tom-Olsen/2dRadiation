@@ -3,8 +3,8 @@
 #include <math.h>
 #include <omp.h>
 #include <fstream>
-#include "ControlFlowClasses.hh"	// used for template arguments
-#include "Utility.h"				// basic utility functions
+#include "ControlFlow.hh"			// used for template arguments
+#include "Utility.hh"				// basic utility functions
 #include "Stencil.hh"				// velocity stencils.
 #include "TensorTypes.hh" 			// simple containers for rank 1-3 tensors.
 #include "Grid2D.h"					// 2D Grid for numerical domain and maping to physical domain.

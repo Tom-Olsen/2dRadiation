@@ -6,8 +6,8 @@
  * The compilation steps are completely handeld by the Makefile. It is sufficient to include this 'Includes.hh' file in your cpp file to use the code.
  */
 
-#include "ControlFlowClasses.hh"            // used for template arguments
-#include "Utility.h"                        // small useful functions.
+#include "ControlFlow.hh"                   // used for template arguments
+#include "Utility.hh"                       // small useful functions.
 #include "TensorTypes.hh"                   // simple containers for rank 1-3 tensors.
 #include "Grid2D.h"                         // 2D Grid for numerical domain and maping to physical domain.
 #include "Stencil.hh"                       // velocity stencils.
@@ -20,6 +20,7 @@
 #include "AdvancedUtiltiy.h"                // utiliy depending on more complex classes
 #include "GeodesicEquationSolver.h"         // used to solve geodesic equation on spacelike hypersurface.
 #include "Radiation.h"                      // Curved spacetime, directed streaming.
+#include "RadiationNew.h"                   // Curved spacetime, rotating stencil.
 #include "RadiationUniform.h"               // Curved spacetime, uniform  streaming.
 #include "RadiationFlat.h"                  // Flat   spacetime, directed streaming.
 #include "RadiationFlatUniform.h"           // Flat   spacetime, uniform  streaming.
