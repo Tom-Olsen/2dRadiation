@@ -22,7 +22,7 @@ inline __attribute__((always_inline)) double CubicInterpolation(double x, double
     double c2 = fm1 - 2.5 * fp0 + 2.0 * fp1 - 0.5 * fp2;
     double c3 = 0.5 * (fp2 - fm1) + 1.5 * (fp0 - fp1);
 
-    return std::max(((c3 * x + c2) * x + c1) * x + c0, 0.0);
+    return ((c3 * x + c2) * x + c1) * x + c0;
 }
 
 

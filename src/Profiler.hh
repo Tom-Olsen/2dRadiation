@@ -82,10 +82,13 @@ namespace Profiler
         // These two functions need to embrace the code you want to benchmark:
         void Start(const std::string& name, const std::string& filepath = "results.json")
         {
-            results.resize(1000,{});
-            outputStream.open(filepath);
-            WriteHeader();
             sessionName = name;
+            outputStream.open(filepath);
+            profileCount = 0;
+            results.clear();
+            results.resize(1000);
+            numResults = 0;
+            WriteHeader();
         }
         void End()
         {
@@ -202,4 +205,17 @@ namespace Profiler
         }
     };
 }
+
+
+// Use these macros for profiling.
+#define PROFILING 1
+#if PROFILING
+    #define PROFILE_SCOPE(name) Profiler::Timer timer##__LINE__(name)
+    #define PROFILE_FUNCTION() PROFILE_SCOPE(__PRETTY_FUNCTION__)
+#else
+    #define PROFILE_SCOPE(name)
+    #define PROFILE_FUNCTION()
+#endif
+
+
 #endif //__INCLUDE_Profiler_hh__

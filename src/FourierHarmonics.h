@@ -13,7 +13,7 @@ namespace Fourier
     namespace Expansion
     {
         // data array length = fourierStencil.nDir
-        std::vector<double> GetCoefficients(const Stencil& fourierStencil, const double* const data);
+        std::vector<double> GetCoefficients(const Stencil& fourierStencil, const double* const data, double rotation=0);
         double GetValue(double phi, const std::vector<double>& coefficients);
     };
 };

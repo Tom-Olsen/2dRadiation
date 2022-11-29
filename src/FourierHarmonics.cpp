@@ -12,7 +12,7 @@ double Fourier::Basis(const int k, const double phi)
 }
 
 // data array length = fourierStencil.nDir
-std::vector<double> Fourier::Expansion::GetCoefficients(const Stencil& fourierStencil, const double* const data)
+std::vector<double> Fourier::Expansion::GetCoefficients(const Stencil& fourierStencil, const double* const data, double rotation)
 {
     int N = fourierStencil.nDir;
     std::vector<double> coefficients(N);
@@ -22,7 +22,7 @@ std::vector<double> Fourier::Expansion::GetCoefficients(const Stencil& fourierSt
         coefficients[k] = 0;
         // Integral:
         for(int i=0; i<N; i++)
-            coefficients[k] += data[i] * Fourier::Basis(k,fourierStencil.Phi(i)) * fourierStencil.W(i);
+            coefficients[k] += data[i] * Fourier::Basis(k,fourierStencil.Phi(i,rotation)) * fourierStencil.W(i);
     }
     return coefficients;
 }

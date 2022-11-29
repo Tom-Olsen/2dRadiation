@@ -3,6 +3,8 @@
 #include <math.h>
 #include <omp.h>
 #include <fstream>
+#include <vector>
+#include <string>
 #include "ControlFlow.hh"			// used for template arguments
 #include "Utility.hh"				// basic utility functions
 #include "Stencil.hh"				// velocity stencils.
@@ -11,7 +13,26 @@
 #include "Metric2D.h"				// 2D Metric data. The numerical domain is defined by Grid3D.
 #include "FourierHarmonics.h"		// fourier interpolation thorugh discrete number of points in 2d plane.
 #include "GeodesicEquationSolver.h"	// used to solve geodesic equation on spacelike hypersurface.
-#include "SimulationData.h"			// Summary of simulation parameters.
+#include "Log.hh"
+#include "Utility.hh"
+
+
+
+// Input system:
+enum StreamingType { StreamCurvedRot, StreamCurvedNoRot, StreamFlatRot, StreamFlatNoRot };
+std::string StreamingName(int n);
+
+
+struct RunParameters
+{
+    std::string name;
+    double simTime;
+    int writeFrequency;
+    bool updateFourierHarmonics;
+    bool keepSourceNodesActive;
+    bool writeData;
+    bool printToTerminal;
+};
 
 
 
@@ -19,15 +40,23 @@ template<class Coord>
 class Radiation
 {
 public:
-    SimulationData<Coord>& simData;
+	StreamingType streamingType;
 	Grid2D<Coord>& grid;
 	Metric2D<Coord>& metric;
-	int nDir;
-	Stencil& uniStencil;
-	Stencil& dirStencil;
-	Stencil& momentStencil;
+	Stencil& stencil;
 	Stencil& fourierStencil;
+	int nDir;
+
+	bool* isInitialGridPoint;
+	double* initialE;
+	double* initialRotation;
+	double* initialKappa0;
+	double* initialKappa1;
+	double* initialKappaA;
+	double* initialEta;
+
 	double* rotation;
+	double* rotationNew;
 	double* E;
 	double* Fx;
 	double* Fy;
@@ -54,29 +83,28 @@ public:
 	double* coefficientsCx2;
 
 private:
-	Coordinate2<Coord> GetTempCoordinate(int i, int j, double phi);
-	Tensor2<Coord,LF> GetTemp2Velocity(int i, int j, double phi);
-	double GetFrequencyShift(int i, int j, double phi);
-	double InterpolateIntensity(int ij, double phi);
-	void SaveStreamingFourierExtrapolation();
+	inline __attribute__((always_inline)) Coordinate2<Coord> GetTempCoordinate(int i, int j, double phi);
+	inline __attribute__((always_inline)) Tensor2<Coord,LF> GetTemp2Velocity(int i, int j, double phi);
+	inline __attribute__((always_inline)) double GetFrequencyShift(int i, int j, double phi);
+	inline __attribute__((always_inline)) double IntensityAt(int ij, double phi);
+	inline __attribute__((always_inline)) Tensor2<Coord,IF> AverageF(int i, int j);
 
 public:
 	Radiation() = delete;
-	Radiation(SimulationData<Coord>& simData_);
+	Radiation(Grid2D<Coord>& grid_, Metric2D<Coord>& metric_, Stencil& stencil_, Stencil& fourierStencil_, StreamingType streamingType_);
 	~Radiation();
 
 	void LoadInitialData();
 	void NormalizeInitialData();
 	void UpdateFourierCoefficients();
-	void InitVakuumMicrophysics();
 	void ComputeMomentsIF();
 	void ComputeMomentsLF();
-	void RotateStencil();
-	void Stream();
-	void GeodesicStream();
-	void FlatStream();
+	void StreamCurvedRot();
+	void StreamCurvedNoRot();
+	void StreamFlatRot();
+	void StreamFlatNoRot();
 	void Collide();
 
-	void RunSimulation(int writeFrequency = 1, bool updateFourierHarmonics = false, bool keepSourceNodesActive = true, bool writeData = true, bool printToTerminal = true);
+	void RunSimulation(RunParameters params);
 };
 #endif //__INCLUDE_GUARD_Radiation_h__

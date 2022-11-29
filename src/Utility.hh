@@ -116,7 +116,7 @@ inline __attribute__((always_inline)) void sleep(double seconds)
 
 
 // Exit programm with Error Message.
-inline __attribute__((always_inline)) void exit_on_error(const char* const msg)
+inline __attribute__((always_inline)) void exit_on_error(const char* const msg="")
 {
     fprintf(stderr, "ERROR: %s\n", msg);
     exit(errno);
@@ -174,38 +174,4 @@ inline __attribute__((always_inline)) bool CreateDirectory(std::string path)
 	std::string directoryPath = currentPath/path;
     return fs::create_directories(directoryPath);
 }
-
-
-
-// Timer:
-template<int ID>
-struct Timer
-{
-    static double time;
-    static std::string name;
-    static std::chrono::steady_clock::time_point start;
-
-    inline __attribute__((always_inline)) static void Start()
-    { start = std::chrono::steady_clock::now(); }
-    inline __attribute__((always_inline)) static void End()
-    {
-        using duration = std::chrono::duration<double>;
-        auto end = std::chrono::steady_clock::now();
-        time += std::chrono::duration_cast<duration>(end - start).count();
-    }
-    inline __attribute__((always_inline)) static void Reset(std::string name_)
-    {
-        name = name_;
-        time = 0;
-        start = std::chrono::steady_clock::now();
-    }
-    inline __attribute__((always_inline)) static void Print()
-    { std::cout << "Timer, " << name << "(" << ID << "): " << time << "s" << std::endl; }
-};
-template<int ID>
-double Timer<ID>::time;
-template<int ID>
-std::chrono::steady_clock::time_point Timer<ID>::start;
-template<int ID>
-std::string Timer<ID>::name;
 #endif //__INCLUDE_GUARD_Utility_hh__

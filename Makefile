@@ -28,10 +28,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 
 
-#.Phony: run
-#run:
-#	./main 0 100 100 8
-#	./main 1 100 100 8
+.Phony: run
+run:
+	-make outputClean
+	-make clean
+	-make paper -j
+	./paper
 
 .Phony: clean
 clean:

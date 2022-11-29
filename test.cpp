@@ -964,152 +964,36 @@ void Test_FourierQuadrature()
     //    }
     //    stencil.Print();
     //}
-    
+
     {
-        int N0 = 8;
-        int N1 = 12;
-        int N = N0+N1;
-        HalfStencil0 stencil0 = HalfStencil0(N0);
-        HalfStencil1 stencil1 = HalfStencil1(N1);
+        constexpr int N = 16;
+        RotStencil stencil = RotStencil(N);
+        double rotation = 0.2;//stencil.Phi(0);
     
         double data[N];
         for(int i=0; i<N; i++)
         {
-            double phi = (i<N) ? stencil0.Phi(i) : stencil1.Phi(i);
+            double phi = stencil.Phi(i,rotation);
             data[i] = 0;
-            for(int k=0; k<N; k++)
+            for(int k=0; k<N-1; k++)
                 data[i] += (1.0+0.1*k) * Fourier::Basis(k,phi);
         }
-        // Coefficients:
-        vector<double> c(N0);
-        for(int k=0; k<N0; k++)
-        {
-            c[k] = 0;
-            // Integral:
-            for(int i=0; i<N; i++)
-            {
-                double phi = (i<N0) ? stencil0.Phi(i) : stencil1.Phi(i);
-                double w = (i<N0) ? stencil0.W(i) : stencil1.W(i);
-                c[k] += data[i] * Fourier::Basis(k,phi) * w;
-            }
-        }
+        vector<double> c = Fourier::Expansion::GetCoefficients(stencil,data,rotation);
         for(int i=0; i<c.size(); i++)
             cout << "c" << to_string(i) << ": " << c[i] << endl;
     
         cout << "Test reconstruction of function values:" << endl;
         for(int i=0; i<N; i++)
         {
-            double phi = (i<N0) ? stencil0.Phi(i) : stencil1.Phi(i);
+            double phi = stencil.Phi(i,rotation);
             Double2(data[i],Fourier::Expansion::GetValue(phi,c)).Print(to_string(i));
         }
-        // stencil0.Print();
-        // stencil1.Print();
+        for(int i=0; i<N; i++)
+        {
+            Double2(i,stencil.Index(stencil.Phi(i,rotation),rotation)).Print("index test");
+        }
+        stencil.Print(rotation);
     }
-
-    {
-        int N0 = 8;
-        HalfStencil0 stencil0 = HalfStencil0(N0);
-    
-        double data[N0];
-        for(int i=0; i<N0; i++)
-        {
-            double phi =stencil0.Phi(i);
-            data[i] = 0;
-            for(int k=0; k<N0; k++)
-                data[i] += (1.0+0.1*k) * Fourier::Basis(k,phi);
-        }
-        // Coefficients:
-        vector<double> c(N0);
-        for(int k=0; k<N0; k++)
-        {
-            c[k] = 0;
-            // Integral:
-            for(int i=0; i<N0; i++)
-            {
-                double phi = stencil0.Phi(i);
-                double w = stencil0.W(i);
-                c[k] += data[i] * Fourier::Basis(k,phi) * w;
-            }
-        }
-        for(int i=0; i<c.size(); i++)
-            cout << "c" << to_string(i) << ": " << c[i] << endl;
-    
-        cout << "Test reconstruction of function values:" << endl;
-        for(int i=0; i<N0; i++)
-        {
-            double phi = stencil0.Phi(i);
-            Double2(data[i],Fourier::Expansion::GetValue(phi,c)).Print(to_string(i));
-        }
-        // stencil0.Print();
-    }
-
-    {
-        int N1 = 12;
-        HalfStencil1 stencil1 = HalfStencil1(N1);
-    
-        double data[N1];
-        for(int i=0; i<N1; i++)
-        {
-            double phi = stencil1.Phi(i);
-            data[i] = 0;
-            for(int k=0; k<N1; k++)
-                data[i] += (1.0+0.1*k) * Fourier::Basis(k,phi);
-        }
-        // Coefficients:
-        vector<double> c(N1);
-        for(int k=0; k<N1; k++)
-        {
-            c[k] = 0;
-            // Integral:
-            for(int i=0; i<N1; i++)
-            {
-                double phi = stencil1.Phi(i);
-                double w = stencil1.W(i);
-                c[k] += data[i] * Fourier::Basis(k,phi) * w;
-            }
-        }
-        for(int i=0; i<c.size(); i++)
-            cout << "c" << to_string(i) << ": " << c[i] << endl;
-    
-        cout << "Test reconstruction of function values:" << endl;
-        for(int i=0; i<N1; i++)
-        {
-            double phi = stencil1.Phi(i);
-            Double2(data[i],Fourier::Expansion::GetValue(phi,c)).Print(to_string(i));
-        }
-        // stencil1.Print();
-    }
-    
-    //{
-    //    int N0 = 8;
-    //    int N1 = 4;
-    //    int N2 = 4;
-    //    int N3 = 4;
-    //    int N = N0 + N1 + N2 + N3;
-    //    MomentStencil stencil = MomentStencil(N0,N1,N2,N3);
-    //    double rotation = 0;//-M_PI/4.0;
-    //
-    //    double data[N];
-    //    for(int i=0; i<N; i++)
-    //    {
-    //        double phi = stencil.Phi(i,rotation);
-    //        data[i] = 0;
-    //        for(int k=0; k<N; k++)
-    //            data[i] += (1.0+0.1*k) * Fourier::Basis(k,phi);
-    //    }
-    //    vector<double> c = Fourier::Expansion::GetCoefficients(stencil,data);
-    //    for(int i=0; i<c.size(); i++)
-    //        cout << "c" << to_string(i) << ": " << c[i] << endl;
-    //
-    //    cout << "Test reconstruction of function values:" << endl;
-    //    for(int i=0; i<N; i++)
-    //    {
-    //        double phi = stencil.Phi(i,rotation);
-    //        Double2(data[i],Fourier::Expansion::GetValue(phi,c)).Print(to_string(i));
-    //        // cout << stencil.W(i) << endl;
-    //    }
-    //    // stencil.Print();
-    //}
 }
 
 
@@ -1395,14 +1279,14 @@ int main()
     // Test_Utiliy();
     // Test_TensorTypes();
     // Test_Grid();
-    Test_Eigen();
+    // Test_Eigen();
     // Test_Stencil();
     // Test_Interpolation();
     // Test_Metric();
     // Test_AdvancedUtility();
     // Test_GeodesicRay();
     // Test_PhotonSphere();
-    // Test_FourierQuadrature();
+    Test_FourierQuadrature();
     // Test_FourierExpansion();
     // Test_JsonWriter();
     // Test_FrequencyTransform();
