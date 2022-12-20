@@ -4,7 +4,7 @@
 #include "ControlFlow.hh"       // used for template arguments
 #include "Utility.hh"           // basic utility functions
 #include "TensorTypes.hh"       // simple containers for rank 1-3 tensors
-#include "Grid2D.h"             // underlying numerical Grid
+#include "Grid2D.hh"             // underlying numerical Grid
 #include "Interpolation.hh"     // biilinear interpolation
 
 

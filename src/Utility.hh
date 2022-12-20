@@ -1,34 +1,35 @@
 #ifndef __INCLUDE_GUARD_Utility_hh__
 #define __INCLUDE_GUARD_Utility_hh__
-#include <iomanip>      // std::setprecision(), std::put:time
-#include <iostream>     // cout
-#include <fstream>      // file input/output
-#include <cmath>        // signbit
-#include <algorithm>    // clamp
-#include <sstream>      // stringstream
-#include <filesystem>   // folder/file management
-#include <unistd.h>     // usleep
-#include <chrono>       // time
+#include <iomanip>          // std::setprecision(), std::put:time
+#include <iostream>         // cout
+#include <fstream>          // file input/output
+#include <cmath>            // signbit
+#include <algorithm>        // clamp
+#include <sstream>          // stringstream
+#include <filesystem>       // folder/file management
+#include <unistd.h>         // usleep
+#include <chrono>           // time
+#include "ControlFlow.hh"   // control flow classes and macros
 #include "eigen/Eigen/Dense"
 
 
 // Fast itneger exponentiation.
 template<int N>
-inline __attribute__((always_inline)) double MyPow(double a)
+INLINE double MyPow(double a)
 { return a * MyPow<N-1>(a); }
 template<>
-inline __attribute__((always_inline)) double MyPow<0>(double a)
+INLINE double MyPow<0>(double a)
 { return 1; }
 
 // Get sign of T
 template <typename T>
-inline __attribute__((always_inline)) int sgn(T val)
+INLINE int sgn(T val)
 { return (T(0) < val) - (val < T(0)); }
 
 
 
 // Marker for debugging
-inline __attribute__((always_inline)) void Marker(std::string name="", bool newline=true)
+INLINE void Marker(std::string name="", bool newline=true)
 {
     static int i = 0;
     std::cout << name << ": " << i << std::endl;
@@ -40,7 +41,7 @@ inline __attribute__((always_inline)) void Marker(std::string name="", bool newl
 
 
 // Number of digits of given number.
-inline __attribute__((always_inline)) int numDigits(int number)
+INLINE int numDigits(int number)
 {
     int digits = 0;
     while (number)
@@ -54,7 +55,7 @@ inline __attribute__((always_inline)) int numDigits(int number)
 
 
 // Converts frame number to correct format, e.g. 1 -> 0001.
-inline __attribute__((always_inline)) std::string FrameNumber(unsigned int f)
+INLINE std::string FrameNumber(unsigned int f)
 {
 	std::string frameNumber;
 	int maxDigits = 4;
@@ -71,7 +72,7 @@ inline __attribute__((always_inline)) std::string FrameNumber(unsigned int f)
 
 
 // Add leading space if positive.
-inline __attribute__((always_inline)) std::string Format(const double n, const int precision=6)
+INLINE std::string Format(const double n, const int precision=6)
 {
     std::string output;
 
@@ -98,7 +99,7 @@ inline __attribute__((always_inline)) std::string Format(const double n, const i
 
 
 // Print formatted double.
-inline __attribute__((always_inline)) void PrintDouble(const double d, std::string name, bool newline=false, const int precision=6)
+INLINE void PrintDouble(const double d, std::string name, bool newline=false, const int precision=6)
 {
     std::cout << name << " = "<< Format(d,precision) << "\n";
     if(newline) std::cout << "\n";
@@ -107,7 +108,7 @@ inline __attribute__((always_inline)) void PrintDouble(const double d, std::stri
 
 
 // Sleep for given amount of seconds.
-inline __attribute__((always_inline)) void sleep(double seconds)
+INLINE void sleep(double seconds)
 {
     int microsecondsInSecond = 1000000;
     usleep(seconds*microsecondsInSecond);
@@ -116,7 +117,7 @@ inline __attribute__((always_inline)) void sleep(double seconds)
 
 
 // Exit programm with Error Message.
-inline __attribute__((always_inline)) void exit_on_error(const char* const msg="")
+INLINE void exit_on_error(const char* const msg="")
 {
     fprintf(stderr, "ERROR: %s\n", msg);
     exit(errno);
@@ -125,7 +126,7 @@ inline __attribute__((always_inline)) void exit_on_error(const char* const msg="
 
 
 // Minimum value of given array
-inline __attribute__((always_inline)) double MinValue(const double* const array, int length)
+INLINE double MinValue(const double* const array, int length)
 {
     double min = 1e16;
     for(int i=0; i<length; i++)
@@ -134,7 +135,7 @@ inline __attribute__((always_inline)) double MinValue(const double* const array,
     return min;
 }
 // Maximum value of given array
-inline __attribute__((always_inline)) double MaxValue(const double* const array, int length)
+INLINE double MaxValue(const double* const array, int length)
 {
     double max = -1e16;
     for(int i=0; i<length; i++)
@@ -145,13 +146,13 @@ inline __attribute__((always_inline)) double MaxValue(const double* const array,
 
 
 // Inverse lerp.
-inline __attribute__((always_inline)) double Map01(double x, double min, double max)
+INLINE double Map01(double x, double min, double max)
 { return std::clamp((x - min) / (max - min), 0.0, 1.0); }
 
 
 
 // Print formatted Matrix.
-inline __attribute__((always_inline)) void PrintMat(const Eigen::MatrixXd& A, int precision=6)
+INLINE void PrintMat(const Eigen::MatrixXd& A, int precision=6)
 {
     for(int i=0; i<A.cols(); i++)
     {
@@ -167,7 +168,7 @@ inline __attribute__((always_inline)) void PrintMat(const Eigen::MatrixXd& A, in
 // File management:
 // Creates directory in current working directory.
 // Nested directories possible, e.g: path="data/output/xValues"
-inline __attribute__((always_inline)) bool CreateDirectory(std::string path)
+INLINE bool CreateDirectory(std::string path)
 {
 	namespace fs = std::filesystem;
     fs::path currentPath = fs::current_path();

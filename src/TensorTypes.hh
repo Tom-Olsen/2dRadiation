@@ -49,7 +49,7 @@ public:
 
     // Transforms Coord to CoordB
     template<class CoordB>
-    inline __attribute__((always_inline)) Coordinate2<CoordB> Transform() const
+    INLINE Coordinate2<CoordB> Transform() const
     {
         if constexpr(std::is_same<Coord,xy>::value && std::is_same<CoordB,rph>::value)
             return Coordinate2<CoordB>(sqrt(data[0]*data[0] + data[1]*data[1]), fmod(atan2(data[1],data[0]) + 2.0*M_PI, 2.0*M_PI));
@@ -59,9 +59,9 @@ public:
             return Coordinate2<CoordB>(data[0], data[1]);
     }
 
-    inline __attribute__((always_inline)) double& operator[](const int index)
+    INLINE double& operator[](const int index)
     { return data[index-1]; }
-    inline __attribute__((always_inline)) const double& operator[](const int index) const
+    INLINE const double& operator[](const int index) const
     { return data[index-1]; }
 
     void Print(std::string name, bool newline=false, int precision=6) const
@@ -89,7 +89,7 @@ public:
     // Transform between Coordinate representations.
     // x12 must be in same coordinates as initial vector.
     template<class CoordB>
-    inline __attribute__((always_inline)) Tensor2<CoordB,Frame> Transform(const Coordinate2<Coord>& x12) const
+    INLINE Tensor2<CoordB,Frame> Transform(const Coordinate2<Coord>& x12) const
     {
         if constexpr(std::is_same<Coord,xy>::value && std::is_same<CoordB,rph>::value)
         {// x12 = xy;
@@ -106,7 +106,7 @@ public:
     // Transform between observer frames.
     // tetrad must be in same coordinates as initial vector.
     template<class FrameB>
-    inline __attribute__((always_inline)) Tensor2<Coord,FrameB> Transform(Tensor3x3<Coord,Tetrad>& tetrad) const
+    INLINE Tensor2<Coord,FrameB> Transform(Tensor3x3<Coord,Tetrad>& tetrad) const
     {
         if constexpr(std::is_same<Frame,IF>::value && std::is_same<FrameB,LF>::value)
         {// IF -> LF
@@ -121,7 +121,7 @@ public:
     // Transform between observer frames.
     // tetrad must be in same coordinates as initial vector.
     template<class FrameB>
-    inline __attribute__((always_inline)) Tensor2<Coord,FrameB> Transform(Tensor3x3<Coord,Tetrad>&& tetrad) const
+    INLINE Tensor2<Coord,FrameB> Transform(Tensor3x3<Coord,Tetrad>&& tetrad) const
     {
         if constexpr(std::is_same<Frame,IF>::value && std::is_same<FrameB,LF>::value)
         {// IF -> LF
@@ -134,7 +134,7 @@ public:
         }
     }
 
-    inline __attribute__((always_inline)) double Norm(const Tensor2x2<Coord,Frame>& metric2_ll) const
+    INLINE double Norm(const Tensor2x2<Coord,Frame>& metric2_ll) const
     {
         double norm = 0;
         for(int j=1; j<3; j++)
@@ -142,12 +142,12 @@ public:
             norm += metric2_ll[{i,j}]*(*this)[i]*(*this)[j];
         return sqrt(abs(norm));
     }
-    inline __attribute__((always_inline)) double EuklNorm() const
+    INLINE double EuklNorm() const
     {
         double norm = data[0]*data[0] + data[1]*data[1];
         return sqrt(norm);
     }
-    inline __attribute__((always_inline)) double Angle() const
+    INLINE double Angle() const
     {
         // transform [-pi,pi] output of atan2 to [0,2pi]:
         double angle = atan2(data[1],data[0])+2*M_PI;
@@ -157,10 +157,14 @@ public:
             return angle;
         //return std::fmod(atan2(data[1],data[0])+2*M_PI, 2*M_PI);
     }
+    INLINE double static Dot(Tensor2<Coord,Frame> v, Tensor2<Coord,Frame> w)
+    {
+        return v[1] * w[1] + v[2] * w[2];
+    }
 
-    inline __attribute__((always_inline)) double& operator[](const int index)
+    INLINE double& operator[](const int index)
     { return data[index-1]; }
-    inline __attribute__((always_inline)) const double& operator[](const int index) const
+    INLINE const double& operator[](const int index) const
     { return data[index-1]; }
 
     void Print(std::string name, bool newline=false, int precision=6) const
@@ -198,7 +202,7 @@ public:
     // Transform between Coordinate representations.
     // x12 must be in same coordinates as initial vector.
     template<class CoordB>
-    inline __attribute__((always_inline)) Tensor3<CoordB,Frame> Transform(const Coordinate2<Coord>& x12) const
+    INLINE Tensor3<CoordB,Frame> Transform(const Coordinate2<Coord>& x12) const
     {
         if constexpr(std::is_same<Coord,xy>::value && std::is_same<CoordB,rph>::value)
         {// x12 = xy;
@@ -215,7 +219,7 @@ public:
     // Transform between observer frames.
     // tetrad must be in same coordinates as initial vector.
     template<class FrameB>
-    inline __attribute__((always_inline)) Tensor3<Coord,FrameB> Transform(Tensor3x3<Coord,Tetrad>& tetrad) const
+    INLINE Tensor3<Coord,FrameB> Transform(Tensor3x3<Coord,Tetrad>& tetrad) const
     {
         if constexpr(std::is_same<Frame,IF>::value && std::is_same<FrameB,LF>::value)
         {// IF -> LF
@@ -236,7 +240,7 @@ public:
     // Transform between observer frames.
     // tetrad must be in same coordinates as initial vector.
     template<class FrameB>
-    inline __attribute__((always_inline)) Tensor3<Coord,FrameB> Transform(Tensor3x3<Coord,Tetrad>&& tetrad) const
+    INLINE Tensor3<Coord,FrameB> Transform(Tensor3x3<Coord,Tetrad>&& tetrad) const
     {
         if constexpr(std::is_same<Frame,IF>::value && std::is_same<FrameB,LF>::value)
         {// IF -> LF
@@ -255,7 +259,7 @@ public:
         }
     }
 
-    inline __attribute__((always_inline)) void NullNormalize(const Tensor3x3<Coord,Frame>& metric3_ll)
+    INLINE void NullNormalize(const Tensor3x3<Coord,Frame>& metric3_ll)
     {
         double a = 0;
         for(int i=1; i<3; i++)
@@ -269,7 +273,7 @@ public:
         data[1] *= d;
         data[2] *= d;
     }
-    inline __attribute__((always_inline)) double Norm(const Tensor3x3<Coord,Frame>& metric3_ll) const
+    INLINE double Norm(const Tensor3x3<Coord,Frame>& metric3_ll) const
     {
         double norm = 0;
         for(int j=0; j<3; j++)
@@ -278,9 +282,9 @@ public:
         return sqrt(abs(norm));
     }
 
-    inline __attribute__((always_inline)) double& operator[](const int index)
+    INLINE double& operator[](const int index)
     { return data[index]; }
-    inline __attribute__((always_inline)) const double& operator[](const int index) const
+    INLINE const double& operator[](const int index) const
     { return data[index]; }
 
     void Print(std::string name, bool newline=false, int precision=6) const
@@ -316,9 +320,9 @@ public:
     Int2(int data0, int data1)
     { data[0] = data0; data[1] = data1; }
 
-    inline __attribute__((always_inline)) int& operator[](const int index)
+    INLINE int& operator[](const int index)
     { return data[index]; }
-    inline __attribute__((always_inline)) const int& operator[](const int index) const
+    INLINE const int& operator[](const int index) const
     { return data[index]; }
 
     void Print(std::string name, bool newline=false, int precision=6) const
@@ -342,9 +346,9 @@ public:
     Int3(int data0, int data1, int data2)
     { data[0] = data0; data[1] = data1; data[2] = data2; }
 
-    inline __attribute__((always_inline)) int& operator[](const int index)
+    INLINE int& operator[](const int index)
     { return data[index]; }
-    inline __attribute__((always_inline)) const int& operator[](const int index) const
+    INLINE const int& operator[](const int index) const
     { return data[index]; }
 
     void Print(std::string name, bool newline=false, int precision=6) const
@@ -369,9 +373,9 @@ public:
     Double2(double data0, double data1)
     { data[0] = data0; data[1] = data1; }
 
-    inline __attribute__((always_inline)) double& operator[](const int index)
+    INLINE double& operator[](const int index)
     { return data[index]; }
-    inline __attribute__((always_inline)) const double& operator[](const int index) const
+    INLINE const double& operator[](const int index) const
     { return data[index]; }
 
     void Print(std::string name, bool newline=false, int precision=6) const
@@ -392,9 +396,9 @@ public:
     Double3(double data0, double data1, double data2)
     { data[0] = data0; data[1] = data1; data[2] = data2; }
 
-    inline __attribute__((always_inline)) double& operator[](const int index)
+    INLINE double& operator[](const int index)
     { return data[index]; }
-    inline __attribute__((always_inline)) const double& operator[](const int index) const
+    INLINE const double& operator[](const int index) const
     { return data[index]; }
 
     void Print(std::string name, bool newline=false, int precision=6) const
@@ -419,9 +423,9 @@ public:
     Double4(double data0, double data1, double data2, double data3)
     { data[0] = data0; data[1] = data1; data[2] = data2; data[3] = data3; }
 
-    inline __attribute__((always_inline)) double& operator[](const int index)
+    INLINE double& operator[](const int index)
     { return data[index]; }
-    inline __attribute__((always_inline)) const double& operator[](const int index) const
+    INLINE const double& operator[](const int index) const
     { return data[index]; }
 
     void Print(std::string name, bool newline=false, int precision=6) const
@@ -457,7 +461,7 @@ public:
         data[1*2 + 0] = data21; data[1*2 + 1] = data22;
     }
     
-    inline __attribute__((always_inline)) Tensor2x2<Coord,Frame> Invert()
+    INLINE Tensor2x2<Coord,Frame> Invert()
     {
         Tensor2x2<Coord,Frame> invers;
         using namespace Eigen;
@@ -467,9 +471,9 @@ public:
         return invers;
     }
 
-    inline __attribute__((always_inline)) double& operator[](const rank2Indices& index)
+    INLINE double& operator[](const rank2Indices& index)
     { return data[(index.i-1)*2 + (index.j-1)]; }
-    inline __attribute__((always_inline)) const double& operator[](const rank2Indices& index) const
+    INLINE const double& operator[](const rank2Indices& index) const
     { return data[(index.i-1)*2 + (index.j-1)]; }
 
     void Print(std::string name, bool newline=false, int precision=6) const
@@ -510,7 +514,7 @@ public:
         data[2*3 + 0] = data20; data[2*3 + 1] = data21; data[2*3 + 2] = data22;
     }
 
-    inline __attribute__((always_inline)) Tensor3x3<Coord,Frame> Invert()
+    INLINE Tensor3x3<Coord,Frame> Invert()
     {
         Tensor3x3<Coord,Frame> invers;
         using namespace Eigen;
@@ -523,7 +527,7 @@ public:
     // Transform between observer frames.
     // tetrad must be in same coordinates as initial vector.
     template<class FrameB>
-    inline __attribute__((always_inline)) Tensor3x3<Coord,FrameB> Transform(Tensor3x3<Coord,Tetrad>& tetrad) const
+    INLINE Tensor3x3<Coord,FrameB> Transform(Tensor3x3<Coord,Tetrad>& tetrad) const
     {
         if constexpr(std::is_same<Frame,IF>::value && std::is_same<FrameB,LF>::value)
         {// IF -> LF
@@ -550,7 +554,7 @@ public:
     // Transform between observer frames.
     // tetrad must be in same coordinates as initial vector.
     template<class FrameB>
-    inline __attribute__((always_inline)) Tensor3x3<Coord,FrameB> Transform(Tensor3x3<Coord,Tetrad>&& tetrad) const
+    INLINE Tensor3x3<Coord,FrameB> Transform(Tensor3x3<Coord,Tetrad>&& tetrad) const
     {
         if constexpr(std::is_same<Frame,IF>::value && std::is_same<FrameB,LF>::value)
         {// IF -> LF
@@ -575,9 +579,9 @@ public:
         }
     }
 
-    inline __attribute__((always_inline)) double& operator[](const rank2Indices& index)
+    INLINE double& operator[](const rank2Indices& index)
     { return data[index.i*3 + index.j]; }
-    inline __attribute__((always_inline)) const double& operator[](const rank2Indices& index) const
+    INLINE const double& operator[](const rank2Indices& index) const
     { return data[index.i*3 + index.j]; }
 
     void Print(std::string name, bool newline=false, int precision=6) const
@@ -636,9 +640,9 @@ public:
         data[1*4 + 1*2 + 0] = data221; data[1*4 + 1*2 + 1] = data222;
     }
 
-    inline __attribute__((always_inline)) double& operator[](const rank3Indices& index)
+    INLINE double& operator[](const rank3Indices& index)
     { return data[(index.i-1)*4 + (index.j-1)*2 + (index.k-1)]; }
-    inline __attribute__((always_inline)) const double& operator[](const rank3Indices& index) const
+    INLINE const double& operator[](const rank3Indices& index) const
     { return data[(index.i-1)*4 + (index.j-1)*2 + (index.k-1)]; }
 
     void Print(std::string name, bool newline=false, int precision=6) const
@@ -700,9 +704,9 @@ public:
         data[2*9 + 2*3 + 0] = data220; data[2*9 + 2*3 + 1] = data221; data[2*9 + 2*3 + 2] = data222;
     }
     
-    inline __attribute__((always_inline)) double& operator[](const rank3Indices& index)
+    INLINE double& operator[](const rank3Indices& index)
     { return data[index.i*9 + index.j*3 + index.k]; }
-    inline __attribute__((always_inline)) const double& operator[](const rank3Indices& index) const
+    INLINE const double& operator[](const rank3Indices& index) const
     { return data[index.i*9 + index.j*3 + index.k]; }
 
     void Print(std::string name, bool newline=false, int precision=6) const

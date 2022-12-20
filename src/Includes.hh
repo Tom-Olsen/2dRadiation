@@ -6,16 +6,15 @@
  * The compilation steps are completely handeld by the Makefile. It is sufficient to include this 'Includes.hh' file in your cpp file to use the code.
  */
 
-#include "ControlFlow.hh"                   // used for template arguments
+#include "ControlFlow.hh"                   // control flow classes and macros
 #include "Utility.hh"                       // small useful functions.
 #include "TensorTypes.hh"                   // simple containers for rank 1-3 tensors.
-#include "Grid2D.h"                         // 2D Grid for numerical domain and maping to physical domain.
+#include "Grid2D.hh"                        // 2D Grid for numerical domain and maping to physical domain.
 #include "Stencil.hh"                       // velocity stencils.
 #include "Interpolation.hh"                 // several interpolation schemes which are needed throughout the code.
 #include "Metric2D.h"                       // 2D Metric data. The numerical domain is defined by Grid3D.
 #include "Spacetimes.h"                     // all spacetimes derive from the base class metric and define the actual components.
 #include "FourierHarmonics.h"               // fourier interpolation thorugh discrete number of points in 2d plane.
-#include "SimulationData.h"                 // Summary of simulation parameters.
 #include "WriteData.h"                      // write stuff to vtr files.
 #include "AdvancedUtiltiy.h"                // utiliy depending on more complex classes
 #include "GeodesicEquationSolver.h"         // used to solve geodesic equation on spacelike hypersurface.

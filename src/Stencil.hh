@@ -27,27 +27,27 @@ struct Stencil
     // d = direction € [-0.5,nDir-0.5], continous values possible.
     // Returns angle of direction 'd' in global space, meaning:
     // 0->right, pi/2->up, pi->left, 3pi/2->down, 2pi->right.
-    inline __attribute__((always_inline)) virtual double Phi(double d, double rotation=0) const
+    INLINE virtual double Phi(double d, double rotation=0) const
     { exit_on_error("Stencil Phi(d) override is missing!"); return 0; }
 
     // Weights are only defined for discrete directions, int d.
-    inline __attribute__((always_inline)) virtual double W(int d) const
+    INLINE virtual double W(int d) const
     { exit_on_error("Stencil W(d) override is missing!"); return 0; }
     
     // Maps the interval [-0.5,nDir-0.5] -> [0,1]
-    inline __attribute__((always_inline)) virtual double X(double d) const
+    INLINE virtual double X(double d) const
     { exit_on_error("Stencil X(d) override is missing!"); return 0; }
 
     // Inverse of Phi(d). Returns index d of angle phi.
-    inline __attribute__((always_inline)) virtual double Index(double phi, double rotation=0) const
+    INLINE virtual double Index(double phi, double rotation=0) const
     { exit_on_error("Stencil Index(phi) override is missing!"); return 0; }
 
     // Velocity vector.
-    inline __attribute__((always_inline)) double Cx(double d, double rotation=0) const
+    INLINE double Cx(double d, double rotation=0) const
     { return cos(Phi(d,rotation)); }
-    inline __attribute__((always_inline)) double Cy(double d, double rotation=0) const
+    INLINE double Cy(double d, double rotation=0) const
     { return sin(Phi(d,rotation)); }
-    inline __attribute__((always_inline)) Tensor2<xy,IF> Cxy(double d, double rotation=0) const
+    INLINE Tensor2<xy,IF> Cxy(double d, double rotation=0) const
     { return Tensor2<xy,IF>(Cx(d,rotation), Cy(d,rotation)); }
     
 
@@ -70,35 +70,35 @@ struct StaticStencil : Stencil
         sigma = sigma_;
     }
 
-    inline __attribute__((always_inline)) double Phi(double d, double rotation=0) const override
+    INLINE double Phi(double d, double rotation=0) const override
     { return 2.0 * M_PI * X(d); }
-    inline __attribute__((always_inline)) double W(int d) const override
+    INLINE double W(int d) const override
     { return 2.0 / nDir; }
-    inline __attribute__((always_inline)) double X(double d) const override
+    INLINE double X(double d) const override
     { return (d + 0.5) / nDir; }
-    inline __attribute__((always_inline)) double Index(double phi, double rotation=0) const override
+    INLINE double Index(double phi, double rotation=0) const override
     { return nDir * phi / (2.0 * M_PI) - 0.5; }
 };
 
 
 
-struct RotatingStencil : Stencil
+struct DynamicStencil : Stencil
 {
-    RotatingStencil(int nDir_, double sigma_=1)
+    DynamicStencil(int nDir_, double sigma_=1)
     {
         nDir = nDir_;
         sigma = sigma_;
     }
 
-    inline __attribute__((always_inline)) double Phi(double d, double rotation=0) const override
+    INLINE double Phi(double d, double rotation=0) const override
     { return fmod(2.0 * M_PI * X(d) + rotation, 2.0 * M_PI); }
-    inline __attribute__((always_inline)) double W(int d) const override
+    INLINE double W(int d) const override
     { return 2.0 / nDir; }
 
     // New:
-    inline __attribute__((always_inline)) double X(double d) const override
+    INLINE double X(double d) const override
     { return d / nDir; }
-    inline __attribute__((always_inline)) double Index(double phi, double rotation=0) const override
+    INLINE double Index(double phi, double rotation=0) const override
     {
         double angle = fmod(phi - rotation + 2.0 * M_PI, 2.0 * M_PI);
         return nDir * angle / (2.0 * M_PI);

@@ -17,12 +17,12 @@ struct Distribution
         exit_on_error("Distribution virtual Method (Name) has been called!");
         return "";
     }
-    inline __attribute__((always_inline)) virtual double Value(double x)
+    INLINE virtual double Value(double x)
     {
         exit_on_error("Distribution virtual Method (Value) has been called!");
         return 0;
     }
-    inline __attribute__((always_inline)) virtual double InvValue(double x)
+    INLINE virtual double InvValue(double x)
     {
         exit_on_error("Distribution virtual Method (InvValue) has been called!");
         return 0;
@@ -35,14 +35,14 @@ struct X2 : Distribution
 {
     std::string Name() override
     { return "X^2"; }
-    inline __attribute__((always_inline)) double Value(double x) override
+    INLINE double Value(double x) override
     {
         if (x < 0.5)
             return 2.0 * x * x;
         else
             return -2.0 * (x - 1.0) * (x - 1.0) + 1.0;
     }
-    inline __attribute__((always_inline)) double InvValue(double x) override
+    INLINE double InvValue(double x) override
     {
         if (x < 0.5)
             return sqrt(0.5 * x);
@@ -57,14 +57,14 @@ struct X4 : Distribution
 {
     std::string Name() override
     { return "X^4"; }
-    inline __attribute__((always_inline)) double Value(double x) override
+    INLINE double Value(double x) override
     {
         if (x < 0.5f)
             return 8.0 * pow(x,4);
         else
             return -8.0 * pow(x - 1.0,4) + 1.0;
     }
-    inline __attribute__((always_inline)) double InvValue(double x) override
+    INLINE double InvValue(double x) override
     {
         if (x < 0.5)
             return pow(0.125 * x, 0.25);
@@ -79,11 +79,11 @@ struct Cosine : Distribution
 {
     std::string Name() override
     { return "Cosine"; }
-    inline __attribute__((always_inline)) double Value(double x) override
+    INLINE double Value(double x) override
     {
         return 0.5 * (1 - cos(M_PI * x));
     }
-    inline __attribute__((always_inline)) double InvValue(double x) override
+    INLINE double InvValue(double x) override
     {
         return acos(1 - 2 * x) / M_PI;
     }
@@ -95,7 +95,7 @@ struct PieceWiseLinear0 : Distribution
 {
     std::string Name() override
     { return "PieceWiseLinear0"; }
-    inline __attribute__((always_inline)) double Value(double x) override
+    INLINE double Value(double x) override
     {
         if (x < 0.3)
             return (1.0 / 3.0) * x;
@@ -104,7 +104,7 @@ struct PieceWiseLinear0 : Distribution
         else
             return (1.0 / 3.0) * x + (2.0 / 3.0);
     }
-    inline __attribute__((always_inline)) double InvValue(double x) override
+    INLINE double InvValue(double x) override
     {
         if (x < 0.1)
             return 3.0 * x;
@@ -121,7 +121,7 @@ struct PieceWiseLinear1 : Distribution
 {
     std::string Name() override
     { return "PieceWiseLinear1"; }
-    inline __attribute__((always_inline)) double Value(double x) override
+    INLINE double Value(double x) override
     {
         if (x < 0.15)
             return 1.0 / 6.0 * x;
@@ -134,7 +134,7 @@ struct PieceWiseLinear1 : Distribution
         else
             return 1.0 / 6.0 * x + 5.0 / 6.0;
     }
-    inline __attribute__((always_inline)) double InvValue(double x) override
+    INLINE double InvValue(double x) override
     {
         if (x < 0.025)
             return 6.0 * x;

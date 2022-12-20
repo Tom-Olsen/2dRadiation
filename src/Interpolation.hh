@@ -4,18 +4,18 @@
 #include <iostream>
 #include "Stencil.hh"
 #include "TensorTypes.hh"
-#include "Grid2D.h"
+#include "Grid2D.hh"
 #include "Profiler.hh"
 
 
 
 // x€[0,1], f0=f(x=0), f1=f(x=1).
-inline __attribute__((always_inline)) double LinearInterpolation(double x, double f0, double f1)
+INLINE double LinearInterpolation(double x, double f0, double f1)
 {
     return f0*(1.0-x) + f1*x;
 }
 // x€[0,1], fm1=f(-1), fp0=f(0), fp1=f(1), fp2=f(2).
-inline __attribute__((always_inline)) double CubicInterpolation(double x, double fm1, double fp0, double fp1, double fp2)
+INLINE double CubicInterpolation(double x, double fm1, double fp0, double fp1, double fp2)
 {
     double c0 = fp0;
     double c1 = 0.5 * (fp1 - fm1);
@@ -33,7 +33,7 @@ inline __attribute__((always_inline)) double CubicInterpolation(double x, double
 //    |  (i,j)   |
 // f(0,0) --- f(1,0)
 // f10 <=> f(1,0)
-inline __attribute__((always_inline)) double BilinearInterpolation
+INLINE double BilinearInterpolation
 (double i  , double j  ,
  double f00, double f01,
  double f10, double f11)
@@ -47,7 +47,7 @@ inline __attribute__((always_inline)) double BilinearInterpolation
 // fp0m1=f( 0,-1), fp0p0=f( 0,0), fp0p1=f( 0,1), fp0p2=f( 0,2).
 // fp1m1=f( 1,-1), fp1p0=f( 1,0), fp1p1=f( 1,1), fp1p2=f( 1,2).
 // fp2m1=f( 2,-1), fp2p0=f( 2,0), fp2p1=f( 2,1), fp2p2=f( 2,2).
-inline __attribute__((always_inline)) double BicubicInterpolation
+INLINE double BicubicInterpolation
 (double x, double y,
  double fm1m1, double fm1p0, double fm1p1, double fm1p2,
  double fp0m1, double fp0p0, double fp0p1, double fp0p2,

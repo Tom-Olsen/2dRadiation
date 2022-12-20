@@ -1,5 +1,5 @@
 #include "Grid2D.h"
-
+/*
 // ------------------------------- Parent Grid2D -------------------------------
 // ----------- Constructor -----------
 template<class Coord>
@@ -301,3 +301,4 @@ void Grid2D<Coord>::WriteFrametoJson
 
 template class Grid2D<xy>;
 template class Grid2D<rph>;
+*/

@@ -2,7 +2,7 @@
 #define __INCLUDE_GUARD_WriteData_h__
 #include <fstream>	    // std::file
 #include "Utility.hh"    // basic utility functions
-#include "Grid2D.h"	    // structure of numerical Grid
+#include "Grid2D.hh"	    // structure of numerical Grid
 #include "Metric2D.h"     // metric data
 
 // Write nFrames frames of the zeroth and first Momenta to directory/data_0...nFrames as .vtr file.

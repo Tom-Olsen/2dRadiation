@@ -100,7 +100,7 @@ namespace Profiler
         }
 
         // Write data to json:
-        void WriteProfile(const Result& result)
+        void LogResult(const Result& result)
         {
             std::lock_guard<std::mutex> lock(writeMutex);
 
@@ -199,7 +199,7 @@ namespace Profiler
             long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
 
             uint32_t threadID = omp_get_thread_num();
-            Session::Get().WriteProfile({ name, start, end, threadID });
+            Session::Get().LogResult({ name, start, end, threadID });
 
             isStopped = true;
         }
@@ -207,15 +207,15 @@ namespace Profiler
 }
 
 
-// Use these macros for profiling.
-#define PROFILING 1
-#if PROFILING
-    #define PROFILE_SCOPE(name) Profiler::Timer timer##__LINE__(name)
-    #define PROFILE_FUNCTION() PROFILE_SCOPE(__PRETTY_FUNCTION__)
-#else
-    #define PROFILE_SCOPE(name)
-    #define PROFILE_FUNCTION()
-#endif
+// This has been moved to ControlFlow.hh
+//#define PROFILING 1
+//#if PROFILING
+//    #define PROFILE_SCOPE(name) Profiler::Timer timer##__LINE__(name)
+//    #define PROFILE_FUNCTION() PROFILE_SCOPE(__PRETTY_FUNCTION__)
+//#else
+//    #define PROFILE_SCOPE(name)
+//    #define PROFILE_FUNCTION()
+//#endif
 
 
 #endif //__INCLUDE_Profiler_hh__

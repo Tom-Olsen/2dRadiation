@@ -3,7 +3,7 @@
 #include <string>
 #include "ControlFlow.hh"       // used for template arguments
 #include "TensorTypes.hh"       // simple containers for rank 1-3 tensors
-#include "Grid2D.h"             // underlying numerical Grid
+#include "Grid2D.hh"             // underlying numerical Grid
 #include "Metric2D.h"           // metric base class
 
 

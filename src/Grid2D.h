@@ -7,7 +7,7 @@
 #include "Utility.hh"            // exit_on_error(char* msg)
 #include "TensorTypes.hh"       // simple containers for rank 1-3 tensors
 #include "Profiler.hh"
-
+/*
 template<class Coord>
 class Grid2D
 {
@@ -62,4 +62,5 @@ public:
     (float time, double* r, double* g, double* b, double* a,
      const int frameNumber, std::string directory, std::string name="");
 };
+*/
 #endif //__INCLUDE_GUARD_Grid2D_h__

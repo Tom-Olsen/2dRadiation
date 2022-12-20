@@ -5,10 +5,13 @@ std::string StreamingName(int n)
 	std::string s("unknown");
 	switch (n)
 	{
-   		case 0: { s = "StreamCurvedRot";   } break;
-   		case 1: { s = "StreamCurvedNoRot"; } break;
-   		case 2: { s = "StreamFlatRot";     } break;
-   		case 3: { s = "StreamFlatNoRot";   } break;
+   		case 0: { s = "CurvedDynamic";	} break;
+   		case 1: { s = "CurvedStatic";	} break;
+   		case 2: { s = "FlatDynamic";	} break;
+   		case 3: { s = "FlatStatic";		} break;
+   		case 4: { s = "GeodesicDynamic";} break;
+   		case 5: { s = "GeodesicStatic";	} break;
+		default: { exit_on_error("Invalid StreamingType"); }
 	}
 	return s;
 }
@@ -46,7 +49,7 @@ grid(grid_), metric(metric_), stencil(stencil_), fourierStencil(fourierStencil_)
 	kappaA      = new double[grid.n12]();
 	eta         = new double[grid.n12]();
 	I           = new double[grid.n12 * nDir]();
-	temp        = new double[grid.n12 * nDir]();
+	Inew        = new double[grid.n12 * nDir]();
 	coefficientsS   = new double[grid.n12 * fourierStencil.nDir];
 	coefficientsX1  = new double[grid.n12 * fourierStencil.nDir];
 	coefficientsX2  = new double[grid.n12 * fourierStencil.nDir];
@@ -86,7 +89,7 @@ Radiation<Coord>::~Radiation()
 	delete[] kappaA;
 	delete[] eta;
 	delete[] I;
-	delete[] temp;
+	delete[] Inew;
 	delete[] coefficientsS;
 	delete[] coefficientsX1;
 	delete[] coefficientsX2;
@@ -112,7 +115,7 @@ void Radiation<Coord>::LoadInitialData()
 	// By using phi=stencil.phi(d,-rot), for the static stencil, the gauß peak of the distribution is maximal (phi=0) when phi(d)=rot.
 	// On the other hand for the rotating stencil we initially set the peak to be at phi=stencil.phi(d=0).
 	// When running the code that direction vector is rotated to point toward rotation[ij].
-	if(streamingType == StreamingType::StreamCurvedRot || streamingType == StreamingType::StreamFlatRot)
+	if(streamingType == StreamingType::CurvedDynamic || streamingType == StreamingType::FlatDynamic)
 	{
 		#pragma omp parallel for
 		for(int ij=0; ij<grid.n12; ij++)
@@ -249,7 +252,7 @@ void Radiation<Coord>::ComputeMomentsIF()
 	PROFILE_FUNCTION();
 	constexpr double twoPiInv = 1.0 / (2.0 * M_PI);
 	
-	if(streamingType == StreamingType::StreamCurvedRot || streamingType == StreamingType::StreamFlatRot)
+	if(streamingType == StreamingType::CurvedDynamic || streamingType == StreamingType::FlatDynamic)
 	{
 		#pragma omp parallel for
 		for(int ij=0; ij<grid.n12; ij++)
@@ -316,9 +319,9 @@ void Radiation<Coord>::ComputeMomentsLF()
 	{
 		Tensor3x3<Coord,IF> EnergyMomentumTensorIF(E[ij],Fx[ij],Fy[ij], Fx[ij],Pxx[ij],Pxy[ij], Fy[ij],Pxy[ij],Pyy[ij]);
 		Tensor3x3<Coord,LF> EnergyMomentumTensorLF = EnergyMomentumTensorIF.template Transform<LF>(metric.GetTetrad(ij));
-		E_LF[ij] = EnergyMomentumTensorLF[{0,0}];
-		Fx_LF[ij] = EnergyMomentumTensorLF[{0,1}];
-		Fy_LF[ij] = EnergyMomentumTensorLF[{0,2}];
+		E_LF[ij]   = EnergyMomentumTensorLF[{0,0}];
+		Fx_LF[ij]  = EnergyMomentumTensorLF[{0,1}];
+		Fy_LF[ij]  = EnergyMomentumTensorLF[{0,2}];
 		Pxx_LF[ij] = EnergyMomentumTensorLF[{1,1}];
 		Pxy_LF[ij] = EnergyMomentumTensorLF[{1,2}];
 		Pyy_LF[ij] = EnergyMomentumTensorLF[{2,2}];
@@ -329,7 +332,7 @@ void Radiation<Coord>::ComputeMomentsLF()
 
 
 template<class Coord>
-inline __attribute__((always_inline)) Coordinate2<Coord> Radiation<Coord>::GetTempCoordinate(int i, int j, double phi)
+INLINE Coordinate2<Coord> Radiation<Coord>::GetTempCoordinate(int i, int j, double phi)
 {
 	std::vector<double> cX1(fourierStencil.nDir);
 	std::vector<double> cX2(fourierStencil.nDir);
@@ -341,7 +344,7 @@ inline __attribute__((always_inline)) Coordinate2<Coord> Radiation<Coord>::GetTe
 	return Coordinate2<Coord>(Fourier::Expansion::GetValue(phi,cX1), Fourier::Expansion::GetValue(phi,cX2));
 }
 template<class Coord>
-inline __attribute__((always_inline)) Tensor2<Coord,LF> Radiation<Coord>::GetTemp2Velocity(int i, int j, double phi)
+INLINE Tensor2<Coord,LF> Radiation<Coord>::GetTemp2Velocity(int i, int j, double phi)
 {
 	std::vector<double> cCx1(fourierStencil.nDir);
 	std::vector<double> cCx2(fourierStencil.nDir);
@@ -353,7 +356,7 @@ inline __attribute__((always_inline)) Tensor2<Coord,LF> Radiation<Coord>::GetTem
 	return Tensor2<Coord,LF>(Fourier::Expansion::GetValue(phi,cCx1), Fourier::Expansion::GetValue(phi,cCx2));
 }
 template<class Coord>
-inline __attribute__((always_inline)) double Radiation<Coord>::GetFrequencyShift(int i, int j, double phi)
+INLINE double Radiation<Coord>::GetFrequencyShift(int i, int j, double phi)
 {
 	std::vector<double> cS(fourierStencil.nDir);
 	for(int f=0; f<fourierStencil.nDir; f++)
@@ -361,7 +364,7 @@ inline __attribute__((always_inline)) double Radiation<Coord>::GetFrequencyShift
 	return Fourier::Expansion::GetValue(phi,cS);
 }
 template<class Coord>
-inline __attribute__((always_inline)) double Radiation<Coord>::IntensityAt(int ij, double phi)
+INLINE double Radiation<Coord>::IntensityAt(int ij, double phi)
 {
 	double k = stencil.Index(phi,rotation[ij]);
 
@@ -371,14 +374,17 @@ inline __attribute__((always_inline)) double Radiation<Coord>::IntensityAt(int i
 	int kP1 = (kFloor + 1 + nDir) % nDir;
 	int kP2 = (kFloor + 2 + nDir) % nDir;
 
+	// tests have shown, that cubic is better!
 	double value = CubicInterpolation(k - kFloor,I[ij + kM1*grid.n12],I[ij + kP0*grid.n12],I[ij + kP1*grid.n12],I[ij + kP2*grid.n12]);
 	// double value = LinearInterpolation(k - kFloor,I[ij + kP0*grid.n12],I[ij + kP1*grid.n12]);
 	return std::max(value,0.0);
 }
 template<class Coord>
-inline __attribute__((always_inline)) Tensor2<Coord,IF> Radiation<Coord>::AverageF(int i, int j)
+INLINE Tensor2<Coord,IF> Radiation<Coord>::AverageF(int i, int j)
 {
 	Tensor2<Coord,IF> averageF(0.0);
+	// for(int a=-2; a<=2; a++)
+		// for(int b=-2; b<=2; b++)
 	for(int a=-1; a<=1; a++)
 		for(int b=-1; b<=1; b++)
 		{
@@ -388,13 +394,17 @@ inline __attribute__((always_inline)) Tensor2<Coord,IF> Radiation<Coord>::Averag
 		}
 	averageF[1] /= 9.0;
 	averageF[2] /= 9.0;
+	// averageF[1] /= 16.0;
+	// averageF[2] /= 16.0;
+	// averageF[1] = Fx[grid.Index(i,j)];
+	// averageF[2] = Fy[grid.Index(i,j)];
 	return averageF;
 }
 
 
 
 template<class Coord>
-void Radiation<Coord>::StreamCurvedRot()
+void Radiation<Coord>::StreamCurvedDynamic()
 {
 	PROFILE_FUNCTION();
 	#pragma omp parallel for
@@ -418,7 +428,7 @@ void Radiation<Coord>::StreamCurvedRot()
 		// Skip LPs which are inside BH:
 		if(metric.InsideBH(i,j))
 		{
-			temp[ijd] = 0;
+			Inew[ijd] = 0;
 			continue;
 		}
 
@@ -433,7 +443,7 @@ void Radiation<Coord>::StreamCurvedRot()
 		// Skip temporary Grid Points inside BH:
 		if(metric.InsideBH(xTemp))
 		{
-			temp[ijd] = 0;
+			Inew[ijd] = 0;
 			continue;
 		}
 
@@ -442,32 +452,37 @@ void Radiation<Coord>::StreamCurvedRot()
 		double jTemp = grid.j(xTemp[2]);
 		int i0 = std::floor(iTemp);	int i1 = i0 + 1;
 		int j0 = std::floor(jTemp);	int j1 = j0 + 1;
+		int i0j0 = grid.Index(i0,j0);
+		int i0j1 = grid.Index(i0,j1);
+		int i1j0 = grid.Index(i1,j0);
+		int i1j1 = grid.Index(i1,j1);
+
+		// TEST:
+		// double angle00 = ((vTempLF.template Transform<IF>(metric.GetTetrad(i0j0))).template Transform<xy>(grid.x12Coord(i0,j0))).Angle();
+		// double angle01 = ((vTempLF.template Transform<IF>(metric.GetTetrad(i0j1))).template Transform<xy>(grid.x12Coord(i0,j1))).Angle();
+		// double angle10 = ((vTempLF.template Transform<IF>(metric.GetTetrad(i1j0))).template Transform<xy>(grid.x12Coord(i1,j0))).Angle();
+		// double angle11 = ((vTempLF.template Transform<IF>(metric.GetTetrad(i1j1))).template Transform<xy>(grid.x12Coord(i1,j1))).Angle();
 
 		// Intensity interpolation:
 		double angle = vTempIFxy.Angle();
 		double alpha = metric.GetAlpha(ij);
-		double intensityAt_i0j0 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j0))) * IntensityAt(grid.Index(i0,j0),angle);
-		double intensityAt_i0j1 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j1))) * IntensityAt(grid.Index(i0,j1),angle);
-		double intensityAt_i1j0 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j0))) * IntensityAt(grid.Index(i1,j0),angle);
-		double intensityAt_i1j1 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j1))) * IntensityAt(grid.Index(i1,j1),angle);
+		double intensityAt_i0j0 = MyPow<4>(alpha / metric.GetAlpha(i0j0)) * IntensityAt(i0j0,angle);
+		double intensityAt_i0j1 = MyPow<4>(alpha / metric.GetAlpha(i0j1)) * IntensityAt(i0j1,angle);
+		double intensityAt_i1j0 = MyPow<4>(alpha / metric.GetAlpha(i1j0)) * IntensityAt(i1j0,angle);
+		double intensityAt_i1j1 = MyPow<4>(alpha / metric.GetAlpha(i1j1)) * IntensityAt(i1j1,angle);
 
 		// Interpolate intensity from neighbouring 4 lattice points to temporary point:
-		temp[ijd]
+		Inew[ijd]
 		= (s*s*s*s) * BilinearInterpolation(iTemp-i0,jTemp-j0,
 		 intensityAt_i0j0,intensityAt_i0j1,
 		 intensityAt_i1j0,intensityAt_i1j1);
 	}
-	// Copy rotationNew to rotation:
-	#pragma omp parallel for
-	for(int ij=0; ij<grid.n12; ij++)
-		rotation[ij] = rotationNew[ij];	
-	// Copy temp to intensities:
-	#pragma omp parallel for
-	for(int ijd=0; ijd<grid.n12*nDir; ijd++)
-		I[ijd] = temp[ijd];
+	// swap old with new arrays:
+	std::swap(I,Inew);
+	std::swap(rotation,rotationNew);
 }
 template<class Coord>
-void Radiation<Coord>::StreamCurvedNoRot()
+void Radiation<Coord>::StreamCurvedStatic()
 {
 	PROFILE_FUNCTION();
 	#pragma omp parallel for
@@ -481,7 +496,7 @@ void Radiation<Coord>::StreamCurvedNoRot()
 		// Skip LPs which are inside BH:
 		if(metric.InsideBH(i,j))
 		{
-			temp[ijd] = 0;
+			Inew[ijd] = 0;
 			continue;
 		}
 
@@ -496,7 +511,7 @@ void Radiation<Coord>::StreamCurvedNoRot()
 		// Skip temporary Grid Points inside BH:
 		if(metric.InsideBH(xTemp))
 		{
-			temp[ijd] = 0;
+			Inew[ijd] = 0;
 			continue;
 		}
 
@@ -515,21 +530,19 @@ void Radiation<Coord>::StreamCurvedNoRot()
 		double intensityAt_i1j1 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j1))) * IntensityAt(grid.Index(i1,j1),angle);
 
 		// Interpolate intensity from neighbouring 4 lattice points to temporary point:
-		temp[ijd]
+		Inew[ijd]
 		= (s*s*s*s) * BilinearInterpolation(iTemp-i0,jTemp-j0,
 		 intensityAt_i0j0,intensityAt_i0j1,
 		 intensityAt_i1j0,intensityAt_i1j1);
 	}
-	// Copy temp to intensities:
-	#pragma omp parallel for
-	for(int ijd=0; ijd<grid.n12*nDir; ijd++)
-		I[ijd] = temp[ijd];
+	// swap old with new array:
+	std::swap(I,Inew);
 }
 
 
 
 template<class Coord>
-void Radiation<Coord>::StreamFlatRot()
+void Radiation<Coord>::StreamFlatDynamic()
 {
 	PROFILE_FUNCTION();
 	#pragma omp parallel for
@@ -559,22 +572,17 @@ void Radiation<Coord>::StreamFlatRot()
 
 		// Interpolate intensity from neighbouring 4 lattice points to temporary point:
 		double angle = stencil.Phi(d,rotationNew[ij]);
-		temp[ijd]
+		Inew[ijd]
 		= BilinearInterpolation(iTemp-i0,jTemp-j0,
 		 IntensityAt(grid.Index(i0,j0),angle),IntensityAt(grid.Index(i0,j1),angle),
 		 IntensityAt(grid.Index(i1,j0),angle),IntensityAt(grid.Index(i1,j1),angle));
 	}
-	// Copy rotationNew to rotation:
-	#pragma omp parallel for
-	for(int ij=0; ij<grid.n12; ij++)
-		rotation[ij] = rotationNew[ij];	
-	// Copy temp to intensities:
-	#pragma omp parallel for
-	for(int ijd=0; ijd<grid.n12*nDir; ijd++)
-		I[ijd] = temp[ijd];
+	// swap old with new arrays:
+	std::swap(I,Inew);
+	std::swap(rotation,rotationNew);
 }
 template<class Coord>
-void Radiation<Coord>::StreamFlatNoRot()
+void Radiation<Coord>::StreamFlatStatic()
 {
 	PROFILE_FUNCTION();
 	#pragma omp parallel for
@@ -598,15 +606,149 @@ void Radiation<Coord>::StreamFlatNoRot()
 		int j0 = std::floor(jTemp);	int j1 = j0 + 1;
 
 		// Interpolate intensity from neighbouring 4 lattice points to temporary point:
-		temp[ijd]
+		Inew[ijd]
 		= BilinearInterpolation(iTemp-i0,jTemp-j0,
 		 I[grid.Index(i0,j0,d)],I[grid.Index(i0,j1,d)],
 		 I[grid.Index(i1,j0,d)],I[grid.Index(i1,j1,d)]);
 	}
-	// Copy temp to intensities:
+	// swap old with new array:
+	std::swap(I,Inew);
+}
+
+
+
+template<class Coord>
+void Radiation<Coord>::StreamGeodesicDynamic()
+{
+	PROFILE_FUNCTION();
 	#pragma omp parallel for
-	for(int ijd=0; ijd<grid.n12*nDir; ijd++)
-		I[ijd] = temp[ijd];
+	for(int j=2; j<grid.n2-2; j++)
+	for(int i=2; i<grid.n1-2; i++)
+	{
+		int ij = grid.Index(i,j);
+		Tensor2<Coord,IF> averageF = AverageF(i,j);
+		constexpr double rotationThreshold = 1e-3;
+		rotationNew[ij] = (averageF.EuklNorm()>rotationThreshold) ? averageF.Angle() : rotation[ij];
+	}
+
+	#pragma omp parallel for
+	for(int d=0; d<nDir; d++)
+	for(int j=2; j<grid.n2-2; j++)
+	for(int i=2; i<grid.n1-2; i++)
+	{
+		int ij = grid.Index(i,j);		// Index of lattice point ij
+		int ijd = grid.Index(i,j,d);	// Index of population d at lattice point ij
+
+		// Skip LPs which are inside BH:
+		if(metric.InsideBH(i,j))
+		{
+			Inew[ijd] = 0;
+			continue;
+		}
+
+		// Geodesic Streaming:
+		double s = 1;
+		double alpha = metric.GetAlpha(ij);
+		Coordinate2<Coord> xTemp = grid.x12Coord(i,j);
+        Tensor2<xy,IF> cxy = stencil.Cxy(d,rotationNew[ij]);
+        Tensor2<Coord,IF> c = cxy.template Transform<Coord>(grid.xyCoord(i,j));
+        Tensor3<Coord,IF> uIF(alpha, c[1]*alpha, c[2]*alpha);
+        Tensor2<Coord,LF> vTempLF = Vec2ObservedByEulObs<Coord,IF,LF>(uIF,xTemp,metric);
+		if(!metric.InsideBH(xTemp))
+    		s /= RK45_GeodesicEquation<-1>(grid.dt,xTemp,vTempLF,metric);
+		Tensor2<Coord,IF> vTempIF = vTempLF.template Transform<IF>(metric.GetTetrad(xTemp));
+		Tensor2<xy,IF> vTempIFxy = vTempIF.template Transform<xy>(xTemp);
+
+		// Skip temporary Grid Points inside BH:
+		if(metric.InsideBH(xTemp))
+		{
+			Inew[ijd] = 0;
+			continue;
+		}
+
+		// Get 4 nearest Grid Points:
+		double iTemp = grid.i(xTemp[1]);
+		double jTemp = grid.j(xTemp[2]);
+		int i0 = std::floor(iTemp);	int i1 = i0 + 1;
+		int j0 = std::floor(jTemp);	int j1 = j0 + 1;
+
+		// Intensity interpolation:
+		double angle = vTempIFxy.Angle();
+		double intensityAt_i0j0 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j0))) * IntensityAt(grid.Index(i0,j0),angle);
+		double intensityAt_i0j1 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j1))) * IntensityAt(grid.Index(i0,j1),angle);
+		double intensityAt_i1j0 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j0))) * IntensityAt(grid.Index(i1,j0),angle);
+		double intensityAt_i1j1 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j1))) * IntensityAt(grid.Index(i1,j1),angle);
+
+		// Interpolate intensity from neighbouring 4 lattice points to temporary point:
+		Inew[ijd]
+		= (s*s*s*s) * BilinearInterpolation(iTemp-i0,jTemp-j0,
+		 intensityAt_i0j0,intensityAt_i0j1,
+		 intensityAt_i1j0,intensityAt_i1j1);
+	}
+	// swap old with new arrays:
+	std::swap(I,Inew);
+	std::swap(rotation,rotationNew);
+}
+template<class Coord>
+void Radiation<Coord>::StreamGeodesicStatic()
+{
+	PROFILE_FUNCTION();
+	#pragma omp parallel for
+	for(int d=0; d<nDir; d++)
+	for(int j=2; j<grid.n2-2; j++)
+	for(int i=2; i<grid.n1-2; i++)
+	{
+		int ij = grid.Index(i,j);		// Index of lattice point ij
+		int ijd = grid.Index(i,j,d);	// Index of population d at lattice point ij
+
+		// Skip LPs which are inside BH:
+		if(metric.InsideBH(i,j))
+		{
+			Inew[ijd] = 0;
+			continue;
+		}
+
+		// Geodesic Streaming:
+		double s = 1;
+		double alpha = metric.GetAlpha(ij);
+		Coordinate2<Coord> xTemp = grid.x12Coord(i,j);
+        Tensor2<xy,IF> cxy = stencil.Cxy(d);
+        Tensor2<Coord,IF> c = cxy.template Transform<Coord>(grid.xyCoord(i,j));
+        Tensor3<Coord,IF> uIF(alpha, c[1]*alpha, c[2]*alpha);
+        Tensor2<Coord,LF> vTempLF = Vec2ObservedByEulObs<Coord,IF,LF>(uIF,xTemp,metric);
+		if(!metric.InsideBH(xTemp))
+    		s /= RK45_GeodesicEquation<-1>(grid.dt,xTemp,vTempLF,metric);
+		Tensor2<Coord,IF> vTempIF = vTempLF.template Transform<IF>(metric.GetTetrad(xTemp));
+		Tensor2<xy,IF> vTempIFxy = vTempIF.template Transform<xy>(xTemp);
+
+		// Skip temporary Grid Points inside BH:
+		if(metric.InsideBH(xTemp))
+		{
+			Inew[ijd] = 0;
+			continue;
+		}
+
+		// Get 4 nearest Grid Points:
+		double iTemp = grid.i(xTemp[1]);
+		double jTemp = grid.j(xTemp[2]);
+		int i0 = std::floor(iTemp);	int i1 = i0 + 1;
+		int j0 = std::floor(jTemp);	int j1 = j0 + 1;
+
+		// Intensity interpolation:
+		double angle = vTempIFxy.Angle();
+		double intensityAt_i0j0 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j0))) * IntensityAt(grid.Index(i0,j0),angle);
+		double intensityAt_i0j1 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j1))) * IntensityAt(grid.Index(i0,j1),angle);
+		double intensityAt_i1j0 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j0))) * IntensityAt(grid.Index(i1,j0),angle);
+		double intensityAt_i1j1 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j1))) * IntensityAt(grid.Index(i1,j1),angle);
+
+		// Interpolate intensity from neighbouring 4 lattice points to temporary point:
+		Inew[ijd]
+		= (s*s*s*s) * BilinearInterpolation(iTemp-i0,jTemp-j0,
+		 intensityAt_i0j0,intensityAt_i0j1,
+		 intensityAt_i1j0,intensityAt_i1j1);
+	}
+	// swap old with new array:
+	std::swap(I,Inew);
 }
 
 
@@ -615,31 +757,35 @@ template<class Coord>
 void Radiation<Coord>::Collide()
 {
 	PROFILE_FUNCTION();
-//	// TODO:
-//	// Steife DGL?
-//	
-//	#pragma omp parallel for
-//	for(int j = 0; j < metric.grid.n2; j++)
-//	for(int i = 0; i < metric.grid.n1; i++)
-//	{
-//		Tensor3 x = metric.grid.xyzCoord(i,j,1);
-//		if(metric.ToCloseToBH(x))
-//			continue;
-//
-//		int ij = i+j*metric.grid.n1;
-//
-//		// Select correct stencil:
-//		Stencil& stencil = rotation[ij] < 0 ? uniStencil : dirStencil;
-//		
-//		double Gamma = eta[ij];
-//		for(int d = 0; d < velSt.nDir; d++)
-//		{
-//			int ijd = ij + d*metric.grid.n12;
-//			Gamma += -kappaA[ij] * I[ijd] + kappa0[ij]*(E[ij]-I[ijd]) + 3*(velSt.vx[d]*Fx[ij] + velSt.vy[d]*Fy[ij]);
-//			I[ijd] += metric.GetAlpha(x) * Gamma * metric.grid.dt;
-//		}
-//	}
-//	
+	// TODO:
+	// Steife DGL?
+	
+	#pragma omp parallel for
+	for(int j = 0; j < metric.grid.n2; j++)
+	for(int i = 0; i < metric.grid.n1; i++)
+	{
+		if(metric.InsideBH(i,j))
+			continue;
+
+		int ij = grid.Index(i,j);
+
+		// Simulate stationary fluid, u^k=(0,0):
+		double alpha = metric.GetAlpha(ij);
+		Tensor2<xy,IF> u(0.0,0.0);	// fluid 2 velocity as seen by Eulerian observer
+		double W = 1.0 / sqrt(1.0 - u.EuklNorm());		// Lorentz factor
+		double uDotF = Fx_LF[ij] * u[1] + Fy_LF[ij] * u[2];		// F^i u_i
+		double uuDotP = Pxx_LF[ij] * u[1] * u[1] + 2.0 * Pxy_LF[ij] * u[1] * u[2] + Pyy_LF[ij] * u[2] * u[2];	// P^ij u_i u_j
+		double fluidE = W * W * (E_LF[ij]  - 2.0 * uDotF + uuDotP);
+		
+		for(int d = 0; d < stencil.nDir; d++)
+		{
+			int ijd = ij + d*metric.grid.n12;
+			double A = W * (1.0 - Tensor2<xy,IF>::Dot(stencil.Cxy(d,rotation[ij]),u));
+
+			double Gamma = stencil.W(d) * (eta[ij] + kappa0[ij]*fluidE) / (A*A*A) - A*I[ijd] * (kappaA[ij] + kappa0[ij]);
+			I[ijd] += alpha * metric.grid.dt * Gamma;
+		}
+	}
 }
 
 
@@ -700,10 +846,12 @@ void Radiation<Coord>::RunSimulation(RunParameters params)
 			// Streaming:
 			switch (streamingType)
 			{
-				case(StreamingType::StreamCurvedRot):	StreamCurvedRot();		break;
-				case(StreamingType::StreamCurvedNoRot):	StreamCurvedNoRot();	break;
-				case(StreamingType::StreamFlatRot):		StreamFlatRot();		break;
-				case(StreamingType::StreamFlatNoRot):	StreamFlatNoRot();		break;
+				case(StreamingType::CurvedDynamic):		StreamCurvedDynamic();	break;
+				case(StreamingType::CurvedStatic):		StreamCurvedStatic();	break;
+				case(StreamingType::FlatDynamic):		StreamFlatDynamic();	break;
+				case(StreamingType::FlatStatic):		StreamFlatStatic();		break;
+				case(StreamingType::GeodesicDynamic):	StreamGeodesicDynamic();break;
+				case(StreamingType::GeodesicStatic):	StreamGeodesicStatic();	break;
 			}
 
 			if (params.keepSourceNodesActive)
