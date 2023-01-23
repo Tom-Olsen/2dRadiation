@@ -9,7 +9,7 @@
 #include "ControlFlow.hh"                   // control flow classes and macros
 #include "Utility.hh"                       // small useful functions.
 #include "TensorTypes.hh"                   // simple containers for rank 1-3 tensors.
-#include "Grid2D.hh"                        // 2D Grid for numerical domain and maping to physical domain.
+#include "Grid2D.h"                         // 2D Grid for numerical domain and maping to physical domain.
 #include "Stencil.hh"                       // velocity stencils.
 #include "Interpolation.hh"                 // several interpolation schemes which are needed throughout the code.
 #include "Metric2D.h"                       // 2D Metric data. The numerical domain is defined by Grid3D.

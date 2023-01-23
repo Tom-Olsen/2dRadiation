@@ -1,9 +1,9 @@
 #ifndef __INCLUDE_GUARD_Log_hh__
 #define __INCLUDE_GUARD_Log_hh__
 #include <math.h>
-#include "Grid2D.hh"
 #include "Metric2D.h"
 #include "Stencil.hh"
+
 
 
 template<class Coord>

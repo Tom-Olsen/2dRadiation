@@ -9,7 +9,7 @@
 #include "Utility.hh"				// basic utility functions
 #include "Stencil.hh"				// velocity stencils.
 #include "TensorTypes.hh" 			// simple containers for rank 1-3 tensors.
-#include "Grid2D.hh"					// 2D Grid for numerical domain and maping to physical domain.
+#include "Grid2D.h"					// 2D Grid for numerical domain and maping to physical domain.
 #include "Metric2D.h"				// 2D Metric data. The numerical domain is defined by Grid3D.
 #include "FourierHarmonics.h"		// fourier interpolation thorugh discrete number of points in 2d plane.
 #include "GeodesicEquationSolver.h"	// used to solve geodesic equation on spacelike hypersurface.

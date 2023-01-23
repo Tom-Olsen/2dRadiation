@@ -6,7 +6,6 @@
 #include <string>
 #include "Utility.hh"
 #include "TensorTypes.hh"
-#include "Distribution.hh"
 #include "eigen/Eigen/Dense"
 
 
@@ -14,8 +13,6 @@
 // Singleton Design Pattern Example:
 //https://stackoverflow.com/questions/1008019/c-singleton-design-pattern
 
-// TODO:
-// -test heap vs stack allocation of Stencil arrays.
 
 // This class holds the discretized velocities and the corresponding weights.
 // The direction vectors, c=(cx,cy), are always given in cartesian coordinates.
@@ -94,8 +91,6 @@ struct DynamicStencil : Stencil
     { return fmod(2.0 * M_PI * X(d) + rotation, 2.0 * M_PI); }
     INLINE double W(int d) const override
     { return 2.0 / nDir; }
-
-    // New:
     INLINE double X(double d) const override
     { return d / nDir; }
     INLINE double Index(double phi, double rotation=0) const override

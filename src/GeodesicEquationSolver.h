@@ -1,10 +1,10 @@
 #ifndef __INCLUDE_GUARD_GeodesicEquationSolver_h__
 #define __INCLUDE_GUARD_GeodesicEquationSolver_h__
-#include <fstream>                      // file input/output
+#include <fstream>                       // file input/output
 #include "Utility.hh"                    // small useful functions.
 #include "TensorTypes.hh"                // simple containers for rank 1-3 tensors
-#include "Metric2D.h"                     // metric data
-#include "AdvancedUtiltiy.h"            // utiliy depending on more complex classes
+#include "Metric2D.h"                    // metric data
+#include "AdvancedUtiltiy.h"             // utiliy depending on more complex classes
 
 // Geodesic frequency Equation.
 template<class Coord>

@@ -515,6 +515,8 @@ void FourierHarmonicsError(int fourierOrder)
 // -test curved beam with the new idea (see Radiation::StreamCurvedDynamic())
 int main()
 {
+    CurvedBeamClose(10, 100, 200, 5, 0.5, 0.03, StreamingType::CurvedDynamic);
+
     // Geodesic streaming does not give same results as fourier streaming atm!
     // CurvedBeamClose(10, 100, 200, 5, 0.5, 0.03, StreamingType::GeodesicDynamic);
     // CurvedBeamClose(10, 100, 200, 3, 0.5, 0.03, StreamingType::CurvedDynamic);
@@ -578,9 +580,9 @@ int main()
     // FourierHarmonicsError(9);
 
     // Performance comparison, Flat streaming vs Fourier (static & dynamic) curved streaming:
-    CurvedBeamClose(10, 200, 200, 3, 0.5, 0.02, StreamingType::CurvedDynamic);
-    CurvedBeamClose(10, 200, 200, 5, 0.5, 0.02, StreamingType::CurvedDynamic);
-    CurvedBeamClose(10, 200, 200, 7, 0.5, 0.02, StreamingType::CurvedDynamic);
-    CurvedBeamClose(10, 200, 200, 9, 0.5, 0.02, StreamingType::CurvedDynamic);
-    CurvedBeamClose(10, 200, 200, 3, 0.5, 0.02, StreamingType::FlatStatic);
+    // CurvedBeamClose(10, 200, 200, 3, 0.5, 0.02, StreamingType::CurvedDynamic);
+    // CurvedBeamClose(10, 200, 200, 5, 0.5, 0.02, StreamingType::CurvedDynamic);
+    // CurvedBeamClose(10, 200, 200, 7, 0.5, 0.02, StreamingType::CurvedDynamic);
+    // CurvedBeamClose(10, 200, 200, 9, 0.5, 0.02, StreamingType::CurvedDynamic);
+    // CurvedBeamClose(10, 200, 200, 3, 0.5, 0.02, StreamingType::FlatStatic);
 }

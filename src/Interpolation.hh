@@ -4,7 +4,6 @@
 #include <iostream>
 #include "Stencil.hh"
 #include "TensorTypes.hh"
-#include "Grid2D.hh"
 #include "Profiler.hh"
 
 

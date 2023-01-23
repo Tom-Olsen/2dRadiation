@@ -1,7 +1,7 @@
 #ifndef __INCLUDE_GUARD_AdvancedUtility_h__
 #define __INCLUDE_GUARD_AdvancedUtility_h__
-#include "ControlFlow.hh"// used for template arguments
-#include "Utility.hh"            // small useful functions (debug only).
+#include "ControlFlow.hh"       // used for template arguments
+#include "Utility.hh"           // small useful functions (debug only).
 #include "TensorTypes.hh"       // simple containers for rank 1-3 tensors
 #include "Metric2D.h"           // metric data
 
