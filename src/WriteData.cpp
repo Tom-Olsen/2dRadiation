@@ -3,7 +3,7 @@
 
 
 template<class Coord>
-void Write_Radiation_vtr(double* E, double* Fx, double* Fy, Grid2D<Coord>& grid, int nFrames, std::string directory)
+void Write_Radiation_vtr(double* E, double* Fx, double* Fy, Grid<Coord>& grid, int nFrames, std::string directory)
 {
 	int NX = grid.n1;
 	int NY = grid.n2;
@@ -64,7 +64,7 @@ void Write_Radiation_vtr(double* E, double* Fx, double* Fy, Grid2D<Coord>& grid,
 
 
 template<class Coord>
-void Write_Radiation_json(double* E, double* Fx, double* Fy, Grid2D<Coord>& grid, int nFrames, std::string name)
+void Write_Radiation_json(double* E, double* Fx, double* Fy, Grid<Coord>& grid, int nFrames, std::string name)
 {
 	std::string Filename = name + ".json";
 	std::ofstream file(Filename);
@@ -139,7 +139,7 @@ void Write_Radiation_json(double* E, double* Fx, double* Fy, Grid2D<Coord>& grid
 
 
 
-template void Write_Radiation_vtr<xy>  (double* E, double* Fx, double* Fy, Grid2D<xy>&  grid, int nFrames, std::string directory);
-template void Write_Radiation_vtr<rph> (double* E, double* Fx, double* Fy, Grid2D<rph>& grid, int nFrames, std::string directory);
-template void Write_Radiation_json<xy> (double* E, double* Fx, double* Fy, Grid2D<xy>&  grid, int nFrames, std::string name);
-template void Write_Radiation_json<rph>(double* E, double* Fx, double* Fy, Grid2D<rph>& grid, int nFrames, std::string name);
+template void Write_Radiation_vtr<xy>  (double* E, double* Fx, double* Fy, Grid<xy>&  grid, int nFrames, std::string directory);
+template void Write_Radiation_vtr<rph> (double* E, double* Fx, double* Fy, Grid<rph>& grid, int nFrames, std::string directory);
+template void Write_Radiation_json<xy> (double* E, double* Fx, double* Fy, Grid<xy>&  grid, int nFrames, std::string name);
+template void Write_Radiation_json<rph>(double* E, double* Fx, double* Fy, Grid<rph>& grid, int nFrames, std::string name);

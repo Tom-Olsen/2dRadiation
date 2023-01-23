@@ -84,7 +84,7 @@ void Test_TensorTypes()
 void Test_Grid()
 {
     cout << "------------------------------------------------------------" << endl;
-    cout << "Grid2D Test:" << endl;
+    cout << "Grid Test:" << endl;
     cout << "The file 'grid.json' has been created in the folder 'output'." << endl;
     // using Coord = xy;
     using Coord = rph;
@@ -93,7 +93,7 @@ void Test_Grid()
     // Coordinate2<Coord> End = {4,4};
     Coordinate2<Coord> Start = {1,0};
     Coordinate2<Coord> End = {4,M_PI_2};
-    Grid2D<Coord> grid(N,Start,End);
+    Grid<Coord> grid(N,Start,End);
     double one[grid.n12];
     double E[grid.n12];
     double Fx[grid.n12];
@@ -205,7 +205,7 @@ void Test_Stencil()
 //        Int2 N = {10,10};
 //        Coordinate2<Coord> Start = {1,1};
 //        Coordinate2<Coord> End = {4,4};
-//        Grid2D<Coord> grid(N,Start,End);
+//        Grid<Coord> grid(N,Start,End);
 //
 //        double alpha[grid.n12];
 //        for(int i=0; i<grid.n1; i++)
@@ -319,7 +319,7 @@ void Test_Interpolation1()
     Int2 N = {2,2};
     Coordinate2<Coord> Start = {1,1};
     Coordinate2<Coord> End = {3,3};
-    Grid2D<Coord> grid(N,Start,End);
+    Grid<Coord> grid(N,Start,End);
     double f00 = 0;
     double f01 = 1;
     double f10 = 2;
@@ -347,7 +347,7 @@ void Test_Interpolation2()
     Int2 N = {4,4};
     Coordinate2<Coord> Start = {1,1};
     Coordinate2<Coord> End = {3,3};
-    Grid2D<Coord> grid(N,Start,End);
+    Grid<Coord> grid(N,Start,End);
     double fm1m1 = 1.0; double fm1p0 = 0.0; double fm1p1 = 0.0; double fm1p2 = 1.0;
     double fp0m1 = 0.0; double fp0p0 = 1.0; double fp0p1 = 1.0; double fp0p2 = 0.0;
     double fp1m1 = 0.0; double fp1p0 = 1.0; double fp1p1 = 1.0; double fp1p2 = 0.0;
@@ -569,7 +569,7 @@ void Test_Metric()
         Int2 N(201,201);
         Coordinate2<xy> Start(1,1);
         Coordinate2<xy> End  (4,4);
-        Grid2D<xy> grid(N,Start,End);
+        Grid<xy> grid(N,Start,End);
         KerrSchild<xy> metric = KerrSchild(grid,1.0,0.0);
         // SchwarzSchild<xy> metric = SchwarzSchild(grid,1.0,0.0);
 
@@ -617,7 +617,7 @@ void Test_Metric()
         Int2 N  = {201,201};
         Coordinate2<rph> Start(1,0);
         Coordinate2<rph> End  (4,M_PI_2);
-        Grid2D<rph> grid(N,Start,End);
+        Grid<rph> grid(N,Start,End);
         SchwarzSchild<rph> metric = SchwarzSchild(grid,1.0,0.0);
 
         // Test Point:
@@ -669,14 +669,14 @@ void Test_AdvancedUtility()
     Int2 Nxy  = {100,100};
     Coordinate2<xy> Startxy = {2,2};
     Coordinate2<xy> Endxy   = {3,3};
-    Grid2D<xy> gridxy(Nxy,Startxy,Endxy);
+    Grid<xy> gridxy(Nxy,Startxy,Endxy);
     SchwarzSchild<xy> metricxy(gridxy,1.0,0.0);
     
     // Polar Grid and Metric:
     Int2 Nrph  = {100,100};
     Coordinate2<rph> Startrph = {2,0};
     Coordinate2<rph> Endrph   = {3,M_PI_2};
-    Grid2D<rph> gridrph(Nrph,Startrph,Endrph);
+    Grid<rph> gridrph(Nrph,Startrph,Endrph);
     SchwarzSchild<rph> metricrph(gridrph,1.0,0.0);
 
     cout << "Cartesian Tests:" << endl;
@@ -790,14 +790,14 @@ void Test_GeodesicRay()
     Int2 Nxy  = {100,100};
     Coordinate2<xy> Startxy = {-10,-10};
     Coordinate2<xy> Endxy   = {10,10};
-    Grid2D gridxy(Nxy,Startxy,Endxy);
+    Grid gridxy(Nxy,Startxy,Endxy);
     SchwarzSchild<xy> metricxy(gridxy,1.0,0.0);
     // KerrSchild<xy> metricxy(gridxy,1.0,0.0);
 
     Int2 Nrph  = {100,100};
     Coordinate2<rph> Startrph = {0,0};
     Coordinate2<rph> Endrph   = {10*sqrt(2),2*M_PI};
-    Grid2D gridrph(Nrph,Startrph,Endrph);
+    Grid gridrph(Nrph,Startrph,Endrph);
     SchwarzSchild<rph> metricrph(gridrph,1.0,0.0);
 
     // Horizon:
@@ -878,13 +878,13 @@ void Test_PhotonSphere()
     Int2 Nxy  = {100,100};
     Coordinate2<xy> Startxy = {-10,-10};
     Coordinate2<xy> Endxy   = {10,10};
-    Grid2D gridxy(Nxy,Startxy,Endxy);
+    Grid gridxy(Nxy,Startxy,Endxy);
     SchwarzSchild<xy> metricxy(gridxy,1.0,0.0);
 
     Int2 Nrph  = {100,100};
     Coordinate2<rph> Startrph = {0,0};
     Coordinate2<rph> Endrph   = {10*sqrt(2),2*M_PI};
-    Grid2D gridrph(Nrph,Startrph,Endrph);
+    Grid gridrph(Nrph,Startrph,Endrph);
     SchwarzSchild<rph> metricrph(gridrph,1.0,1.0);
 
     // Horizon:
@@ -1013,13 +1013,13 @@ void Test_FourierExpansion()
     Int2 N  = {20,20};
     Coordinate2<Coord> Start = {0,0};
     Coordinate2<Coord> End   = {4,4};
-    Grid2D grid(N,Start,End);
+    Grid grid(N,Start,End);
     KerrSchild<Coord> metric(grid);
     // using Coord = rph;
     // Int2 N  = {20,20};
     // Coordinate2<Coord> Start = {1,0};
     // Coordinate2<Coord> End   = {4,M_PI_2};
-    // Grid2D grid(N,Start,End);
+    // Grid grid(N,Start,End);
     // SchwarzSchild<Coord> metric(grid);
 
     // Horizon:
@@ -1179,7 +1179,7 @@ void Test_FrequencyTransform()
     Int2 N  = {100,100};
     Coordinate2<xy> Start = {1,1};
     Coordinate2<xy> End   = {3,3};
-    Grid2D grid(N,Start,End);
+    Grid grid(N,Start,End);
     KerrSchild<xy> metric(grid,1.0,0.0);
 
     constexpr int Ndir = 8;
@@ -1255,7 +1255,7 @@ void Test_FrequencyTransform()
 }
 
 template<class Coord>
-void CheckInsideBH(Metric2D<Coord>& metric, Coordinate2<Coord> point)
+void CheckInsideBH(Metric<Coord>& metric, Coordinate2<Coord> point)
 {
     cout << metric.InsideBH(point) << endl;
 }
@@ -1264,7 +1264,7 @@ void Test_Virtual_Override()
     Int2 N(10,10);
     Coordinate2<xy> Start(-1, -1);
     Coordinate2<xy> End(1, 1);
-    Grid2D<xy> grid(N,Start,End);
+    Grid<xy> grid(N,Start,End);
     Minkowski<xy> metric(grid,1.0,0.0);
 
     Coordinate2<xy> point(0,0);

@@ -22,7 +22,7 @@ void RingWaveFlat(double simTime_, int nDir_, int nGrid_, double cfl_, double si
     double halfWidth = simTime_ + 0.1;
     Coordinate2<xy> Start(-halfWidth, -halfWidth);
     Coordinate2<xy> End(halfWidth, halfWidth);
-    Grid2D<xy> grid(N,Start,End);
+    Grid<xy> grid(N,Start,End);
     grid.SetCFL(cfl_);
     Minkowski<xy> metric(grid,1.0,0.0);
     DynamicStencil stencil(nDir_,sigma_);
@@ -82,7 +82,7 @@ void BeamCrossing(double simTime_, int nDir_, int nGrid_, double cfl_, double si
     Int2 N(nGrid_,nGrid_);
     Coordinate2<xy> Start(-1.1, -1.1);
     Coordinate2<xy> End(1.1, 1.1);
-    Grid2D<xy> grid(N,Start,End);
+    Grid<xy> grid(N,Start,End);
     grid.SetCFL(cfl_);
     Minkowski<xy> metric(grid,1.0,0.0);
     DynamicStencil stencil(nDir_,sigma_);
@@ -175,7 +175,7 @@ void CurvedBeamClose(double simTime_, int nDir_, int nGrid_, int nFourier_, doub
     Int2 N(nGrid_,nGrid_);
     Coordinate2<xy> Start(-0.1, -1.0);
     Coordinate2<xy> End(6.0, 5.0);
-    Grid2D<xy> grid(N,Start,End);
+    Grid<xy> grid(N,Start,End);
     grid.SetCFL(cfl_);
     // KerrSchild<xy> metric(grid,1.0,0.0);
     SchwarzSchild<xy> metric(grid,1.0,0.0);
@@ -238,7 +238,7 @@ void CurvedBeamFar(double simTime_, int nDir_, int nGrid_, int nFourier_, double
 	Int2 N(nGrid_,nGrid_);
     Coordinate2<xy> Start(-0.1, 3.9);
     Coordinate2<xy> End(8.1, 9.1);
-    Grid2D<xy> grid(N,Start,End);
+    Grid<xy> grid(N,Start,End);
     grid.SetCFL(cfl_);
     // KerrSchild<xy> metric(grid,1.0,0.0);
     SchwarzSchild<xy> metric(grid,1.0,0.0);
@@ -295,7 +295,7 @@ void RecreateMetricDataForLukasM1Data()
 	    Int2 N(200,200);
         Coordinate2<xy> Start(-0.1000000000000000056,-1.000000000000000000);
         Coordinate2<xy> End(5.969500000000000028,4.970000000000001528);
-        Grid2D<xy> grid(N,Start,End);
+        Grid<xy> grid(N,Start,End);
         KerrSchild<xy> metric(grid,1.0,0.0);
 
         ofstream fileAlpha("output/alphas_close.txt");
@@ -333,7 +333,7 @@ void RecreateMetricDataForLukasM1Data()
 	    Int2 N(200,200);
         Coordinate2<xy> Start(0.0,3.999999999999999556);
         Coordinate2<xy> End(7.960000000000001741,8.974999999999999645);
-        Grid2D<xy> grid(N,Start,End);
+        Grid<xy> grid(N,Start,End);
         KerrSchild<xy> metric(grid,1.0,0.0);
 
         ofstream fileAlpha("output/alphas_far.txt");
@@ -386,7 +386,7 @@ void FourierHarmonicsError(int fourierOrder)
     Int2 N(200,200);
     Coordinate2<xy> Start(x0[1]-0.2, x0[2]-0.2);
     Coordinate2<xy> End(x0[1]+0.2, x0[2]+0.2);
-    Grid2D<xy> grid(N,Start,End);
+    Grid<xy> grid(N,Start,End);
     KerrSchild<xy> metric(grid,1.0,0.0);
     // SchwarzSchild<xy> metric(grid,1.0,0.0);
     // Minkowski<xy> metric(grid,1.0,0.0);

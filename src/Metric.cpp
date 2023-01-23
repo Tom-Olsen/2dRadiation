@@ -1,10 +1,10 @@
-#include "Metric2D.h"
+#include "Metric.h"
 
 
 
 // Constructor/Desctructor
 template<class Coord>
-Metric2D<Coord>::Metric2D(Grid2D<Coord>& grid_, double m_, double a_) : grid(grid_), m(m_), a(a_)
+Metric<Coord>::Metric(Grid<Coord>& grid_, double m_, double a_) : grid(grid_), m(m_), a(a_)
 {
     g00_ll = new double[grid.n12]();    g00_uu = new double[grid.n12]();
     g01_ll = new double[grid.n12]();    g01_uu = new double[grid.n12]();
@@ -50,7 +50,7 @@ Metric2D<Coord>::Metric2D(Grid2D<Coord>& grid_, double m_, double a_) : grid(gri
     tetrad20_ul = new double[grid.n12]();    tetrad21_ul = new double[grid.n12]();    tetrad22_ul = new double[grid.n12]();
 }
 //template<class Coord>
-//Metric2D<Coord>::Metric2D(const Metric2D& metric) : grid(metric.grid), m(metric.a), a(metric.a)
+//Metric<Coord>::Metric(const Metric& metric) : grid(metric.grid), m(metric.a), a(metric.a)
 //{
 //    g00_ll = new double[grid.n12]();    g00_uu = new double[grid.n12]();
 //    g01_ll = new double[grid.n12]();    g01_uu = new double[grid.n12]();
@@ -142,7 +142,7 @@ Metric2D<Coord>::Metric2D(Grid2D<Coord>& grid_, double m_, double a_) : grid(gri
 //    }
 //}
 template<class Coord>
-Metric2D<Coord>::~Metric2D()
+Metric<Coord>::~Metric()
 {
     delete[] g00_ll;    delete[] g00_uu;
     delete[] g01_ll;    delete[] g01_uu;
@@ -190,21 +190,21 @@ Metric2D<Coord>::~Metric2D()
 
 
 template<class Coord>
-std::string Metric2D<Coord>::Name()
+std::string Metric<Coord>::Name()
 {
-    exit_on_error("Metric2D virtual Method (Name) has been called!");
+    exit_on_error("Metric virtual Method (Name) has been called!");
     return "";
 }
 
 // Initialization:
 template<class Coord>
-Tensor3x3<Coord,LF> Metric2D<Coord>::MetricFunction(Coordinate2<Coord> x)
+Tensor3x3<Coord,LF> Metric<Coord>::MetricFunction(Coordinate2<Coord> x)
 {
-    exit_on_error("Metric2D virtual Method (MetricFunction) has been called!");
+    exit_on_error("Metric virtual Method (MetricFunction) has been called!");
     return Tensor3x3<Coord,LF>(1,0,0, 0,1,0, 0,0,1);
 }
 template<class Coord>
-void Metric2D<Coord>::InitializeMetricOnGrid()
+void Metric<Coord>::InitializeMetricOnGrid()
 {
     for(int j=0; j<grid.n2; j++)
     for(int i=0; i<grid.n1; i++)
@@ -225,7 +225,7 @@ void Metric2D<Coord>::InitializeMetricOnGrid()
 }
 
 template<class Coord>
-void Metric2D<Coord>::InitializeBoostedTetradOnGrid()
+void Metric<Coord>::InitializeBoostedTetradOnGrid()
 {
     for(int j=0; j<grid.n2; j++)
     for(int i=0; i<grid.n1; i++)
@@ -256,7 +256,7 @@ void Metric2D<Coord>::InitializeBoostedTetradOnGrid()
 
 template<class Coord>
 template<int k>
-Tensor3x3<Coord,LF> Metric2D<Coord>::MetricDeriv(Coordinate2<Coord> x)
+Tensor3x3<Coord,LF> Metric<Coord>::MetricDeriv(Coordinate2<Coord> x)
 {
     double dk = 1e-8;
     Tensor3x3<Coord,LF> g_ll_m2 = MetricFunction(Coordinate2<Coord>{x[1]-2*dk*(k==1), x[2]-2*dk*(k==2)});
@@ -274,7 +274,7 @@ Tensor3x3<Coord,LF> Metric2D<Coord>::MetricDeriv(Coordinate2<Coord> x)
 
 template<class Coord>
 template<int k>
-Tensor3x3<Coord,LF> Metric2D<Coord>::InverseMetricDeriv(Coordinate2<Coord> x)
+Tensor3x3<Coord,LF> Metric<Coord>::InverseMetricDeriv(Coordinate2<Coord> x)
 {
     double dk = 1e-8;
     Tensor3x3<Coord,LF> g_uu_m2 = MetricFunction(Coordinate2<Coord>{x[1]-2*dk*(k==1), x[2]-2*dk*(k==2)}).Invert();
@@ -290,7 +290,7 @@ Tensor3x3<Coord,LF> Metric2D<Coord>::InverseMetricDeriv(Coordinate2<Coord> x)
 }
 
 template<class Coord>
-void Metric2D<Coord>::InitializeMetricDerivativesOnGrid()
+void Metric<Coord>::InitializeMetricDerivativesOnGrid()
 {
     for(int j=0; j<grid.n2; j++)
     for(int i=0; i<grid.n1; i++)
@@ -321,7 +321,7 @@ void Metric2D<Coord>::InitializeMetricDerivativesOnGrid()
 }
 
 template<class Coord>
-void Metric2D<Coord>::InitializeAdmComponentsOnGrid()
+void Metric<Coord>::InitializeAdmComponentsOnGrid()
 {
     for(int j=0; j<grid.n2; j++)
     for(int i=0; i<grid.n1; i++)
@@ -375,7 +375,7 @@ void Metric2D<Coord>::InitializeAdmComponentsOnGrid()
 }
 
 template<class Coord>
-double Metric2D<Coord>::InterpolateArrayTo_ij(double* array, double i, double j)
+double Metric<Coord>::InterpolateArrayTo_ij(double* array, double i, double j)
 {
     int i0 = std::floor(i);
     int j0 = std::floor(j);
@@ -389,16 +389,16 @@ double Metric2D<Coord>::InterpolateArrayTo_ij(double* array, double i, double j)
 }
 
 template<class Coord>
-bool Metric2D<Coord>::InsideBH(const int i, const int j)
+bool Metric<Coord>::InsideBH(const int i, const int j)
 {
-    exit_on_error("Metric2D virtual Method (InsideBH) has been called!");
+    exit_on_error("Metric virtual Method (InsideBH) has been called!");
     return false;
 }
 
 template<class Coord>
-bool Metric2D<Coord>::InsideBH(const Coordinate2<Coord>& x12)
+bool Metric<Coord>::InsideBH(const Coordinate2<Coord>& x12)
 {
-    exit_on_error("Metric2D virtual Method (InsideBH) has been called!");
+    exit_on_error("Metric virtual Method (InsideBH) has been called!");
     return false;
 }
 
@@ -406,21 +406,21 @@ bool Metric2D<Coord>::InsideBH(const Coordinate2<Coord>& x12)
 
 // Tensor getters:
 template<class Coord>
-Tensor3<Coord,LF> Metric2D<Coord>::uEulObs(const int ij)
+Tensor3<Coord,LF> Metric<Coord>::uEulObs(const int ij)
 {
     double alpha = GetAlpha(ij);
     Tensor2<Coord,LF> beta_u = GetBeta_u(ij);
     return Tensor3<Coord,LF>(1.0/alpha, -beta_u[1]/alpha, -beta_u[2]/alpha);
 }
 template<class Coord>
-Tensor3<Coord,LF> Metric2D<Coord>::uEulObs(const Coordinate2<Coord>& x12)
+Tensor3<Coord,LF> Metric<Coord>::uEulObs(const Coordinate2<Coord>& x12)
 {
     double alpha = GetAlpha(x12);
     Tensor2<Coord,LF> beta_u = GetBeta_u(x12);
     return Tensor3<Coord,LF> (1.0/alpha, -beta_u[1]/alpha, -beta_u[2]/alpha);
 }
 template<class Coord>
-Tensor3x3<Coord,LF> Metric2D<Coord>::GetMetric_ll(const int ij)
+Tensor3x3<Coord,LF> Metric<Coord>::GetMetric_ll(const int ij)
 {
     return Tensor3x3<Coord,LF>
     (g00_ll[ij], g01_ll[ij], g02_ll[ij],
@@ -428,7 +428,7 @@ Tensor3x3<Coord,LF> Metric2D<Coord>::GetMetric_ll(const int ij)
      g02_ll[ij], g12_ll[ij], g22_ll[ij]);
 }
 template<class Coord>
-Tensor3x3<Coord,LF> Metric2D<Coord>::GetMetric_ll(const Coordinate2<Coord>& x12)
+Tensor3x3<Coord,LF> Metric<Coord>::GetMetric_ll(const Coordinate2<Coord>& x12)
 {
     Double2 ij = grid.ij(x12);
     double i = (x12[1]-grid.start1)/grid.d1;
@@ -455,7 +455,7 @@ Tensor3x3<Coord,LF> Metric2D<Coord>::GetMetric_ll(const Coordinate2<Coord>& x12)
 }
 
 template<class Coord>
-Tensor3x3<Coord,LF> Metric2D<Coord>::GetMetric_uu(const int ij)
+Tensor3x3<Coord,LF> Metric<Coord>::GetMetric_uu(const int ij)
 {
     return Tensor3x3<Coord,LF>
     (g00_uu[ij], g01_uu[ij], g02_uu[ij],
@@ -463,7 +463,7 @@ Tensor3x3<Coord,LF> Metric2D<Coord>::GetMetric_uu(const int ij)
      g02_uu[ij], g12_uu[ij], g22_uu[ij]);
 }
 template<class Coord>
-Tensor3x3<Coord,LF> Metric2D<Coord>::GetMetric_uu(const Coordinate2<Coord>& x12)
+Tensor3x3<Coord,LF> Metric<Coord>::GetMetric_uu(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -487,7 +487,7 @@ Tensor3x3<Coord,LF> Metric2D<Coord>::GetMetric_uu(const Coordinate2<Coord>& x12)
     }
 }
 template<class Coord>
-Tensor3x3<Coord,IF> Metric2D<Coord>::GetMinkowskiMetric_ll(const int ij)
+Tensor3x3<Coord,IF> Metric<Coord>::GetMinkowskiMetric_ll(const int ij)
 {
     if constexpr(std::is_same<Coord,xy>::value)
     { return Tensor3x3<Coord,IF>(-1,0,0, 0,1,0, 0,0,1); }
@@ -498,7 +498,7 @@ Tensor3x3<Coord,IF> Metric2D<Coord>::GetMinkowskiMetric_ll(const int ij)
     }
 }
 template<class Coord>
-Tensor3x3<Coord,IF> Metric2D<Coord>::GetMinkowskiMetric_ll(const Coordinate2<Coord>& x12)
+Tensor3x3<Coord,IF> Metric<Coord>::GetMinkowskiMetric_ll(const Coordinate2<Coord>& x12)
 {
     if constexpr(std::is_same<Coord,xy>::value)
     { return Tensor3x3<Coord,IF>(-1,0,0, 0,1,0, 0,0,1); }
@@ -506,7 +506,7 @@ Tensor3x3<Coord,IF> Metric2D<Coord>::GetMinkowskiMetric_ll(const Coordinate2<Coo
     { return Tensor3x3<Coord,IF>(-1,0,0 ,0,1,0, 0,0,x12[1]*x12[1]); }
 }
 template<class Coord>
-Tensor3x3<Coord,IF> Metric2D<Coord>::GetMinkowskiMetric_uu(const int ij)
+Tensor3x3<Coord,IF> Metric<Coord>::GetMinkowskiMetric_uu(const int ij)
 {
     if constexpr(std::is_same<Coord,xy>::value)
     { return Tensor3x3<Coord,IF>(-1,0,0, 0,1,0, 0,0,1); }
@@ -517,7 +517,7 @@ Tensor3x3<Coord,IF> Metric2D<Coord>::GetMinkowskiMetric_uu(const int ij)
     }
 }
 template<class Coord>
-Tensor3x3<Coord,IF> Metric2D<Coord>::GetMinkowskiMetric_uu(const Coordinate2<Coord>& x12)
+Tensor3x3<Coord,IF> Metric<Coord>::GetMinkowskiMetric_uu(const Coordinate2<Coord>& x12)
 {
     if constexpr(std::is_same<Coord,xy>::value)
     { return Tensor3x3<Coord,IF>(-1,0,0, 0,1,0, 0,0,1); }
@@ -526,7 +526,7 @@ Tensor3x3<Coord,IF> Metric2D<Coord>::GetMinkowskiMetric_uu(const Coordinate2<Coo
 }
 
 template<class Coord>
-Tensor3x3x3<Coord,LF> Metric2D<Coord>::GetDerivMetric_lll(const int ij)
+Tensor3x3x3<Coord,LF> Metric<Coord>::GetDerivMetric_lll(const int ij)
 {
     return Tensor3x3x3<Coord,LF>
     (d0_g00_lll[ij], d0_g01_lll[ij], d0_g02_lll[ij],
@@ -542,7 +542,7 @@ Tensor3x3x3<Coord,LF> Metric2D<Coord>::GetDerivMetric_lll(const int ij)
      d2_g02_lll[ij], d2_g12_lll[ij], d2_g22_lll[ij]);
 }
 template<class Coord>
-Tensor3x3x3<Coord,LF> Metric2D<Coord>::GetDerivMetric_lll(const Coordinate2<Coord>& x12)
+Tensor3x3x3<Coord,LF> Metric<Coord>::GetDerivMetric_lll(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -577,7 +577,7 @@ Tensor3x3x3<Coord,LF> Metric2D<Coord>::GetDerivMetric_lll(const Coordinate2<Coor
 
 
 template<class Coord>
-Tensor3x3x3<Coord,LF> Metric2D<Coord>::GetDerivMetric_luu(const int ij)
+Tensor3x3x3<Coord,LF> Metric<Coord>::GetDerivMetric_luu(const int ij)
 {
     return Tensor3x3x3<Coord,LF>
     (d0_g00_luu[ij], d0_g01_luu[ij], d0_g02_luu[ij],
@@ -593,7 +593,7 @@ Tensor3x3x3<Coord,LF> Metric2D<Coord>::GetDerivMetric_luu(const int ij)
      d2_g02_luu[ij], d2_g12_luu[ij], d2_g22_luu[ij]);
 }
 template<class Coord>
-Tensor3x3x3<Coord,LF> Metric2D<Coord>::GetDerivMetric_luu(const Coordinate2<Coord>& x12)
+Tensor3x3x3<Coord,LF> Metric<Coord>::GetDerivMetric_luu(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -627,7 +627,7 @@ Tensor3x3x3<Coord,LF> Metric2D<Coord>::GetDerivMetric_luu(const Coordinate2<Coor
 }
 
 template<class Coord>
-Tensor3x3<Coord,Tetrad> Metric2D<Coord>::GetTetrad(const int ij)
+Tensor3x3<Coord,Tetrad> Metric<Coord>::GetTetrad(const int ij)
 {
     return Tensor3x3<Coord,Tetrad>
     (tetrad00_ul[ij], tetrad01_ul[ij], tetrad02_ul[ij],
@@ -635,7 +635,7 @@ Tensor3x3<Coord,Tetrad> Metric2D<Coord>::GetTetrad(const int ij)
      tetrad20_ul[ij], tetrad21_ul[ij], tetrad22_ul[ij]);
 }
 template<class Coord>
-Tensor3x3<Coord,Tetrad> Metric2D<Coord>::GetTetrad(const Coordinate2<Coord>& x12)
+Tensor3x3<Coord,Tetrad> Metric<Coord>::GetTetrad(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -657,12 +657,12 @@ Tensor3x3<Coord,Tetrad> Metric2D<Coord>::GetTetrad(const Coordinate2<Coord>& x12
 
 // ADM getters:
 template<class Coord>
-double Metric2D<Coord>::GetAlpha(const int ij)
+double Metric<Coord>::GetAlpha(const int ij)
 {
     return alpha[ij];
 }
 template<class Coord>
-double Metric2D<Coord>::GetAlpha(const Coordinate2<Coord>& x12)
+double Metric<Coord>::GetAlpha(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -673,12 +673,12 @@ double Metric2D<Coord>::GetAlpha(const Coordinate2<Coord>& x12)
 }
 
 template<class Coord>
-Tensor2<Coord,LF> Metric2D<Coord>::GetBeta_u(const int ij)
+Tensor2<Coord,LF> Metric<Coord>::GetBeta_u(const int ij)
 {
     return Tensor2<Coord,LF>(beta1_u[ij],beta2_u[ij]);
 }
 template<class Coord>
-Tensor2<Coord,LF> Metric2D<Coord>::GetBeta_u(const Coordinate2<Coord>& x12)
+Tensor2<Coord,LF> Metric<Coord>::GetBeta_u(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -689,12 +689,12 @@ Tensor2<Coord,LF> Metric2D<Coord>::GetBeta_u(const Coordinate2<Coord>& x12)
 }
 
 template<class Coord>
-Tensor2<Coord,LF> Metric2D<Coord>::GetBeta_l(const int ij)
+Tensor2<Coord,LF> Metric<Coord>::GetBeta_l(const int ij)
 {
     return Tensor2<Coord,LF>(beta1_l[ij],beta2_l[ij]);
 }
 template<class Coord>
-Tensor2<Coord,LF> Metric2D<Coord>::GetBeta_l(const Coordinate2<Coord>& x12)
+Tensor2<Coord,LF> Metric<Coord>::GetBeta_l(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -705,14 +705,14 @@ Tensor2<Coord,LF> Metric2D<Coord>::GetBeta_l(const Coordinate2<Coord>& x12)
 }
 
 template<class Coord>
-Tensor2x2<Coord,LF> Metric2D<Coord>::GetGamma_ll(const int ij)
+Tensor2x2<Coord,LF> Metric<Coord>::GetGamma_ll(const int ij)
 {
     return Tensor2x2<Coord,LF>
     (gamma11_ll[ij],gamma12_ll[ij],
      gamma12_ll[ij],gamma22_ll[ij]);
 }
 template<class Coord>
-Tensor2x2<Coord,LF> Metric2D<Coord>::GetGamma_ll(const Coordinate2<Coord>& x12)
+Tensor2x2<Coord,LF> Metric<Coord>::GetGamma_ll(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -729,14 +729,14 @@ Tensor2x2<Coord,LF> Metric2D<Coord>::GetGamma_ll(const Coordinate2<Coord>& x12)
 }
 
 template<class Coord>
-Tensor2x2<Coord,LF> Metric2D<Coord>::GetGamma_uu(const int ij)
+Tensor2x2<Coord,LF> Metric<Coord>::GetGamma_uu(const int ij)
 {
     return Tensor2x2<Coord,LF>
     (gamma11_uu[ij],gamma12_uu[ij],
      gamma12_uu[ij],gamma22_uu[ij]);
 }
 template<class Coord>
-Tensor2x2<Coord,LF> Metric2D<Coord>::GetGamma_uu(const Coordinate2<Coord>& x12)
+Tensor2x2<Coord,LF> Metric<Coord>::GetGamma_uu(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -753,7 +753,7 @@ Tensor2x2<Coord,LF> Metric2D<Coord>::GetGamma_uu(const Coordinate2<Coord>& x12)
 }
 
 template<class Coord>
-Tensor2x2<Coord,IF> Metric2D<Coord>::GetMinkowskiGamma_ll(const int ij)
+Tensor2x2<Coord,IF> Metric<Coord>::GetMinkowskiGamma_ll(const int ij)
 {
     if constexpr(std::is_same<Coord,xy>::value)
     { return Tensor2x2<Coord,IF>(1,0, 0,1); }
@@ -764,7 +764,7 @@ Tensor2x2<Coord,IF> Metric2D<Coord>::GetMinkowskiGamma_ll(const int ij)
     }
 }
 template<class Coord>
-Tensor2x2<Coord,IF> Metric2D<Coord>::GetMinkowskiGamma_ll(const Coordinate2<Coord>& x12)
+Tensor2x2<Coord,IF> Metric<Coord>::GetMinkowskiGamma_ll(const Coordinate2<Coord>& x12)
 {
     if constexpr(std::is_same<Coord,xy>::value)
     { return Tensor2x2<Coord,IF>(1,0, 0,1); }
@@ -773,7 +773,7 @@ Tensor2x2<Coord,IF> Metric2D<Coord>::GetMinkowskiGamma_ll(const Coordinate2<Coor
 }
 
 template<class Coord>
-Tensor2x2<Coord,IF> Metric2D<Coord>::GetMinkowskiGamma_uu(const int ij)
+Tensor2x2<Coord,IF> Metric<Coord>::GetMinkowskiGamma_uu(const int ij)
 {
     if constexpr(std::is_same<Coord,xy>::value)
     { return Tensor2x2<Coord,IF>(1,0, 0,1); }
@@ -784,7 +784,7 @@ Tensor2x2<Coord,IF> Metric2D<Coord>::GetMinkowskiGamma_uu(const int ij)
     }
 }
 template<class Coord>
-Tensor2x2<Coord,IF> Metric2D<Coord>::GetMinkowskiGamma_uu(const Coordinate2<Coord>& x12)
+Tensor2x2<Coord,IF> Metric<Coord>::GetMinkowskiGamma_uu(const Coordinate2<Coord>& x12)
 {
     if constexpr(std::is_same<Coord,xy>::value)
     { return Tensor2x2<Coord,IF>(1,0, 0,1); }
@@ -793,12 +793,12 @@ Tensor2x2<Coord,IF> Metric2D<Coord>::GetMinkowskiGamma_uu(const Coordinate2<Coor
 }
 
 template<class Coord>
-Tensor2<Coord,LF> Metric2D<Coord>::GetDerivAlpha_l(const int ij)
+Tensor2<Coord,LF> Metric<Coord>::GetDerivAlpha_l(const int ij)
 {
     return Tensor2<Coord,LF>(d1_alpha_l[ij],d2_alpha_l[ij]);
 }
 template<class Coord>
-Tensor2<Coord,LF> Metric2D<Coord>::GetDerivAlpha_l(const Coordinate2<Coord>& x12)
+Tensor2<Coord,LF> Metric<Coord>::GetDerivAlpha_l(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -809,14 +809,14 @@ Tensor2<Coord,LF> Metric2D<Coord>::GetDerivAlpha_l(const Coordinate2<Coord>& x12
 }
 
 template<class Coord>
-Tensor2x2<Coord,LF> Metric2D<Coord>::GetDerivBeta_lu(const int ij)
+Tensor2x2<Coord,LF> Metric<Coord>::GetDerivBeta_lu(const int ij)
 {
     return Tensor2x2<Coord,LF>
     (d1_beta1_lu[ij],d1_beta2_lu[ij],
      d2_beta1_lu[ij],d2_beta2_lu[ij]);
 }
 template<class Coord>
-Tensor2x2<Coord,LF> Metric2D<Coord>::GetDerivBeta_lu(const Coordinate2<Coord>& x12)
+Tensor2x2<Coord,LF> Metric<Coord>::GetDerivBeta_lu(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -831,14 +831,14 @@ Tensor2x2<Coord,LF> Metric2D<Coord>::GetDerivBeta_lu(const Coordinate2<Coord>& x
 }
 
 template<class Coord>
-Tensor2x2<Coord,LF> Metric2D<Coord>::GetDerivBeta_ll(const int ij)
+Tensor2x2<Coord,LF> Metric<Coord>::GetDerivBeta_ll(const int ij)
 {
     return Tensor2x2<Coord,LF>
     (d1_beta1_ll[ij],d1_beta2_ll[ij],
      d2_beta1_ll[ij],d2_beta2_ll[ij]);
 }
 template<class Coord>
-Tensor2x2<Coord,LF> Metric2D<Coord>::GetDerivBeta_ll(const Coordinate2<Coord>& x12)
+Tensor2x2<Coord,LF> Metric<Coord>::GetDerivBeta_ll(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -853,7 +853,7 @@ Tensor2x2<Coord,LF> Metric2D<Coord>::GetDerivBeta_ll(const Coordinate2<Coord>& x
 }
 
 template<class Coord>
-Tensor2x2x2<Coord,LF> Metric2D<Coord>::GetDerivGamma_lll(const int ij)
+Tensor2x2x2<Coord,LF> Metric<Coord>::GetDerivGamma_lll(const int ij)
 {
     return Tensor2x2x2<Coord,LF>
     (d1_gamma11_lll[ij], d1_gamma12_lll[ij],
@@ -862,7 +862,7 @@ Tensor2x2x2<Coord,LF> Metric2D<Coord>::GetDerivGamma_lll(const int ij)
      d2_gamma12_lll[ij], d2_gamma22_lll[ij]);
 }
 template<class Coord>
-Tensor2x2x2<Coord,LF> Metric2D<Coord>::GetDerivGamma_lll(const Coordinate2<Coord>& x12)
+Tensor2x2x2<Coord,LF> Metric<Coord>::GetDerivGamma_lll(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -882,7 +882,7 @@ Tensor2x2x2<Coord,LF> Metric2D<Coord>::GetDerivGamma_lll(const Coordinate2<Coord
 }
 
 template<class Coord>
-Tensor2x2x2<Coord,LF> Metric2D<Coord>::GetDerivGamma_luu(const int ij)
+Tensor2x2x2<Coord,LF> Metric<Coord>::GetDerivGamma_luu(const int ij)
 {
     return Tensor2x2x2<Coord,LF>
     (d1_gamma11_luu[ij], d1_gamma12_luu[ij],
@@ -891,7 +891,7 @@ Tensor2x2x2<Coord,LF> Metric2D<Coord>::GetDerivGamma_luu(const int ij)
      d2_gamma12_luu[ij], d2_gamma22_luu[ij]);
 }
 template<class Coord>
-Tensor2x2x2<Coord,LF> Metric2D<Coord>::GetDerivGamma_luu(const Coordinate2<Coord>& x12)
+Tensor2x2x2<Coord,LF> Metric<Coord>::GetDerivGamma_luu(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -911,14 +911,14 @@ Tensor2x2x2<Coord,LF> Metric2D<Coord>::GetDerivGamma_luu(const Coordinate2<Coord
 }
 
 template<class Coord>
-Tensor2x2<Coord,LF> Metric2D<Coord>::GetExtrCurv_ll(const int ij)
+Tensor2x2<Coord,LF> Metric<Coord>::GetExtrCurv_ll(const int ij)
 {
     return Tensor2x2<Coord,LF>
     (K11_ll[ij],K12_ll[ij],
      K12_ll[ij],K22_ll[ij]);
 }
 template<class Coord>
-Tensor2x2<Coord,LF> Metric2D<Coord>::GetExtrCurv_ll(const Coordinate2<Coord>& x12)
+Tensor2x2<Coord,LF> Metric<Coord>::GetExtrCurv_ll(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-grid.start1)/grid.d1;
     double j = (x12[2]-grid.start2)/grid.d2;
@@ -938,5 +938,5 @@ Tensor2x2<Coord,LF> Metric2D<Coord>::GetExtrCurv_ll(const Coordinate2<Coord>& x1
 
 
 
-template class Metric2D<xy>;
-template class Metric2D<rph>;
+template class Metric<xy>;
+template class Metric<rph>;

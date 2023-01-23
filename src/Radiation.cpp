@@ -19,7 +19,7 @@ std::string StreamingName(int n)
 
 
 template<class Coord>
-Radiation<Coord>::Radiation(Grid2D<Coord>& grid_, Metric2D<Coord>& metric_, Stencil& stencil_, Stencil& fourierStencil_, StreamingType streamingType_):
+Radiation<Coord>::Radiation(Grid<Coord>& grid_, Metric<Coord>& metric_, Stencil& stencil_, Stencil& fourierStencil_, StreamingType streamingType_):
 grid(grid_), metric(metric_), stencil(stencil_), fourierStencil(fourierStencil_), nDir(stencil_.nDir), streamingType(streamingType_)
 {
 	isInitialGridPoint = new bool[grid.n12]();

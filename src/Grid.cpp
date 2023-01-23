@@ -1,9 +1,9 @@
-#include "Grid2D.h"
+#include "Grid.h"
 
-// ------------------------------- Parent Grid2D -------------------------------
+// ------------------------------- Parent Grid -------------------------------
 // ----------- Constructor -----------
 template<class Coord>
-Grid2D<Coord>::Grid2D(const Int2& n, const Coordinate2<Coord>& start, const Coordinate2<Coord>& end) :
+Grid<Coord>::Grid(const Int2& n, const Coordinate2<Coord>& start, const Coordinate2<Coord>& end) :
 n1(n[0]), n2(n[1]), start1(start[1]), start2(start[2]), end1(end[1]), end2(end[2])
 {
     if constexpr(std::is_same<Coord,xy>::value)
@@ -25,10 +25,10 @@ n1(n[0]), n2(n[1]), start1(start[1]), start2(start[2]), end1(end[1]), end2(end[2
     dt  = cfl*std::min(d1,d2);
     n12 = n1*n2;
     if(n1==1 or n2==1)
-        exit_on_error("Grid2D must have at least 2 LP in each Dimension.");
+        exit_on_error("Grid must have at least 2 LP in each Dimension.");
 }
 template<class Coord>
-Grid2D<Coord>::Grid2D(const Grid2D& grid) :
+Grid<Coord>::Grid(const Grid& grid) :
 n1(grid.n1), n2(grid.n2), start1(grid.start1), start2(grid.start2), end1(grid.end1), end2(grid.end2)
 {
     d1 = (end1-start1) / (n1-1);
@@ -39,26 +39,26 @@ n1(grid.n1), n2(grid.n2), start1(grid.start1), start2(grid.start2), end1(grid.en
 // -----------------------------------
 
 template<class Coord>
-void Grid2D<Coord>::SetCFL(double cfl_)
+void Grid<Coord>::SetCFL(double cfl_)
 {
     cfl = cfl_;
     dt = cfl*std::min(d1,d2);
 }
 
-// ---------- Grid2D Access ----------
+// ---------- Grid Access ----------
 template<class Coord>
-int Grid2D<Coord>::Grid2D::Index(int i, int j)
+int Grid<Coord>::Grid::Index(int i, int j)
 {
     return i + j*n1;
 }
 template<class Coord>
-int Grid2D<Coord>::Index(int i, int j, int d)
+int Grid<Coord>::Index(int i, int j, int d)
 {
     return i + j*n1 + d*n12;
 }
 
 template<class Coord>
-double Grid2D<Coord>::xCoord(double i, double j)
+double Grid<Coord>::xCoord(double i, double j)
 {
     if constexpr(std::is_same<Coord,xy>::value)
         return start1 + i*d1;
@@ -70,7 +70,7 @@ double Grid2D<Coord>::xCoord(double i, double j)
     }
 }
 template<class Coord>
-double Grid2D<Coord>::yCoord(double i, double j)
+double Grid<Coord>::yCoord(double i, double j)
 {
     if constexpr(std::is_same<Coord,xy>::value)
         return start2 + j*d2;
@@ -82,7 +82,7 @@ double Grid2D<Coord>::yCoord(double i, double j)
     }
 }
 template<class Coord>
-double Grid2D<Coord>::rCoord(double i, double j)
+double Grid<Coord>::rCoord(double i, double j)
 {
     if constexpr(std::is_same<Coord,xy>::value)
     {
@@ -94,7 +94,7 @@ double Grid2D<Coord>::rCoord(double i, double j)
         return start1 + i*d1;
 }
 template<class Coord>
-double Grid2D<Coord>::rCoord(int ij)
+double Grid<Coord>::rCoord(int ij)
 {
     int i = ij % n1;
     int j = ij / n1;
@@ -108,7 +108,7 @@ double Grid2D<Coord>::rCoord(int ij)
         return start1 + i*d1;
 }
 template<class Coord>
-double Grid2D<Coord>::phCoord(double i, double j)
+double Grid<Coord>::phCoord(double i, double j)
 {
     if constexpr(std::is_same<Coord,xy>::value)
     {
@@ -120,17 +120,17 @@ double Grid2D<Coord>::phCoord(double i, double j)
         return start2 + j*d2;
 }
 template<class Coord>
-double Grid2D<Coord>::x1Coord(double i, double j)
+double Grid<Coord>::x1Coord(double i, double j)
 {
     return start1 + i*d1;
 }
 template<class Coord>
-double Grid2D<Coord>::x2Coord(double i, double j)
+double Grid<Coord>::x2Coord(double i, double j)
 {
     return start2 + j*d2;
 }
 template<class Coord>
-Coordinate2<xy> Grid2D<Coord>::xyCoord(double i, double j)
+Coordinate2<xy> Grid<Coord>::xyCoord(double i, double j)
 {
     if constexpr(std::is_same<Coord,xy>::value)
         return Coordinate2<xy>(start1 + i*d1, start2 + j*d2);
@@ -142,7 +142,7 @@ Coordinate2<xy> Grid2D<Coord>::xyCoord(double i, double j)
     }
 }
 template<class Coord>
-Coordinate2<rph> Grid2D<Coord>::rphCoord(double i, double j)
+Coordinate2<rph> Grid<Coord>::rphCoord(double i, double j)
 {
     if constexpr(std::is_same<Coord,xy>::value)
     {
@@ -154,29 +154,29 @@ Coordinate2<rph> Grid2D<Coord>::rphCoord(double i, double j)
         return Coordinate2<rph>(start1 + i*d1, start2 + j*d2);
 }
 template<class Coord>
-Coordinate2<Coord> Grid2D<Coord>::x12Coord(double i, double j)
+Coordinate2<Coord> Grid<Coord>::x12Coord(double i, double j)
 {
     return Coordinate2<Coord>(start1 + i*d1, start2 + j*d2);
 }
 template<class Coord>
-double Grid2D<Coord>::i(double x1)
+double Grid<Coord>::i(double x1)
 {
     return (x1-start1)/d1;
 }
 template<class Coord>
-double Grid2D<Coord>::j(double x2)
+double Grid<Coord>::j(double x2)
 {
     return (x2-start2)/d2;
 }
 template<class Coord>
-Double2 Grid2D<Coord>::ij(double x1, double x2)
+Double2 Grid<Coord>::ij(double x1, double x2)
 {
     double i = (x1-start1)/d1;
     double j = (x2-start2)/d2;
     return Double2(i,j);
 }
 template<class Coord>
-Double2 Grid2D<Coord>::ij(const Coordinate2<Coord>& x12)
+Double2 Grid<Coord>::ij(const Coordinate2<Coord>& x12)
 {
     double i = (x12[1]-start1)/d1;
     double j = (x12[2]-start2)/d2;
@@ -187,7 +187,7 @@ Double2 Grid2D<Coord>::ij(const Coordinate2<Coord>& x12)
 
 
 template<class Coord>
-double Grid2D<Coord>::Integrate(double* values)
+double Grid<Coord>::Integrate(double* values)
 {
     double integral = 0;
     if constexpr(std::is_same<Coord,xy>::value)
@@ -216,14 +216,14 @@ double Grid2D<Coord>::Integrate(double* values)
 
 // ----------- Domain Cheks ----------
 template<class Coord>
-bool Grid2D<Coord>::OutsideDomain(const Coordinate2<Coord>& x12)
+bool Grid<Coord>::OutsideDomain(const Coordinate2<Coord>& x12)
 {
     return
     x12[1]>end1 or x12[1]<start1 or
     x12[2]>end2 or x12[2]<start2;
 }
 template<class Coord>
-bool Grid2D<Coord>::OutsideDomain(const int i, const int j)
+bool Grid<Coord>::OutsideDomain(const int i, const int j)
 {
     return
     i>n1-1 or i<0 or
@@ -234,7 +234,7 @@ bool Grid2D<Coord>::OutsideDomain(const int i, const int j)
 
 // ---------------- IO ---------------
 template<class Coord>
-void Grid2D<Coord>::WriteFrametoJson
+void Grid<Coord>::WriteFrametoJson
 (float time, double* r, double* g, double* b, double* a,
  int frameNumber, std::string directory, std::string name)
 {
@@ -299,5 +299,5 @@ void Grid2D<Coord>::WriteFrametoJson
 
 
 
-template class Grid2D<xy>;
-template class Grid2D<rph>;
+template class Grid<xy>;
+template class Grid<rph>;

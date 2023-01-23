@@ -3,7 +3,7 @@
 
 
 template<class Coord>
-double Dnu(const double nu, const Coordinate2<Coord>& x, const Tensor2<Coord,LF>& v, Metric2D<Coord>& metric)
+double Dnu(const double nu, const Coordinate2<Coord>& x, const Tensor2<Coord,LF>& v, Metric<Coord>& metric)
 {
     // Vincent, Gourgoulhon, Novak 2012
     double alpha = metric.GetAlpha(x);
@@ -21,7 +21,7 @@ double Dnu(const double nu, const Coordinate2<Coord>& x, const Tensor2<Coord,LF>
     return dnu;
 }
 template<class Coord>
-Tensor2<Coord,LF> Dx(const Coordinate2<Coord>& x, const Tensor2<Coord,LF>& v, Metric2D<Coord>& metric)
+Tensor2<Coord,LF> Dx(const Coordinate2<Coord>& x, const Tensor2<Coord,LF>& v, Metric<Coord>& metric)
 {
     // Vincent, Gourgoulhon, Novak 2012     evolves 3 velocity measured by eulerian observer v^mu, p^mu = nu(n^mu+v^mu)
     double alpha = metric.GetAlpha(x);
@@ -32,7 +32,7 @@ Tensor2<Coord,LF> Dx(const Coordinate2<Coord>& x, const Tensor2<Coord,LF>& v, Me
     return dx;
 }
 template<class Coord>
-Tensor2<Coord,LF> Dv(const Coordinate2<Coord>& x, const Tensor2<Coord,LF>& v, Metric2D<Coord>& metric)
+Tensor2<Coord,LF> Dv(const Coordinate2<Coord>& x, const Tensor2<Coord,LF>& v, Metric<Coord>& metric)
 {
     // Vincent, Gourgoulhon, Novak 2012     evolves 3 velocity measured by eulerian observer v^mu, p^mu = nu(n^mu+v^mu)
     double alpha = metric.GetAlpha(x);
@@ -57,7 +57,7 @@ Tensor2<Coord,LF> Dv(const Coordinate2<Coord>& x, const Tensor2<Coord,LF>& v, Me
 }
 
 template<int direction, class Coord>
-double Euler_GeodesicEquation(double dt, Coordinate2<Coord>& x, Tensor2<Coord,LF>& v, Metric2D<Coord>& metric)
+double Euler_GeodesicEquation(double dt, Coordinate2<Coord>& x, Tensor2<Coord,LF>& v, Metric<Coord>& metric)
 {
     // nu0 = 1, s = nu/nu0 = nu.
     int N = 2;
@@ -80,7 +80,7 @@ double Euler_GeodesicEquation(double dt, Coordinate2<Coord>& x, Tensor2<Coord,LF
 
 constexpr double maxTE = 1e-6;
 template<int direction, class Coord>
-double RK45_GeodesicEquation(double dt, Coordinate2<Coord>& x, Tensor2<Coord,LF>& v, Metric2D<Coord>& metric)
+double RK45_GeodesicEquation(double dt, Coordinate2<Coord>& x, Tensor2<Coord,LF>& v, Metric<Coord>& metric)
 {
     Tensor2<Coord,LF> k1x, k2x, k3x, k4x, k5x, k6x;
     Tensor2<Coord,LF> k1v, k2v, k3v, k4v, k5v, k6v;
@@ -198,12 +198,12 @@ double RK45_GeodesicEquation(double dt, Coordinate2<Coord>& x, Tensor2<Coord,LF>
 
 
 // Template decleration:
-template double RK45_GeodesicEquation < 1,xy >    (double dt, Coordinate2<xy>&  x, Tensor2<xy,LF>&  v, Metric2D<xy>&  metric);
-template double RK45_GeodesicEquation < 1,rph>    (double dt, Coordinate2<rph>& x, Tensor2<rph,LF>& v, Metric2D<rph>& metric);
-template double RK45_GeodesicEquation <-1,xy >    (double dt, Coordinate2<xy>&  x, Tensor2<xy,LF>&  v, Metric2D<xy>&  metric);
-template double RK45_GeodesicEquation <-1,rph>    (double dt, Coordinate2<rph>& x, Tensor2<rph,LF>& v, Metric2D<rph>& metric);
+template double RK45_GeodesicEquation < 1,xy >    (double dt, Coordinate2<xy>&  x, Tensor2<xy,LF>&  v, Metric<xy>&  metric);
+template double RK45_GeodesicEquation < 1,rph>    (double dt, Coordinate2<rph>& x, Tensor2<rph,LF>& v, Metric<rph>& metric);
+template double RK45_GeodesicEquation <-1,xy >    (double dt, Coordinate2<xy>&  x, Tensor2<xy,LF>&  v, Metric<xy>&  metric);
+template double RK45_GeodesicEquation <-1,rph>    (double dt, Coordinate2<rph>& x, Tensor2<rph,LF>& v, Metric<rph>& metric);
 
-template double Euler_GeodesicEquation< 1,xy >    (double dt, Coordinate2<xy>&  x, Tensor2<xy,LF>&  v, Metric2D<xy>&  metric);
-template double Euler_GeodesicEquation< 1,rph>    (double dt, Coordinate2<rph>& x, Tensor2<rph,LF>& v, Metric2D<rph>& metric);
-template double Euler_GeodesicEquation<-1,xy >    (double dt, Coordinate2<xy>&  x, Tensor2<xy,LF>&  v, Metric2D<xy>&  metric);
-template double Euler_GeodesicEquation<-1,rph>    (double dt, Coordinate2<rph>& x, Tensor2<rph,LF>& v, Metric2D<rph>& metric);
+template double Euler_GeodesicEquation< 1,xy >    (double dt, Coordinate2<xy>&  x, Tensor2<xy,LF>&  v, Metric<xy>&  metric);
+template double Euler_GeodesicEquation< 1,rph>    (double dt, Coordinate2<rph>& x, Tensor2<rph,LF>& v, Metric<rph>& metric);
+template double Euler_GeodesicEquation<-1,xy >    (double dt, Coordinate2<xy>&  x, Tensor2<xy,LF>&  v, Metric<xy>&  metric);
+template double Euler_GeodesicEquation<-1,rph>    (double dt, Coordinate2<rph>& x, Tensor2<rph,LF>& v, Metric<rph>& metric);

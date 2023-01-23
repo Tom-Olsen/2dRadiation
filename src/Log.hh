@@ -1,7 +1,7 @@
 #ifndef __INCLUDE_GUARD_Log_hh__
 #define __INCLUDE_GUARD_Log_hh__
 #include <math.h>
-#include "Metric2D.h"
+#include "Metric.h"
 #include "Stencil.hh"
 
 
@@ -15,7 +15,7 @@ public:
     float simTime;
     Stencil& stencil;
     Stencil& fourierStencil;
-    Metric2D<Coord>& metric;
+    Metric<Coord>& metric;
 
     // Data management:
     std::string name;
@@ -24,7 +24,7 @@ public:
     std::vector<std::string> timeNames;
     std::vector<double> timeMeasurements;
 
-    Log(std::string name_, double simTime_, Stencil& stencil_, Stencil& fourierStencil_, Metric2D<Coord>& metric_) :
+    Log(std::string name_, double simTime_, Stencil& stencil_, Stencil& fourierStencil_, Metric<Coord>& metric_) :
     name(name_), stencil(stencil_), fourierStencil(fourierStencil_), metric(metric_)
     {
         // Derived from simulation parameters:

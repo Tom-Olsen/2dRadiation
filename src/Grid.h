@@ -1,5 +1,5 @@
-#ifndef __INCLUDE_GUARD_Grid2D_h__
-#define __INCLUDE_GUARD_Grid2D_h__
+#ifndef __INCLUDE_GUARD_Grid_h__
+#define __INCLUDE_GUARD_Grid_h__
 #include <iomanip>              // std::setprecision
 #include <fstream>              // file input/output
 #include <jsoncpp/json/json.h>  // everything about json files
@@ -11,7 +11,7 @@
 
 
 template<class Coord>
-class Grid2D
+class Grid
 {
 public:
     // Members:
@@ -28,14 +28,14 @@ public:
     double end2;
 
     // Constructors:
-    Grid2D() = delete;
-    Grid2D(const Int2& n, const Coordinate2<Coord>& start, const Coordinate2<Coord>& end);
-    Grid2D(const Grid2D& grid);
+    Grid() = delete;
+    Grid(const Int2& n, const Coordinate2<Coord>& start, const Coordinate2<Coord>& end);
+    Grid(const Grid& grid);
 
     // Setters:
     void SetCFL(double cfl_);
 
-    // Grid2D Access Tools:
+    // Grid Access Tools:
     int Index(int i, int j);
     int Index(int i, int j, int d);
     double xCoord(double i, double j);
@@ -70,7 +70,7 @@ public:
 // Inlined header version:
 /*
 template<class Coord>
-class Grid2D
+class Grid
 {
 public:
     // Members:
@@ -87,8 +87,8 @@ public:
     double end2;
 
     // Constructors:
-    Grid2D() = delete;
-    Grid2D(const Int2& n, const Coordinate2<Coord>& start, const Coordinate2<Coord>& end) :
+    Grid() = delete;
+    Grid(const Int2& n, const Coordinate2<Coord>& start, const Coordinate2<Coord>& end) :
     n1(n[0]), n2(n[1]), start1(start[1]), start2(start[2]), end1(end[1]), end2(end[2])
     {
        if constexpr(std::is_same<Coord,xy>::value)
@@ -110,9 +110,9 @@ public:
        dt  = cfl*std::min(d1,d2);
        n12 = n1*n2;
        if(n1==1 or n2==1)
-           exit_on_error("Grid2D must have at least 2 LP in each Dimension.");
+           exit_on_error("Grid must have at least 2 LP in each Dimension.");
     }
-    Grid2D(const Grid2D& grid) :
+    Grid(const Grid& grid) :
     n1(grid.n1), n2(grid.n2), start1(grid.start1), start2(grid.start2), end1(grid.end1), end2(grid.end2)
     {
         d1 = (end1-start1) / (n1-1);
@@ -315,4 +315,4 @@ public:
 };
 */
 
-#endif //__INCLUDE_GUARD_Grid2D_h__
+#endif //__INCLUDE_GUARD_Grid_h__

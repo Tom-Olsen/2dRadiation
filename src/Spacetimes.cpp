@@ -2,7 +2,7 @@
 
 // ------------------------------ Minkowski ------------------------------
 template<class Coord>
-Minkowski<Coord>::Minkowski(Grid2D<Coord>& grid_, double m_, double a_) : Metric2D<Coord>(grid_, m_, a_)
+Minkowski<Coord>::Minkowski(Grid<Coord>& grid_, double m_, double a_) : Metric<Coord>(grid_, m_, a_)
 {
     this->InitializeMetricOnGrid();
     this->InitializeMetricDerivativesOnGrid();
@@ -41,7 +41,7 @@ Tensor3x3<Coord,LF> Minkowski<Coord>::MetricFunction(Coordinate2<Coord> x)
 
 // ------------------------------ SchwarzSchild ------------------------------
 template<class Coord>
-SchwarzSchild<Coord>::SchwarzSchild(Grid2D<Coord>& grid_, double m_, double a_) : Metric2D<Coord>(grid_, m_, a_)
+SchwarzSchild<Coord>::SchwarzSchild(Grid<Coord>& grid_, double m_, double a_) : Metric<Coord>(grid_, m_, a_)
 {
     this->InitializeMetricOnGrid();
     this->InitializeMetricDerivativesOnGrid();
@@ -109,7 +109,7 @@ Tensor3x3<Coord,LF> SchwarzSchild<Coord>::MetricFunction(Coordinate2<Coord> x)
 
 // ------------------------------ KerrSchild ------------------------------
 template<class Coord>
-KerrSchild<Coord>::KerrSchild(Grid2D<Coord>& grid_, double m_, double a_) : Metric2D<Coord>(grid_, m_, a_)
+KerrSchild<Coord>::KerrSchild(Grid<Coord>& grid_, double m_, double a_) : Metric<Coord>(grid_, m_, a_)
 {
     this->InitializeMetricOnGrid();
     this->InitializeMetricDerivativesOnGrid();

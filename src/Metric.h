@@ -1,20 +1,20 @@
-#ifndef __INCLUDE_GUARD_Metric2D_h__
-#define __INCLUDE_GUARD_Metric2D_h__
+#ifndef __INCLUDE_GUARD_Metric_h__
+#define __INCLUDE_GUARD_Metric_h__
 #include <string>
 #include "ControlFlow.hh"       // used for template arguments
 #include "Utility.hh"           // basic utility functions
 #include "TensorTypes.hh"       // simple containers for rank 1-3 tensors
-#include "Grid2D.h"             // underlying numerical Grid
+#include "Grid.h"             // underlying numerical Grid
 #include "Interpolation.hh"     // biilinear interpolation
 
 
 
 template<class Coord>
-class Metric2D
+class Metric
 {
 public:
     // Grid Data:
-    Grid2D<Coord>& grid;
+    Grid<Coord>& grid;
     double m = 1.0;
     double a = 0.0;
 
@@ -68,9 +68,9 @@ public:
 
 public:
     // Constructors/Destructor:
-    Metric2D(Grid2D<Coord>& grid_, double m_, double a_);
-    //Metric2D(const Metric2D& metric);
-    ~Metric2D();
+    Metric(Grid<Coord>& grid_, double m_, double a_);
+    //Metric(const Metric& metric);
+    ~Metric();
 
     virtual std::string Name();
 
@@ -137,4 +137,4 @@ public:
     Tensor2x2<Coord,LF> GetExtrCurv_ll(const int ij);
     Tensor2x2<Coord,LF> GetExtrCurv_ll(const Coordinate2<Coord>& x12);
 };
-#endif //__INCLUDE_GUARD_Metric2D_h__
+#endif //__INCLUDE_GUARD_Metric_h__

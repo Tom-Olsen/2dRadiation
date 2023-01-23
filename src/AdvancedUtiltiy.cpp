@@ -2,7 +2,7 @@
 
 
 template<class Coord, class FrameIn, class FrameOut>
-Tensor2<Coord,FrameOut> Vec2ObservedByEulObs(const Tensor3<Coord,FrameIn>& u, const Coordinate2<Coord>& x, Metric2D<Coord>& metric)
+Tensor2<Coord,FrameOut> Vec2ObservedByEulObs(const Tensor3<Coord,FrameIn>& u, const Coordinate2<Coord>& x, Metric<Coord>& metric)
 {
     if constexpr(std::is_same<FrameIn,IF>::value && std::is_same<FrameOut,IF>::value)
     {
@@ -30,11 +30,11 @@ Tensor2<Coord,FrameOut> Vec2ObservedByEulObs(const Tensor3<Coord,FrameIn>& u, co
     }
 }
 
-template Tensor2<xy,IF> Vec2ObservedByEulObs(const Tensor3<xy,IF>& u, const Coordinate2<xy>& x, Metric2D<xy>& metric);
-template Tensor2<xy,IF> Vec2ObservedByEulObs(const Tensor3<xy,LF>& u, const Coordinate2<xy>& x, Metric2D<xy>& metric);
-template Tensor2<xy,LF> Vec2ObservedByEulObs(const Tensor3<xy,IF>& u, const Coordinate2<xy>& x, Metric2D<xy>& metric);
-template Tensor2<xy,LF> Vec2ObservedByEulObs(const Tensor3<xy,LF>& u, const Coordinate2<xy>& x, Metric2D<xy>& metric);
-template Tensor2<rph,IF> Vec2ObservedByEulObs(const Tensor3<rph,IF>& u, const Coordinate2<rph>& x, Metric2D<rph>& metric);
-template Tensor2<rph,IF> Vec2ObservedByEulObs(const Tensor3<rph,LF>& u, const Coordinate2<rph>& x, Metric2D<rph>& metric);
-template Tensor2<rph,LF> Vec2ObservedByEulObs(const Tensor3<rph,IF>& u, const Coordinate2<rph>& x, Metric2D<rph>& metric);
-template Tensor2<rph,LF> Vec2ObservedByEulObs(const Tensor3<rph,LF>& u, const Coordinate2<rph>& x, Metric2D<rph>& metric);
+template Tensor2<xy,IF> Vec2ObservedByEulObs(const Tensor3<xy,IF>& u, const Coordinate2<xy>& x, Metric<xy>& metric);
+template Tensor2<xy,IF> Vec2ObservedByEulObs(const Tensor3<xy,LF>& u, const Coordinate2<xy>& x, Metric<xy>& metric);
+template Tensor2<xy,LF> Vec2ObservedByEulObs(const Tensor3<xy,IF>& u, const Coordinate2<xy>& x, Metric<xy>& metric);
+template Tensor2<xy,LF> Vec2ObservedByEulObs(const Tensor3<xy,LF>& u, const Coordinate2<xy>& x, Metric<xy>& metric);
+template Tensor2<rph,IF> Vec2ObservedByEulObs(const Tensor3<rph,IF>& u, const Coordinate2<rph>& x, Metric<rph>& metric);
+template Tensor2<rph,IF> Vec2ObservedByEulObs(const Tensor3<rph,LF>& u, const Coordinate2<rph>& x, Metric<rph>& metric);
+template Tensor2<rph,LF> Vec2ObservedByEulObs(const Tensor3<rph,IF>& u, const Coordinate2<rph>& x, Metric<rph>& metric);
+template Tensor2<rph,LF> Vec2ObservedByEulObs(const Tensor3<rph,LF>& u, const Coordinate2<rph>& x, Metric<rph>& metric);
