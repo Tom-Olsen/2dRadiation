@@ -1,15 +1,10 @@
 # Obj files:
 *.o
 
+# Binaries:
+*.out
+
 # Output folder:
 output/
 KerrSchild Error/
 SchwarzSchild Error/
-
-# Binaries:
-paper
-test
-main
-eigen
-tests/testStencil
-tests/testMetric2D

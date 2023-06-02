@@ -16,6 +16,11 @@ class Tetrad {}; // the tetrad is actually a mixed tensor having one IF and one 
 
 
 
+// Output Directory:
+#define OUTPUTDIR (std::string)"/mnt/ceph/tolsen/2dRadiation/output/"
+
+
+
 // Inlining:
 #define INLINING 0
 #if INLINING

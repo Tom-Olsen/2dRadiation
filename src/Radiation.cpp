@@ -837,7 +837,7 @@ void Radiation<Coord>::RunSimulation(RunParameters params)
 			if (params.writeData && (n % params.writeFrequency) == 0)
 			{
 				ComputeMomentsLF();
-				grid.WriteFrametoJson(n*grid.dt,E_LF,Fx_LF,Fy_LF,Fnorm_LF,n,logger.directoryPath + "/Moments");
+				grid.WriteFrametoCsv(n*grid.dt,E_LF,Fx_LF,Fy_LF,Fnorm_LF,n,logger.directoryPath + "/Moments");
 			}
 
 			if (params.updateFourierHarmonics)
@@ -859,7 +859,7 @@ void Radiation<Coord>::RunSimulation(RunParameters params)
 		}
 	
 		if (params.writeData)
-		{ grid.WriteFrametoJson(timeSteps*grid.dt,E_LF,Fx_LF,Fy_LF,Fnorm_LF,timeSteps,logger.directoryPath + "/Moments"); }
+		{ grid.WriteFrametoCsv(timeSteps*grid.dt,E_LF,Fx_LF,Fy_LF,Fnorm_LF,timeSteps,logger.directoryPath + "/Moments"); }
 	}
 	// --------------------------------------------------------
 	session.End();

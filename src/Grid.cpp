@@ -234,65 +234,34 @@ bool Grid<Coord>::OutsideDomain(const int i, const int j)
 
 // ---------------- IO ---------------
 template<class Coord>
-void Grid<Coord>::WriteFrametoJson
+void Grid<Coord>::WriteFrametoCsv
 (float time, double* r, double* g, double* b, double* a,
  int frameNumber, std::string directory, std::string name)
 {
-    PROFILE_FUNCTION();
-    // main body:
-    Json::Value jsonData;
-
-    // primitive types:
-    if constexpr(std::is_same<Coord,xy>::value)
-        jsonData["meshType"] = 0;
-    if constexpr(std::is_same<Coord,rph>::value)
-        jsonData["meshType"] = 1;
-    jsonData["time"] = time;
-
-    // arrays:
-    Json::Value colors(Json::arrayValue);
-    for(int ij=0; ij<n12; ij++)
-    {
-        Json::Value Color;
-        Color["r"] = r[ij];
-        Color["g"] = g[ij];
-        Color["b"] = b[ij];
-        Color["a"] = a[ij];
-        colors.append(Color);
-    }
-    jsonData["colors"] = colors;
-
-    // structs:
-    Json::Value start;
-    start["x"] = start1;
-    start["y"] = start2;
-    jsonData["start"] = start;
-    
-    Json::Value end;
-    end["x"] = end1;
-    end["y"] = end2;
-    jsonData["end"] = end;
-    
-    Json::Value resolution;
-    resolution["x"] = n1;
-    resolution["y"] = n2;
-    jsonData["resolution"] = resolution;
-    
-    // write json to file:
-    // TODO: check if directory exists and dont create it if not necessary
+	PROFILE_FUNCTION();
     CreateDirectory(directory);
-    if(name == "")
+    
+    name = (name == "") ? "data" :  name;
+    std::ofstream fileOut(directory + "/" + name + "_" + FrameNumber(frameNumber) + "_" + std::to_string(n1) + "x" + std::to_string(n2) + "y" + ".csv");
+    
+    fileOut << "#nx=" << n1 << "\n";
+    fileOut << "#ny=" << n2 << "\n";
+    fileOut << "#startx=" << start1 << "\n";
+    fileOut << "#starty=" << start2 << "\n";
+    fileOut << "#endx=" << end1 << "\n";
+    fileOut << "#endy=" << end2 << "\n";
+    fileOut << "#x,y,r,g,b,a\n";
+
+    for(size_t j=0; j<n2; j++)
+    for(size_t i=0; i<n1; i++)
     {
-        std::ofstream fileOut(directory + "/data" + FrameNumber(frameNumber) + ".json");
-        fileOut << jsonData;
-        fileOut.close();
+        int ij = Index(i,j);
+        Coordinate2<xy> x = xyCoord(i,j);
+        fileOut << x[1]   << "," << x[2]   << ",";
+        fileOut << r[ij] << "," << g[ij] << "," << b[ij] << "," << a[ij] << "\n";
     }
-    else
-    {
-        std::ofstream fileOut(directory + "/" + name + ".json");
-        fileOut << jsonData;
-        fileOut.close();
-    }
+
+    fileOut.close();
 }
 // -----------------------------------
 // ---------------------------------------------------------------------------

@@ -1,0 +1,4 @@
+/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/main.out.dir
+/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/test.out.dir
+/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/edit_cache.dir
+/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/rebuild_cache.dir

@@ -39,7 +39,7 @@ public:
 	    date = oss.str();
 
 	    // File system overhead:
-	    directoryPath = "output/" + name;
+	    directoryPath = OUTPUTDIR + name;
 	    if(!CreateDirectory(directoryPath))
 	    	double a = 0;
 	    	// exit_on_error("Failed to create output directory.");
