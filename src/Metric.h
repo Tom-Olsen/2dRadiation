@@ -1,140 +1,139 @@
 #ifndef __INCLUDE_GUARD_Metric_h__
 #define __INCLUDE_GUARD_Metric_h__
-#include <string>
-#include "ControlFlow.hh"       // used for template arguments
-#include "Utility.hh"           // basic utility functions
-#include "TensorTypes.hh"       // simple containers for rank 1-3 tensors
-#include "Grid.h"             // underlying numerical Grid
-#include "Interpolation.hh"     // biilinear interpolation
+#include "Grid.h"           // Numerical Grid and mapping to physical domain.
+#include "Interpolation.h"  // Basic interpolation schemes.
 
 
 
-template<class Coord>
 class Metric
 {
 public:
     // Grid Data:
-    Grid<Coord>& grid;
+    Grid& grid;
     double m = 1.0;
     double a = 0.0;
 
 // protected:
 public:
     // Metrik Data:
-    double* g00_ll;    double* g00_uu;
-    double* g01_ll;    double* g01_uu;
-    double* g02_ll;    double* g02_uu;
-    double* g11_ll;    double* g11_uu;
-    double* g12_ll;    double* g12_uu;
-    double* g22_ll;    double* g22_uu;
-    double* d0_g00_lll;    double* d1_g00_lll;    double* d2_g00_lll;
-    double* d0_g01_lll;    double* d1_g01_lll;    double* d2_g01_lll;
-    double* d0_g02_lll;    double* d1_g02_lll;    double* d2_g02_lll;
-    double* d0_g11_lll;    double* d1_g11_lll;    double* d2_g11_lll;
-    double* d0_g12_lll;    double* d1_g12_lll;    double* d2_g12_lll;
-    double* d0_g22_lll;    double* d1_g22_lll;    double* d2_g22_lll;
-    double* d0_g00_luu;    double* d1_g00_luu;    double* d2_g00_luu;
-    double* d0_g01_luu;    double* d1_g01_luu;    double* d2_g01_luu;
-    double* d0_g02_luu;    double* d1_g02_luu;    double* d2_g02_luu;
-    double* d0_g11_luu;    double* d1_g11_luu;    double* d2_g11_luu;
-    double* d0_g12_luu;    double* d1_g12_luu;    double* d2_g12_luu;
-    double* d0_g22_luu;    double* d1_g22_luu;    double* d2_g22_luu;
+    RealBuffer g00_ll;    RealBuffer g00_uu;
+    RealBuffer g01_ll;    RealBuffer g01_uu;
+    RealBuffer g02_ll;    RealBuffer g02_uu;
+    RealBuffer g11_ll;    RealBuffer g11_uu;
+    RealBuffer g12_ll;    RealBuffer g12_uu;
+    RealBuffer g22_ll;    RealBuffer g22_uu;
+    RealBuffer d0_g00_lll;    RealBuffer d1_g00_lll;    RealBuffer d2_g00_lll;
+    RealBuffer d0_g01_lll;    RealBuffer d1_g01_lll;    RealBuffer d2_g01_lll;
+    RealBuffer d0_g02_lll;    RealBuffer d1_g02_lll;    RealBuffer d2_g02_lll;
+    RealBuffer d0_g11_lll;    RealBuffer d1_g11_lll;    RealBuffer d2_g11_lll;
+    RealBuffer d0_g12_lll;    RealBuffer d1_g12_lll;    RealBuffer d2_g12_lll;
+    RealBuffer d0_g22_lll;    RealBuffer d1_g22_lll;    RealBuffer d2_g22_lll;
+    RealBuffer d0_g00_luu;    RealBuffer d1_g00_luu;    RealBuffer d2_g00_luu;
+    RealBuffer d0_g01_luu;    RealBuffer d1_g01_luu;    RealBuffer d2_g01_luu;
+    RealBuffer d0_g02_luu;    RealBuffer d1_g02_luu;    RealBuffer d2_g02_luu;
+    RealBuffer d0_g11_luu;    RealBuffer d1_g11_luu;    RealBuffer d2_g11_luu;
+    RealBuffer d0_g12_luu;    RealBuffer d1_g12_luu;    RealBuffer d2_g12_luu;
+    RealBuffer d0_g22_luu;    RealBuffer d1_g22_luu;    RealBuffer d2_g22_luu;
     // ADM Data:
-    double* alpha;
-    double* beta1_u;    double* beta1_l;
-    double* beta2_u;    double* beta2_l;
-    double* gamma11_ll;    double* gamma11_uu;
-    double* gamma12_ll;    double* gamma12_uu;
-    double* gamma22_ll;    double* gamma22_uu;
-    double* d1_alpha_l;
-    double* d2_alpha_l;
-    double* d1_beta1_lu;    double* d1_beta2_lu;
-    double* d2_beta1_lu;    double* d2_beta2_lu;
-    double* d1_beta1_ll;    double* d1_beta2_ll;
-    double* d2_beta1_ll;    double* d2_beta2_ll;
-    double* d1_gamma11_lll;    double* d2_gamma11_lll;
-    double* d1_gamma12_lll;    double* d2_gamma12_lll;
-    double* d1_gamma22_lll;    double* d2_gamma22_lll;
-    double* d1_gamma11_luu;    double* d2_gamma11_luu;
-    double* d1_gamma12_luu;    double* d2_gamma12_luu;
-    double* d1_gamma22_luu;    double* d2_gamma22_luu;
-    double* K11_ll;
-    double* K12_ll;
-    double* K22_ll;
+    RealBuffer alpha;
+    RealBuffer beta1_u;    RealBuffer beta1_l;
+    RealBuffer beta2_u;    RealBuffer beta2_l;
+    RealBuffer gamma11_ll;    RealBuffer gamma11_uu;
+    RealBuffer gamma12_ll;    RealBuffer gamma12_uu;
+    RealBuffer gamma22_ll;    RealBuffer gamma22_uu;
+    RealBuffer d1_alpha_l;
+    RealBuffer d2_alpha_l;
+    RealBuffer d1_beta1_lu;    RealBuffer d1_beta2_lu;
+    RealBuffer d2_beta1_lu;    RealBuffer d2_beta2_lu;
+    RealBuffer d1_beta1_ll;    RealBuffer d1_beta2_ll;
+    RealBuffer d2_beta1_ll;    RealBuffer d2_beta2_ll;
+    RealBuffer d1_gamma11_lll;    RealBuffer d2_gamma11_lll;
+    RealBuffer d1_gamma12_lll;    RealBuffer d2_gamma12_lll;
+    RealBuffer d1_gamma22_lll;    RealBuffer d2_gamma22_lll;
+    RealBuffer d1_gamma11_luu;    RealBuffer d2_gamma11_luu;
+    RealBuffer d1_gamma12_luu;    RealBuffer d2_gamma12_luu;
+    RealBuffer d1_gamma22_luu;    RealBuffer d2_gamma22_luu;
+    RealBuffer K11_ll;
+    RealBuffer K12_ll;
+    RealBuffer K22_ll;
     // Tetrad Data:
-    double* tetrad00_ul;    double* tetrad01_ul;    double* tetrad02_ul;
-    double* tetrad10_ul;    double* tetrad11_ul;    double* tetrad12_ul;
-    double* tetrad20_ul;    double* tetrad21_ul;    double* tetrad22_ul;
+    RealBuffer tetrad00_ul;    RealBuffer tetrad01_ul;    RealBuffer tetrad02_ul;
+    RealBuffer tetrad10_ul;    RealBuffer tetrad11_ul;    RealBuffer tetrad12_ul;
+    RealBuffer tetrad20_ul;    RealBuffer tetrad21_ul;    RealBuffer tetrad22_ul;
+    RealBuffer tetrad00_lu;    RealBuffer tetrad01_lu;    RealBuffer tetrad02_lu;
+    RealBuffer tetrad10_lu;    RealBuffer tetrad11_lu;    RealBuffer tetrad12_lu;
+    RealBuffer tetrad20_lu;    RealBuffer tetrad21_lu;    RealBuffer tetrad22_lu;
 
 public:
     // Constructors/Destructor:
-    Metric(Grid<Coord>& grid_, double m_, double a_);
-    //Metric(const Metric& metric);
-    ~Metric();
+    Metric(Grid& grid_, double m_, double a_);
 
     virtual std::string Name();
 
     // Initialization:
-    virtual Tensor3x3<Coord,LF> MetricFunction(Coordinate2<Coord> x);
+    virtual Tensor3x3 MetricFunction(const Coord& xy);
     void InitializeMetricOnGrid();
     void InitializeBoostedTetradOnGrid();
     template<int k>
-    Tensor3x3<Coord,LF> MetricDeriv(Coordinate2<Coord> x);
+    Tensor3x3 MetricDeriv(const Coord& xy);
     template<int k>
-    Tensor3x3<Coord,LF> InverseMetricDeriv(Coordinate2<Coord> x);
+    Tensor3x3 InverseMetricDeriv(const Coord& xy);
     void InitializeMetricDerivativesOnGrid();
     void InitializeAdmComponentsOnGrid();
-    double InterpolateArrayTo_ij(double* array, double i, double j);
+    double InterpolateArrayTo_ij(const RealBuffer& array, const Coord& ij);
+    double InterpolateArrayTo_ij(const RealBuffer& array, double i, double j);
 
 public:
     // Boolean checks:
-    virtual bool InsideBH(const int i, const int j);
-    virtual bool InsideBH(const Coordinate2<Coord>& x12);
+    virtual bool InsideBH(const Coord& xy);
 
     // Tensor getters:
-    Tensor3<Coord,LF> uEulObs(const int ij);
-    Tensor3<Coord,LF> uEulObs(const Coordinate2<Coord>& x12);
-    Tensor3x3<Coord,LF> GetMetric_ll(const int ij);
-    Tensor3x3<Coord,LF> GetMetric_ll(const Coordinate2<Coord>& x12);
-    Tensor3x3<Coord,LF> GetMetric_uu(const int ij);
-    Tensor3x3<Coord,LF> GetMetric_uu(const Coordinate2<Coord>& x12);
-    Tensor3x3<Coord,IF> GetMinkowskiMetric_ll(const int ij);
-    Tensor3x3<Coord,IF> GetMinkowskiMetric_ll(const Coordinate2<Coord>& x12);
-    Tensor3x3<Coord,IF> GetMinkowskiMetric_uu(const int ij);
-    Tensor3x3<Coord,IF> GetMinkowskiMetric_uu(const Coordinate2<Coord>& x12);
-    Tensor3x3x3<Coord,LF> GetDerivMetric_lll(const int ij);
-    Tensor3x3x3<Coord,LF> GetDerivMetric_lll(const Coordinate2<Coord>& x12);
-    Tensor3x3x3<Coord,LF> GetDerivMetric_luu(const int ij);
-    Tensor3x3x3<Coord,LF> GetDerivMetric_luu(const Coordinate2<Coord>& x12);
-    Tensor3x3<Coord,Tetrad> GetTetrad(const int ij);
-    Tensor3x3<Coord,Tetrad> GetTetrad(const Coordinate2<Coord>& x12);
-    // ADM getters:
-    double GetAlpha(const int ij);
-    double GetAlpha(const Coordinate2<Coord>& x12);
-    Tensor2<Coord,LF> GetBeta_u(const int ij);
-    Tensor2<Coord,LF> GetBeta_u(const Coordinate2<Coord>& x12);
-    Tensor2<Coord,LF> GetBeta_l(const int ij);
-    Tensor2<Coord,LF> GetBeta_l(const Coordinate2<Coord>& x12);
-    Tensor2x2<Coord,LF> GetGamma_ll(const int ij);
-    Tensor2x2<Coord,LF> GetGamma_ll(const Coordinate2<Coord>& x12);
-    Tensor2x2<Coord,LF> GetGamma_uu(const int ij);
-    Tensor2x2<Coord,LF> GetGamma_uu(const Coordinate2<Coord>& x12);
-    Tensor2x2<Coord,IF> GetMinkowskiGamma_ll(const int ij);
-    Tensor2x2<Coord,IF> GetMinkowskiGamma_ll(const Coordinate2<Coord>& x12);
-    Tensor2x2<Coord,IF> GetMinkowskiGamma_uu(const int ij);
-    Tensor2x2<Coord,IF> GetMinkowskiGamma_uu(const Coordinate2<Coord>& x12);
+    Tensor3 uEulObs(size_t ij);
+    Tensor3 uEulObs(const Coord& xy);
+    Tensor3x3 GetMetric_ll(size_t ij);
+    Tensor3x3 GetMetric_ll(const Coord& xy);
+    Tensor3x3 GetMetric_uu(size_t ij);
+    Tensor3x3 GetMetric_uu(const Coord& xy);
+    Tensor3x3 GetMinkowskiMetric_ll(size_t ij);
+    Tensor3x3 GetMinkowskiMetric_ll(const Coord& xy);
+    Tensor3x3 GetMinkowskiMetric_uu(size_t ij);
+    Tensor3x3 GetMinkowskiMetric_uu(const Coord& xy);
+    Tensor3x3x3 GetDerivMetric_lll(size_t ij);
+    Tensor3x3x3 GetDerivMetric_lll(const Coord& xy);
+    Tensor3x3x3 GetDerivMetric_luu(size_t ij);
+    Tensor3x3x3 GetDerivMetric_luu(const Coord& xy);
+    Tensor3x3 GetTetrad(size_t ij);
+    Tensor3x3 GetTetrad(const Coord& xy);
+    Tensor3x3 GetTetradInverse(size_t ij);
+    Tensor3x3 GetTetradInverse(const Coord& xy);
 
-    Tensor2<Coord,LF> GetDerivAlpha_l(const int ij);
-    Tensor2<Coord,LF> GetDerivAlpha_l(const Coordinate2<Coord>& x12);
-    Tensor2x2<Coord,LF> GetDerivBeta_lu(const int ij);
-    Tensor2x2<Coord,LF> GetDerivBeta_lu(const Coordinate2<Coord>& x12);
-    Tensor2x2<Coord,LF> GetDerivBeta_ll(const int ij);
-    Tensor2x2<Coord,LF> GetDerivBeta_ll(const Coordinate2<Coord>& x12);
-    Tensor2x2x2<Coord,LF> GetDerivGamma_lll(const int ij);
-    Tensor2x2x2<Coord,LF> GetDerivGamma_lll(const Coordinate2<Coord>& x12);
-    Tensor2x2x2<Coord,LF> GetDerivGamma_luu(const int ij);
-    Tensor2x2x2<Coord,LF> GetDerivGamma_luu(const Coordinate2<Coord>& x12);
-    Tensor2x2<Coord,LF> GetExtrCurv_ll(const int ij);
-    Tensor2x2<Coord,LF> GetExtrCurv_ll(const Coordinate2<Coord>& x12);
+    // ADM getters:
+    double GetAlpha(size_t ij);
+    double GetAlpha(const Coord& xy);
+    Tensor2 GetBeta_u(size_t ij);
+    Tensor2 GetBeta_u(const Coord& xy);
+    Tensor2 GetBeta_l(size_t ij);
+    Tensor2 GetBeta_l(const Coord& xy);
+    Tensor2x2 GetGamma_ll(size_t ij);
+    Tensor2x2 GetGamma_ll(const Coord& xy);
+    Tensor2x2 GetGamma_uu(size_t ij);
+    Tensor2x2 GetGamma_uu(const Coord& xy);
+    Tensor2x2 GetMinkowskiGamma_ll(size_t ij);
+    Tensor2x2 GetMinkowskiGamma_ll(const Coord& xy);
+    Tensor2x2 GetMinkowskiGamma_uu(size_t ij);
+    Tensor2x2 GetMinkowskiGamma_uu(const Coord& xy);
+
+    Tensor2 GetDerivAlpha_l(size_t ij);
+    Tensor2 GetDerivAlpha_l(const Coord& xy);
+    Tensor2x2 GetDerivBeta_lu(size_t ij);
+    Tensor2x2 GetDerivBeta_lu(const Coord& xy);
+    Tensor2x2 GetDerivBeta_ll(size_t ij);
+    Tensor2x2 GetDerivBeta_ll(const Coord& xy);
+    Tensor2x2x2 GetDerivGamma_lll(size_t ij);
+    Tensor2x2x2 GetDerivGamma_lll(const Coord& xy);
+    Tensor2x2x2 GetDerivGamma_luu(size_t ij);
+    Tensor2x2x2 GetDerivGamma_luu(const Coord& xy);
+    Tensor2x2 GetExtrCurv_ll(size_t ij);
+    Tensor2x2 GetExtrCurv_ll(const Coord& xy);
 };
 #endif //__INCLUDE_GUARD_Metric_h__

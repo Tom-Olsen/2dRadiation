@@ -1,4 +1,9 @@
 /mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/main.out.dir
-/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/test.out.dir
+/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/dataTypesTest.out.dir
+/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/gridTest.out.dir
+/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/myMathTest.out.dir
+/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/stencilTest.out.dir
+/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/metricTest.out.dir
+/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/geodesicEquationSolverTest.out.dir
 /mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/edit_cache.dir
 /mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/rebuild_cache.dir

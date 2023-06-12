@@ -5,11 +5,11 @@
 #include <fstream>
 #include <string>
 #include "Utility.hh"
-#include "TensorTypes.hh"
+#include "DataTypes.hh"
 #include "eigen/Eigen/Dense"
 
 
-
+/*
 // Singleton Design Pattern Example:
 //https://stackoverflow.com/questions/1008019/c-singleton-design-pattern
 
@@ -101,5 +101,5 @@ struct DynamicStencil : Stencil
 };
 
 
-
+*/
 #endif //__INCLUDE_GUARD_Stencil_hh__

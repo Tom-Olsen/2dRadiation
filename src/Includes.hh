@@ -8,15 +8,14 @@
 
 #include "ControlFlow.hh"                   // control flow classes and macros
 #include "Utility.hh"                       // small useful functions.
-#include "TensorTypes.hh"                   // simple containers for rank 1-3 tensors.
+#include "DataTypes.hh"                     // simple containers for rank 1-3 tensors.
 #include "Grid.h"                           // Grid for numerical domain and maping to physical domain.
 #include "Stencil.hh"                       // velocity stencils.
 #include "Interpolation.hh"                 // several interpolation schemes which are needed throughout the code.
 #include "Metric.h"                         // Metric data. The numerical domain is defined by Grid3D.
 #include "Spacetimes.h"                     // all spacetimes derive from the base class metric and define the actual components.
 #include "FourierHarmonics.h"               // fourier interpolation thorugh discrete number of points in 2d plane.
-#include "WriteData.h"                      // write stuff to vtr files.
-#include "AdvancedUtiltiy.h"                // utiliy depending on more complex classes
+#include "SpecialMath.h"                    // special math operations
 #include "GeodesicEquationSolver.h"         // used to solve geodesic equation on spacelike hypersurface.
 #include "Radiation.h"                      // Curved spacetime, rotating stencil.
 #include "Profiler.hh"                      // Time measurements

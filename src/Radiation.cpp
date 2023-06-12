@@ -1,885 +1,753 @@
 #include "Radiation.h"
 
-std::string StreamingName(int n)
+#define HALO 2
+
+Radiation::Radiation(Metric& metric, Stencil& stencil, Stencil& streamingStencil, StreamingType streamingType):
+grid(metric.grid), metric(metric), stencil(stencil), streamingStencil(streamingStencil), streamingType(streamingType)
 {
-	std::string s("unknown");
-	switch (n)
-	{
-   		case 0: { s = "CurvedDynamic";	} break;
-   		case 1: { s = "CurvedStatic";	} break;
-   		case 2: { s = "FlatDynamic";	} break;
-   		case 3: { s = "FlatStatic";		} break;
-   		case 4: { s = "GeodesicDynamic";} break;
-   		case 5: { s = "GeodesicStatic";	} break;
-		default: { exit_on_error("Invalid StreamingType"); }
-	}
-	return s;
+	isInitialGridPoint = new bool[grid.nxy]();
+	initialE.resize(grid.nxy);
+	initialNx.resize(grid.nxy);
+	initialNy.resize(grid.nxy);
+	initialKappa0.resize(grid.nxy);
+	initialKappa1.resize(grid.nxy);
+	initialKappaA.resize(grid.nxy);
+	initialEta.resize(grid.nxy);
+	rotationAngle.resize(grid.nxy);
+	rotationAngleNew.resize(grid.nxy);
+	E.resize(grid.nxy);
+	Fx.resize(grid.nxy);
+	Fy.resize(grid.nxy);
+	Pxx.resize(grid.nxy);
+	Pxy.resize(grid.nxy);
+	Pyy.resize(grid.nxy);
+	E_LF .resize(grid.nxy);
+	Fx_LF.resize(grid.nxy);
+	Fy_LF.resize(grid.nxy);
+	Pxx_LF.resize(grid.nxy);
+	Pxy_LF.resize(grid.nxy);
+	Pyy_LF.resize(grid.nxy);
+	kappa0.resize(grid.nxy);
+	kappa1.resize(grid.nxy);
+	kappaA.resize(grid.nxy);
+	eta.resize(grid.nxy);
+	I.resize(grid.nxy * stencil.nDir);
+	Inew.resize(grid.nxy * stencil.nDir);
+	coefficientsS.resize(grid.nxy * streamingStencil.nCoefficients);
+	coefficientsX.resize(grid.nxy * streamingStencil.nCoefficients);
+	coefficientsY.resize(grid.nxy * streamingStencil.nCoefficients);
+	coefficientsCx.resize(grid.nxy * streamingStencil.nCoefficients);
+	coefficientsCy.resize(grid.nxy * streamingStencil.nCoefficients);
+    
+	// Initialize all Quaternions to identity:
+	PARALLEL_FOR(1)
+	for(size_t ij=0; ij<grid.nxy; ij++)
+        rotationAngle[ij] = rotationAngleNew[ij] = 0.0;
 }
-
-
-
-template<class Coord>
-Radiation<Coord>::Radiation(Grid<Coord>& grid_, Metric<Coord>& metric_, Stencil& stencil_, Stencil& fourierStencil_, StreamingType streamingType_):
-grid(grid_), metric(metric_), stencil(stencil_), fourierStencil(fourierStencil_), nDir(stencil_.nDir), streamingType(streamingType_)
-{
-	isInitialGridPoint = new bool[grid.n12]();
-	initialE           = new double[grid.n12]();
-	initialRotation    = new double[grid.n12]();
-	initialKappa0      = new double[grid.n12]();
-	initialKappa1      = new double[grid.n12]();
-	initialKappaA      = new double[grid.n12]();
-	initialEta         = new double[grid.n12]();
-	rotation    = new double[grid.n12]();
-	rotationNew = new double[grid.n12]();
-	E           = new double[grid.n12]();
-	Fx          = new double[grid.n12]();
-	Fy          = new double[grid.n12]();
-	Pxx         = new double[grid.n12]();
-	Pxy         = new double[grid.n12]();
-	Pyy         = new double[grid.n12]();
-	E_LF        = new double[grid.n12]();
-	Fx_LF       = new double[grid.n12]();
-	Fy_LF       = new double[grid.n12]();
-	Pxx_LF      = new double[grid.n12]();
-	Pxy_LF      = new double[grid.n12]();
-	Pyy_LF      = new double[grid.n12]();
-	Fnorm_LF    = new double[grid.n12]();
-	kappa0      = new double[grid.n12]();
-	kappa1      = new double[grid.n12]();
-	kappaA      = new double[grid.n12]();
-	eta         = new double[grid.n12]();
-	I           = new double[grid.n12 * nDir]();
-	Inew        = new double[grid.n12 * nDir]();
-	coefficientsS   = new double[grid.n12 * fourierStencil.nDir];
-	coefficientsX1  = new double[grid.n12 * fourierStencil.nDir];
-	coefficientsX2  = new double[grid.n12 * fourierStencil.nDir];
-	coefficientsCx1 = new double[grid.n12 * fourierStencil.nDir];
-	coefficientsCx2 = new double[grid.n12 * fourierStencil.nDir];
-}
-
-
-
-template<class Coord>
-Radiation<Coord>::~Radiation()
+Radiation::~Radiation()
 {
 	delete[] isInitialGridPoint;
-	delete[] initialE;
-	delete[] initialRotation;
-	delete[] initialKappa0;
-	delete[] initialKappa1;
-	delete[] initialKappaA;
-	delete[] initialEta;
-	delete[] rotation;
-	delete[] rotationNew;
-	delete[] E;
-	delete[] Fx;
-	delete[] Fy;
-	delete[] Pxx;
-	delete[] Pxy;
-	delete[] Pyy;
-	delete[] E_LF;
-	delete[] Fx_LF;
-	delete[] Fy_LF;
-	delete[] Pxx_LF;
-	delete[] Pxy_LF;
-	delete[] Pyy_LF;
-	delete[] Fnorm_LF;
-	delete[] kappa0;
-	delete[] kappa1;
-	delete[] kappaA;
-	delete[] eta;
-	delete[] I;
-	delete[] Inew;
-	delete[] coefficientsS;
-	delete[] coefficientsX1;
-	delete[] coefficientsX2;
-	delete[] coefficientsCx1;
-	delete[] coefficientsCx2;
 }
 
 
 
-template<class Coord>
-void Radiation<Coord>::LoadInitialData()
+size_t Radiation::Index(size_t ij, size_t d)
+{
+	#ifdef ijd
+		return ij + d * grid.nxy;
+	#endif
+	#ifdef dij
+		return d + ij * stencil.nDir;
+	#endif
+}
+size_t Radiation::Index(size_t i, size_t j, size_t d)
+{
+	size_t ij = grid.Index(i,j);
+	#ifdef ijd
+		return ij + d * grid.nxy;
+	#endif
+	#ifdef dij
+		return d + ij * stencil.nDir;
+	#endif
+}
+size_t Radiation::HarmonicIndex(size_t f, size_t ij)
+{
+	return f + ij * streamingStencil.nCoefficients;
+}
+
+
+
+void Radiation::NormalizeInitialDirections()
 {
 	PROFILE_FUNCTION();
-	auto IntensityDistribution = [](double phi, double sigma)
+	PARALLEL_FOR(1)
+	for(size_t ij=0; ij<grid.nxy; ij++)
 	{
-		return exp(-0.5 * pow((phi) / sigma, 2))
-		     + exp(-0.5 * pow((phi - 2.0*M_PI) / sigma, 2))
-		     + exp(-0.5 * pow((phi + 2.0*M_PI) / sigma, 2));
-	};
+		Tensor2 n(initialNx[ij], initialNy[ij]);
+		double norm = n.EuklNorm();
 
-	// Note:
-	// For the initial data the static stencil looks like it is being rotated, while the rotating stencil looks like being static.
-	// By using phi=stencil.phi(d,-rot), for the static stencil, the gauß peak of the distribution is maximal (phi=0) when phi(d)=rot.
-	// On the other hand for the rotating stencil we initially set the peak to be at phi=stencil.phi(d=0).
-	// When running the code that direction vector is rotated to point toward rotation[ij].
-	if(streamingType == StreamingType::CurvedDynamic || streamingType == StreamingType::FlatDynamic)
-	{
-		#pragma omp parallel for
-		for(int ij=0; ij<grid.n12; ij++)
+		// If norm to low we assume no direction.
+		if(norm < 0.0001)
 		{
-			if(isInitialGridPoint[ij])
-			{
-				rotation[ij] = initialRotation[ij];
-				kappa0[ij]   = initialKappa0[ij];
-				kappa1[ij]   = initialKappa1[ij];
-				kappaA[ij]   = initialKappaA[ij];
-				eta[ij]      = initialEta[ij];
-
-				if(rotation[ij] >= 0)
-				{
-					for(int d=0; d<nDir; d++)
-						I[ij + d*grid.n12] = initialE[ij] * IntensityDistribution(stencil.Phi(d), stencil.sigma);
-				}
-				else
-				{
-					for(int d=0; d<nDir; d++)
-						I[ij + d*grid.n12] = initialE[ij];
-				}
-			}
+			initialNx[ij] = 0;
+			initialNy[ij] = 0;
 		}
-	}
-	else
-	{
-		#pragma omp parallel for
-		for(int ij=0; ij<grid.n12; ij++)
+		else
 		{
-			if(isInitialGridPoint[ij])
-			{
-				rotation[ij] = initialRotation[ij];
-				kappa0[ij]   = initialKappa0[ij];
-				kappa1[ij]   = initialKappa1[ij];
-				kappaA[ij]   = initialKappaA[ij];
-				eta[ij]      = initialEta[ij];
-
-				if(rotation[ij] >= 0)
-				{
-					for(int d=0; d<nDir; d++)
-						I[ij + d*grid.n12] = initialE[ij] * IntensityDistribution(stencil.Phi(d, -rotation[ij]), stencil.sigma);
-				}
-				else
-				{
-					for(int d=0; d<nDir; d++)
-						I[ij + d*grid.n12] = initialE[ij];
-				}
-			}
+			initialNx[ij] = n[1] / norm;
+			initialNy[ij] = n[2] / norm;
 		}
 	}
 }
 
 
 
-template<class Coord>
-void Radiation<Coord>::NormalizeInitialData()
+void Radiation::LoadInitialData()
 {
 	PROFILE_FUNCTION();
-	#pragma omp parallel for
-	for(int ij=0; ij<grid.n12; ij++)
+	bool isAdaptiveStreaming = (streamingType == StreamingType::FlatAdaptive || streamingType == StreamingType::CurvedAdaptive);
+	srand((unsigned) time(NULL));
+
+	PARALLEL_FOR(1)
+	for(size_t ij=0; ij<grid.nxy; ij++)
+	{
+		kappa0[ij] = initialKappa0[ij];
+		kappa1[ij] = initialKappa1[ij];
+		kappaA[ij] = initialKappaA[ij];
+		eta[ij] = initialEta[ij];
+		
 		if(isInitialGridPoint[ij])
-			if(E_LF[ij] > 0)
-				initialE[ij] *= initialE[ij] / E_LF[ij];
+		{
+			if(initialNx[ij] == 0 && initialNy[ij] == 0)
+			{// Uniform intensity distribution:
+				if (isAdaptiveStreaming)
+				{// Random direction for uniformity:
+					Tensor2 n;
+                    double norm = 2;
+                    while(norm > 1)
+                    {
+					    n[1] = RandomRange(-1,1);
+					    n[2] = RandomRange(-1,1);
+                        norm = n.EuklNorm();
+                    }
+					rotationAngle[ij] = n.Phi();
+				}
+				else	// (0,0) is an invalid direction. Set to identity:
+					rotationAngle[ij] = 0.0;
+
+				for(int d=0; d<stencil.nDir; d++)
+					I[Index(ij,d)] = initialE[ij];
+			}
+			else
+			{// Von Mises distribution:
+			 // https://en.wikipedia.org/wiki/Von_Mises_distribution
+				// In case of adaptive streaming the stencil is rotated such that its east side points towards n, whenever stencil.C is used.
+				// This means that the Von Mises distribution needs to point east for the adaptive streaming case.
+                if (isAdaptiveStreaming)
+                {
+				    rotationAngle[ij] = Tensor2(initialNx[ij],initialNy[ij]).Phi();
+				    for(size_t d=0; d<stencil.nDir; d++)
+				    	I[Index(ij,d)] = initialE[ij] * exp(sigma * MyCos(stencil.Phi(d) - 0.0));
+                }
+                else
+                {
+				    rotationAngle[ij] = 0.0;
+                    double vonMisesAngle = Tensor2(initialNx[ij],initialNy[ij]).Phi();
+				    for(size_t d=0; d<stencil.nDir; d++)
+                    {
+                        double angle = fmod(stencil.Phi(d) - vonMisesAngle + 2.0 * M_PI, 2.0 * M_PI);
+				    	I[Index(ij,d)] = initialE[ij] * exp(sigma * MyCos(angle));
+                    }
+                }
+			}
+		}
+	}
 }
 
 
 
-template<class Coord>
-void Radiation<Coord>::UpdateFourierCoefficients()
+void Radiation::NormalizeInitialIntensities()
 {
 	PROFILE_FUNCTION();
-	#pragma omp parallel for
-	for(int j=2; j<grid.n2-2; j++)
-	for(int i=2; i<grid.n1-2; i++)
+	PARALLEL_FOR(1)
+	for(size_t ij=0; ij<grid.nxy; ij++)
+		if(isInitialGridPoint[ij])
+			initialE[ij] *= initialE[ij] / E_LF[ij];
+}
+
+
+
+void Radiation::UpdateFourierCoefficients()
+{
+	PROFILE_FUNCTION();
+	PARALLEL_FOR(2)
+	for(size_t j=HALO; j<grid.ny-HALO; j++)
+	for(size_t i=HALO; i<grid.nx-HALO; i++)
 	{
-		int ij = grid.Index(i,j);
-		double dataS  [fourierStencil.nDir];
-		double dataX1 [fourierStencil.nDir];
-		double dataX2 [fourierStencil.nDir];
-    	double dataCx1[fourierStencil.nDir];
-    	double dataCx2[fourierStencil.nDir];
-		Coordinate2<Coord> xStart = grid.x12Coord(i,j);
-		Coordinate2<xy> xyCoord = grid.xyCoord(i,j);
+		size_t ij = grid.Index(i,j);
+		double dataS[streamingStencil.nDir];
+		double dataX[streamingStencil.nDir];
+		double dataY[streamingStencil.nDir];
+    	double dataCx[streamingStencil.nDir];
+    	double dataCy[streamingStencil.nDir];
+		Coord xy0 = grid.xy(i,j);
 		double alpha = metric.GetAlpha(ij);
-		for(int d=0; d<fourierStencil.nDir; d++)
+
+		for(size_t d=0; d<streamingStencil.nDir; d++)
     	{
 			// Initial data for geodesic equation:
 			double s = 1;
-			Coordinate2<Coord> x = xStart;
-            Tensor2<xy,IF> cxy = fourierStencil.Cxy(d);
-            Tensor2<Coord,IF> c = cxy.template Transform<Coord>(xyCoord);
-            Tensor3<Coord,IF> u(alpha, c[1]*alpha, c[2]*alpha);
-            Tensor2<Coord,LF> v = Vec2ObservedByEulObs<Coord,IF,LF>(u,x,metric);
+			Coord xy = xy0;
+            Tensor2 c = streamingStencil.C(d);
+            Tensor3 uIF(alpha, c[1] * alpha, c[2] * alpha);
+            Tensor2 vLF = Vec2ObservedByEulObs<IF,LF>(uIF, xy, metric);
 
 			// Solve geodesic equation backwards:
-			if(!metric.InsideBH(x))
-			{
-    	    	// s *= Euler_GeodesicEquation<-1>(grid.dt,x,v,metric);
-    	    	s *= RK45_GeodesicEquation<-1>(grid.dt,x,v,metric);
-			}
+			if(!metric.InsideBH(xy))
+    	    	s *= RK45_GeodesicEquation<-1>(grid.dt, xy, vLF, metric);
 			else // inside BH tetrad destroys the velocity stencil. Thus set it to 0.
-				v = Tensor2<Coord,LF>(0.0);
+				vLF = Tensor2(0.0);
+
+			Tensor2 vIF = TransformLFtoIF(vLF,metric.GetTetradInverse(xy));
 
 			// Final data points for fourier expansion:
-			dataS[d]   = 1.0/s;
-			dataX1[d]  = x[1];
-			dataX2[d]  = x[2];
-			dataCx1[d] = v[1];
-			dataCx2[d] = v[2];
+			dataS[d] = 1.0/s;
+			dataX[d] = xy[1];
+			dataY[d] = xy[2];
+			dataCx[d] = vIF[1];
+			dataCy[d] = vIF[2];
     	}
-		std::vector<double> cS  = Fourier::Expansion::GetCoefficients(fourierStencil,dataS);
-		std::vector<double> cX1 = Fourier::Expansion::GetCoefficients(fourierStencil,dataX1);
-		std::vector<double> cX2 = Fourier::Expansion::GetCoefficients(fourierStencil,dataX2);
-		std::vector<double> cCx1= Fourier::Expansion::GetCoefficients(fourierStencil,dataCx1);
-		std::vector<double> cCx2= Fourier::Expansion::GetCoefficients(fourierStencil,dataCx2);
-		for(int f=0; f<fourierStencil.nDir; f++)
-		{
-			int fij = f + i*fourierStencil.nDir + j*fourierStencil.nDir*grid.n1;
-			coefficientsS  [fij] = cS  [f];
-			coefficientsX1 [fij] = cX1 [f];
-			coefficientsX2 [fij] = cX2 [f];
-			coefficientsCx1[fij] = cCx1[f];
-			coefficientsCx2[fij] = cCx2[f];
-		}
+		Fourier::GetCoefficients(streamingStencil, dataS , &coefficientsS [HarmonicIndex(0,ij)]);
+		Fourier::GetCoefficients(streamingStencil, dataX , &coefficientsX [HarmonicIndex(0,ij)]);
+		Fourier::GetCoefficients(streamingStencil, dataY , &coefficientsY [HarmonicIndex(0,ij)]);
+		Fourier::GetCoefficients(streamingStencil, dataCx, &coefficientsCx[HarmonicIndex(0,ij)]);
+		Fourier::GetCoefficients(streamingStencil, dataCy, &coefficientsCy[HarmonicIndex(0,ij)]);
 	}
 }
 
 
 
-template<class Coord>
-void Radiation<Coord>::ComputeMomentsIF()
+void Radiation::ComputeMomentsIF()
 {
 	PROFILE_FUNCTION();
-	constexpr double twoPiInv = 1.0 / (2.0 * M_PI);
-	
-	if(streamingType == StreamingType::CurvedDynamic || streamingType == StreamingType::FlatDynamic)
+	PARALLEL_FOR(1)
+	for(size_t ij=0; ij<grid.nxy; ij++)
 	{
-		#pragma omp parallel for
-		for(int ij=0; ij<grid.n12; ij++)
+		E[ij]   = 0.0;
+		Fx[ij]  = 0.0;
+		Fy[ij]  = 0.0;
+		Pxx[ij] = 0.0;
+		Pxy[ij] = 0.0;
+		Pyy[ij] = 0.0;
+		for(size_t d=0; d<stencil.nDir; d++)
 		{
-			E [ij]  = 0.0;
-			Fx[ij]  = 0.0;
-			Fy[ij]  = 0.0;
-			Pxx[ij] = 0.0;
-			Pxy[ij] = 0.0;
-			Pyy[ij] = 0.0;
-			for(int d = 0; d < nDir; d++)
-			{
-				E [ij]  += stencil.W(d) * I[ij + d*grid.n12];
-				Fx[ij]  += stencil.W(d) * I[ij + d*grid.n12] * stencil.Cx(d,rotation[ij]);
-				Fy[ij]  += stencil.W(d) * I[ij + d*grid.n12] * stencil.Cy(d,rotation[ij]);
-				Pxx[ij] += stencil.W(d) * I[ij + d*grid.n12] * stencil.Cx(d,rotation[ij]) * stencil.Cx(d,rotation[ij]);
-				Pxy[ij] += stencil.W(d) * I[ij + d*grid.n12] * stencil.Cx(d,rotation[ij]) * stencil.Cy(d,rotation[ij]);
-				Pyy[ij] += stencil.W(d) * I[ij + d*grid.n12] * stencil.Cy(d,rotation[ij]) * stencil.Cy(d,rotation[ij]);
-			}
-    	    E [ij]  *= twoPiInv;
-    	    Fx[ij]  *= twoPiInv;
-    	    Fy[ij]  *= twoPiInv;
-    	    Pxx[ij] *= twoPiInv;
-    	    Pxy[ij] *= twoPiInv;
-    	    Pyy[ij] *= twoPiInv;
-		}
-	}
-	else
-	{
-		#pragma omp parallel for
-		for(int ij=0; ij<grid.n12; ij++)
-		{
-			E [ij]  = 0.0;
-			Fx[ij]  = 0.0;
-			Fy[ij]  = 0.0;
-			Pxx[ij] = 0.0;
-			Pxy[ij] = 0.0;
-			Pyy[ij] = 0.0;
-			for(int d = 0; d < nDir; d++)
-			{
-				E [ij]  += stencil.W(d) * I[ij + d*grid.n12];
-				Fx[ij]  += stencil.W(d) * I[ij + d*grid.n12] * stencil.Cx(d);
-				Fy[ij]  += stencil.W(d) * I[ij + d*grid.n12] * stencil.Cy(d);
-				Pxx[ij] += stencil.W(d) * I[ij + d*grid.n12] * stencil.Cx(d) * stencil.Cx(d);
-				Pxy[ij] += stencil.W(d) * I[ij + d*grid.n12] * stencil.Cx(d) * stencil.Cy(d);
-				Pyy[ij] += stencil.W(d) * I[ij + d*grid.n12] * stencil.Cy(d) * stencil.Cy(d);
-			}
-    	    E [ij]  *= twoPiInv;
-    	    Fx[ij]  *= twoPiInv;
-    	    Fy[ij]  *= twoPiInv;
-    	    Pxx[ij] *= twoPiInv;
-    	    Pxy[ij] *= twoPiInv;
-    	    Pyy[ij] *= twoPiInv;
+			Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
+			size_t index = Index(ij,d);
+            double c = stencil.W(d) * I[index];
+			E[ij]   += c;
+			Fx[ij]  += c * dir[1];
+			Fy[ij]  += c * dir[2];
+			Pxx[ij] += c * dir[1] * dir[1];
+			Pxy[ij] += c * dir[1] * dir[2];
+			Pyy[ij] += c * dir[2] * dir[2];
 		}
 	}
 }
-
-template<class Coord>
-void Radiation<Coord>::ComputeMomentsLF()
+void Radiation::ComputeMomentsLF()
 {
 	PROFILE_FUNCTION();
-	#pragma omp parallel for
-	for(int ij=0; ij<grid.n12; ij++)
+	PARALLEL_FOR(2)
+	for(size_t j=0; j<grid.ny; j++)
+	for(size_t i=0; i<grid.nx; i++)
 	{
-		Tensor3x3<Coord,IF> EnergyMomentumTensorIF(E[ij],Fx[ij],Fy[ij], Fx[ij],Pxx[ij],Pxy[ij], Fy[ij],Pxy[ij],Pyy[ij]);
-		Tensor3x3<Coord,LF> EnergyMomentumTensorLF = EnergyMomentumTensorIF.template Transform<LF>(metric.GetTetrad(ij));
+        int ij = grid.Index(i,j);
+        if(metric.InsideBH(grid.xy(i,j)))
+        {
+		    E_LF[ij]   = 0.0;
+		    Fx_LF[ij]  = 0.0;
+		    Fy_LF[ij]  = 0.0;
+		    Pxx_LF[ij] = 0.0;
+		    Pxy_LF[ij] = 0.0;
+		    Pyy_LF[ij] = 0.0;
+            continue;
+        }
+		Tensor3x3 EnergyMomentumTensorIF
+		( E[ij], Fx[ij], Fy[ij],
+		 Fx[ij],Pxx[ij],Pxy[ij],
+		 Fy[ij],Pxy[ij],Pyy[ij]);
+		Tensor3x3 EnergyMomentumTensorLF = TransformIFtoLF(EnergyMomentumTensorIF, metric.GetTetrad(ij));
+
 		E_LF[ij]   = EnergyMomentumTensorLF[{0,0}];
 		Fx_LF[ij]  = EnergyMomentumTensorLF[{0,1}];
 		Fy_LF[ij]  = EnergyMomentumTensorLF[{0,2}];
 		Pxx_LF[ij] = EnergyMomentumTensorLF[{1,1}];
 		Pxy_LF[ij] = EnergyMomentumTensorLF[{1,2}];
 		Pyy_LF[ij] = EnergyMomentumTensorLF[{2,2}];
-		Fnorm_LF[ij] = Tensor2<Coord,LF>(Fx_LF[ij],Fy_LF[ij]).Norm(metric.GetGamma_ll(ij));
 	}
 }
 
 
 
-template<class Coord>
-INLINE Coordinate2<Coord> Radiation<Coord>::GetTempCoordinate(int i, int j, double phi)
+Coord Radiation::GetTempCoordinate(size_t ij, double angle)
 {
-	std::vector<double> cX1(fourierStencil.nDir);
-	std::vector<double> cX2(fourierStencil.nDir);
-	for(int f=0; f<fourierStencil.nDir; f++)
-	{
-		cX1[f] = coefficientsX1[f + i*fourierStencil.nDir + j*fourierStencil.nDir*grid.n1];
-		cX2[f] = coefficientsX2[f + i*fourierStencil.nDir + j*fourierStencil.nDir*grid.n1];
-	}
-	return Coordinate2<Coord>(Fourier::Expansion::GetValue(phi,cX1), Fourier::Expansion::GetValue(phi,cX2));
+	Coord xyTemp;
+	xyTemp[1] = Fourier::GetValue(angle, &coefficientsX[HarmonicIndex(0,ij)], streamingStencil.nCoefficients);
+	xyTemp[2] = Fourier::GetValue(angle, &coefficientsY[HarmonicIndex(0,ij)], streamingStencil.nCoefficients);
+	return xyTemp;
 }
-template<class Coord>
-INLINE Tensor2<Coord,LF> Radiation<Coord>::GetTemp2Velocity(int i, int j, double phi)
+Tensor2 Radiation::GetTemp2VelocityIF(size_t ij, double angle)
 {
-	std::vector<double> cCx1(fourierStencil.nDir);
-	std::vector<double> cCx2(fourierStencil.nDir);
-	for(int f=0; f<fourierStencil.nDir; f++)
-	{
-		cCx1[f] = coefficientsCx1[f + i*fourierStencil.nDir + j*fourierStencil.nDir*grid.n1];
-		cCx2[f] = coefficientsCx2[f + i*fourierStencil.nDir + j*fourierStencil.nDir*grid.n1];
-	}
-	return Tensor2<Coord,LF>(Fourier::Expansion::GetValue(phi,cCx1), Fourier::Expansion::GetValue(phi,cCx2));
+	Tensor2 vTempIF;
+	vTempIF[1] = Fourier::GetValue(angle, &coefficientsCx[HarmonicIndex(0,ij)], streamingStencil.nCoefficients);
+	vTempIF[2] = Fourier::GetValue(angle, &coefficientsCy[HarmonicIndex(0,ij)], streamingStencil.nCoefficients);
+	return vTempIF;
 }
-template<class Coord>
-INLINE double Radiation<Coord>::GetFrequencyShift(int i, int j, double phi)
+double Radiation::GetFrequencyShift(size_t ij, double angle)
 {
-	std::vector<double> cS(fourierStencil.nDir);
-	for(int f=0; f<fourierStencil.nDir; f++)
-		cS[f] = coefficientsS[f + i*fourierStencil.nDir + j*fourierStencil.nDir*grid.n1];
-	return Fourier::Expansion::GetValue(phi,cS);
+	return Fourier::GetValue(angle, &coefficientsS[HarmonicIndex(0,ij)], streamingStencil.nCoefficients);
 }
-template<class Coord>
-INLINE double Radiation<Coord>::IntensityAt(int ij, double phi)
-{
-	double k = stencil.Index(phi,rotation[ij]);
 
-	int kFloor = floor(k);
-	int kM1 = (kFloor - 1 + nDir) % nDir;
-	int kP0 = (kFloor + 0 + nDir) % nDir;
-	int kP1 = (kFloor + 1 + nDir) % nDir;
-	int kP2 = (kFloor + 2 + nDir) % nDir;
 
-	// tests have shown, that cubic is better!
-	double value = CubicInterpolation(k - kFloor,I[ij + kM1*grid.n12],I[ij + kP0*grid.n12],I[ij + kP1*grid.n12],I[ij + kP2*grid.n12]);
-	// double value = LinearInterpolation(k - kFloor,I[ij + kP0*grid.n12],I[ij + kP1*grid.n12]);
-	return std::max(value,0.0);
-}
-template<class Coord>
-INLINE Tensor2<Coord,IF> Radiation<Coord>::AverageF(int i, int j)
+
+double Radiation::IntensityAt(size_t ij, Tensor2 vTempIF)
 {
-	Tensor2<Coord,IF> averageF(0.0);
-	// for(int a=-2; a<=2; a++)
-		// for(int b=-2; b<=2; b++)
+    vTempIF = RotationMatrix(rotationAngle[ij]).Inverse() * vTempIF;
+    double angle = vTempIF.Phi();
+    double d = stencil.interpolationGrid.d(angle);
+    size_t d0 = (int)std::floor(d) % stencil.interpolationGrid.nGrid;
+    size_t d1 = (d0 + 1) % stencil.interpolationGrid.nGrid;
+
+    std::array<size_t,4> neighbourIndexes0 = stencil.interpolationGrid.neighbourIndexes[d0];
+    std::array<size_t,4> neighbourIndexes1 = stencil.interpolationGrid.neighbourIndexes[d1];
+    std::array<double,4> neighbourWeights0 = stencil.interpolationGrid.neighbourWeights[d0];
+    std::array<double,4> neighbourWeights1 = stencil.interpolationGrid.neighbourWeights[d1];
+
+    double value0 = 0;
+    double value1 = 0;
+    for(size_t k=0; k<4; k++)
+    {
+        value0 += neighbourWeights0[k] * I[Index(ij,neighbourIndexes0[k])];
+        value1 += neighbourWeights1[k] * I[Index(ij,neighbourIndexes1[k])];
+    }
+    return std::max(0.0, LinearInterpolation(d-d0, value0, value1));
+}
+
+
+
+Tensor2 Radiation::AverageF(size_t i, size_t j)
+{
+	// i,j >= 1, thus i+a etc will never be negative.
+	Tensor2 averageF(0.0);
+	for(int b=-1; b<=1; b++)
 	for(int a=-1; a<=1; a++)
-		for(int b=-1; b<=1; b++)
-		{
-			int index = grid.Index(i+a,j+b);
-			averageF[1] += Fx[index];
-			averageF[2] += Fy[index];
-		}
+	{
+		size_t index = grid.Index(i+a, j+b);
+		averageF[1] += Fx[index];
+		averageF[2] += Fy[index];
+	}
 	averageF[1] /= 9.0;
 	averageF[2] /= 9.0;
-	// averageF[1] /= 16.0;
-	// averageF[2] /= 16.0;
-	// averageF[1] = Fx[grid.Index(i,j)];
-	// averageF[2] = Fy[grid.Index(i,j)];
 	return averageF;
 }
 
 
 
-template<class Coord>
-void Radiation<Coord>::StreamCurvedDynamic()
+void Radiation::UpdateRotationMatrizes()
 {
 	PROFILE_FUNCTION();
-	#pragma omp parallel for
-	for(int j=2; j<grid.n2-2; j++)
-	for(int i=2; i<grid.n1-2; i++)
+	PARALLEL_FOR(2)
+	for(size_t j=HALO; j<grid.ny-HALO; j++)
+	for(size_t i=HALO; i<grid.nx-HALO; i++)
 	{
-		int ij = grid.Index(i,j);
-		Tensor2<Coord,IF> averageF = AverageF(i,j);
-		constexpr double rotationThreshold = 1e-3;
-		rotationNew[ij] = (averageF.EuklNorm()>rotationThreshold) ? averageF.Angle() : rotation[ij];
+		size_t ij = grid.Index(i,j);
+		Tensor2 averageF = AverageF(i,j);
+		double norm = averageF.EuklNorm();
+
+		// At least 1% of the light points in the direction of the first momentum
+		if (E[ij] > 1e-16 && norm / E[ij] > 0.01)
+            rotationAngleNew[ij] = averageF.Phi();
+		else
+            rotationAngleNew[ij] = rotationAngle[ij];
 	}
-
-	#pragma omp parallel for
-	for(int d=0; d<nDir; d++)
-	for(int j=2; j<grid.n2-2; j++)
-	for(int i=2; i<grid.n1-2; i++)
-	{
-		int ij = grid.Index(i,j);		// Index of lattice point ij
-		int ijd = grid.Index(i,j,d);	// Index of population d at lattice point ij
-
-		// Skip LPs which are inside BH:
-		if(metric.InsideBH(i,j))
-		{
-			Inew[ijd] = 0;
-			continue;
-		}
-
-		// Curved Fourier Streaming:
-		double phi = stencil.Phi(d,rotationNew[ij]);
-		double s = GetFrequencyShift(i,j,phi);
-		Coordinate2<Coord> xTemp = GetTempCoordinate(i,j,phi);
-		Tensor2<Coord,LF> vTempLF = GetTemp2Velocity(i,j,phi);
-		Tensor2<Coord,IF> vTempIF = vTempLF.template Transform<IF>(metric.GetTetrad(xTemp));
-		Tensor2<xy,IF> vTempIFxy = vTempIF.template Transform<xy>(xTemp);
-
-		// Skip temporary Grid Points inside BH:
-		if(metric.InsideBH(xTemp))
-		{
-			Inew[ijd] = 0;
-			continue;
-		}
-
-		// Get 4 nearest Grid Points:
-		double iTemp = grid.i(xTemp[1]);
-		double jTemp = grid.j(xTemp[2]);
-		int i0 = std::floor(iTemp);	int i1 = i0 + 1;
-		int j0 = std::floor(jTemp);	int j1 = j0 + 1;
-		int i0j0 = grid.Index(i0,j0);
-		int i0j1 = grid.Index(i0,j1);
-		int i1j0 = grid.Index(i1,j0);
-		int i1j1 = grid.Index(i1,j1);
-
-		// TEST:
-		// double angle00 = ((vTempLF.template Transform<IF>(metric.GetTetrad(i0j0))).template Transform<xy>(grid.x12Coord(i0,j0))).Angle();
-		// double angle01 = ((vTempLF.template Transform<IF>(metric.GetTetrad(i0j1))).template Transform<xy>(grid.x12Coord(i0,j1))).Angle();
-		// double angle10 = ((vTempLF.template Transform<IF>(metric.GetTetrad(i1j0))).template Transform<xy>(grid.x12Coord(i1,j0))).Angle();
-		// double angle11 = ((vTempLF.template Transform<IF>(metric.GetTetrad(i1j1))).template Transform<xy>(grid.x12Coord(i1,j1))).Angle();
-
-		// Intensity interpolation:
-		double angle = vTempIFxy.Angle();
-		double alpha = metric.GetAlpha(ij);
-		double intensityAt_i0j0 = MyPow<4>(alpha / metric.GetAlpha(i0j0)) * IntensityAt(i0j0,angle);
-		double intensityAt_i0j1 = MyPow<4>(alpha / metric.GetAlpha(i0j1)) * IntensityAt(i0j1,angle);
-		double intensityAt_i1j0 = MyPow<4>(alpha / metric.GetAlpha(i1j0)) * IntensityAt(i1j0,angle);
-		double intensityAt_i1j1 = MyPow<4>(alpha / metric.GetAlpha(i1j1)) * IntensityAt(i1j1,angle);
-
-		// Interpolate intensity from neighbouring 4 lattice points to temporary point:
-		Inew[ijd]
-		= (s*s*s*s) * BilinearInterpolation(iTemp-i0,jTemp-j0,
-		 intensityAt_i0j0,intensityAt_i0j1,
-		 intensityAt_i1j0,intensityAt_i1j1);
-	}
-	// swap old with new arrays:
-	std::swap(I,Inew);
-	std::swap(rotation,rotationNew);
-}
-template<class Coord>
-void Radiation<Coord>::StreamCurvedStatic()
-{
-	PROFILE_FUNCTION();
-	#pragma omp parallel for
-	for(int d=0; d<nDir; d++)
-	for(int j=2; j<grid.n2-2; j++)
-	for(int i=2; i<grid.n1-2; i++)
-	{
-		int ij = grid.Index(i,j);		// Index of lattice point ij
-		int ijd = grid.Index(i,j,d);	// Index of population d at lattice point ij
-
-		// Skip LPs which are inside BH:
-		if(metric.InsideBH(i,j))
-		{
-			Inew[ijd] = 0;
-			continue;
-		}
-
-		// Curved Fourier Streaming:
-		double phi = stencil.Phi(d);
-		double s = GetFrequencyShift(i,j,phi);
-		Coordinate2<Coord> xTemp = GetTempCoordinate(i,j,phi);
-		Tensor2<Coord,LF> vTempLF = GetTemp2Velocity(i,j,phi);
-		Tensor2<Coord,IF> vTempIF = vTempLF.template Transform<IF>(metric.GetTetrad(xTemp));
-		Tensor2<xy,IF> vTempIFxy = vTempIF.template Transform<xy>(xTemp);
-
-		// Skip temporary Grid Points inside BH:
-		if(metric.InsideBH(xTemp))
-		{
-			Inew[ijd] = 0;
-			continue;
-		}
-
-		// Get 4 nearest Grid Points:
-		double iTemp = grid.i(xTemp[1]);
-		double jTemp = grid.j(xTemp[2]);
-		int i0 = std::floor(iTemp);	int i1 = i0 + 1;
-		int j0 = std::floor(jTemp);	int j1 = j0 + 1;
-
-		// Intensity interpolation:
-		double angle = vTempIFxy.Angle();
-		double alpha = metric.GetAlpha(ij);
-		double intensityAt_i0j0 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j0))) * IntensityAt(grid.Index(i0,j0),angle);
-		double intensityAt_i0j1 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j1))) * IntensityAt(grid.Index(i0,j1),angle);
-		double intensityAt_i1j0 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j0))) * IntensityAt(grid.Index(i1,j0),angle);
-		double intensityAt_i1j1 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j1))) * IntensityAt(grid.Index(i1,j1),angle);
-
-		// Interpolate intensity from neighbouring 4 lattice points to temporary point:
-		Inew[ijd]
-		= (s*s*s*s) * BilinearInterpolation(iTemp-i0,jTemp-j0,
-		 intensityAt_i0j0,intensityAt_i0j1,
-		 intensityAt_i1j0,intensityAt_i1j1);
-	}
-	// swap old with new array:
-	std::swap(I,Inew);
 }
 
 
 
-template<class Coord>
-void Radiation<Coord>::StreamFlatDynamic()
+void Radiation::StreamFlatFixed()
 {
 	PROFILE_FUNCTION();
-	#pragma omp parallel for
-	for(int d=0; d<nDir; d++)
-	for(int j=2; j<grid.n2-2; j++)
-	for(int i=2; i<grid.n1-2; i++)
-	{
-		int ij = grid.Index(i,j);		// Index of lattice point ij
-		int ijd = grid.Index(i,j,d);	// Index of population d at lattice point ij
+	PARALLEL_FOR(3)
+	#ifdef ijd
+	for(size_t d=0; d<stencil.nDir; d++)
+	for(size_t j=HALO; j<grid.ny-HALO; j++)
+	for(size_t i=HALO; i<grid.nx-HALO; i++)
+	#endif
+	#ifdef dij
+	for(size_t j=HALO; j<grid.ny-HALO; j++)
+	for(size_t i=HALO; i<grid.nx-HALO; i++)
+	for(size_t d=0; d<stencil.nDir; d++)
+	#endif
+    {
+	    size_t ij = grid.Index(i,j);    // Index of lattice point ij
+	    size_t index = Index(ij,d);     // Index of population d at lattice point ij
 
-		// Find new rotation:
-		Tensor2<Coord,IF> averageF = AverageF(i,j);
-		constexpr double rotationThreshold = 1e-3;
-		rotationNew[ij] = (averageF.EuklNorm()>rotationThreshold) ? averageF.Angle() : rotation[ij];
+	    // Get temp velocity:
+	    Tensor2 direction = stencil.C(d);
 
-		// Flat Streaming:
-		Tensor2<xy,IF> vTempIFxy = stencil.Cxy(d,rotationNew[ij]);
-		Coordinate2<Coord> xTemp = grid.x12Coord(i,j);
-		xTemp[1] -= vTempIFxy[1] * grid.dt;
-		xTemp[2] -= vTempIFxy[2] * grid.dt;
+	    // Get temp lattice point:
+	    Coord xyTemp = grid.xy(i,j);
+	    xyTemp[1] -= direction[1] * grid.dt;
+	    xyTemp[2] -= direction[2] * grid.dt;
 
-		// Get 4 nearest Grid Points:
-		double iTemp = grid.i(xTemp[1]);
-		double jTemp = grid.j(xTemp[2]);
-		int i0 = std::floor(iTemp);	int i1 = i0 + 1;
-		int j0 = std::floor(jTemp);	int j1 = j0 + 1;
-
-		// Interpolate intensity from neighbouring 4 lattice points to temporary point:
-		double angle = stencil.Phi(d,rotationNew[ij]);
-		Inew[ijd]
-		= BilinearInterpolation(iTemp-i0,jTemp-j0,
-		 IntensityAt(grid.Index(i0,j0),angle),IntensityAt(grid.Index(i0,j1),angle),
-		 IntensityAt(grid.Index(i1,j0),angle),IntensityAt(grid.Index(i1,j1),angle));
-	}
-	// swap old with new arrays:
-	std::swap(I,Inew);
-	std::swap(rotation,rotationNew);
-}
-template<class Coord>
-void Radiation<Coord>::StreamFlatStatic()
-{
-	PROFILE_FUNCTION();
-	#pragma omp parallel for
-	for(int d=0; d<nDir; d++)
-	for(int j=2; j<grid.n2-2; j++)
-	for(int i=2; i<grid.n1-2; i++)
-	{
-		int ij = grid.Index(i,j);		// Index of lattice point ij
-		int ijd = grid.Index(i,j,d);	// Index of population d at lattice point ij
-
-		// Flat Streaming:
-		Tensor2<xy,IF> vTempIFxy = stencil.Cxy(d);
-		Coordinate2<Coord> xTemp = grid.x12Coord(i,j);
-		xTemp[1] -= vTempIFxy[1] * grid.dt;
-		xTemp[2] -= vTempIFxy[2] * grid.dt;
-
-		// Get 4 nearest Grid Points:
-		double iTemp = grid.i(xTemp[1]);
-		double jTemp = grid.j(xTemp[2]);
-		int i0 = std::floor(iTemp);	int i1 = i0 + 1;
-		int j0 = std::floor(jTemp);	int j1 = j0 + 1;
-
-		// Interpolate intensity from neighbouring 4 lattice points to temporary point:
-		Inew[ijd]
-		= BilinearInterpolation(iTemp-i0,jTemp-j0,
-		 I[grid.Index(i0,j0,d)],I[grid.Index(i0,j1,d)],
-		 I[grid.Index(i1,j0,d)],I[grid.Index(i1,j1,d)]);
-	}
-	// swap old with new array:
+	    // Get 4 nearest Grid Points:
+	    double iTemp = grid.i(xyTemp[1]);
+	    double jTemp = grid.j(xyTemp[2]);
+	    size_t i0 = std::floor(iTemp);	size_t i1 = i0 + 1;
+	    size_t j0 = std::floor(jTemp);	size_t j1 = j0 + 1;
+        
+	    Inew[index] = BilinearInterpolation(iTemp-i0, jTemp-j0, I[Index(i0,j0,d)], I[Index(i0,j1,d)], I[Index(i1,j0,d)], I[Index(i1,j1,d)]);
+    }
 	std::swap(I,Inew);
 }
 
-
-
-template<class Coord>
-void Radiation<Coord>::StreamGeodesicDynamic()
+void Radiation::StreamFlatAdaptive()
 {
 	PROFILE_FUNCTION();
-	#pragma omp parallel for
-	for(int j=2; j<grid.n2-2; j++)
-	for(int i=2; i<grid.n1-2; i++)
-	{
-		int ij = grid.Index(i,j);
-		Tensor2<Coord,IF> averageF = AverageF(i,j);
-		constexpr double rotationThreshold = 1e-3;
-		rotationNew[ij] = (averageF.EuklNorm()>rotationThreshold) ? averageF.Angle() : rotation[ij];
-	}
+	PARALLEL_FOR(3)
+	#ifdef ijd
+	for(size_t d=0; d<stencil.nDir; d++)
+	for(size_t j=HALO; j<grid.ny-HALO; j++)
+	for(size_t i=HALO; i<grid.nx-HALO; i++)
+	#endif
+	#ifdef dij
+	for(size_t j=HALO; j<grid.ny-HALO; j++)
+	for(size_t i=HALO; i<grid.nx-HALO; i++)
+	for(size_t d=0; d<stencil.nDir; d++)
+	#endif
+    {
+	    size_t ij = grid.Index(i,j);    // Index of lattice point ij
+	    size_t index = Index(ij,d);     // Index of population d at lattice point ij
 
-	#pragma omp parallel for
-	for(int d=0; d<nDir; d++)
-	for(int j=2; j<grid.n2-2; j++)
-	for(int i=2; i<grid.n1-2; i++)
-	{
-		int ij = grid.Index(i,j);		// Index of lattice point ij
-		int ijd = grid.Index(i,j,d);	// Index of population d at lattice point ij
+	    // Get temp velocity:
+	    Tensor2 direction = RotationMatrix(rotationAngleNew[ij]) * stencil.C(d);
 
-		// Skip LPs which are inside BH:
-		if(metric.InsideBH(i,j))
-		{
-			Inew[ijd] = 0;
-			continue;
-		}
+	    // Get temp lattice point:
+	    Coord xyTemp = grid.xy(i,j);
+	    xyTemp[1] -= direction[1] * grid.dt;
+	    xyTemp[2] -= direction[2] * grid.dt;
 
-		// Geodesic Streaming:
-		double s = 1;
-		double alpha = metric.GetAlpha(ij);
-		Coordinate2<Coord> xTemp = grid.x12Coord(i,j);
-        Tensor2<xy,IF> cxy = stencil.Cxy(d,rotationNew[ij]);
-        Tensor2<Coord,IF> c = cxy.template Transform<Coord>(grid.xyCoord(i,j));
-        Tensor3<Coord,IF> uIF(alpha, c[1]*alpha, c[2]*alpha);
-        Tensor2<Coord,LF> vTempLF = Vec2ObservedByEulObs<Coord,IF,LF>(uIF,xTemp,metric);
-		if(!metric.InsideBH(xTemp))
-    		s /= RK45_GeodesicEquation<-1>(grid.dt,xTemp,vTempLF,metric);
-		Tensor2<Coord,IF> vTempIF = vTempLF.template Transform<IF>(metric.GetTetrad(xTemp));
-		Tensor2<xy,IF> vTempIFxy = vTempIF.template Transform<xy>(xTemp);
+	    // Get 4 nearest Grid Points:
+	    double iTemp = grid.i(xyTemp[1]);
+	    double jTemp = grid.j(xyTemp[2]);
+	    size_t i0 = std::floor(iTemp);	size_t i1 = i0 + 1;
+	    size_t j0 = std::floor(jTemp);	size_t j1 = j0 + 1;
 
-		// Skip temporary Grid Points inside BH:
-		if(metric.InsideBH(xTemp))
-		{
-			Inew[ijd] = 0;
-			continue;
-		}
-
-		// Get 4 nearest Grid Points:
-		double iTemp = grid.i(xTemp[1]);
-		double jTemp = grid.j(xTemp[2]);
-		int i0 = std::floor(iTemp);	int i1 = i0 + 1;
-		int j0 = std::floor(jTemp);	int j1 = j0 + 1;
-
-		// Intensity interpolation:
-		double angle = vTempIFxy.Angle();
-		double intensityAt_i0j0 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j0))) * IntensityAt(grid.Index(i0,j0),angle);
-		double intensityAt_i0j1 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j1))) * IntensityAt(grid.Index(i0,j1),angle);
-		double intensityAt_i1j0 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j0))) * IntensityAt(grid.Index(i1,j0),angle);
-		double intensityAt_i1j1 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j1))) * IntensityAt(grid.Index(i1,j1),angle);
-
-		// Interpolate intensity from neighbouring 4 lattice points to temporary point:
-		Inew[ijd]
-		= (s*s*s*s) * BilinearInterpolation(iTemp-i0,jTemp-j0,
-		 intensityAt_i0j0,intensityAt_i0j1,
-		 intensityAt_i1j0,intensityAt_i1j1);
-	}
-	// swap old with new arrays:
+		double intensityAt_i0j0 = IntensityAt(grid.Index(i0,j0), direction);
+		double intensityAt_i0j1 = IntensityAt(grid.Index(i0,j1), direction);
+		double intensityAt_i1j0 = IntensityAt(grid.Index(i1,j0), direction);
+		double intensityAt_i1j1 = IntensityAt(grid.Index(i1,j1), direction);
+		Inew[index] = BilinearInterpolation(iTemp-i0, jTemp-j0, intensityAt_i0j0, intensityAt_i0j1, intensityAt_i1j0, intensityAt_i1j1);
+    }
 	std::swap(I,Inew);
-	std::swap(rotation,rotationNew);
-}
-template<class Coord>
-void Radiation<Coord>::StreamGeodesicStatic()
-{
-	PROFILE_FUNCTION();
-	#pragma omp parallel for
-	for(int d=0; d<nDir; d++)
-	for(int j=2; j<grid.n2-2; j++)
-	for(int i=2; i<grid.n1-2; i++)
-	{
-		int ij = grid.Index(i,j);		// Index of lattice point ij
-		int ijd = grid.Index(i,j,d);	// Index of population d at lattice point ij
-
-		// Skip LPs which are inside BH:
-		if(metric.InsideBH(i,j))
-		{
-			Inew[ijd] = 0;
-			continue;
-		}
-
-		// Geodesic Streaming:
-		double s = 1;
-		double alpha = metric.GetAlpha(ij);
-		Coordinate2<Coord> xTemp = grid.x12Coord(i,j);
-        Tensor2<xy,IF> cxy = stencil.Cxy(d);
-        Tensor2<Coord,IF> c = cxy.template Transform<Coord>(grid.xyCoord(i,j));
-        Tensor3<Coord,IF> uIF(alpha, c[1]*alpha, c[2]*alpha);
-        Tensor2<Coord,LF> vTempLF = Vec2ObservedByEulObs<Coord,IF,LF>(uIF,xTemp,metric);
-		if(!metric.InsideBH(xTemp))
-    		s /= RK45_GeodesicEquation<-1>(grid.dt,xTemp,vTempLF,metric);
-		Tensor2<Coord,IF> vTempIF = vTempLF.template Transform<IF>(metric.GetTetrad(xTemp));
-		Tensor2<xy,IF> vTempIFxy = vTempIF.template Transform<xy>(xTemp);
-
-		// Skip temporary Grid Points inside BH:
-		if(metric.InsideBH(xTemp))
-		{
-			Inew[ijd] = 0;
-			continue;
-		}
-
-		// Get 4 nearest Grid Points:
-		double iTemp = grid.i(xTemp[1]);
-		double jTemp = grid.j(xTemp[2]);
-		int i0 = std::floor(iTemp);	int i1 = i0 + 1;
-		int j0 = std::floor(jTemp);	int j1 = j0 + 1;
-
-		// Intensity interpolation:
-		double angle = vTempIFxy.Angle();
-		double intensityAt_i0j0 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j0))) * IntensityAt(grid.Index(i0,j0),angle);
-		double intensityAt_i0j1 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j1))) * IntensityAt(grid.Index(i0,j1),angle);
-		double intensityAt_i1j0 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j0))) * IntensityAt(grid.Index(i1,j0),angle);
-		double intensityAt_i1j1 = MyPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j1))) * IntensityAt(grid.Index(i1,j1),angle);
-
-		// Interpolate intensity from neighbouring 4 lattice points to temporary point:
-		Inew[ijd]
-		= (s*s*s*s) * BilinearInterpolation(iTemp-i0,jTemp-j0,
-		 intensityAt_i0j0,intensityAt_i0j1,
-		 intensityAt_i1j0,intensityAt_i1j1);
-	}
-	// swap old with new array:
-	std::swap(I,Inew);
+	std::swap(rotationAngle,rotationAngleNew);
 }
 
 
 
-template<class Coord>
-void Radiation<Coord>::Collide()
+void Radiation::StreamCurvedFixed()
 {
 	PROFILE_FUNCTION();
-	// TODO:
-	// Steife DGL?
+	PARALLEL_FOR(3)
+	#ifdef ijd
+	for(size_t d=0; d<stencil.nDir; d++)
+	for(size_t j=HALO; j<grid.ny-HALO; j++)
+	for(size_t i=HALO; i<grid.nx-HALO; i++)
+	#endif
+	#ifdef dij
+	for(size_t j=HALO; j<grid.ny-HALO; j++)
+	for(size_t i=HALO; i<grid.nx-HALO; i++)
+	for(size_t d=0; d<stencil.nDir; d++)
+	#endif
+    {
+        size_t ij = grid.Index(i,j);    // Index of lattice point ij
+	    size_t index = Index(ij,d);     // Index of population d at lattice point ij
+
+	    // Skip LPs which are inside BH:
+	    if(metric.InsideBH(grid.xy(i,j)))
+	    {
+            Inew[index] = 0;
+	    	continue;
+	    }
+
+	    // Get velocity direction in IF:
+        double angle = stencil.Phi(d);
+    
+	    // Get quantities at emission point:
+	    double s = GetFrequencyShift(ij, angle);
+	    Coord xyTemp = GetTempCoordinate(ij, angle);
+	    Tensor2 vTempIF = GetTemp2VelocityIF(ij, angle);
+
+	    // Skip temporary Grid Points inside BH:
+	    if(metric.InsideBH(xyTemp))
+	    {
+            Inew[index] = 0;
+	    	continue;
+	    }
+
+	    // Get 4 nearest Grid Points:
+	    double iTemp = grid.i(xyTemp[1]);
+	    double jTemp = grid.j(xyTemp[2]);
+	    size_t i0 = std::floor(iTemp);	size_t i1 = i0 + 1;
+	    size_t j0 = std::floor(jTemp);	size_t j1 = j0 + 1;
+
+	    // Intensity interpolation:
+	    double alpha = metric.GetAlpha(ij);
+	    double intensityAt_i0j0 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j0))) * IntensityAt(grid.Index(i0,j0), vTempIF);
+	    double intensityAt_i0j1 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j1))) * IntensityAt(grid.Index(i0,j1), vTempIF);
+	    double intensityAt_i1j0 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j0))) * IntensityAt(grid.Index(i1,j0), vTempIF);
+	    double intensityAt_i1j1 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j1))) * IntensityAt(grid.Index(i1,j1), vTempIF);
+
+	    // Interpolate intensity from neighbouring 4 lattice points to temporary point:
+	    Inew[index] = IntegerPow<4>(s) * BilinearInterpolation(iTemp-i0, jTemp-j0, intensityAt_i0j0, intensityAt_i0j1, intensityAt_i1j0, intensityAt_i1j1);
+    }
+	std::swap(I,Inew);
+}
+
+void Radiation::StreamCurvedAdaptive()
+{
+	PROFILE_FUNCTION();
+	PARALLEL_FOR(3)
+	#ifdef ijd
+	for(size_t d=0; d<stencil.nDir; d++)
+	for(size_t j=HALO; j<grid.ny-HALO; j++)
+	for(size_t i=HALO; i<grid.nx-HALO; i++)
+	#endif
+	#ifdef dij
+	for(size_t j=HALO; j<grid.ny-HALO; j++)
+	for(size_t i=HALO; i<grid.nx-HALO; i++)
+	for(size_t d=0; d<stencil.nDir; d++)
+	#endif
+    {
+        size_t ij = grid.Index(i,j);    // Index of lattice point ij
+	    size_t index = Index(ij,d);     // Index of population d at lattice point ij
+
+	    // Skip LPs which are inside BH:
+	    if(metric.InsideBH(grid.xy(i,j)))
+	    {
+            Inew[index] = 0;
+	    	continue;
+	    }
+
+	    // Get velocity direction in IF:
+	    Tensor2 direction = RotationMatrix(rotationAngleNew[ij]) * stencil.C(d);
+        double angle = direction.Phi();
+        // double angle = fmod(rotationAngleNew[ij] + stencil.Phi(d) + 2.0 * M_PI, 2.0 * M_PI);
+    
+	    // Get quantities at emission point:
+	    double s = GetFrequencyShift(ij, angle);
+	    Coord xyTemp = GetTempCoordinate(ij, angle);
+	    Tensor2 vTempIF = GetTemp2VelocityIF(ij, angle);
+
+	    // Skip temporary Grid Points inside BH:
+	    if(metric.InsideBH(xyTemp))
+	    {
+            Inew[index] = 0;
+	    	continue;
+	    }
+
+	    // Get 4 nearest Grid Points:
+	    double iTemp = grid.i(xyTemp[1]);
+	    double jTemp = grid.j(xyTemp[2]);
+	    size_t i0 = std::floor(iTemp);  size_t i1 = i0 + 1;
+	    size_t j0 = std::floor(jTemp);	size_t j1 = j0 + 1;
+
+	    // Intensity interpolation:
+	    double alpha = metric.GetAlpha(ij);
+	    double intensityAt_i0j0 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j0))) * IntensityAt(grid.Index(i0,j0), vTempIF);
+	    double intensityAt_i0j1 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i0,j1))) * IntensityAt(grid.Index(i0,j1), vTempIF);
+	    double intensityAt_i1j0 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j0))) * IntensityAt(grid.Index(i1,j0), vTempIF);
+	    double intensityAt_i1j1 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i1,j1))) * IntensityAt(grid.Index(i1,j1), vTempIF);
+
+	    // Interpolate intensity from neighbouring 4 lattice points to temporary point:
+	    Inew[index] = IntegerPow<4>(s) * BilinearInterpolation(iTemp-i0, jTemp-j0, intensityAt_i0j0, intensityAt_i0j1, intensityAt_i1j0, intensityAt_i1j1);
+    }
+	std::swap(I,Inew);
+	std::swap(rotationAngle,rotationAngleNew);
+}
+
+
+
+void Radiation::Collide()
+{
+	PROFILE_FUNCTION();
+	// TODO: Steife DGL?
 	
-	#pragma omp parallel for
-	for(int j = 0; j < metric.grid.n2; j++)
-	for(int i = 0; i < metric.grid.n1; i++)
+	PARALLEL_FOR(2)
+	for(size_t j=HALO; j<metric.grid.ny-HALO; j++)
+	for(size_t i=HALO; i<metric.grid.nx-HALO; i++)
 	{
-		if(metric.InsideBH(i,j))
+		if(metric.InsideBH(grid.xy(i,j)))
 			continue;
 
-		int ij = grid.Index(i,j);
+		size_t ij = grid.Index(i,j);
 
 		// Simulate stationary fluid, u^k=(0,0):
 		double alpha = metric.GetAlpha(ij);
-		Tensor2<xy,IF> u(0.0,0.0);	// fluid 2 velocity as seen by Eulerian observer
-		double W = 1.0 / sqrt(1.0 - u.EuklNorm());		// Lorentz factor
-		double uDotF = Fx_LF[ij] * u[1] + Fy_LF[ij] * u[2];		// F^i u_i
-		double uuDotP = Pxx_LF[ij] * u[1] * u[1] + 2.0 * Pxy_LF[ij] * u[1] * u[2] + Pyy_LF[ij] * u[2] * u[2];	// P^ij u_i u_j
-		double fluidE = W * W * (E_LF[ij]  - 2.0 * uDotF + uuDotP);
+		Tensor2 u(0.0);	// fluid 2 velocity as seen by Eulerian observer
+		double W = 1.0 / sqrt(1.0 - Norm2(u, metric.GetGamma_ll(ij)));	// Lorentz factor
+		double uDotF = Fx_LF[ij] * u[1] + Fy_LF[ij] * u[2];             // F^i u_i
+		double uuDotP = Pxx_LF[ij] * u[1] * u[1] + Pyy_LF[ij] * u[2] * u[2] + 2.0 * Pxy_LF[ij] * u[1] * u[2];   // P^ij u_i u_j
+		double fluidE = W * W * (E_LF[ij] - 2.0 * uDotF + uuDotP);
 		
-		for(int d = 0; d < stencil.nDir; d++)
+		for(size_t d = 0; d < stencil.nDir; d++)
 		{
-			int ijd = ij + d*metric.grid.n12;
-			double A = W * (1.0 - Tensor2<xy,IF>::Dot(stencil.Cxy(d,rotation[ij]),u));
+			size_t index = Index(ij,d);
+			double A = W * (1.0 - Tensor2::Dot(RotationMatrix(rotationAngle[ij]) * stencil.C(d), u));
 
-			double Gamma = stencil.W(d) * (eta[ij] + kappa0[ij]*fluidE) / (A*A*A) - A*I[ijd] * (kappaA[ij] + kappa0[ij]);
-			I[ijd] += alpha * metric.grid.dt * Gamma;
+			double Gamma = (eta[ij] + kappa0[ij]*fluidE) / (A*A*A) - A*I[index] * (kappaA[ij] + kappa0[ij]);
+			I[index] += alpha * metric.grid.dt * Gamma;
 		}
 	}
 }
 
 
 
-template<class Coord>
-void Radiation<Coord>::RunSimulation(RunParameters params)
+void Radiation::WriteIntensitiesToCsv(double time, const int frameNumber, std::string directory, std::string name)
+{
+	PROFILE_FUNCTION();
+    CreateDirectory(directory);
+
+    name = name + FrameNumber(frameNumber) + ".csv";
+    std::ofstream fileOut(directory + "/" + name);
+
+    fileOut << "#nx=" << grid.nx << "\n";
+    fileOut << "#ny=" << grid.ny << "\n";
+    fileOut << "#startx=" << grid.startx << "\n";
+    fileOut << "#starty=" << grid.starty << "\n";
+    fileOut << "#endx=" << grid.endx << "\n";
+    fileOut << "#endy=" << grid.endy << "\n";
+	fileOut << "#x, y, z, color\n";
+	for(size_t j = 2; j < metric.grid.ny - 2; j++)
+	for(size_t i = 2; i < metric.grid.nx - 2; i++)
+	{
+		size_t ij = grid.Index(i,j);
+		Coord xy = grid.xy(i,j);
+		fileOut << xy[1] << ", " << xy[2] << ", " << 0 << ", " << 0 << "\n";
+		// Bulk:
+		for(size_t d=0; d<stencil.nDir; d++)
+		{
+			size_t index = Index(ij,d);
+			if(I[index] > 1e-8)
+			{
+				Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
+                double value = I[index];
+
+				Coord pos = xy;
+				pos[1] += dir[1] * grid.dt * 0.5;// * (0.1 + 0.9 * value);
+				pos[2] += dir[2] * grid.dt * 0.5;// * (0.1 + 0.9 * value);
+
+				fileOut << pos[1] << ", " << pos[2] << ", " << 0 << ", " << value << "\n";
+			}
+		}
+	}
+	
+    fileOut.close();
+}
+
+
+
+void Radiation::RunSimulation(Config config)
 {
 	// -------------------- Initialization --------------------
-	int timeSteps = ceil(params.simTime/grid.dt);
-	params.simTime = timeSteps * grid.dt;
-	Log logger(params.name,params.simTime,stencil,fourierStencil,metric);
-
+	int timeSteps = ceil(config.simTime / grid.dt);
+	config.simTime = timeSteps * grid.dt;
+	Log logger(config.name, config.simTime, stencil, streamingStencil, metric);
+	NormalizeInitialDirections();
 	LoadInitialData();
 	ComputeMomentsIF();
 	ComputeMomentsLF();
-	NormalizeInitialData();
-	LoadInitialData(); // loads normalized data into rotated stencil.
+	NormalizeInitialIntensities();
+	LoadInitialData(); // loads normalized data
 	UpdateFourierCoefficients();
-
+	
 	// Initial data output:
-	if (params.printToTerminal)
+	if (config.printToTerminal)
 	{
-		std::cout << " sigma=" << stencil.sigma << "\n";
-		std::cout << " n1=" << grid.n1 << "\n";
-		std::cout << " n2=" << grid.n2 << "\n";
-		std::cout << " nDir=" << stencil.nDir << "\n";
-		std::cout << " nFourier=" << fourierStencil.nDir << "\n";
-		std::cout << " simTime=" << params.simTime << "\n";
-		std::cout << " dt=" << grid.dt << "\n";
-		std::cout << " timeSteps=" << timeSteps << "\n";
-		std::cout << " filesToWrite=" << timeSteps/params.writeFrequency << std::endl;
+		std::cout << " sigma        = " << sigma << "\n";
+		std::cout << " nx           = " << grid.nx << "\n";
+		std::cout << " ny           = " << grid.ny << "\n";
+		std::cout << " nDir         = " << stencil.nDir << "\n";
+		std::cout << " nFourier     = " << streamingStencil.nDir << "\n";
+		std::cout << " simTime      = " << config.simTime << "\n";
+		std::cout << " dx           = " << grid.dx << "\n";
+		std::cout << " dy           = " << grid.dy << "\n";
+		std::cout << " dt           = " << grid.dt << "\n";
+		std::cout << " timeSteps    = " << timeSteps << "\n";
+		std::cout << " filesToWrite = " << timeSteps / config.writeFrequency << std::endl;
 	}
 	// --------------------------------------------------------
 
 
 
 	Profiler::Session& session = Profiler::Session::Get();
-	session.Start(params.name, "output/" + params.name + "/profileResults.json");
+	session.Start(config.name, "output/" + config.name + "/profileResults.json");
 	// ----------------- Main simulation Loop -----------------
 	{
 		PROFILE_SCOPE("Total Time");
 		for(int n=0; n<timeSteps; n++)
 		{
-			if (params.printToTerminal)
+			if(config.printToTerminal)
 			{ std::cout << n << "," << std::flush; }
 			ComputeMomentsIF();
 			Collide();
 
-			if (params.writeData && (n % params.writeFrequency) == 0)
-			{
+			if(config.writeData && (n % config.writeFrequency) == 0)
+            {
 				ComputeMomentsLF();
-				grid.WriteFrametoCsv(n*grid.dt,E_LF,Fx_LF,Fy_LF,Fnorm_LF,n,logger.directoryPath + "/Moments");
-			}
+                grid.WriteFrametoCsv(n*grid.dt, E_LF, Fx_LF, Fy_LF, E, n, logger.directoryPath + "/Moments/");
+                // WriteIntensitiesToCsv(n*grid.dt, n, logger.directoryPath + "/Intensities", "I");
+            }
 
-			if (params.updateFourierHarmonics)
+			if (config.updateFourierHarmonics)
 			{ UpdateFourierCoefficients(); }
 
 			// Streaming:
-			switch (streamingType)
+			switch(streamingType)
 			{
-				case(StreamingType::CurvedDynamic):		StreamCurvedDynamic();	break;
-				case(StreamingType::CurvedStatic):		StreamCurvedStatic();	break;
-				case(StreamingType::FlatDynamic):		StreamFlatDynamic();	break;
-				case(StreamingType::FlatStatic):		StreamFlatStatic();		break;
-				case(StreamingType::GeodesicDynamic):	StreamGeodesicDynamic();break;
-				case(StreamingType::GeodesicStatic):	StreamGeodesicStatic();	break;
+				case(StreamingType::FlatFixed):         StreamFlatFixed();                                      break;
+				case(StreamingType::FlatAdaptive):		UpdateRotationMatrizes();    StreamFlatAdaptive();	    break;
+				case(StreamingType::CurvedFixed):		StreamCurvedFixed();                                    break;
+				case(StreamingType::CurvedAdaptive):    UpdateRotationMatrizes();    StreamCurvedAdaptive();    break;
 			}
 
-			if (params.keepSourceNodesActive)
+			if(config.keepSourceNodesActive)
 			{ LoadInitialData(); }
 		}
 	
-		if (params.writeData)
-		{ grid.WriteFrametoCsv(timeSteps*grid.dt,E_LF,Fx_LF,Fy_LF,Fnorm_LF,timeSteps,logger.directoryPath + "/Moments"); }
+		if(config.writeData)
+        {
+			ComputeMomentsIF();
+			ComputeMomentsLF();
+        }
+		if(config.writeData)
+        {
+            grid.WriteFrametoCsv(timeSteps*grid.dt, E_LF, Fx_LF, Fy_LF, E, timeSteps, logger.directoryPath + "/Moments/");
+		    // WriteIntensitiesToCsv(timeSteps*grid.dt, timeSteps, logger.directoryPath + "/Intensities", "I");
+        }
 	}
 	// --------------------------------------------------------
 	session.End();
 
 
-
 	// ---------------------- Termination ---------------------
 	std::vector<std::string> names = session.GetAllFunctionNames();
-	if (params.printToTerminal)
+	if (config.printToTerminal)
 	{ std::cout << std::endl; }
 	for(int i=0; i<names.size(); i++)
 	{
-		if (params.printToTerminal)
+		if (config.printToTerminal)
 			session.PrintFunctionDuration(names[i]);
 		logger.AddTimeMeasurement(names[i], session.GetTotalTime(names[i]));
 	}
 	// --------------------------------------------------------
 }
-
-
-
-template class Radiation<xy>;
-template class Radiation<rph>;

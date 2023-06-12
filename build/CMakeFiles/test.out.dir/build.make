@@ -83,24 +83,10 @@ CMakeFiles/test.out.dir/exe/test.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.out.dir/exe/test.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/ceph/tolsen/2dRadiation/exe/test.cpp -o CMakeFiles/test.out.dir/exe/test.cpp.s
 
-CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.o: CMakeFiles/test.out.dir/flags.make
-CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.o: ../src/AdvancedUtiltiy.cpp
-CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.o: CMakeFiles/test.out.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.o -MF CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.o.d -o CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/AdvancedUtiltiy.cpp
-
-CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/ceph/tolsen/2dRadiation/src/AdvancedUtiltiy.cpp > CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.i
-
-CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/ceph/tolsen/2dRadiation/src/AdvancedUtiltiy.cpp -o CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.s
-
 CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.o: CMakeFiles/test.out.dir/flags.make
 CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.o: ../src/FourierHarmonics.cpp
 CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.o: CMakeFiles/test.out.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.o -MF CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.o.d -o CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp
 
 CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.i: cmake_force
@@ -114,7 +100,7 @@ CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.s: cmake_force
 CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.o: CMakeFiles/test.out.dir/flags.make
 CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.o: ../src/GeodesicEquationSolver.cpp
 CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.o: CMakeFiles/test.out.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.o -MF CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.o.d -o CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp
 
 CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.i: cmake_force
@@ -128,7 +114,7 @@ CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.s: cmake_force
 CMakeFiles/test.out.dir/src/Grid.cpp.o: CMakeFiles/test.out.dir/flags.make
 CMakeFiles/test.out.dir/src/Grid.cpp.o: ../src/Grid.cpp
 CMakeFiles/test.out.dir/src/Grid.cpp.o: CMakeFiles/test.out.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/test.out.dir/src/Grid.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/test.out.dir/src/Grid.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test.out.dir/src/Grid.cpp.o -MF CMakeFiles/test.out.dir/src/Grid.cpp.o.d -o CMakeFiles/test.out.dir/src/Grid.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Grid.cpp
 
 CMakeFiles/test.out.dir/src/Grid.cpp.i: cmake_force
@@ -138,6 +124,20 @@ CMakeFiles/test.out.dir/src/Grid.cpp.i: cmake_force
 CMakeFiles/test.out.dir/src/Grid.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.out.dir/src/Grid.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/ceph/tolsen/2dRadiation/src/Grid.cpp -o CMakeFiles/test.out.dir/src/Grid.cpp.s
+
+CMakeFiles/test.out.dir/src/Interpolation.cpp.o: CMakeFiles/test.out.dir/flags.make
+CMakeFiles/test.out.dir/src/Interpolation.cpp.o: ../src/Interpolation.cpp
+CMakeFiles/test.out.dir/src/Interpolation.cpp.o: CMakeFiles/test.out.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/test.out.dir/src/Interpolation.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test.out.dir/src/Interpolation.cpp.o -MF CMakeFiles/test.out.dir/src/Interpolation.cpp.o.d -o CMakeFiles/test.out.dir/src/Interpolation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp
+
+CMakeFiles/test.out.dir/src/Interpolation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.out.dir/src/Interpolation.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp > CMakeFiles/test.out.dir/src/Interpolation.cpp.i
+
+CMakeFiles/test.out.dir/src/Interpolation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.out.dir/src/Interpolation.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp -o CMakeFiles/test.out.dir/src/Interpolation.cpp.s
 
 CMakeFiles/test.out.dir/src/Metric.cpp.o: CMakeFiles/test.out.dir/flags.make
 CMakeFiles/test.out.dir/src/Metric.cpp.o: ../src/Metric.cpp
@@ -181,49 +181,65 @@ CMakeFiles/test.out.dir/src/Spacetimes.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.out.dir/src/Spacetimes.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp -o CMakeFiles/test.out.dir/src/Spacetimes.cpp.s
 
-CMakeFiles/test.out.dir/src/WriteData.cpp.o: CMakeFiles/test.out.dir/flags.make
-CMakeFiles/test.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp
-CMakeFiles/test.out.dir/src/WriteData.cpp.o: CMakeFiles/test.out.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/test.out.dir/src/WriteData.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test.out.dir/src/WriteData.cpp.o -MF CMakeFiles/test.out.dir/src/WriteData.cpp.o.d -o CMakeFiles/test.out.dir/src/WriteData.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/WriteData.cpp
+CMakeFiles/test.out.dir/src/SpecialMath.cpp.o: CMakeFiles/test.out.dir/flags.make
+CMakeFiles/test.out.dir/src/SpecialMath.cpp.o: ../src/SpecialMath.cpp
+CMakeFiles/test.out.dir/src/SpecialMath.cpp.o: CMakeFiles/test.out.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/test.out.dir/src/SpecialMath.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test.out.dir/src/SpecialMath.cpp.o -MF CMakeFiles/test.out.dir/src/SpecialMath.cpp.o.d -o CMakeFiles/test.out.dir/src/SpecialMath.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp
 
-CMakeFiles/test.out.dir/src/WriteData.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.out.dir/src/WriteData.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/ceph/tolsen/2dRadiation/src/WriteData.cpp > CMakeFiles/test.out.dir/src/WriteData.cpp.i
+CMakeFiles/test.out.dir/src/SpecialMath.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.out.dir/src/SpecialMath.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp > CMakeFiles/test.out.dir/src/SpecialMath.cpp.i
 
-CMakeFiles/test.out.dir/src/WriteData.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.out.dir/src/WriteData.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/ceph/tolsen/2dRadiation/src/WriteData.cpp -o CMakeFiles/test.out.dir/src/WriteData.cpp.s
+CMakeFiles/test.out.dir/src/SpecialMath.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.out.dir/src/SpecialMath.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp -o CMakeFiles/test.out.dir/src/SpecialMath.cpp.s
+
+CMakeFiles/test.out.dir/src/Stencil.cpp.o: CMakeFiles/test.out.dir/flags.make
+CMakeFiles/test.out.dir/src/Stencil.cpp.o: ../src/Stencil.cpp
+CMakeFiles/test.out.dir/src/Stencil.cpp.o: CMakeFiles/test.out.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/test.out.dir/src/Stencil.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test.out.dir/src/Stencil.cpp.o -MF CMakeFiles/test.out.dir/src/Stencil.cpp.o.d -o CMakeFiles/test.out.dir/src/Stencil.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp
+
+CMakeFiles/test.out.dir/src/Stencil.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.out.dir/src/Stencil.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp > CMakeFiles/test.out.dir/src/Stencil.cpp.i
+
+CMakeFiles/test.out.dir/src/Stencil.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.out.dir/src/Stencil.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp -o CMakeFiles/test.out.dir/src/Stencil.cpp.s
 
 # Object files for target test.out
 test_out_OBJECTS = \
 "CMakeFiles/test.out.dir/exe/test.cpp.o" \
-"CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.o" \
 "CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.o" \
 "CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.o" \
 "CMakeFiles/test.out.dir/src/Grid.cpp.o" \
+"CMakeFiles/test.out.dir/src/Interpolation.cpp.o" \
 "CMakeFiles/test.out.dir/src/Metric.cpp.o" \
 "CMakeFiles/test.out.dir/src/Radiation.cpp.o" \
 "CMakeFiles/test.out.dir/src/Spacetimes.cpp.o" \
-"CMakeFiles/test.out.dir/src/WriteData.cpp.o"
+"CMakeFiles/test.out.dir/src/SpecialMath.cpp.o" \
+"CMakeFiles/test.out.dir/src/Stencil.cpp.o"
 
 # External object files for target test.out
 test_out_EXTERNAL_OBJECTS =
 
 test.out: CMakeFiles/test.out.dir/exe/test.cpp.o
-test.out: CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.o
 test.out: CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.o
 test.out: CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.o
 test.out: CMakeFiles/test.out.dir/src/Grid.cpp.o
+test.out: CMakeFiles/test.out.dir/src/Interpolation.cpp.o
 test.out: CMakeFiles/test.out.dir/src/Metric.cpp.o
 test.out: CMakeFiles/test.out.dir/src/Radiation.cpp.o
 test.out: CMakeFiles/test.out.dir/src/Spacetimes.cpp.o
-test.out: CMakeFiles/test.out.dir/src/WriteData.cpp.o
+test.out: CMakeFiles/test.out.dir/src/SpecialMath.cpp.o
+test.out: CMakeFiles/test.out.dir/src/Stencil.cpp.o
 test.out: CMakeFiles/test.out.dir/build.make
 test.out: /usr/lib/gcc/x86_64-linux-gnu/11/libgomp.so
 test.out: /usr/lib/x86_64-linux-gnu/libpthread.a
 test.out: CMakeFiles/test.out.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable test.out"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable test.out"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test.out.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

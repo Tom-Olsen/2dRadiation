@@ -1,21 +1,20 @@
 #ifndef __INCLUDE_GUARD_Log_hh__
 #define __INCLUDE_GUARD_Log_hh__
-#include <math.h>
-#include "Metric.h"
-#include "Stencil.hh"
+#include <math.h>       // Basic math.
+#include "Spacetimes.h" // Metric data.
+#include "Stencil.h"    // Velocity stencil.
 
 
 
-template<class Coord>
 class Log
 {
 public:
     // General simulation parameters:
     int timeSteps;
     float simTime;
-    Stencil& stencil;
-    Stencil& fourierStencil;
-    Metric<Coord>& metric;
+    Stencil& intensityStencil;
+    Stencil& streamingStencil;
+    Metric& metric;
 
     // Data management:
     std::string name;
@@ -24,8 +23,8 @@ public:
     std::vector<std::string> timeNames;
     std::vector<double> timeMeasurements;
 
-    Log(std::string name_, double simTime_, Stencil& stencil_, Stencil& fourierStencil_, Metric<Coord>& metric_) :
-    name(name_), stencil(stencil_), fourierStencil(fourierStencil_), metric(metric_)
+    Log(std::string name_, double simTime_, Stencil& intensityStencil, Stencil& streamingStencil, Metric& metric_) :
+    name(name_), intensityStencil(intensityStencil), streamingStencil(streamingStencil), metric(metric_)
     {
         // Derived from simulation parameters:
 	    timeSteps = ceil(simTime_/metric_.grid.dt);
@@ -42,7 +41,7 @@ public:
 	    directoryPath = OUTPUTDIR + name;
 	    if(!CreateDirectory(directoryPath))
 	    	double a = 0;
-	    	// exit_on_error("Failed to create output directory.");
+		// ExitOnError("Failed to create output directory.");
     }
     ~Log()
     {
@@ -56,20 +55,22 @@ public:
 
 	    file << "Grid Structure:" << std::endl;
 	    file << "Simulation Time = " << simTime << std::endl;
-	    file << "(start0,start1) = (" << metric.grid.start1 << "," << metric.grid.start2 << ");" << std::endl;
-	    file << "(end0  ,end1  ) = (" << metric.grid.end1   << "," << metric.grid.end2   << ");" << std::endl;
-	    file << "(N0    ,N1    ) = (" << metric.grid.n1     << "," << metric.grid.n2     << ");" << std::endl;
-	    file << "N12 = " << metric.grid.n12 << std::endl;
-	    file << "Nt  = " << timeSteps << std::endl;
-	    file << "dx  = " << metric.grid.d1  << std::endl;
-	    file << "dy  = " << metric.grid.d2  << std::endl;
-	    file << "dt  = " << metric.grid.dt  << std::endl;
-	    file << "cfl = " << metric.grid.cfl << std::endl << std::endl;
+	    file << "(startx,starty) = (" << metric.grid.startx << "," << metric.grid.starty << ")" << std::endl;
+	    file << "(endx  ,  endy) = (" << metric.grid.endx   << "," << metric.grid.endy   << ")" << std::endl;
+	    file << "(Nx    ,    Ny) = (" << metric.grid.nx     << "," << metric.grid.ny     << ")" << std::endl;
+	    file << "Nt   = " << timeSteps << std::endl;
+	    file << "dx   = " << metric.grid.dx << std::endl;
+	    file << "dy   = " << metric.grid.dy << std::endl;
+	    file << "dt   = " << metric.grid.dt << std::endl;
+	    file << "cfl  = " << metric.grid.GetCFL() << std::endl << std::endl;
     
 	    file << "Stencil Properties:" << std::endl;
-	    file << "nDir     = " << stencil.nDir << ";" << std::endl;
-	    file << "nFourier = " << fourierStencil.nDir << ";" << std::endl;
-	    file << "Normal distribution sigma = " << stencil.sigma << std::endl << std::endl;
+	    file << "Intensity Stencil: nDir          = " << intensityStencil.nDir << std::endl;
+	    file << "Intensity Stencil: nOrder        = " << intensityStencil.nOrder << std::endl;
+	    file << "Intensity Stencil: nCoefficients = " << intensityStencil.nCoefficients << std::endl;
+	    file << "Streaming Stencil: nDir          = " << streamingStencil.nDir << std::endl;
+	    file << "Streaming Stencil: nOrder        = " << streamingStencil.nOrder << std::endl;
+	    file << "Streaming Stencil: nCoefficients = " << streamingStencil.nCoefficients << std::endl << std::endl;
 
 	    file << "Time measurements:" << std::endl;
 	    for(int i=0; i<timeMeasurements.size(); i++)

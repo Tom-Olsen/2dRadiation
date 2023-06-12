@@ -199,568 +199,25 @@ CMakeFiles/main.out.dir/exe/main.cpp.o: ../exe/main.cpp \
   /usr/include/c++/11/bits/ostream.tcc \
   /usr/include/c++/11/istream \
   /usr/include/c++/11/bits/istream.tcc \
-  /usr/include/c++/11/math.h \
-  /usr/include/c++/11/cmath \
-  /usr/include/math.h \
-  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
-  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
-  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
-  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
-  /usr/include/c++/11/bits/specfun.h \
-  /usr/include/c++/11/limits \
-  /usr/include/c++/11/tr1/gamma.tcc \
-  /usr/include/c++/11/tr1/special_function_util.h \
-  /usr/include/c++/11/tr1/bessel_function.tcc \
-  /usr/include/c++/11/tr1/beta_function.tcc \
-  /usr/include/c++/11/tr1/ell_integral.tcc \
-  /usr/include/c++/11/tr1/exp_integral.tcc \
-  /usr/include/c++/11/tr1/hypergeometric.tcc \
-  /usr/include/c++/11/tr1/legendre_function.tcc \
-  /usr/include/c++/11/tr1/modified_bessel_func.tcc \
-  /usr/include/c++/11/tr1/poly_hermite.tcc \
-  /usr/include/c++/11/tr1/poly_laguerre.tcc \
-  /usr/include/c++/11/tr1/riemann_zeta.tcc \
-  /usr/include/c++/11/fstream \
-  /usr/include/c++/11/bits/codecvt.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
-  /usr/include/c++/11/bits/fstream.tcc \
-  /usr/include/c++/11/stdlib.h \
-  /usr/include/c++/11/filesystem \
-  /usr/include/c++/11/bits/fs_fwd.h \
-  /usr/include/c++/11/chrono \
-  /usr/include/c++/11/ratio \
-  /usr/include/c++/11/ctime \
-  /usr/include/c++/11/bits/parse_numbers.h \
-  /usr/include/c++/11/bits/fs_path.h \
-  /usr/include/c++/11/utility \
-  /usr/include/c++/11/bits/stl_relops.h \
-  /usr/include/c++/11/locale \
-  /usr/include/c++/11/bits/locale_facets_nonio.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
-  /usr/include/libintl.h \
-  /usr/include/c++/11/bits/locale_facets_nonio.tcc \
-  /usr/include/c++/11/bits/locale_conv.h \
-  /usr/include/c++/11/bits/unique_ptr.h \
-  /usr/include/c++/11/tuple \
-  /usr/include/c++/11/array \
-  /usr/include/c++/11/bits/uses_allocator.h \
-  /usr/include/c++/11/bits/invoke.h \
-  /usr/include/c++/11/iomanip \
-  /usr/include/c++/11/bits/quoted_string.h \
-  /usr/include/c++/11/sstream \
-  /usr/include/c++/11/bits/sstream.tcc \
-  /usr/include/c++/11/codecvt \
-  /usr/include/c++/11/ext/concurrence.h \
-  /usr/include/c++/11/bits/shared_ptr.h \
-  /usr/include/c++/11/bits/shared_ptr_base.h \
-  /usr/include/c++/11/bits/allocated_ptr.h \
-  /usr/include/c++/11/bits/refwrap.h \
-  /usr/include/c++/11/ext/aligned_buffer.h \
-  /usr/include/c++/11/bits/fs_dir.h \
-  /usr/include/c++/11/bits/fs_ops.h \
-  ../src/Includes.hh \
-  ../src/ControlFlow.hh \
-  ../src/Utility.hh \
-  /usr/include/c++/11/algorithm \
-  /usr/include/c++/11/bits/ranges_algo.h \
-  /usr/include/c++/11/bits/ranges_algobase.h \
-  /usr/include/c++/11/iterator \
-  /usr/include/c++/11/bits/stream_iterator.h \
-  /usr/include/c++/11/bits/ranges_util.h \
-  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
-  /usr/include/c++/11/functional \
-  /usr/include/c++/11/bits/std_function.h \
-  /usr/include/c++/11/unordered_map \
-  /usr/include/c++/11/bits/hashtable.h \
-  /usr/include/c++/11/bits/hashtable_policy.h \
-  /usr/include/c++/11/bits/enable_special_members.h \
-  /usr/include/c++/11/bits/node_handle.h \
-  /usr/include/c++/11/bits/unordered_map.h \
-  /usr/include/c++/11/bits/erase_if.h \
-  /usr/include/c++/11/vector \
-  /usr/include/c++/11/bits/stl_uninitialized.h \
-  /usr/include/c++/11/bits/stl_vector.h \
-  /usr/include/c++/11/bits/stl_bvector.h \
-  /usr/include/c++/11/bits/vector.tcc \
-  /usr/include/c++/11/pstl/execution_defs.h \
-  /usr/include/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
-  /usr/include/x86_64-linux-gnu/bits/environments.h \
-  /usr/include/x86_64-linux-gnu/bits/confname.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
-  /usr/include/linux/close_range.h \
-  ../src/eigen/Eigen/Dense \
-  ../src/eigen/Eigen/Core \
-  ../src/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
-  ../src/eigen/Eigen/src/Core/util/Macros.h \
-  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/Core/util/ConfigureVectorization.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/mmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/xmmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/mm_malloc.h \
-  /usr/include/c++/11/complex \
-  ../src/eigen/Eigen/src/Core/util/MKL_support.h \
-  /usr/include/c++/11/atomic \
-  /usr/include/c++/11/bits/atomic_base.h \
-  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
-  /usr/include/c++/11/bits/atomic_wait.h \
-  /usr/include/c++/11/climits \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
-  /usr/include/limits.h \
-  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
-  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
-  /usr/include/linux/limits.h \
-  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
-  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
-  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
-  /usr/include/syscall.h \
-  /usr/include/x86_64-linux-gnu/sys/syscall.h \
-  /usr/include/x86_64-linux-gnu/asm/unistd.h \
-  /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
-  /usr/include/x86_64-linux-gnu/bits/syscall.h \
-  /usr/include/c++/11/bits/std_mutex.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/omp.h \
-  /usr/include/c++/11/cstddef \
-  /usr/include/c++/11/cstring \
-  /usr/include/string.h \
-  /usr/include/strings.h \
-  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
-  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
-  ../src/eigen/Eigen/src/Core/util/Constants.h \
-  ../src/eigen/Eigen/src/Core/util/Meta.h \
-  ../src/eigen/Eigen/src/Core/util/Assert.h \
-  /usr/include/c++/11/cassert \
-  /usr/include/assert.h \
-  ../src/eigen/Eigen/src/Core/util/ForwardDeclarations.h \
-  ../src/eigen/Eigen/src/Core/util/StaticAssert.h \
-  ../src/eigen/Eigen/src/Core/util/XprHelper.h \
-  ../src/eigen/Eigen/src/Core/util/Memory.h \
-  ../src/eigen/Eigen/src/Core/util/IntegralConstant.h \
-  ../src/eigen/Eigen/src/Core/util/Serializer.h \
-  ../src/eigen/Eigen/src/Core/util/SymbolicIndex.h \
-  ../src/eigen/Eigen/src/Core/util/EmulateArray.h \
-  ../src/eigen/Eigen/src/Core/util/MoreMeta.h \
-  ../src/eigen/Eigen/src/Core/NumTraits.h \
-  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/Core/MathFunctions.h \
-  ../src/eigen/Eigen/src/Core/GenericPacketMath.h \
-  ../src/eigen/Eigen/src/Core/MathFunctionsImpl.h \
-  ../src/eigen/Eigen/src/Core/arch/Default/ConjHelper.h \
-  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/Core/arch/Default/Half.h \
-  ../src/eigen/Eigen/src/Core/arch/Default/BFloat16.h \
-  ../src/eigen/Eigen/src/Core/arch/Default/TypeCasting.h \
-  ../src/eigen/Eigen/src/Core/arch/Default/GenericPacketMathFunctionsFwd.h \
-  ../src/eigen/Eigen/src/Core/arch/SSE/PacketMath.h \
-  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/Core/arch/SSE/TypeCasting.h \
-  ../src/eigen/Eigen/src/Core/arch/SSE/MathFunctions.h \
-  ../src/eigen/Eigen/src/Core/arch/SSE/Complex.h \
-  ../src/eigen/Eigen/src/Core/arch/Default/Settings.h \
-  ../src/eigen/Eigen/src/Core/arch/Default/GenericPacketMathFunctions.h \
-  ../src/eigen/Eigen/src/Core/functors/TernaryFunctors.h \
-  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/Core/functors/BinaryFunctors.h \
-  ../src/eigen/Eigen/src/Core/functors/UnaryFunctors.h \
-  ../src/eigen/Eigen/src/Core/functors/NullaryFunctors.h \
-  ../src/eigen/Eigen/src/Core/functors/StlFunctors.h \
-  ../src/eigen/Eigen/src/Core/functors/AssignmentFunctors.h \
-  ../src/eigen/Eigen/src/Core/util/IndexedViewHelper.h \
-  ../src/eigen/Eigen/src/Core/util/ReshapedHelper.h \
-  ../src/eigen/Eigen/src/Core/ArithmeticSequence.h \
-  ../src/eigen/Eigen/src/Core/IO.h \
-  ../src/eigen/Eigen/src/Core/DenseCoeffsBase.h \
-  ../src/eigen/Eigen/src/Core/DenseBase.h \
-  ../src/eigen/Eigen/src/plugins/CommonCwiseUnaryOps.h \
-  ../src/eigen/Eigen/src/plugins/BlockMethods.h \
-  ../src/eigen/Eigen/src/plugins/IndexedViewMethods.h \
-  ../src/eigen/Eigen/src/plugins/ReshapedMethods.h \
-  ../src/eigen/Eigen/src/plugins/ReshapedMethods.h \
-  ../src/eigen/Eigen/src/Core/MatrixBase.h \
-  ../src/eigen/Eigen/src/plugins/CommonCwiseBinaryOps.h \
-  ../src/eigen/Eigen/src/plugins/MatrixCwiseUnaryOps.h \
-  ../src/eigen/Eigen/src/plugins/MatrixCwiseBinaryOps.h \
-  ../src/eigen/Eigen/src/Core/EigenBase.h \
-  ../src/eigen/Eigen/src/Core/Product.h \
-  ../src/eigen/Eigen/src/Core/CoreEvaluators.h \
-  ../src/eigen/Eigen/src/Core/AssignEvaluator.h \
-  ../src/eigen/Eigen/src/Core/Assign.h \
-  ../src/eigen/Eigen/src/Core/ArrayBase.h \
-  ../src/eigen/Eigen/src/plugins/ArrayCwiseUnaryOps.h \
-  ../src/eigen/Eigen/src/plugins/ArrayCwiseBinaryOps.h \
-  ../src/eigen/Eigen/src/Core/util/BlasUtil.h \
-  ../src/eigen/Eigen/src/Core/DenseStorage.h \
-  ../src/eigen/Eigen/src/Core/NestByValue.h \
-  ../src/eigen/Eigen/src/Core/ReturnByValue.h \
-  ../src/eigen/Eigen/src/Core/NoAlias.h \
-  ../src/eigen/Eigen/src/Core/PlainObjectBase.h \
-  ../src/eigen/Eigen/src/Core/Matrix.h \
-  ../src/eigen/Eigen/src/Core/Array.h \
-  ../src/eigen/Eigen/src/Core/CwiseTernaryOp.h \
-  ../src/eigen/Eigen/src/Core/CwiseBinaryOp.h \
-  ../src/eigen/Eigen/src/Core/CwiseUnaryOp.h \
-  ../src/eigen/Eigen/src/Core/CwiseNullaryOp.h \
-  ../src/eigen/Eigen/src/Core/CwiseUnaryView.h \
-  ../src/eigen/Eigen/src/Core/SelfCwiseBinaryOp.h \
-  ../src/eigen/Eigen/src/Core/Dot.h \
-  ../src/eigen/Eigen/src/Core/StableNorm.h \
-  ../src/eigen/Eigen/src/Core/Stride.h \
-  ../src/eigen/Eigen/src/Core/MapBase.h \
-  ../src/eigen/Eigen/src/Core/Map.h \
-  ../src/eigen/Eigen/src/Core/Ref.h \
-  ../src/eigen/Eigen/src/Core/Block.h \
-  ../src/eigen/Eigen/src/Core/VectorBlock.h \
-  ../src/eigen/Eigen/src/Core/IndexedView.h \
-  ../src/eigen/Eigen/src/Core/Reshaped.h \
-  ../src/eigen/Eigen/src/Core/Transpose.h \
-  ../src/eigen/Eigen/src/Core/DiagonalMatrix.h \
-  ../src/eigen/Eigen/src/Core/Diagonal.h \
-  ../src/eigen/Eigen/src/Core/DiagonalProduct.h \
-  ../src/eigen/Eigen/src/Core/SkewSymmetricMatrix3.h \
-  ../src/eigen/Eigen/src/Core/Redux.h \
-  ../src/eigen/Eigen/src/Core/Visitor.h \
-  ../src/eigen/Eigen/src/Core/Fuzzy.h \
-  ../src/eigen/Eigen/src/Core/Swap.h \
-  ../src/eigen/Eigen/src/Core/CommaInitializer.h \
-  ../src/eigen/Eigen/src/Core/GeneralProduct.h \
-  ../src/eigen/Eigen/src/Core/Solve.h \
-  ../src/eigen/Eigen/src/Core/Inverse.h \
-  ../src/eigen/Eigen/src/Core/SolverBase.h \
-  ../src/eigen/Eigen/src/Core/PermutationMatrix.h \
-  ../src/eigen/Eigen/src/Core/Transpositions.h \
-  ../src/eigen/Eigen/src/Core/TriangularMatrix.h \
-  ../src/eigen/Eigen/src/Core/SelfAdjointView.h \
-  ../src/eigen/Eigen/src/Core/products/GeneralBlockPanelKernel.h \
-  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/Core/products/Parallelizer.h \
-  ../src/eigen/Eigen/src/Core/ProductEvaluators.h \
-  ../src/eigen/Eigen/src/Core/products/GeneralMatrixVector.h \
-  ../src/eigen/Eigen/src/Core/products/GeneralMatrixMatrix.h \
-  ../src/eigen/Eigen/src/Core/SolveTriangular.h \
-  ../src/eigen/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h \
-  ../src/eigen/Eigen/src/Core/products/SelfadjointMatrixVector.h \
-  ../src/eigen/Eigen/src/Core/products/SelfadjointMatrixMatrix.h \
-  ../src/eigen/Eigen/src/Core/products/SelfadjointProduct.h \
-  ../src/eigen/Eigen/src/Core/products/SelfadjointRank2Update.h \
-  ../src/eigen/Eigen/src/Core/products/TriangularMatrixVector.h \
-  ../src/eigen/Eigen/src/Core/products/TriangularMatrixMatrix.h \
-  ../src/eigen/Eigen/src/Core/products/TriangularSolverMatrix.h \
-  ../src/eigen/Eigen/src/Core/products/TriangularSolverVector.h \
-  ../src/eigen/Eigen/src/Core/BandMatrix.h \
-  ../src/eigen/Eigen/src/Core/CoreIterators.h \
-  ../src/eigen/Eigen/src/Core/ConditionEstimator.h \
-  ../src/eigen/Eigen/src/Core/Select.h \
-  ../src/eigen/Eigen/src/Core/VectorwiseOp.h \
-  ../src/eigen/Eigen/src/Core/PartialReduxEvaluator.h \
-  ../src/eigen/Eigen/src/Core/Random.h \
-  ../src/eigen/Eigen/src/Core/Replicate.h \
-  ../src/eigen/Eigen/src/Core/Reverse.h \
-  ../src/eigen/Eigen/src/Core/ArrayWrapper.h \
-  ../src/eigen/Eigen/src/Core/StlIterators.h \
-  ../src/eigen/Eigen/src/Core/GlobalFunctions.h \
-  ../src/eigen/Eigen/src/Core/util/ReenableStupidWarnings.h \
-  ../src/eigen/Eigen/LU \
-  ../src/eigen/Eigen/src/misc/Kernel.h \
-  ../src/eigen/Eigen/src/misc/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/misc/Image.h \
-  ../src/eigen/Eigen/src/LU/FullPivLU.h \
-  ../src/eigen/Eigen/src/LU/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/LU/PartialPivLU.h \
-  ../src/eigen/Eigen/src/LU/Determinant.h \
-  ../src/eigen/Eigen/src/LU/InverseImpl.h \
-  ../src/eigen/Eigen/src/LU/arch/InverseSize4.h \
-  ../src/eigen/Eigen/src/LU/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/Cholesky \
-  ../src/eigen/Eigen/Jacobi \
-  ../src/eigen/Eigen/src/Jacobi/Jacobi.h \
-  ../src/eigen/Eigen/src/Jacobi/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/Cholesky/LLT.h \
-  ../src/eigen/Eigen/src/Cholesky/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/Cholesky/LDLT.h \
-  ../src/eigen/Eigen/QR \
-  ../src/eigen/Eigen/Householder \
-  ../src/eigen/Eigen/src/Householder/Householder.h \
-  ../src/eigen/Eigen/src/Householder/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/Householder/HouseholderSequence.h \
-  ../src/eigen/Eigen/src/Householder/BlockHouseholder.h \
-  ../src/eigen/Eigen/src/QR/HouseholderQR.h \
-  ../src/eigen/Eigen/src/QR/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/QR/FullPivHouseholderQR.h \
-  ../src/eigen/Eigen/src/QR/ColPivHouseholderQR.h \
-  ../src/eigen/Eigen/src/QR/CompleteOrthogonalDecomposition.h \
-  ../src/eigen/Eigen/SVD \
-  ../src/eigen/Eigen/src/misc/RealSvd2x2.h \
-  ../src/eigen/Eigen/src/SVD/UpperBidiagonalization.h \
-  ../src/eigen/Eigen/src/SVD/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/SVD/SVDBase.h \
-  ../src/eigen/Eigen/src/SVD/JacobiSVD.h \
-  ../src/eigen/Eigen/src/SVD/BDCSVD.h \
-  ../src/eigen/Eigen/Geometry \
-  ../src/eigen/Eigen/src/Geometry/OrthoMethods.h \
-  ../src/eigen/Eigen/src/Geometry/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/Geometry/EulerAngles.h \
-  ../src/eigen/Eigen/src/Geometry/Homogeneous.h \
-  ../src/eigen/Eigen/src/Geometry/RotationBase.h \
-  ../src/eigen/Eigen/src/Geometry/Rotation2D.h \
-  ../src/eigen/Eigen/src/Geometry/Quaternion.h \
-  ../src/eigen/Eigen/src/Geometry/AngleAxis.h \
-  ../src/eigen/Eigen/src/Geometry/Transform.h \
-  ../src/eigen/Eigen/src/Geometry/Translation.h \
-  ../src/eigen/Eigen/src/Geometry/Scaling.h \
-  ../src/eigen/Eigen/src/Geometry/Hyperplane.h \
-  ../src/eigen/Eigen/src/Geometry/ParametrizedLine.h \
-  ../src/eigen/Eigen/src/Geometry/AlignedBox.h \
-  ../src/eigen/Eigen/src/Geometry/Umeyama.h \
-  ../src/eigen/Eigen/src/Geometry/arch/Geometry_SIMD.h \
-  ../src/eigen/Eigen/src/Geometry/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/Eigenvalues \
-  ../src/eigen/Eigen/src/Eigenvalues/Tridiagonalization.h \
-  ../src/eigen/Eigen/src/Eigenvalues/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/Eigenvalues/RealSchur.h \
-  ../src/eigen/Eigen/src/Eigenvalues/HessenbergDecomposition.h \
-  ../src/eigen/Eigen/src/Eigenvalues/InternalHeaderCheck.h \
-  ../src/eigen/Eigen/src/Eigenvalues/EigenSolver.h \
-  ../src/eigen/Eigen/src/Eigenvalues/RealSchur.h \
-  ../src/eigen/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h \
-  ../src/eigen/Eigen/src/Eigenvalues/Tridiagonalization.h \
-  ../src/eigen/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h \
-  ../src/eigen/Eigen/src/Eigenvalues/HessenbergDecomposition.h \
-  ../src/eigen/Eigen/src/Eigenvalues/ComplexSchur.h \
-  ../src/eigen/Eigen/src/Eigenvalues/ComplexEigenSolver.h \
-  ../src/eigen/Eigen/src/Eigenvalues/ComplexSchur.h \
-  ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
-  ../src/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
-  ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
-  ../src/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
-  ../src/TensorTypes.hh \
-  ../src/Grid.h \
-  ../src/Profiler.hh \
-  /usr/include/c++/11/mutex \
-  /usr/include/c++/11/bits/unique_lock.h \
-  ../src/Stencil.hh \
-  ../src/Interpolation.hh \
-  ../src/Metric.h \
-  ../src/Spacetimes.h \
-  ../src/FourierHarmonics.h \
-  ../src/WriteData.h \
-  ../src/AdvancedUtiltiy.h \
-  ../src/GeodesicEquationSolver.h \
   ../src/Radiation.h \
-  ../src/Log.hh
-
-CMakeFiles/main.out.dir/src/AdvancedUtiltiy.cpp.o: ../src/AdvancedUtiltiy.cpp \
-  /usr/include/stdc-predef.h \
-  ../src/AdvancedUtiltiy.h \
+  ../src/GeodesicEquationSolver.h \
+  ../src/Spacetimes.h \
+  ../src/Metric.h \
+  ../src/Grid.h \
+  /usr/include/c++/11/fstream \
+  /usr/include/c++/11/bits/codecvt.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+  /usr/include/c++/11/bits/fstream.tcc \
   ../src/ControlFlow.hh \
   ../src/Utility.hh \
   /usr/include/c++/11/iomanip \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
-  /usr/include/features.h \
-  /usr/include/features-time64.h \
-  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
-  /usr/include/x86_64-linux-gnu/bits/timesize.h \
-  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
-  /usr/include/x86_64-linux-gnu/bits/long-double.h \
-  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
-  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
-  /usr/include/c++/11/pstl/pstl_config.h \
-  /usr/include/c++/11/iosfwd \
-  /usr/include/c++/11/bits/stringfwd.h \
-  /usr/include/c++/11/bits/memoryfwd.h \
-  /usr/include/c++/11/bits/postypes.h \
-  /usr/include/c++/11/cwchar \
-  /usr/include/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
-  /usr/include/c++/11/bits/ios_base.h \
-  /usr/include/c++/11/ext/atomicity.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/types.h \
-  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
-  /usr/include/x86_64-linux-gnu/bits/time64.h \
-  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
-  /usr/include/x86_64-linux-gnu/bits/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/endianness.h \
-  /usr/include/x86_64-linux-gnu/bits/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
-  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/time.h \
-  /usr/include/x86_64-linux-gnu/bits/time.h \
-  /usr/include/x86_64-linux-gnu/bits/timex.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
-  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
-  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
-  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
-  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
-  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
-  /usr/include/c++/11/bits/localefwd.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
-  /usr/include/c++/11/clocale \
-  /usr/include/locale.h \
-  /usr/include/x86_64-linux-gnu/bits/locale.h \
-  /usr/include/c++/11/cctype \
-  /usr/include/ctype.h \
-  /usr/include/c++/11/bits/locale_classes.h \
-  /usr/include/c++/11/string \
-  /usr/include/c++/11/bits/char_traits.h \
-  /usr/include/c++/11/bits/stl_algobase.h \
-  /usr/include/c++/11/bits/functexcept.h \
-  /usr/include/c++/11/bits/exception_defines.h \
-  /usr/include/c++/11/bits/cpp_type_traits.h \
-  /usr/include/c++/11/ext/type_traits.h \
-  /usr/include/c++/11/ext/numeric_traits.h \
-  /usr/include/c++/11/bits/stl_pair.h \
-  /usr/include/c++/11/bits/move.h \
-  /usr/include/c++/11/type_traits \
-  /usr/include/c++/11/compare \
-  /usr/include/c++/11/concepts \
-  /usr/include/c++/11/bits/stl_iterator_base_types.h \
-  /usr/include/c++/11/bits/iterator_concepts.h \
-  /usr/include/c++/11/bits/ptr_traits.h \
-  /usr/include/c++/11/bits/ranges_cmp.h \
-  /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
-  /usr/include/c++/11/bits/concept_check.h \
-  /usr/include/c++/11/debug/assertions.h \
-  /usr/include/c++/11/bits/stl_iterator.h \
-  /usr/include/c++/11/new \
-  /usr/include/c++/11/bits/exception.h \
-  /usr/include/c++/11/debug/debug.h \
-  /usr/include/c++/11/bits/predefined_ops.h \
-  /usr/include/c++/11/cstdint \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
-  /usr/include/stdint.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
-  /usr/include/c++/11/bits/allocator.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
-  /usr/include/c++/11/ext/new_allocator.h \
-  /usr/include/c++/11/bits/ostream_insert.h \
-  /usr/include/c++/11/bits/cxxabi_forced.h \
-  /usr/include/c++/11/bits/stl_function.h \
-  /usr/include/c++/11/backward/binders.h \
-  /usr/include/c++/11/bits/stl_algo.h \
-  /usr/include/c++/11/cstdlib \
-  /usr/include/stdlib.h \
-  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
-  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
-  /usr/include/x86_64-linux-gnu/sys/types.h \
-  /usr/include/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
-  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
-  /usr/include/x86_64-linux-gnu/sys/select.h \
-  /usr/include/x86_64-linux-gnu/bits/select.h \
-  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/select2.h \
-  /usr/include/alloca.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
-  /usr/include/c++/11/bits/std_abs.h \
-  /usr/include/c++/11/bits/algorithmfwd.h \
-  /usr/include/c++/11/initializer_list \
-  /usr/include/c++/11/bits/stl_heap.h \
-  /usr/include/c++/11/bits/stl_tempbuf.h \
-  /usr/include/c++/11/bits/stl_construct.h \
-  /usr/include/c++/11/bits/uniform_int_dist.h \
-  /usr/include/c++/11/bits/range_access.h \
-  /usr/include/c++/11/bits/basic_string.h \
-  /usr/include/c++/11/ext/alloc_traits.h \
-  /usr/include/c++/11/bits/alloc_traits.h \
-  /usr/include/c++/11/string_view \
-  /usr/include/c++/11/bits/functional_hash.h \
-  /usr/include/c++/11/bits/hash_bytes.h \
-  /usr/include/c++/11/bits/ranges_base.h \
-  /usr/include/c++/11/bits/max_size_type.h \
-  /usr/include/c++/11/numbers \
-  /usr/include/c++/11/bits/string_view.tcc \
-  /usr/include/c++/11/ext/string_conversions.h \
-  /usr/include/c++/11/cstdio \
-  /usr/include/stdio.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
-  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
-  /usr/include/x86_64-linux-gnu/bits/stdio.h \
-  /usr/include/x86_64-linux-gnu/bits/stdio2.h \
-  /usr/include/c++/11/cerrno \
-  /usr/include/errno.h \
-  /usr/include/x86_64-linux-gnu/bits/errno.h \
-  /usr/include/linux/errno.h \
-  /usr/include/x86_64-linux-gnu/asm/errno.h \
-  /usr/include/asm-generic/errno.h \
-  /usr/include/asm-generic/errno-base.h \
-  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
-  /usr/include/c++/11/bits/charconv.h \
-  /usr/include/c++/11/bits/basic_string.tcc \
-  /usr/include/c++/11/bits/locale_classes.tcc \
-  /usr/include/c++/11/system_error \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
-  /usr/include/c++/11/stdexcept \
-  /usr/include/c++/11/exception \
-  /usr/include/c++/11/bits/exception_ptr.h \
-  /usr/include/c++/11/bits/cxxabi_init_exception.h \
-  /usr/include/c++/11/typeinfo \
-  /usr/include/c++/11/bits/nested_exception.h \
   /usr/include/c++/11/locale \
-  /usr/include/c++/11/bits/locale_facets.h \
-  /usr/include/c++/11/cwctype \
-  /usr/include/wctype.h \
-  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h \
-  /usr/include/c++/11/streambuf \
-  /usr/include/c++/11/bits/streambuf.tcc \
-  /usr/include/c++/11/bits/streambuf_iterator.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
-  /usr/include/c++/11/bits/locale_facets.tcc \
   /usr/include/c++/11/bits/locale_facets_nonio.h \
   /usr/include/c++/11/ctime \
   /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
   /usr/include/libintl.h \
-  /usr/include/c++/11/bits/codecvt.h \
   /usr/include/c++/11/bits/locale_facets_nonio.tcc \
   /usr/include/c++/11/bits/locale_conv.h \
   /usr/include/c++/11/bits/unique_ptr.h \
@@ -770,21 +227,9 @@ CMakeFiles/main.out.dir/src/AdvancedUtiltiy.cpp.o: ../src/AdvancedUtiltiy.cpp \
   /usr/include/c++/11/array \
   /usr/include/c++/11/bits/uses_allocator.h \
   /usr/include/c++/11/bits/invoke.h \
-  /usr/include/c++/11/ostream \
-  /usr/include/c++/11/ios \
-  /usr/include/c++/11/bits/basic_ios.h \
-  /usr/include/c++/11/bits/basic_ios.tcc \
-  /usr/include/c++/11/bits/ostream.tcc \
   /usr/include/c++/11/bits/quoted_string.h \
   /usr/include/c++/11/sstream \
-  /usr/include/c++/11/istream \
-  /usr/include/c++/11/bits/istream.tcc \
   /usr/include/c++/11/bits/sstream.tcc \
-  /usr/include/c++/11/iostream \
-  /usr/include/c++/11/fstream \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
-  /usr/include/c++/11/bits/fstream.tcc \
   /usr/include/c++/11/cmath \
   /usr/include/math.h \
   /usr/include/x86_64-linux-gnu/bits/math-vector.h \
@@ -847,15 +292,6 @@ CMakeFiles/main.out.dir/src/AdvancedUtiltiy.cpp.o: ../src/AdvancedUtiltiy.cpp \
   /usr/include/c++/11/bits/allocated_ptr.h \
   /usr/include/c++/11/bits/fs_dir.h \
   /usr/include/c++/11/bits/fs_ops.h \
-  /usr/include/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
-  /usr/include/x86_64-linux-gnu/bits/environments.h \
-  /usr/include/x86_64-linux-gnu/bits/confname.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
-  /usr/include/linux/close_range.h \
   ../src/eigen/Eigen/Dense \
   ../src/eigen/Eigen/Core \
   ../src/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
@@ -883,6 +319,15 @@ CMakeFiles/main.out.dir/src/AdvancedUtiltiy.cpp.o: ../src/AdvancedUtiltiy.cpp \
   /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+  /usr/include/linux/close_range.h \
   /usr/include/syscall.h \
   /usr/include/x86_64-linux-gnu/sys/syscall.h \
   /usr/include/x86_64-linux-gnu/asm/unistd.h \
@@ -1102,15 +547,17 @@ CMakeFiles/main.out.dir/src/AdvancedUtiltiy.cpp.o: ../src/AdvancedUtiltiy.cpp \
   ../src/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
   ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
   ../src/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
-  ../src/TensorTypes.hh \
-  ../src/Metric.h \
-  ../src/Grid.h \
+  ../src/DataTypes.hh \
   ../src/Profiler.hh \
   /usr/include/c++/11/mutex \
   /usr/include/c++/11/bits/unique_lock.h \
-  ../src/Interpolation.hh \
+  ../src/Interpolation.h \
   /usr/include/c++/11/math.h \
-  ../src/Stencil.hh
+  ../src/SpecialMath.h \
+  ../src/FourierHarmonics.h \
+  ../src/Stencil.h \
+  ../src/Log.hh \
+  ../src/Config.hh
 
 CMakeFiles/main.out.dir/src/FourierHarmonics.cpp.o: ../src/FourierHarmonics.cpp \
   /usr/include/stdc-predef.h \
@@ -1399,15 +846,6 @@ CMakeFiles/main.out.dir/src/FourierHarmonics.cpp.o: ../src/FourierHarmonics.cpp 
   /usr/include/c++/11/bits/allocated_ptr.h \
   /usr/include/c++/11/bits/fs_dir.h \
   /usr/include/c++/11/bits/fs_ops.h \
-  /usr/include/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
-  /usr/include/x86_64-linux-gnu/bits/environments.h \
-  /usr/include/x86_64-linux-gnu/bits/confname.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
-  /usr/include/linux/close_range.h \
   ../src/ControlFlow.hh \
   ../src/eigen/Eigen/Dense \
   ../src/eigen/Eigen/Core \
@@ -1436,6 +874,15 @@ CMakeFiles/main.out.dir/src/FourierHarmonics.cpp.o: ../src/FourierHarmonics.cpp 
   /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+  /usr/include/linux/close_range.h \
   /usr/include/syscall.h \
   /usr/include/x86_64-linux-gnu/sys/syscall.h \
   /usr/include/x86_64-linux-gnu/asm/unistd.h \
@@ -1655,12 +1102,15 @@ CMakeFiles/main.out.dir/src/FourierHarmonics.cpp.o: ../src/FourierHarmonics.cpp 
   ../src/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
   ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
   ../src/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
-  ../src/Stencil.hh \
-  ../src/TensorTypes.hh
+  ../src/Stencil.h \
+  ../src/DataTypes.hh
 
 CMakeFiles/main.out.dir/src/GeodesicEquationSolver.cpp.o: ../src/GeodesicEquationSolver.cpp \
   /usr/include/stdc-predef.h \
   ../src/GeodesicEquationSolver.h \
+  ../src/Spacetimes.h \
+  ../src/Metric.h \
+  ../src/Grid.h \
   /usr/include/c++/11/fstream \
   /usr/include/c++/11/istream \
   /usr/include/c++/11/ios \
@@ -1861,6 +1311,7 @@ CMakeFiles/main.out.dir/src/GeodesicEquationSolver.cpp.o: ../src/GeodesicEquatio
   /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
   /usr/include/c++/11/bits/fstream.tcc \
+  ../src/ControlFlow.hh \
   ../src/Utility.hh \
   /usr/include/c++/11/iomanip \
   /usr/include/c++/11/locale \
@@ -1944,16 +1395,6 @@ CMakeFiles/main.out.dir/src/GeodesicEquationSolver.cpp.o: ../src/GeodesicEquatio
   /usr/include/c++/11/bits/allocated_ptr.h \
   /usr/include/c++/11/bits/fs_dir.h \
   /usr/include/c++/11/bits/fs_ops.h \
-  /usr/include/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
-  /usr/include/x86_64-linux-gnu/bits/environments.h \
-  /usr/include/x86_64-linux-gnu/bits/confname.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
-  /usr/include/linux/close_range.h \
-  ../src/ControlFlow.hh \
   ../src/eigen/Eigen/Dense \
   ../src/eigen/Eigen/Core \
   ../src/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
@@ -1981,6 +1422,15 @@ CMakeFiles/main.out.dir/src/GeodesicEquationSolver.cpp.o: ../src/GeodesicEquatio
   /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+  /usr/include/linux/close_range.h \
   /usr/include/syscall.h \
   /usr/include/x86_64-linux-gnu/sys/syscall.h \
   /usr/include/x86_64-linux-gnu/asm/unistd.h \
@@ -2200,21 +1650,20 @@ CMakeFiles/main.out.dir/src/GeodesicEquationSolver.cpp.o: ../src/GeodesicEquatio
   ../src/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
   ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
   ../src/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
-  ../src/TensorTypes.hh \
-  ../src/Metric.h \
-  ../src/Grid.h \
+  ../src/DataTypes.hh \
   ../src/Profiler.hh \
   /usr/include/c++/11/mutex \
   /usr/include/c++/11/bits/unique_lock.h \
-  ../src/Interpolation.hh \
-  /usr/include/c++/11/math.h \
-  ../src/Stencil.hh \
-  ../src/AdvancedUtiltiy.h
+  ../src/Interpolation.h \
+  /usr/include/c++/11/math.h
 
 CMakeFiles/main.out.dir/src/Grid.cpp.o: ../src/Grid.cpp \
   /usr/include/stdc-predef.h \
   ../src/Grid.h \
-  /usr/include/c++/11/iomanip \
+  /usr/include/c++/11/fstream \
+  /usr/include/c++/11/istream \
+  /usr/include/c++/11/ios \
+  /usr/include/c++/11/iosfwd \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
   /usr/include/features.h \
@@ -2227,7 +1676,6 @@ CMakeFiles/main.out.dir/src/Grid.cpp.o: ../src/Grid.cpp \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
   /usr/include/c++/11/pstl/pstl_config.h \
-  /usr/include/c++/11/iosfwd \
   /usr/include/c++/11/bits/stringfwd.h \
   /usr/include/c++/11/bits/memoryfwd.h \
   /usr/include/c++/11/bits/postypes.h \
@@ -2247,19 +1695,61 @@ CMakeFiles/main.out.dir/src/Grid.cpp.o: ../src/Grid.cpp \
   /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+  /usr/include/c++/11/exception \
+  /usr/include/c++/11/bits/exception.h \
+  /usr/include/c++/11/bits/exception_ptr.h \
+  /usr/include/c++/11/bits/exception_defines.h \
+  /usr/include/c++/11/bits/cxxabi_init_exception.h \
+  /usr/include/c++/11/typeinfo \
+  /usr/include/c++/11/bits/hash_bytes.h \
+  /usr/include/c++/11/new \
+  /usr/include/c++/11/bits/move.h \
+  /usr/include/c++/11/type_traits \
+  /usr/include/c++/11/bits/nested_exception.h \
+  /usr/include/c++/11/bits/char_traits.h \
+  /usr/include/c++/11/bits/stl_algobase.h \
+  /usr/include/c++/11/bits/functexcept.h \
+  /usr/include/c++/11/bits/cpp_type_traits.h \
+  /usr/include/c++/11/ext/type_traits.h \
+  /usr/include/c++/11/ext/numeric_traits.h \
+  /usr/include/c++/11/bits/stl_pair.h \
+  /usr/include/c++/11/compare \
+  /usr/include/c++/11/concepts \
+  /usr/include/c++/11/bits/stl_iterator_base_types.h \
+  /usr/include/c++/11/bits/iterator_concepts.h \
+  /usr/include/c++/11/bits/ptr_traits.h \
+  /usr/include/c++/11/bits/ranges_cmp.h \
+  /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/11/bits/concept_check.h \
+  /usr/include/c++/11/debug/assertions.h \
+  /usr/include/c++/11/bits/stl_iterator.h \
+  /usr/include/c++/11/debug/debug.h \
+  /usr/include/c++/11/bits/predefined_ops.h \
+  /usr/include/c++/11/cstdint \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
+  /usr/include/stdint.h \
+  /usr/include/x86_64-linux-gnu/bits/types.h \
+  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+  /usr/include/x86_64-linux-gnu/bits/time64.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/c++/11/bits/localefwd.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
+  /usr/include/c++/11/clocale \
+  /usr/include/locale.h \
+  /usr/include/x86_64-linux-gnu/bits/locale.h \
+  /usr/include/c++/11/cctype \
+  /usr/include/ctype.h \
+  /usr/include/x86_64-linux-gnu/bits/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/endianness.h \
   /usr/include/c++/11/bits/ios_base.h \
   /usr/include/c++/11/ext/atomicity.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/types.h \
-  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
-  /usr/include/x86_64-linux-gnu/bits/time64.h \
   /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
-  /usr/include/x86_64-linux-gnu/bits/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/endianness.h \
   /usr/include/x86_64-linux-gnu/bits/sched.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
   /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
@@ -2284,44 +1774,8 @@ CMakeFiles/main.out.dir/src/Grid.cpp.o: ../src/Grid.cpp \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
   /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
-  /usr/include/c++/11/bits/localefwd.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
-  /usr/include/c++/11/clocale \
-  /usr/include/locale.h \
-  /usr/include/x86_64-linux-gnu/bits/locale.h \
-  /usr/include/c++/11/cctype \
-  /usr/include/ctype.h \
   /usr/include/c++/11/bits/locale_classes.h \
   /usr/include/c++/11/string \
-  /usr/include/c++/11/bits/char_traits.h \
-  /usr/include/c++/11/bits/stl_algobase.h \
-  /usr/include/c++/11/bits/functexcept.h \
-  /usr/include/c++/11/bits/exception_defines.h \
-  /usr/include/c++/11/bits/cpp_type_traits.h \
-  /usr/include/c++/11/ext/type_traits.h \
-  /usr/include/c++/11/ext/numeric_traits.h \
-  /usr/include/c++/11/bits/stl_pair.h \
-  /usr/include/c++/11/bits/move.h \
-  /usr/include/c++/11/type_traits \
-  /usr/include/c++/11/compare \
-  /usr/include/c++/11/concepts \
-  /usr/include/c++/11/bits/stl_iterator_base_types.h \
-  /usr/include/c++/11/bits/iterator_concepts.h \
-  /usr/include/c++/11/bits/ptr_traits.h \
-  /usr/include/c++/11/bits/ranges_cmp.h \
-  /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
-  /usr/include/c++/11/bits/concept_check.h \
-  /usr/include/c++/11/debug/assertions.h \
-  /usr/include/c++/11/bits/stl_iterator.h \
-  /usr/include/c++/11/new \
-  /usr/include/c++/11/bits/exception.h \
-  /usr/include/c++/11/debug/debug.h \
-  /usr/include/c++/11/bits/predefined_ops.h \
-  /usr/include/c++/11/cstdint \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
-  /usr/include/stdint.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
   /usr/include/c++/11/bits/allocator.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
   /usr/include/c++/11/ext/new_allocator.h \
@@ -2359,7 +1813,6 @@ CMakeFiles/main.out.dir/src/Grid.cpp.o: ../src/Grid.cpp \
   /usr/include/c++/11/bits/alloc_traits.h \
   /usr/include/c++/11/string_view \
   /usr/include/c++/11/bits/functional_hash.h \
-  /usr/include/c++/11/bits/hash_bytes.h \
   /usr/include/c++/11/bits/ranges_base.h \
   /usr/include/c++/11/bits/max_size_type.h \
   /usr/include/c++/11/numbers \
@@ -2388,28 +1841,34 @@ CMakeFiles/main.out.dir/src/Grid.cpp.o: ../src/Grid.cpp \
   /usr/include/c++/11/system_error \
   /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
   /usr/include/c++/11/stdexcept \
-  /usr/include/c++/11/exception \
-  /usr/include/c++/11/bits/exception_ptr.h \
-  /usr/include/c++/11/bits/cxxabi_init_exception.h \
-  /usr/include/c++/11/typeinfo \
-  /usr/include/c++/11/bits/nested_exception.h \
-  /usr/include/c++/11/locale \
+  /usr/include/c++/11/streambuf \
+  /usr/include/c++/11/bits/streambuf.tcc \
+  /usr/include/c++/11/bits/basic_ios.h \
   /usr/include/c++/11/bits/locale_facets.h \
   /usr/include/c++/11/cwctype \
   /usr/include/wctype.h \
   /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h \
-  /usr/include/c++/11/streambuf \
-  /usr/include/c++/11/bits/streambuf.tcc \
   /usr/include/c++/11/bits/streambuf_iterator.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
   /usr/include/c++/11/bits/locale_facets.tcc \
+  /usr/include/c++/11/bits/basic_ios.tcc \
+  /usr/include/c++/11/ostream \
+  /usr/include/c++/11/bits/ostream.tcc \
+  /usr/include/c++/11/bits/istream.tcc \
+  /usr/include/c++/11/bits/codecvt.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+  /usr/include/c++/11/bits/fstream.tcc \
+  ../src/ControlFlow.hh \
+  ../src/Utility.hh \
+  /usr/include/c++/11/iomanip \
+  /usr/include/c++/11/locale \
   /usr/include/c++/11/bits/locale_facets_nonio.h \
   /usr/include/c++/11/ctime \
   /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
   /usr/include/libintl.h \
-  /usr/include/c++/11/bits/codecvt.h \
   /usr/include/c++/11/bits/locale_facets_nonio.tcc \
   /usr/include/c++/11/bits/locale_conv.h \
   /usr/include/c++/11/bits/unique_ptr.h \
@@ -2419,22 +1878,9 @@ CMakeFiles/main.out.dir/src/Grid.cpp.o: ../src/Grid.cpp \
   /usr/include/c++/11/array \
   /usr/include/c++/11/bits/uses_allocator.h \
   /usr/include/c++/11/bits/invoke.h \
-  /usr/include/c++/11/ostream \
-  /usr/include/c++/11/ios \
-  /usr/include/c++/11/bits/basic_ios.h \
-  /usr/include/c++/11/bits/basic_ios.tcc \
-  /usr/include/c++/11/bits/ostream.tcc \
   /usr/include/c++/11/bits/quoted_string.h \
   /usr/include/c++/11/sstream \
-  /usr/include/c++/11/istream \
-  /usr/include/c++/11/bits/istream.tcc \
   /usr/include/c++/11/bits/sstream.tcc \
-  /usr/include/c++/11/fstream \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
-  /usr/include/c++/11/bits/fstream.tcc \
-  ../src/ControlFlow.hh \
-  ../src/Utility.hh \
   /usr/include/c++/11/iostream \
   /usr/include/c++/11/cmath \
   /usr/include/math.h \
@@ -2498,15 +1944,6 @@ CMakeFiles/main.out.dir/src/Grid.cpp.o: ../src/Grid.cpp \
   /usr/include/c++/11/bits/allocated_ptr.h \
   /usr/include/c++/11/bits/fs_dir.h \
   /usr/include/c++/11/bits/fs_ops.h \
-  /usr/include/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
-  /usr/include/x86_64-linux-gnu/bits/environments.h \
-  /usr/include/x86_64-linux-gnu/bits/confname.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
-  /usr/include/linux/close_range.h \
   ../src/eigen/Eigen/Dense \
   ../src/eigen/Eigen/Core \
   ../src/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
@@ -2534,6 +1971,15 @@ CMakeFiles/main.out.dir/src/Grid.cpp.o: ../src/Grid.cpp \
   /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+  /usr/include/linux/close_range.h \
   /usr/include/syscall.h \
   /usr/include/x86_64-linux-gnu/sys/syscall.h \
   /usr/include/x86_64-linux-gnu/asm/unistd.h \
@@ -2753,15 +2199,16 @@ CMakeFiles/main.out.dir/src/Grid.cpp.o: ../src/Grid.cpp \
   ../src/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
   ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
   ../src/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
-  ../src/TensorTypes.hh \
+  ../src/DataTypes.hh \
   ../src/Profiler.hh \
   /usr/include/c++/11/mutex \
   /usr/include/c++/11/bits/unique_lock.h
 
-CMakeFiles/main.out.dir/src/Metric.cpp.o: ../src/Metric.cpp \
+CMakeFiles/main.out.dir/src/Interpolation.cpp.o: ../src/Interpolation.cpp \
   /usr/include/stdc-predef.h \
-  ../src/Metric.h \
-  /usr/include/c++/11/string \
+  ../src/Interpolation.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/cmath \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
   /usr/include/features.h \
@@ -2774,85 +2221,40 @@ CMakeFiles/main.out.dir/src/Metric.cpp.o: ../src/Metric.cpp \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
   /usr/include/c++/11/pstl/pstl_config.h \
-  /usr/include/c++/11/bits/stringfwd.h \
-  /usr/include/c++/11/bits/memoryfwd.h \
-  /usr/include/c++/11/bits/char_traits.h \
-  /usr/include/c++/11/bits/stl_algobase.h \
-  /usr/include/c++/11/bits/functexcept.h \
-  /usr/include/c++/11/bits/exception_defines.h \
   /usr/include/c++/11/bits/cpp_type_traits.h \
   /usr/include/c++/11/ext/type_traits.h \
-  /usr/include/c++/11/ext/numeric_traits.h \
-  /usr/include/c++/11/bits/stl_pair.h \
-  /usr/include/c++/11/bits/move.h \
-  /usr/include/c++/11/type_traits \
-  /usr/include/c++/11/compare \
-  /usr/include/c++/11/concepts \
-  /usr/include/c++/11/bits/stl_iterator_base_types.h \
-  /usr/include/c++/11/bits/iterator_concepts.h \
-  /usr/include/c++/11/bits/ptr_traits.h \
-  /usr/include/c++/11/bits/ranges_cmp.h \
-  /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
-  /usr/include/c++/11/bits/concept_check.h \
-  /usr/include/c++/11/debug/assertions.h \
-  /usr/include/c++/11/bits/stl_iterator.h \
-  /usr/include/c++/11/new \
-  /usr/include/c++/11/bits/exception.h \
-  /usr/include/c++/11/debug/debug.h \
-  /usr/include/c++/11/bits/predefined_ops.h \
-  /usr/include/c++/11/bits/postypes.h \
-  /usr/include/c++/11/cwchar \
-  /usr/include/wchar.h \
+  /usr/include/math.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
-  /usr/include/c++/11/cstdint \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
-  /usr/include/stdint.h \
   /usr/include/x86_64-linux-gnu/bits/types.h \
   /usr/include/x86_64-linux-gnu/bits/typesizes.h \
   /usr/include/x86_64-linux-gnu/bits/time64.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
-  /usr/include/c++/11/bits/allocator.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
-  /usr/include/c++/11/ext/new_allocator.h \
-  /usr/include/c++/11/bits/localefwd.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
-  /usr/include/c++/11/clocale \
-  /usr/include/locale.h \
-  /usr/include/x86_64-linux-gnu/bits/locale.h \
-  /usr/include/c++/11/iosfwd \
-  /usr/include/c++/11/cctype \
-  /usr/include/ctype.h \
-  /usr/include/x86_64-linux-gnu/bits/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/endianness.h \
-  /usr/include/c++/11/bits/ostream_insert.h \
-  /usr/include/c++/11/bits/cxxabi_forced.h \
-  /usr/include/c++/11/bits/stl_function.h \
-  /usr/include/c++/11/backward/binders.h \
-  /usr/include/c++/11/bits/stl_algo.h \
-  /usr/include/c++/11/cstdlib \
+  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+  /usr/include/c++/11/bits/std_abs.h \
   /usr/include/stdlib.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
   /usr/include/x86_64-linux-gnu/sys/types.h \
   /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
   /usr/include/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/endianness.h \
   /usr/include/x86_64-linux-gnu/bits/byteswap.h \
   /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
   /usr/include/x86_64-linux-gnu/sys/select.h \
@@ -2872,15 +2274,58 @@ CMakeFiles/main.out.dir/src/Metric.cpp.o: ../src/Metric.cpp \
   /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib.h \
-  /usr/include/c++/11/bits/std_abs.h \
-  /usr/include/c++/11/bits/algorithmfwd.h \
-  /usr/include/c++/11/initializer_list \
-  /usr/include/c++/11/bits/stl_heap.h \
-  /usr/include/c++/11/bits/stl_tempbuf.h \
-  /usr/include/c++/11/bits/stl_construct.h \
-  /usr/include/c++/11/bits/uniform_int_dist.h \
-  /usr/include/c++/11/bits/range_access.h \
-  /usr/include/c++/11/bits/basic_string.h \
+  /usr/include/c++/11/bits/specfun.h \
+  /usr/include/c++/11/bits/stl_algobase.h \
+  /usr/include/c++/11/bits/functexcept.h \
+  /usr/include/c++/11/bits/exception_defines.h \
+  /usr/include/c++/11/ext/numeric_traits.h \
+  /usr/include/c++/11/bits/stl_pair.h \
+  /usr/include/c++/11/bits/move.h \
+  /usr/include/c++/11/type_traits \
+  /usr/include/c++/11/compare \
+  /usr/include/c++/11/concepts \
+  /usr/include/c++/11/bits/stl_iterator_base_types.h \
+  /usr/include/c++/11/bits/iterator_concepts.h \
+  /usr/include/c++/11/bits/ptr_traits.h \
+  /usr/include/c++/11/bits/ranges_cmp.h \
+  /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/11/bits/concept_check.h \
+  /usr/include/c++/11/debug/assertions.h \
+  /usr/include/c++/11/bits/stl_iterator.h \
+  /usr/include/c++/11/new \
+  /usr/include/c++/11/bits/exception.h \
+  /usr/include/c++/11/debug/debug.h \
+  /usr/include/c++/11/bits/predefined_ops.h \
+  /usr/include/c++/11/limits \
+  /usr/include/c++/11/tr1/gamma.tcc \
+  /usr/include/c++/11/tr1/special_function_util.h \
+  /usr/include/c++/11/tr1/bessel_function.tcc \
+  /usr/include/c++/11/tr1/beta_function.tcc \
+  /usr/include/c++/11/tr1/ell_integral.tcc \
+  /usr/include/c++/11/tr1/exp_integral.tcc \
+  /usr/include/c++/11/tr1/hypergeometric.tcc \
+  /usr/include/c++/11/tr1/legendre_function.tcc \
+  /usr/include/c++/11/tr1/modified_bessel_func.tcc \
+  /usr/include/c++/11/tr1/poly_hermite.tcc \
+  /usr/include/c++/11/tr1/poly_laguerre.tcc \
+  /usr/include/c++/11/tr1/riemann_zeta.tcc \
+  ../src/DataTypes.hh \
+  /usr/include/c++/11/iomanip \
+  /usr/include/c++/11/iosfwd \
+  /usr/include/c++/11/bits/stringfwd.h \
+  /usr/include/c++/11/bits/memoryfwd.h \
+  /usr/include/c++/11/bits/postypes.h \
+  /usr/include/c++/11/cwchar \
+  /usr/include/wchar.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+  /usr/include/c++/11/bits/ios_base.h \
   /usr/include/c++/11/ext/atomicity.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
@@ -2899,6 +2344,37 @@ CMakeFiles/main.out.dir/src/Metric.cpp.o: ../src/Metric.cpp \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
   /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
+  /usr/include/c++/11/bits/localefwd.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
+  /usr/include/c++/11/clocale \
+  /usr/include/locale.h \
+  /usr/include/x86_64-linux-gnu/bits/locale.h \
+  /usr/include/c++/11/cctype \
+  /usr/include/ctype.h \
+  /usr/include/c++/11/bits/locale_classes.h \
+  /usr/include/c++/11/string \
+  /usr/include/c++/11/bits/char_traits.h \
+  /usr/include/c++/11/cstdint \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
+  /usr/include/stdint.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/c++/11/bits/allocator.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
+  /usr/include/c++/11/ext/new_allocator.h \
+  /usr/include/c++/11/bits/ostream_insert.h \
+  /usr/include/c++/11/bits/cxxabi_forced.h \
+  /usr/include/c++/11/bits/stl_function.h \
+  /usr/include/c++/11/backward/binders.h \
+  /usr/include/c++/11/bits/stl_algo.h \
+  /usr/include/c++/11/cstdlib \
+  /usr/include/c++/11/bits/algorithmfwd.h \
+  /usr/include/c++/11/initializer_list \
+  /usr/include/c++/11/bits/stl_heap.h \
+  /usr/include/c++/11/bits/stl_tempbuf.h \
+  /usr/include/c++/11/bits/stl_construct.h \
+  /usr/include/c++/11/bits/uniform_int_dist.h \
+  /usr/include/c++/11/bits/range_access.h \
+  /usr/include/c++/11/bits/basic_string.h \
   /usr/include/c++/11/ext/alloc_traits.h \
   /usr/include/c++/11/bits/alloc_traits.h \
   /usr/include/c++/11/string_view \
@@ -2928,11 +2404,6 @@ CMakeFiles/main.out.dir/src/Metric.cpp.o: ../src/Metric.cpp \
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/11/bits/charconv.h \
   /usr/include/c++/11/bits/basic_string.tcc \
-  ../src/ControlFlow.hh \
-  ../src/Utility.hh \
-  /usr/include/c++/11/iomanip \
-  /usr/include/c++/11/bits/ios_base.h \
-  /usr/include/c++/11/bits/locale_classes.h \
   /usr/include/c++/11/bits/locale_classes.tcc \
   /usr/include/c++/11/system_error \
   /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
@@ -2979,10 +2450,531 @@ CMakeFiles/main.out.dir/src/Metric.cpp.o: ../src/Metric.cpp \
   /usr/include/c++/11/bits/istream.tcc \
   /usr/include/c++/11/bits/sstream.tcc \
   /usr/include/c++/11/iostream \
+  ../src/ControlFlow.hh \
+  ../src/eigen/Eigen/Dense \
+  ../src/eigen/Eigen/Core \
+  ../src/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
+  ../src/eigen/Eigen/src/Core/util/Macros.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Core/util/ConfigureVectorization.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/mmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/xmmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/mm_malloc.h \
+  /usr/include/c++/11/stdlib.h \
+  /usr/include/c++/11/complex \
+  ../src/eigen/Eigen/src/Core/util/MKL_support.h \
+  /usr/include/c++/11/atomic \
+  /usr/include/c++/11/bits/atomic_base.h \
+  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
+  /usr/include/c++/11/bits/atomic_wait.h \
+  /usr/include/c++/11/climits \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+  /usr/include/linux/close_range.h \
+  /usr/include/syscall.h \
+  /usr/include/x86_64-linux-gnu/sys/syscall.h \
+  /usr/include/x86_64-linux-gnu/asm/unistd.h \
+  /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
+  /usr/include/x86_64-linux-gnu/bits/syscall.h \
+  /usr/include/c++/11/bits/std_mutex.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/omp.h \
+  /usr/include/c++/11/cstddef \
+  /usr/include/c++/11/functional \
+  /usr/include/c++/11/bits/refwrap.h \
+  /usr/include/c++/11/bits/std_function.h \
+  /usr/include/c++/11/unordered_map \
+  /usr/include/c++/11/ext/aligned_buffer.h \
+  /usr/include/c++/11/bits/hashtable.h \
+  /usr/include/c++/11/bits/hashtable_policy.h \
+  /usr/include/c++/11/bits/enable_special_members.h \
+  /usr/include/c++/11/bits/node_handle.h \
+  /usr/include/c++/11/bits/unordered_map.h \
+  /usr/include/c++/11/bits/erase_if.h \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
+  /usr/include/c++/11/bits/vector.tcc \
+  /usr/include/c++/11/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
+  /usr/include/c++/11/algorithm \
+  /usr/include/c++/11/bits/ranges_algo.h \
+  /usr/include/c++/11/bits/ranges_algobase.h \
+  /usr/include/c++/11/iterator \
+  /usr/include/c++/11/bits/stream_iterator.h \
+  /usr/include/c++/11/bits/ranges_util.h \
+  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
+  /usr/include/c++/11/pstl/execution_defs.h \
+  ../src/eigen/Eigen/src/Core/util/Constants.h \
+  ../src/eigen/Eigen/src/Core/util/Meta.h \
+  ../src/eigen/Eigen/src/Core/util/Assert.h \
+  /usr/include/c++/11/cassert \
+  /usr/include/assert.h \
+  ../src/eigen/Eigen/src/Core/util/ForwardDeclarations.h \
+  ../src/eigen/Eigen/src/Core/util/StaticAssert.h \
+  ../src/eigen/Eigen/src/Core/util/XprHelper.h \
+  ../src/eigen/Eigen/src/Core/util/Memory.h \
+  ../src/eigen/Eigen/src/Core/util/IntegralConstant.h \
+  ../src/eigen/Eigen/src/Core/util/Serializer.h \
+  ../src/eigen/Eigen/src/Core/util/SymbolicIndex.h \
+  ../src/eigen/Eigen/src/Core/util/EmulateArray.h \
+  ../src/eigen/Eigen/src/Core/util/MoreMeta.h \
+  ../src/eigen/Eigen/src/Core/NumTraits.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Core/MathFunctions.h \
+  ../src/eigen/Eigen/src/Core/GenericPacketMath.h \
+  ../src/eigen/Eigen/src/Core/MathFunctionsImpl.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/ConjHelper.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/Half.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/BFloat16.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/TypeCasting.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/GenericPacketMathFunctionsFwd.h \
+  ../src/eigen/Eigen/src/Core/arch/SSE/PacketMath.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Core/arch/SSE/TypeCasting.h \
+  ../src/eigen/Eigen/src/Core/arch/SSE/MathFunctions.h \
+  ../src/eigen/Eigen/src/Core/arch/SSE/Complex.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/Settings.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/GenericPacketMathFunctions.h \
+  ../src/eigen/Eigen/src/Core/functors/TernaryFunctors.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Core/functors/BinaryFunctors.h \
+  ../src/eigen/Eigen/src/Core/functors/UnaryFunctors.h \
+  ../src/eigen/Eigen/src/Core/functors/NullaryFunctors.h \
+  ../src/eigen/Eigen/src/Core/functors/StlFunctors.h \
+  ../src/eigen/Eigen/src/Core/functors/AssignmentFunctors.h \
+  ../src/eigen/Eigen/src/Core/util/IndexedViewHelper.h \
+  ../src/eigen/Eigen/src/Core/util/ReshapedHelper.h \
+  ../src/eigen/Eigen/src/Core/ArithmeticSequence.h \
+  ../src/eigen/Eigen/src/Core/IO.h \
+  ../src/eigen/Eigen/src/Core/DenseCoeffsBase.h \
+  ../src/eigen/Eigen/src/Core/DenseBase.h \
+  ../src/eigen/Eigen/src/plugins/CommonCwiseUnaryOps.h \
+  ../src/eigen/Eigen/src/plugins/BlockMethods.h \
+  ../src/eigen/Eigen/src/plugins/IndexedViewMethods.h \
+  ../src/eigen/Eigen/src/plugins/ReshapedMethods.h \
+  ../src/eigen/Eigen/src/plugins/ReshapedMethods.h \
+  ../src/eigen/Eigen/src/Core/MatrixBase.h \
+  ../src/eigen/Eigen/src/plugins/CommonCwiseBinaryOps.h \
+  ../src/eigen/Eigen/src/plugins/MatrixCwiseUnaryOps.h \
+  ../src/eigen/Eigen/src/plugins/MatrixCwiseBinaryOps.h \
+  ../src/eigen/Eigen/src/Core/EigenBase.h \
+  ../src/eigen/Eigen/src/Core/Product.h \
+  ../src/eigen/Eigen/src/Core/CoreEvaluators.h \
+  ../src/eigen/Eigen/src/Core/AssignEvaluator.h \
+  ../src/eigen/Eigen/src/Core/Assign.h \
+  ../src/eigen/Eigen/src/Core/ArrayBase.h \
+  ../src/eigen/Eigen/src/plugins/ArrayCwiseUnaryOps.h \
+  ../src/eigen/Eigen/src/plugins/ArrayCwiseBinaryOps.h \
+  ../src/eigen/Eigen/src/Core/util/BlasUtil.h \
+  ../src/eigen/Eigen/src/Core/DenseStorage.h \
+  ../src/eigen/Eigen/src/Core/NestByValue.h \
+  ../src/eigen/Eigen/src/Core/ReturnByValue.h \
+  ../src/eigen/Eigen/src/Core/NoAlias.h \
+  ../src/eigen/Eigen/src/Core/PlainObjectBase.h \
+  ../src/eigen/Eigen/src/Core/Matrix.h \
+  ../src/eigen/Eigen/src/Core/Array.h \
+  ../src/eigen/Eigen/src/Core/CwiseTernaryOp.h \
+  ../src/eigen/Eigen/src/Core/CwiseBinaryOp.h \
+  ../src/eigen/Eigen/src/Core/CwiseUnaryOp.h \
+  ../src/eigen/Eigen/src/Core/CwiseNullaryOp.h \
+  ../src/eigen/Eigen/src/Core/CwiseUnaryView.h \
+  ../src/eigen/Eigen/src/Core/SelfCwiseBinaryOp.h \
+  ../src/eigen/Eigen/src/Core/Dot.h \
+  ../src/eigen/Eigen/src/Core/StableNorm.h \
+  ../src/eigen/Eigen/src/Core/Stride.h \
+  ../src/eigen/Eigen/src/Core/MapBase.h \
+  ../src/eigen/Eigen/src/Core/Map.h \
+  ../src/eigen/Eigen/src/Core/Ref.h \
+  ../src/eigen/Eigen/src/Core/Block.h \
+  ../src/eigen/Eigen/src/Core/VectorBlock.h \
+  ../src/eigen/Eigen/src/Core/IndexedView.h \
+  ../src/eigen/Eigen/src/Core/Reshaped.h \
+  ../src/eigen/Eigen/src/Core/Transpose.h \
+  ../src/eigen/Eigen/src/Core/DiagonalMatrix.h \
+  ../src/eigen/Eigen/src/Core/Diagonal.h \
+  ../src/eigen/Eigen/src/Core/DiagonalProduct.h \
+  ../src/eigen/Eigen/src/Core/SkewSymmetricMatrix3.h \
+  ../src/eigen/Eigen/src/Core/Redux.h \
+  ../src/eigen/Eigen/src/Core/Visitor.h \
+  ../src/eigen/Eigen/src/Core/Fuzzy.h \
+  ../src/eigen/Eigen/src/Core/Swap.h \
+  ../src/eigen/Eigen/src/Core/CommaInitializer.h \
+  ../src/eigen/Eigen/src/Core/GeneralProduct.h \
+  ../src/eigen/Eigen/src/Core/Solve.h \
+  ../src/eigen/Eigen/src/Core/Inverse.h \
+  ../src/eigen/Eigen/src/Core/SolverBase.h \
+  ../src/eigen/Eigen/src/Core/PermutationMatrix.h \
+  ../src/eigen/Eigen/src/Core/Transpositions.h \
+  ../src/eigen/Eigen/src/Core/TriangularMatrix.h \
+  ../src/eigen/Eigen/src/Core/SelfAdjointView.h \
+  ../src/eigen/Eigen/src/Core/products/GeneralBlockPanelKernel.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Core/products/Parallelizer.h \
+  ../src/eigen/Eigen/src/Core/ProductEvaluators.h \
+  ../src/eigen/Eigen/src/Core/products/GeneralMatrixVector.h \
+  ../src/eigen/Eigen/src/Core/products/GeneralMatrixMatrix.h \
+  ../src/eigen/Eigen/src/Core/SolveTriangular.h \
+  ../src/eigen/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h \
+  ../src/eigen/Eigen/src/Core/products/SelfadjointMatrixVector.h \
+  ../src/eigen/Eigen/src/Core/products/SelfadjointMatrixMatrix.h \
+  ../src/eigen/Eigen/src/Core/products/SelfadjointProduct.h \
+  ../src/eigen/Eigen/src/Core/products/SelfadjointRank2Update.h \
+  ../src/eigen/Eigen/src/Core/products/TriangularMatrixVector.h \
+  ../src/eigen/Eigen/src/Core/products/TriangularMatrixMatrix.h \
+  ../src/eigen/Eigen/src/Core/products/TriangularSolverMatrix.h \
+  ../src/eigen/Eigen/src/Core/products/TriangularSolverVector.h \
+  ../src/eigen/Eigen/src/Core/BandMatrix.h \
+  ../src/eigen/Eigen/src/Core/CoreIterators.h \
+  ../src/eigen/Eigen/src/Core/ConditionEstimator.h \
+  ../src/eigen/Eigen/src/Core/Select.h \
+  ../src/eigen/Eigen/src/Core/VectorwiseOp.h \
+  ../src/eigen/Eigen/src/Core/PartialReduxEvaluator.h \
+  ../src/eigen/Eigen/src/Core/Random.h \
+  ../src/eigen/Eigen/src/Core/Replicate.h \
+  ../src/eigen/Eigen/src/Core/Reverse.h \
+  ../src/eigen/Eigen/src/Core/ArrayWrapper.h \
+  ../src/eigen/Eigen/src/Core/StlIterators.h \
+  ../src/eigen/Eigen/src/Core/GlobalFunctions.h \
+  ../src/eigen/Eigen/src/Core/util/ReenableStupidWarnings.h \
+  ../src/eigen/Eigen/LU \
+  ../src/eigen/Eigen/src/misc/Kernel.h \
+  ../src/eigen/Eigen/src/misc/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/misc/Image.h \
+  ../src/eigen/Eigen/src/LU/FullPivLU.h \
+  ../src/eigen/Eigen/src/LU/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/LU/PartialPivLU.h \
+  ../src/eigen/Eigen/src/LU/Determinant.h \
+  ../src/eigen/Eigen/src/LU/InverseImpl.h \
+  ../src/eigen/Eigen/src/LU/arch/InverseSize4.h \
+  ../src/eigen/Eigen/src/LU/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/Cholesky \
+  ../src/eigen/Eigen/Jacobi \
+  ../src/eigen/Eigen/src/Jacobi/Jacobi.h \
+  ../src/eigen/Eigen/src/Jacobi/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Cholesky/LLT.h \
+  ../src/eigen/Eigen/src/Cholesky/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Cholesky/LDLT.h \
+  ../src/eigen/Eigen/QR \
+  ../src/eigen/Eigen/Householder \
+  ../src/eigen/Eigen/src/Householder/Householder.h \
+  ../src/eigen/Eigen/src/Householder/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Householder/HouseholderSequence.h \
+  ../src/eigen/Eigen/src/Householder/BlockHouseholder.h \
+  ../src/eigen/Eigen/src/QR/HouseholderQR.h \
+  ../src/eigen/Eigen/src/QR/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/QR/FullPivHouseholderQR.h \
+  ../src/eigen/Eigen/src/QR/ColPivHouseholderQR.h \
+  ../src/eigen/Eigen/src/QR/CompleteOrthogonalDecomposition.h \
+  ../src/eigen/Eigen/SVD \
+  ../src/eigen/Eigen/src/misc/RealSvd2x2.h \
+  ../src/eigen/Eigen/src/SVD/UpperBidiagonalization.h \
+  ../src/eigen/Eigen/src/SVD/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/SVD/SVDBase.h \
+  ../src/eigen/Eigen/src/SVD/JacobiSVD.h \
+  ../src/eigen/Eigen/src/SVD/BDCSVD.h \
+  ../src/eigen/Eigen/Geometry \
+  ../src/eigen/Eigen/src/Geometry/OrthoMethods.h \
+  ../src/eigen/Eigen/src/Geometry/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Geometry/EulerAngles.h \
+  ../src/eigen/Eigen/src/Geometry/Homogeneous.h \
+  ../src/eigen/Eigen/src/Geometry/RotationBase.h \
+  ../src/eigen/Eigen/src/Geometry/Rotation2D.h \
+  ../src/eigen/Eigen/src/Geometry/Quaternion.h \
+  ../src/eigen/Eigen/src/Geometry/AngleAxis.h \
+  ../src/eigen/Eigen/src/Geometry/Transform.h \
+  ../src/eigen/Eigen/src/Geometry/Translation.h \
+  ../src/eigen/Eigen/src/Geometry/Scaling.h \
+  ../src/eigen/Eigen/src/Geometry/Hyperplane.h \
+  ../src/eigen/Eigen/src/Geometry/ParametrizedLine.h \
+  ../src/eigen/Eigen/src/Geometry/AlignedBox.h \
+  ../src/eigen/Eigen/src/Geometry/Umeyama.h \
+  ../src/eigen/Eigen/src/Geometry/arch/Geometry_SIMD.h \
+  ../src/eigen/Eigen/src/Geometry/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/Eigenvalues \
+  ../src/eigen/Eigen/src/Eigenvalues/Tridiagonalization.h \
+  ../src/eigen/Eigen/src/Eigenvalues/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Eigenvalues/RealSchur.h \
+  ../src/eigen/Eigen/src/Eigenvalues/HessenbergDecomposition.h \
+  ../src/eigen/Eigen/src/Eigenvalues/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Eigenvalues/EigenSolver.h \
+  ../src/eigen/Eigen/src/Eigenvalues/RealSchur.h \
+  ../src/eigen/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h \
+  ../src/eigen/Eigen/src/Eigenvalues/Tridiagonalization.h \
+  ../src/eigen/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h \
+  ../src/eigen/Eigen/src/Eigenvalues/HessenbergDecomposition.h \
+  ../src/eigen/Eigen/src/Eigenvalues/ComplexSchur.h \
+  ../src/eigen/Eigen/src/Eigenvalues/ComplexEigenSolver.h \
+  ../src/eigen/Eigen/src/Eigenvalues/ComplexSchur.h \
+  ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
+  ../src/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
+  ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
+  ../src/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
+  ../src/Utility.hh \
   /usr/include/c++/11/fstream \
   /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
   /usr/include/c++/11/bits/fstream.tcc \
+  /usr/include/c++/11/filesystem \
+  /usr/include/c++/11/bits/fs_fwd.h \
+  /usr/include/c++/11/chrono \
+  /usr/include/c++/11/ratio \
+  /usr/include/c++/11/bits/parse_numbers.h \
+  /usr/include/c++/11/bits/fs_path.h \
+  /usr/include/c++/11/codecvt \
+  /usr/include/c++/11/ext/concurrence.h \
+  /usr/include/c++/11/bits/shared_ptr.h \
+  /usr/include/c++/11/bits/shared_ptr_base.h \
+  /usr/include/c++/11/bits/allocated_ptr.h \
+  /usr/include/c++/11/bits/fs_dir.h \
+  /usr/include/c++/11/bits/fs_ops.h
+
+CMakeFiles/main.out.dir/src/Metric.cpp.o: ../src/Metric.cpp \
+  /usr/include/stdc-predef.h \
+  ../src/Metric.h \
+  ../src/Grid.h \
+  /usr/include/c++/11/fstream \
+  /usr/include/c++/11/istream \
+  /usr/include/c++/11/ios \
+  /usr/include/c++/11/iosfwd \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
+  /usr/include/features.h \
+  /usr/include/features-time64.h \
+  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+  /usr/include/x86_64-linux-gnu/bits/timesize.h \
+  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+  /usr/include/x86_64-linux-gnu/bits/long-double.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
+  /usr/include/c++/11/pstl/pstl_config.h \
+  /usr/include/c++/11/bits/stringfwd.h \
+  /usr/include/c++/11/bits/memoryfwd.h \
+  /usr/include/c++/11/bits/postypes.h \
+  /usr/include/c++/11/cwchar \
+  /usr/include/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+  /usr/include/c++/11/exception \
+  /usr/include/c++/11/bits/exception.h \
+  /usr/include/c++/11/bits/exception_ptr.h \
+  /usr/include/c++/11/bits/exception_defines.h \
+  /usr/include/c++/11/bits/cxxabi_init_exception.h \
+  /usr/include/c++/11/typeinfo \
+  /usr/include/c++/11/bits/hash_bytes.h \
+  /usr/include/c++/11/new \
+  /usr/include/c++/11/bits/move.h \
+  /usr/include/c++/11/type_traits \
+  /usr/include/c++/11/bits/nested_exception.h \
+  /usr/include/c++/11/bits/char_traits.h \
+  /usr/include/c++/11/bits/stl_algobase.h \
+  /usr/include/c++/11/bits/functexcept.h \
+  /usr/include/c++/11/bits/cpp_type_traits.h \
+  /usr/include/c++/11/ext/type_traits.h \
+  /usr/include/c++/11/ext/numeric_traits.h \
+  /usr/include/c++/11/bits/stl_pair.h \
+  /usr/include/c++/11/compare \
+  /usr/include/c++/11/concepts \
+  /usr/include/c++/11/bits/stl_iterator_base_types.h \
+  /usr/include/c++/11/bits/iterator_concepts.h \
+  /usr/include/c++/11/bits/ptr_traits.h \
+  /usr/include/c++/11/bits/ranges_cmp.h \
+  /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/11/bits/concept_check.h \
+  /usr/include/c++/11/debug/assertions.h \
+  /usr/include/c++/11/bits/stl_iterator.h \
+  /usr/include/c++/11/debug/debug.h \
+  /usr/include/c++/11/bits/predefined_ops.h \
+  /usr/include/c++/11/cstdint \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
+  /usr/include/stdint.h \
+  /usr/include/x86_64-linux-gnu/bits/types.h \
+  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+  /usr/include/x86_64-linux-gnu/bits/time64.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/c++/11/bits/localefwd.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
+  /usr/include/c++/11/clocale \
+  /usr/include/locale.h \
+  /usr/include/x86_64-linux-gnu/bits/locale.h \
+  /usr/include/c++/11/cctype \
+  /usr/include/ctype.h \
+  /usr/include/x86_64-linux-gnu/bits/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/endianness.h \
+  /usr/include/c++/11/bits/ios_base.h \
+  /usr/include/c++/11/ext/atomicity.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
+  /usr/include/pthread.h \
+  /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+  /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
+  /usr/include/time.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
+  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
+  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
+  /usr/include/c++/11/bits/locale_classes.h \
+  /usr/include/c++/11/string \
+  /usr/include/c++/11/bits/allocator.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
+  /usr/include/c++/11/ext/new_allocator.h \
+  /usr/include/c++/11/bits/ostream_insert.h \
+  /usr/include/c++/11/bits/cxxabi_forced.h \
+  /usr/include/c++/11/bits/stl_function.h \
+  /usr/include/c++/11/backward/binders.h \
+  /usr/include/c++/11/bits/stl_algo.h \
+  /usr/include/c++/11/cstdlib \
+  /usr/include/stdlib.h \
+  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+  /usr/include/x86_64-linux-gnu/sys/types.h \
+  /usr/include/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+  /usr/include/x86_64-linux-gnu/sys/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
+  /usr/include/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+  /usr/include/c++/11/bits/std_abs.h \
+  /usr/include/c++/11/bits/algorithmfwd.h \
+  /usr/include/c++/11/initializer_list \
+  /usr/include/c++/11/bits/stl_heap.h \
+  /usr/include/c++/11/bits/stl_tempbuf.h \
+  /usr/include/c++/11/bits/stl_construct.h \
+  /usr/include/c++/11/bits/uniform_int_dist.h \
+  /usr/include/c++/11/bits/range_access.h \
+  /usr/include/c++/11/bits/basic_string.h \
+  /usr/include/c++/11/ext/alloc_traits.h \
+  /usr/include/c++/11/bits/alloc_traits.h \
+  /usr/include/c++/11/string_view \
+  /usr/include/c++/11/bits/functional_hash.h \
+  /usr/include/c++/11/bits/ranges_base.h \
+  /usr/include/c++/11/bits/max_size_type.h \
+  /usr/include/c++/11/numbers \
+  /usr/include/c++/11/bits/string_view.tcc \
+  /usr/include/c++/11/ext/string_conversions.h \
+  /usr/include/c++/11/cstdio \
+  /usr/include/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+  /usr/include/c++/11/cerrno \
+  /usr/include/errno.h \
+  /usr/include/x86_64-linux-gnu/bits/errno.h \
+  /usr/include/linux/errno.h \
+  /usr/include/x86_64-linux-gnu/asm/errno.h \
+  /usr/include/asm-generic/errno.h \
+  /usr/include/asm-generic/errno-base.h \
+  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
+  /usr/include/c++/11/bits/charconv.h \
+  /usr/include/c++/11/bits/basic_string.tcc \
+  /usr/include/c++/11/bits/locale_classes.tcc \
+  /usr/include/c++/11/system_error \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
+  /usr/include/c++/11/stdexcept \
+  /usr/include/c++/11/streambuf \
+  /usr/include/c++/11/bits/streambuf.tcc \
+  /usr/include/c++/11/bits/basic_ios.h \
+  /usr/include/c++/11/bits/locale_facets.h \
+  /usr/include/c++/11/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h \
+  /usr/include/c++/11/bits/streambuf_iterator.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
+  /usr/include/c++/11/bits/locale_facets.tcc \
+  /usr/include/c++/11/bits/basic_ios.tcc \
+  /usr/include/c++/11/ostream \
+  /usr/include/c++/11/bits/ostream.tcc \
+  /usr/include/c++/11/bits/istream.tcc \
+  /usr/include/c++/11/bits/codecvt.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+  /usr/include/c++/11/bits/fstream.tcc \
+  ../src/ControlFlow.hh \
+  ../src/Utility.hh \
+  /usr/include/c++/11/iomanip \
+  /usr/include/c++/11/locale \
+  /usr/include/c++/11/bits/locale_facets_nonio.h \
+  /usr/include/c++/11/ctime \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
+  /usr/include/libintl.h \
+  /usr/include/c++/11/bits/locale_facets_nonio.tcc \
+  /usr/include/c++/11/bits/locale_conv.h \
+  /usr/include/c++/11/bits/unique_ptr.h \
+  /usr/include/c++/11/utility \
+  /usr/include/c++/11/bits/stl_relops.h \
+  /usr/include/c++/11/tuple \
+  /usr/include/c++/11/array \
+  /usr/include/c++/11/bits/uses_allocator.h \
+  /usr/include/c++/11/bits/invoke.h \
+  /usr/include/c++/11/bits/quoted_string.h \
+  /usr/include/c++/11/sstream \
+  /usr/include/c++/11/bits/sstream.tcc \
+  /usr/include/c++/11/iostream \
   /usr/include/c++/11/cmath \
   /usr/include/math.h \
   /usr/include/x86_64-linux-gnu/bits/math-vector.h \
@@ -3045,15 +3037,6 @@ CMakeFiles/main.out.dir/src/Metric.cpp.o: ../src/Metric.cpp \
   /usr/include/c++/11/bits/allocated_ptr.h \
   /usr/include/c++/11/bits/fs_dir.h \
   /usr/include/c++/11/bits/fs_ops.h \
-  /usr/include/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
-  /usr/include/x86_64-linux-gnu/bits/environments.h \
-  /usr/include/x86_64-linux-gnu/bits/confname.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
-  /usr/include/linux/close_range.h \
   ../src/eigen/Eigen/Dense \
   ../src/eigen/Eigen/Core \
   ../src/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
@@ -3081,6 +3064,15 @@ CMakeFiles/main.out.dir/src/Metric.cpp.o: ../src/Metric.cpp \
   /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+  /usr/include/linux/close_range.h \
   /usr/include/syscall.h \
   /usr/include/x86_64-linux-gnu/sys/syscall.h \
   /usr/include/x86_64-linux-gnu/asm/unistd.h \
@@ -3300,20 +3292,24 @@ CMakeFiles/main.out.dir/src/Metric.cpp.o: ../src/Metric.cpp \
   ../src/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
   ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
   ../src/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
-  ../src/TensorTypes.hh \
-  ../src/Grid.h \
+  ../src/DataTypes.hh \
   ../src/Profiler.hh \
   /usr/include/c++/11/mutex \
   /usr/include/c++/11/bits/unique_lock.h \
-  ../src/Interpolation.hh \
-  /usr/include/c++/11/math.h \
-  ../src/Stencil.hh
+  ../src/Interpolation.h \
+  /usr/include/c++/11/math.h
 
 CMakeFiles/main.out.dir/src/Radiation.cpp.o: ../src/Radiation.cpp \
   /usr/include/stdc-predef.h \
   ../src/Radiation.h \
-  /usr/include/c++/11/math.h \
-  /usr/include/c++/11/cmath \
+  ../src/GeodesicEquationSolver.h \
+  ../src/Spacetimes.h \
+  ../src/Metric.h \
+  ../src/Grid.h \
+  /usr/include/c++/11/fstream \
+  /usr/include/c++/11/istream \
+  /usr/include/c++/11/ios \
+  /usr/include/c++/11/iosfwd \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
   /usr/include/features.h \
@@ -3326,67 +3322,43 @@ CMakeFiles/main.out.dir/src/Radiation.cpp.o: ../src/Radiation.cpp \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
   /usr/include/c++/11/pstl/pstl_config.h \
-  /usr/include/c++/11/bits/cpp_type_traits.h \
-  /usr/include/c++/11/ext/type_traits.h \
-  /usr/include/math.h \
+  /usr/include/c++/11/bits/stringfwd.h \
+  /usr/include/c++/11/bits/memoryfwd.h \
+  /usr/include/c++/11/bits/postypes.h \
+  /usr/include/c++/11/cwchar \
+  /usr/include/wchar.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
-  /usr/include/x86_64-linux-gnu/bits/types.h \
-  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
-  /usr/include/x86_64-linux-gnu/bits/time64.h \
-  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
-  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
   /usr/include/x86_64-linux-gnu/bits/floatn.h \
   /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
-  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
-  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
-  /usr/include/c++/11/bits/std_abs.h \
-  /usr/include/stdlib.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
-  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
-  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
-  /usr/include/x86_64-linux-gnu/sys/types.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/endianness.h \
-  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
-  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
-  /usr/include/x86_64-linux-gnu/sys/select.h \
-  /usr/include/x86_64-linux-gnu/bits/select.h \
-  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
-  /usr/include/x86_64-linux-gnu/bits/select2.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
-  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
-  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
-  /usr/include/alloca.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
-  /usr/include/c++/11/bits/specfun.h \
-  /usr/include/c++/11/bits/stl_algobase.h \
-  /usr/include/c++/11/bits/functexcept.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+  /usr/include/c++/11/exception \
+  /usr/include/c++/11/bits/exception.h \
+  /usr/include/c++/11/bits/exception_ptr.h \
   /usr/include/c++/11/bits/exception_defines.h \
-  /usr/include/c++/11/ext/numeric_traits.h \
-  /usr/include/c++/11/bits/stl_pair.h \
+  /usr/include/c++/11/bits/cxxabi_init_exception.h \
+  /usr/include/c++/11/typeinfo \
+  /usr/include/c++/11/bits/hash_bytes.h \
+  /usr/include/c++/11/new \
   /usr/include/c++/11/bits/move.h \
   /usr/include/c++/11/type_traits \
+  /usr/include/c++/11/bits/nested_exception.h \
+  /usr/include/c++/11/bits/char_traits.h \
+  /usr/include/c++/11/bits/stl_algobase.h \
+  /usr/include/c++/11/bits/functexcept.h \
+  /usr/include/c++/11/bits/cpp_type_traits.h \
+  /usr/include/c++/11/ext/type_traits.h \
+  /usr/include/c++/11/ext/numeric_traits.h \
+  /usr/include/c++/11/bits/stl_pair.h \
   /usr/include/c++/11/compare \
   /usr/include/c++/11/concepts \
   /usr/include/c++/11/bits/stl_iterator_base_types.h \
@@ -3397,51 +3369,15 @@ CMakeFiles/main.out.dir/src/Radiation.cpp.o: ../src/Radiation.cpp \
   /usr/include/c++/11/bits/concept_check.h \
   /usr/include/c++/11/debug/assertions.h \
   /usr/include/c++/11/bits/stl_iterator.h \
-  /usr/include/c++/11/new \
-  /usr/include/c++/11/bits/exception.h \
   /usr/include/c++/11/debug/debug.h \
   /usr/include/c++/11/bits/predefined_ops.h \
-  /usr/include/c++/11/limits \
-  /usr/include/c++/11/tr1/gamma.tcc \
-  /usr/include/c++/11/tr1/special_function_util.h \
-  /usr/include/c++/11/tr1/bessel_function.tcc \
-  /usr/include/c++/11/tr1/beta_function.tcc \
-  /usr/include/c++/11/tr1/ell_integral.tcc \
-  /usr/include/c++/11/tr1/exp_integral.tcc \
-  /usr/include/c++/11/tr1/hypergeometric.tcc \
-  /usr/include/c++/11/tr1/legendre_function.tcc \
-  /usr/include/c++/11/tr1/modified_bessel_func.tcc \
-  /usr/include/c++/11/tr1/poly_hermite.tcc \
-  /usr/include/c++/11/tr1/poly_laguerre.tcc \
-  /usr/include/c++/11/tr1/riemann_zeta.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/omp.h \
-  /usr/include/c++/11/fstream \
-  /usr/include/c++/11/istream \
-  /usr/include/c++/11/ios \
-  /usr/include/c++/11/iosfwd \
-  /usr/include/c++/11/bits/stringfwd.h \
-  /usr/include/c++/11/bits/memoryfwd.h \
-  /usr/include/c++/11/bits/postypes.h \
-  /usr/include/c++/11/cwchar \
-  /usr/include/wchar.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
-  /usr/include/c++/11/exception \
-  /usr/include/c++/11/bits/exception_ptr.h \
-  /usr/include/c++/11/bits/cxxabi_init_exception.h \
-  /usr/include/c++/11/typeinfo \
-  /usr/include/c++/11/bits/hash_bytes.h \
-  /usr/include/c++/11/bits/nested_exception.h \
-  /usr/include/c++/11/bits/char_traits.h \
   /usr/include/c++/11/cstdint \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
   /usr/include/stdint.h \
+  /usr/include/x86_64-linux-gnu/bits/types.h \
+  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+  /usr/include/x86_64-linux-gnu/bits/time64.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
   /usr/include/c++/11/bits/localefwd.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
@@ -3450,21 +3386,36 @@ CMakeFiles/main.out.dir/src/Radiation.cpp.o: ../src/Radiation.cpp \
   /usr/include/x86_64-linux-gnu/bits/locale.h \
   /usr/include/c++/11/cctype \
   /usr/include/ctype.h \
+  /usr/include/x86_64-linux-gnu/bits/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/endianness.h \
   /usr/include/c++/11/bits/ios_base.h \
   /usr/include/c++/11/ext/atomicity.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
   /usr/include/x86_64-linux-gnu/bits/sched.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
   /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
   /usr/include/time.h \
   /usr/include/x86_64-linux-gnu/bits/time.h \
   /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
   /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
@@ -3480,6 +3431,22 @@ CMakeFiles/main.out.dir/src/Radiation.cpp.o: ../src/Radiation.cpp \
   /usr/include/c++/11/backward/binders.h \
   /usr/include/c++/11/bits/stl_algo.h \
   /usr/include/c++/11/cstdlib \
+  /usr/include/stdlib.h \
+  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+  /usr/include/x86_64-linux-gnu/sys/types.h \
+  /usr/include/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+  /usr/include/x86_64-linux-gnu/sys/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
+  /usr/include/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+  /usr/include/c++/11/bits/std_abs.h \
   /usr/include/c++/11/bits/algorithmfwd.h \
   /usr/include/c++/11/initializer_list \
   /usr/include/c++/11/bits/stl_heap.h \
@@ -3539,11 +3506,6 @@ CMakeFiles/main.out.dir/src/Radiation.cpp.o: ../src/Radiation.cpp \
   /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
   /usr/include/c++/11/bits/fstream.tcc \
-  /usr/include/c++/11/vector \
-  /usr/include/c++/11/bits/stl_uninitialized.h \
-  /usr/include/c++/11/bits/stl_vector.h \
-  /usr/include/c++/11/bits/stl_bvector.h \
-  /usr/include/c++/11/bits/vector.tcc \
   ../src/ControlFlow.hh \
   ../src/Utility.hh \
   /usr/include/c++/11/iomanip \
@@ -3566,6 +3528,31 @@ CMakeFiles/main.out.dir/src/Radiation.cpp.o: ../src/Radiation.cpp \
   /usr/include/c++/11/sstream \
   /usr/include/c++/11/bits/sstream.tcc \
   /usr/include/c++/11/iostream \
+  /usr/include/c++/11/cmath \
+  /usr/include/math.h \
+  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+  /usr/include/c++/11/bits/specfun.h \
+  /usr/include/c++/11/limits \
+  /usr/include/c++/11/tr1/gamma.tcc \
+  /usr/include/c++/11/tr1/special_function_util.h \
+  /usr/include/c++/11/tr1/bessel_function.tcc \
+  /usr/include/c++/11/tr1/beta_function.tcc \
+  /usr/include/c++/11/tr1/ell_integral.tcc \
+  /usr/include/c++/11/tr1/exp_integral.tcc \
+  /usr/include/c++/11/tr1/hypergeometric.tcc \
+  /usr/include/c++/11/tr1/legendre_function.tcc \
+  /usr/include/c++/11/tr1/modified_bessel_func.tcc \
+  /usr/include/c++/11/tr1/poly_hermite.tcc \
+  /usr/include/c++/11/tr1/poly_laguerre.tcc \
+  /usr/include/c++/11/tr1/riemann_zeta.tcc \
   /usr/include/c++/11/algorithm \
   /usr/include/c++/11/bits/ranges_algo.h \
   /usr/include/c++/11/bits/ranges_algobase.h \
@@ -3584,6 +3571,11 @@ CMakeFiles/main.out.dir/src/Radiation.cpp.o: ../src/Radiation.cpp \
   /usr/include/c++/11/bits/node_handle.h \
   /usr/include/c++/11/bits/unordered_map.h \
   /usr/include/c++/11/bits/erase_if.h \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
+  /usr/include/c++/11/bits/vector.tcc \
   /usr/include/c++/11/pstl/execution_defs.h \
   /usr/include/c++/11/filesystem \
   /usr/include/c++/11/bits/fs_fwd.h \
@@ -3598,15 +3590,6 @@ CMakeFiles/main.out.dir/src/Radiation.cpp.o: ../src/Radiation.cpp \
   /usr/include/c++/11/bits/allocated_ptr.h \
   /usr/include/c++/11/bits/fs_dir.h \
   /usr/include/c++/11/bits/fs_ops.h \
-  /usr/include/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
-  /usr/include/x86_64-linux-gnu/bits/environments.h \
-  /usr/include/x86_64-linux-gnu/bits/confname.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
-  /usr/include/linux/close_range.h \
   ../src/eigen/Eigen/Dense \
   ../src/eigen/Eigen/Core \
   ../src/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
@@ -3634,12 +3617,22 @@ CMakeFiles/main.out.dir/src/Radiation.cpp.o: ../src/Radiation.cpp \
   /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+  /usr/include/linux/close_range.h \
   /usr/include/syscall.h \
   /usr/include/x86_64-linux-gnu/sys/syscall.h \
   /usr/include/x86_64-linux-gnu/asm/unistd.h \
   /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
   /usr/include/x86_64-linux-gnu/bits/syscall.h \
   /usr/include/c++/11/bits/std_mutex.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/omp.h \
   /usr/include/c++/11/cstddef \
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
@@ -3852,23 +3845,27 @@ CMakeFiles/main.out.dir/src/Radiation.cpp.o: ../src/Radiation.cpp \
   ../src/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
   ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
   ../src/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
-  ../src/Stencil.hh \
-  ../src/TensorTypes.hh \
-  ../src/Grid.h \
+  ../src/DataTypes.hh \
   ../src/Profiler.hh \
   /usr/include/c++/11/mutex \
   /usr/include/c++/11/bits/unique_lock.h \
-  ../src/Metric.h \
-  ../src/Interpolation.hh \
+  ../src/Interpolation.h \
+  /usr/include/c++/11/math.h \
+  ../src/SpecialMath.h \
   ../src/FourierHarmonics.h \
-  ../src/GeodesicEquationSolver.h \
-  ../src/AdvancedUtiltiy.h \
-  ../src/Log.hh
+  ../src/Stencil.h \
+  ../src/Log.hh \
+  ../src/Config.hh
 
 CMakeFiles/main.out.dir/src/Spacetimes.cpp.o: ../src/Spacetimes.cpp \
   /usr/include/stdc-predef.h \
   ../src/Spacetimes.h \
-  /usr/include/c++/11/string \
+  ../src/Metric.h \
+  ../src/Grid.h \
+  /usr/include/c++/11/fstream \
+  /usr/include/c++/11/istream \
+  /usr/include/c++/11/ios \
+  /usr/include/c++/11/iosfwd \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
   /usr/include/features.h \
@@ -3883,30 +3880,6 @@ CMakeFiles/main.out.dir/src/Spacetimes.cpp.o: ../src/Spacetimes.cpp \
   /usr/include/c++/11/pstl/pstl_config.h \
   /usr/include/c++/11/bits/stringfwd.h \
   /usr/include/c++/11/bits/memoryfwd.h \
-  /usr/include/c++/11/bits/char_traits.h \
-  /usr/include/c++/11/bits/stl_algobase.h \
-  /usr/include/c++/11/bits/functexcept.h \
-  /usr/include/c++/11/bits/exception_defines.h \
-  /usr/include/c++/11/bits/cpp_type_traits.h \
-  /usr/include/c++/11/ext/type_traits.h \
-  /usr/include/c++/11/ext/numeric_traits.h \
-  /usr/include/c++/11/bits/stl_pair.h \
-  /usr/include/c++/11/bits/move.h \
-  /usr/include/c++/11/type_traits \
-  /usr/include/c++/11/compare \
-  /usr/include/c++/11/concepts \
-  /usr/include/c++/11/bits/stl_iterator_base_types.h \
-  /usr/include/c++/11/bits/iterator_concepts.h \
-  /usr/include/c++/11/bits/ptr_traits.h \
-  /usr/include/c++/11/bits/ranges_cmp.h \
-  /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
-  /usr/include/c++/11/bits/concept_check.h \
-  /usr/include/c++/11/debug/assertions.h \
-  /usr/include/c++/11/bits/stl_iterator.h \
-  /usr/include/c++/11/new \
-  /usr/include/c++/11/bits/exception.h \
-  /usr/include/c++/11/debug/debug.h \
-  /usr/include/c++/11/bits/predefined_ops.h \
   /usr/include/c++/11/bits/postypes.h \
   /usr/include/c++/11/cwchar \
   /usr/include/wchar.h \
@@ -3924,6 +3897,36 @@ CMakeFiles/main.out.dir/src/Spacetimes.cpp.o: ../src/Spacetimes.cpp \
   /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+  /usr/include/c++/11/exception \
+  /usr/include/c++/11/bits/exception.h \
+  /usr/include/c++/11/bits/exception_ptr.h \
+  /usr/include/c++/11/bits/exception_defines.h \
+  /usr/include/c++/11/bits/cxxabi_init_exception.h \
+  /usr/include/c++/11/typeinfo \
+  /usr/include/c++/11/bits/hash_bytes.h \
+  /usr/include/c++/11/new \
+  /usr/include/c++/11/bits/move.h \
+  /usr/include/c++/11/type_traits \
+  /usr/include/c++/11/bits/nested_exception.h \
+  /usr/include/c++/11/bits/char_traits.h \
+  /usr/include/c++/11/bits/stl_algobase.h \
+  /usr/include/c++/11/bits/functexcept.h \
+  /usr/include/c++/11/bits/cpp_type_traits.h \
+  /usr/include/c++/11/ext/type_traits.h \
+  /usr/include/c++/11/ext/numeric_traits.h \
+  /usr/include/c++/11/bits/stl_pair.h \
+  /usr/include/c++/11/compare \
+  /usr/include/c++/11/concepts \
+  /usr/include/c++/11/bits/stl_iterator_base_types.h \
+  /usr/include/c++/11/bits/iterator_concepts.h \
+  /usr/include/c++/11/bits/ptr_traits.h \
+  /usr/include/c++/11/bits/ranges_cmp.h \
+  /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/11/bits/concept_check.h \
+  /usr/include/c++/11/debug/assertions.h \
+  /usr/include/c++/11/bits/stl_iterator.h \
+  /usr/include/c++/11/debug/debug.h \
+  /usr/include/c++/11/bits/predefined_ops.h \
   /usr/include/c++/11/cstdint \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
   /usr/include/stdint.h \
@@ -3932,19 +3935,52 @@ CMakeFiles/main.out.dir/src/Spacetimes.cpp.o: ../src/Spacetimes.cpp \
   /usr/include/x86_64-linux-gnu/bits/time64.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
-  /usr/include/c++/11/bits/allocator.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
-  /usr/include/c++/11/ext/new_allocator.h \
   /usr/include/c++/11/bits/localefwd.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
   /usr/include/c++/11/clocale \
   /usr/include/locale.h \
   /usr/include/x86_64-linux-gnu/bits/locale.h \
-  /usr/include/c++/11/iosfwd \
   /usr/include/c++/11/cctype \
   /usr/include/ctype.h \
   /usr/include/x86_64-linux-gnu/bits/endian.h \
   /usr/include/x86_64-linux-gnu/bits/endianness.h \
+  /usr/include/c++/11/bits/ios_base.h \
+  /usr/include/c++/11/ext/atomicity.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
+  /usr/include/pthread.h \
+  /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+  /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
+  /usr/include/time.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
+  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
+  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
+  /usr/include/c++/11/bits/locale_classes.h \
+  /usr/include/c++/11/string \
+  /usr/include/c++/11/bits/allocator.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
+  /usr/include/c++/11/ext/new_allocator.h \
   /usr/include/c++/11/bits/ostream_insert.h \
   /usr/include/c++/11/bits/cxxabi_forced.h \
   /usr/include/c++/11/bits/stl_function.h \
@@ -3955,26 +3991,13 @@ CMakeFiles/main.out.dir/src/Spacetimes.cpp.o: ../src/Spacetimes.cpp \
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
   /usr/include/x86_64-linux-gnu/sys/types.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
   /usr/include/endian.h \
   /usr/include/x86_64-linux-gnu/bits/byteswap.h \
   /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
   /usr/include/x86_64-linux-gnu/sys/select.h \
   /usr/include/x86_64-linux-gnu/bits/select.h \
   /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
   /usr/include/x86_64-linux-gnu/bits/select2.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
-  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
-  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
   /usr/include/alloca.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
@@ -3988,29 +4011,10 @@ CMakeFiles/main.out.dir/src/Spacetimes.cpp.o: ../src/Spacetimes.cpp \
   /usr/include/c++/11/bits/uniform_int_dist.h \
   /usr/include/c++/11/bits/range_access.h \
   /usr/include/c++/11/bits/basic_string.h \
-  /usr/include/c++/11/ext/atomicity.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
-  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/time.h \
-  /usr/include/x86_64-linux-gnu/bits/time.h \
-  /usr/include/x86_64-linux-gnu/bits/timex.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
-  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
-  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
-  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
   /usr/include/c++/11/ext/alloc_traits.h \
   /usr/include/c++/11/bits/alloc_traits.h \
   /usr/include/c++/11/string_view \
   /usr/include/c++/11/bits/functional_hash.h \
-  /usr/include/c++/11/bits/hash_bytes.h \
   /usr/include/c++/11/bits/ranges_base.h \
   /usr/include/c++/11/bits/max_size_type.h \
   /usr/include/c++/11/numbers \
@@ -4035,37 +4039,38 @@ CMakeFiles/main.out.dir/src/Spacetimes.cpp.o: ../src/Spacetimes.cpp \
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/11/bits/charconv.h \
   /usr/include/c++/11/bits/basic_string.tcc \
-  ../src/ControlFlow.hh \
-  ../src/TensorTypes.hh \
-  /usr/include/c++/11/iomanip \
-  /usr/include/c++/11/bits/ios_base.h \
-  /usr/include/c++/11/bits/locale_classes.h \
   /usr/include/c++/11/bits/locale_classes.tcc \
   /usr/include/c++/11/system_error \
   /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
   /usr/include/c++/11/stdexcept \
-  /usr/include/c++/11/exception \
-  /usr/include/c++/11/bits/exception_ptr.h \
-  /usr/include/c++/11/bits/cxxabi_init_exception.h \
-  /usr/include/c++/11/typeinfo \
-  /usr/include/c++/11/bits/nested_exception.h \
-  /usr/include/c++/11/locale \
+  /usr/include/c++/11/streambuf \
+  /usr/include/c++/11/bits/streambuf.tcc \
+  /usr/include/c++/11/bits/basic_ios.h \
   /usr/include/c++/11/bits/locale_facets.h \
   /usr/include/c++/11/cwctype \
   /usr/include/wctype.h \
   /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h \
-  /usr/include/c++/11/streambuf \
-  /usr/include/c++/11/bits/streambuf.tcc \
   /usr/include/c++/11/bits/streambuf_iterator.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
   /usr/include/c++/11/bits/locale_facets.tcc \
+  /usr/include/c++/11/bits/basic_ios.tcc \
+  /usr/include/c++/11/ostream \
+  /usr/include/c++/11/bits/ostream.tcc \
+  /usr/include/c++/11/bits/istream.tcc \
+  /usr/include/c++/11/bits/codecvt.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+  /usr/include/c++/11/bits/fstream.tcc \
+  ../src/ControlFlow.hh \
+  ../src/Utility.hh \
+  /usr/include/c++/11/iomanip \
+  /usr/include/c++/11/locale \
   /usr/include/c++/11/bits/locale_facets_nonio.h \
   /usr/include/c++/11/ctime \
   /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
   /usr/include/libintl.h \
-  /usr/include/c++/11/bits/codecvt.h \
   /usr/include/c++/11/bits/locale_facets_nonio.tcc \
   /usr/include/c++/11/bits/locale_conv.h \
   /usr/include/c++/11/bits/unique_ptr.h \
@@ -4075,22 +4080,10 @@ CMakeFiles/main.out.dir/src/Spacetimes.cpp.o: ../src/Spacetimes.cpp \
   /usr/include/c++/11/array \
   /usr/include/c++/11/bits/uses_allocator.h \
   /usr/include/c++/11/bits/invoke.h \
-  /usr/include/c++/11/ostream \
-  /usr/include/c++/11/ios \
-  /usr/include/c++/11/bits/basic_ios.h \
-  /usr/include/c++/11/bits/basic_ios.tcc \
-  /usr/include/c++/11/bits/ostream.tcc \
   /usr/include/c++/11/bits/quoted_string.h \
   /usr/include/c++/11/sstream \
-  /usr/include/c++/11/istream \
-  /usr/include/c++/11/bits/istream.tcc \
   /usr/include/c++/11/bits/sstream.tcc \
   /usr/include/c++/11/iostream \
-  ../src/eigen/Eigen/Dense \
-  ../src/eigen/Eigen/Core \
-  ../src/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
-  ../src/eigen/Eigen/src/Core/util/Macros.h \
-  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
   /usr/include/c++/11/cmath \
   /usr/include/math.h \
   /usr/include/x86_64-linux-gnu/bits/math-vector.h \
@@ -4116,6 +4109,48 @@ CMakeFiles/main.out.dir/src/Spacetimes.cpp.o: ../src/Spacetimes.cpp \
   /usr/include/c++/11/tr1/poly_hermite.tcc \
   /usr/include/c++/11/tr1/poly_laguerre.tcc \
   /usr/include/c++/11/tr1/riemann_zeta.tcc \
+  /usr/include/c++/11/algorithm \
+  /usr/include/c++/11/bits/ranges_algo.h \
+  /usr/include/c++/11/bits/ranges_algobase.h \
+  /usr/include/c++/11/iterator \
+  /usr/include/c++/11/bits/stream_iterator.h \
+  /usr/include/c++/11/bits/ranges_util.h \
+  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
+  /usr/include/c++/11/functional \
+  /usr/include/c++/11/bits/refwrap.h \
+  /usr/include/c++/11/bits/std_function.h \
+  /usr/include/c++/11/unordered_map \
+  /usr/include/c++/11/ext/aligned_buffer.h \
+  /usr/include/c++/11/bits/hashtable.h \
+  /usr/include/c++/11/bits/hashtable_policy.h \
+  /usr/include/c++/11/bits/enable_special_members.h \
+  /usr/include/c++/11/bits/node_handle.h \
+  /usr/include/c++/11/bits/unordered_map.h \
+  /usr/include/c++/11/bits/erase_if.h \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
+  /usr/include/c++/11/bits/vector.tcc \
+  /usr/include/c++/11/pstl/execution_defs.h \
+  /usr/include/c++/11/filesystem \
+  /usr/include/c++/11/bits/fs_fwd.h \
+  /usr/include/c++/11/chrono \
+  /usr/include/c++/11/ratio \
+  /usr/include/c++/11/bits/parse_numbers.h \
+  /usr/include/c++/11/bits/fs_path.h \
+  /usr/include/c++/11/codecvt \
+  /usr/include/c++/11/ext/concurrence.h \
+  /usr/include/c++/11/bits/shared_ptr.h \
+  /usr/include/c++/11/bits/shared_ptr_base.h \
+  /usr/include/c++/11/bits/allocated_ptr.h \
+  /usr/include/c++/11/bits/fs_dir.h \
+  /usr/include/c++/11/bits/fs_ops.h \
+  ../src/eigen/Eigen/Dense \
+  ../src/eigen/Eigen/Core \
+  ../src/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
+  ../src/eigen/Eigen/src/Core/util/Macros.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
   ../src/eigen/Eigen/src/Core/util/ConfigureVectorization.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/mmintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h \
@@ -4155,35 +4190,11 @@ CMakeFiles/main.out.dir/src/Spacetimes.cpp.o: ../src/Spacetimes.cpp \
   /usr/include/c++/11/bits/std_mutex.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/omp.h \
   /usr/include/c++/11/cstddef \
-  /usr/include/c++/11/functional \
-  /usr/include/c++/11/bits/refwrap.h \
-  /usr/include/c++/11/bits/std_function.h \
-  /usr/include/c++/11/unordered_map \
-  /usr/include/c++/11/ext/aligned_buffer.h \
-  /usr/include/c++/11/bits/hashtable.h \
-  /usr/include/c++/11/bits/hashtable_policy.h \
-  /usr/include/c++/11/bits/enable_special_members.h \
-  /usr/include/c++/11/bits/node_handle.h \
-  /usr/include/c++/11/bits/unordered_map.h \
-  /usr/include/c++/11/bits/erase_if.h \
-  /usr/include/c++/11/vector \
-  /usr/include/c++/11/bits/stl_uninitialized.h \
-  /usr/include/c++/11/bits/stl_vector.h \
-  /usr/include/c++/11/bits/stl_bvector.h \
-  /usr/include/c++/11/bits/vector.tcc \
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
   /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
   /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
-  /usr/include/c++/11/algorithm \
-  /usr/include/c++/11/bits/ranges_algo.h \
-  /usr/include/c++/11/bits/ranges_algobase.h \
-  /usr/include/c++/11/iterator \
-  /usr/include/c++/11/bits/stream_iterator.h \
-  /usr/include/c++/11/bits/ranges_util.h \
-  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
-  /usr/include/c++/11/pstl/execution_defs.h \
   ../src/eigen/Eigen/src/Core/util/Constants.h \
   ../src/eigen/Eigen/src/Core/util/Meta.h \
   ../src/eigen/Eigen/src/Core/util/Assert.h \
@@ -4390,40 +4401,18 @@ CMakeFiles/main.out.dir/src/Spacetimes.cpp.o: ../src/Spacetimes.cpp \
   ../src/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
   ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
   ../src/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
-  ../src/Utility.hh \
-  /usr/include/c++/11/fstream \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
-  /usr/include/c++/11/bits/fstream.tcc \
-  /usr/include/c++/11/filesystem \
-  /usr/include/c++/11/bits/fs_fwd.h \
-  /usr/include/c++/11/chrono \
-  /usr/include/c++/11/ratio \
-  /usr/include/c++/11/bits/parse_numbers.h \
-  /usr/include/c++/11/bits/fs_path.h \
-  /usr/include/c++/11/codecvt \
-  /usr/include/c++/11/ext/concurrence.h \
-  /usr/include/c++/11/bits/shared_ptr.h \
-  /usr/include/c++/11/bits/shared_ptr_base.h \
-  /usr/include/c++/11/bits/allocated_ptr.h \
-  /usr/include/c++/11/bits/fs_dir.h \
-  /usr/include/c++/11/bits/fs_ops.h \
-  ../src/Grid.h \
+  ../src/DataTypes.hh \
   ../src/Profiler.hh \
   /usr/include/c++/11/mutex \
   /usr/include/c++/11/bits/unique_lock.h \
-  ../src/Metric.h \
-  ../src/Interpolation.hh \
-  /usr/include/c++/11/math.h \
-  ../src/Stencil.hh
+  ../src/Interpolation.h \
+  /usr/include/c++/11/math.h
 
-CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
+CMakeFiles/main.out.dir/src/SpecialMath.cpp.o: ../src/SpecialMath.cpp \
   /usr/include/stdc-predef.h \
-  ../src/WriteData.h \
-  /usr/include/c++/11/fstream \
-  /usr/include/c++/11/istream \
-  /usr/include/c++/11/ios \
-  /usr/include/c++/11/iosfwd \
+  ../src/SpecialMath.h \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_algobase.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
   /usr/include/features.h \
@@ -4436,43 +4425,14 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
   /usr/include/c++/11/pstl/pstl_config.h \
-  /usr/include/c++/11/bits/stringfwd.h \
-  /usr/include/c++/11/bits/memoryfwd.h \
-  /usr/include/c++/11/bits/postypes.h \
-  /usr/include/c++/11/cwchar \
-  /usr/include/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
-  /usr/include/c++/11/exception \
-  /usr/include/c++/11/bits/exception.h \
-  /usr/include/c++/11/bits/exception_ptr.h \
-  /usr/include/c++/11/bits/exception_defines.h \
-  /usr/include/c++/11/bits/cxxabi_init_exception.h \
-  /usr/include/c++/11/typeinfo \
-  /usr/include/c++/11/bits/hash_bytes.h \
-  /usr/include/c++/11/new \
-  /usr/include/c++/11/bits/move.h \
-  /usr/include/c++/11/type_traits \
-  /usr/include/c++/11/bits/nested_exception.h \
-  /usr/include/c++/11/bits/char_traits.h \
-  /usr/include/c++/11/bits/stl_algobase.h \
   /usr/include/c++/11/bits/functexcept.h \
+  /usr/include/c++/11/bits/exception_defines.h \
   /usr/include/c++/11/bits/cpp_type_traits.h \
   /usr/include/c++/11/ext/type_traits.h \
   /usr/include/c++/11/ext/numeric_traits.h \
   /usr/include/c++/11/bits/stl_pair.h \
+  /usr/include/c++/11/bits/move.h \
+  /usr/include/c++/11/type_traits \
   /usr/include/c++/11/compare \
   /usr/include/c++/11/concepts \
   /usr/include/c++/11/bits/stl_iterator_base_types.h \
@@ -4483,79 +4443,48 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
   /usr/include/c++/11/bits/concept_check.h \
   /usr/include/c++/11/debug/assertions.h \
   /usr/include/c++/11/bits/stl_iterator.h \
+  /usr/include/c++/11/new \
+  /usr/include/c++/11/bits/exception.h \
   /usr/include/c++/11/debug/debug.h \
   /usr/include/c++/11/bits/predefined_ops.h \
-  /usr/include/c++/11/cstdint \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
-  /usr/include/stdint.h \
+  /usr/include/c++/11/bits/stl_algo.h \
+  /usr/include/c++/11/cstdlib \
+  /usr/include/stdlib.h \
+  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
+  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/x86_64-linux-gnu/sys/types.h \
   /usr/include/x86_64-linux-gnu/bits/types.h \
   /usr/include/x86_64-linux-gnu/bits/typesizes.h \
   /usr/include/x86_64-linux-gnu/bits/time64.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
-  /usr/include/c++/11/bits/localefwd.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
-  /usr/include/c++/11/clocale \
-  /usr/include/locale.h \
-  /usr/include/x86_64-linux-gnu/bits/locale.h \
-  /usr/include/c++/11/cctype \
-  /usr/include/ctype.h \
+  /usr/include/endian.h \
   /usr/include/x86_64-linux-gnu/bits/endian.h \
   /usr/include/x86_64-linux-gnu/bits/endianness.h \
-  /usr/include/c++/11/bits/ios_base.h \
-  /usr/include/c++/11/ext/atomicity.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
-  /usr/include/x86_64-linux-gnu/bits/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
-  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/time.h \
-  /usr/include/x86_64-linux-gnu/bits/time.h \
-  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+  /usr/include/x86_64-linux-gnu/sys/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
   /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
   /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
   /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
-  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
-  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
-  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
-  /usr/include/c++/11/bits/locale_classes.h \
-  /usr/include/c++/11/string \
-  /usr/include/c++/11/bits/allocator.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
-  /usr/include/c++/11/ext/new_allocator.h \
-  /usr/include/c++/11/bits/ostream_insert.h \
-  /usr/include/c++/11/bits/cxxabi_forced.h \
-  /usr/include/c++/11/bits/stl_function.h \
-  /usr/include/c++/11/backward/binders.h \
-  /usr/include/c++/11/bits/stl_algo.h \
-  /usr/include/c++/11/cstdlib \
-  /usr/include/stdlib.h \
-  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
-  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
-  /usr/include/x86_64-linux-gnu/sys/types.h \
-  /usr/include/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
-  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
-  /usr/include/x86_64-linux-gnu/sys/select.h \
-  /usr/include/x86_64-linux-gnu/bits/select.h \
-  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/select2.h \
   /usr/include/alloca.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
@@ -4567,12 +4496,80 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
   /usr/include/c++/11/bits/stl_tempbuf.h \
   /usr/include/c++/11/bits/stl_construct.h \
   /usr/include/c++/11/bits/uniform_int_dist.h \
-  /usr/include/c++/11/bits/range_access.h \
-  /usr/include/c++/11/bits/basic_string.h \
+  /usr/include/c++/11/bits/allocator.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
+  /usr/include/c++/11/ext/new_allocator.h \
+  /usr/include/c++/11/bits/memoryfwd.h \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
   /usr/include/c++/11/ext/alloc_traits.h \
   /usr/include/c++/11/bits/alloc_traits.h \
-  /usr/include/c++/11/string_view \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
   /usr/include/c++/11/bits/functional_hash.h \
+  /usr/include/c++/11/bits/hash_bytes.h \
+  /usr/include/c++/11/bits/range_access.h \
+  /usr/include/c++/11/bits/vector.tcc \
+  /usr/include/c++/11/algorithm \
+  /usr/include/c++/11/utility \
+  /usr/include/c++/11/bits/stl_relops.h \
+  /usr/include/c++/11/bits/ranges_algo.h \
+  /usr/include/c++/11/bits/ranges_algobase.h \
+  /usr/include/c++/11/iterator \
+  /usr/include/c++/11/iosfwd \
+  /usr/include/c++/11/bits/stringfwd.h \
+  /usr/include/c++/11/bits/postypes.h \
+  /usr/include/c++/11/cwchar \
+  /usr/include/wchar.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+  /usr/include/c++/11/bits/stream_iterator.h \
+  /usr/include/c++/11/bits/streambuf_iterator.h \
+  /usr/include/c++/11/streambuf \
+  /usr/include/c++/11/bits/localefwd.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
+  /usr/include/c++/11/clocale \
+  /usr/include/locale.h \
+  /usr/include/x86_64-linux-gnu/bits/locale.h \
+  /usr/include/c++/11/cctype \
+  /usr/include/ctype.h \
+  /usr/include/c++/11/bits/ios_base.h \
+  /usr/include/c++/11/ext/atomicity.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
+  /usr/include/pthread.h \
+  /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
+  /usr/include/time.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
+  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
+  /usr/include/c++/11/bits/locale_classes.h \
+  /usr/include/c++/11/string \
+  /usr/include/c++/11/bits/char_traits.h \
+  /usr/include/c++/11/cstdint \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
+  /usr/include/stdint.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/c++/11/bits/ostream_insert.h \
+  /usr/include/c++/11/bits/cxxabi_forced.h \
+  /usr/include/c++/11/bits/stl_function.h \
+  /usr/include/c++/11/backward/binders.h \
+  /usr/include/c++/11/bits/basic_string.h \
+  /usr/include/c++/11/string_view \
   /usr/include/c++/11/bits/ranges_base.h \
   /usr/include/c++/11/bits/max_size_type.h \
   /usr/include/c++/11/numbers \
@@ -4601,46 +4598,66 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
   /usr/include/c++/11/system_error \
   /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
   /usr/include/c++/11/stdexcept \
-  /usr/include/c++/11/streambuf \
+  /usr/include/c++/11/exception \
+  /usr/include/c++/11/bits/exception_ptr.h \
+  /usr/include/c++/11/bits/cxxabi_init_exception.h \
+  /usr/include/c++/11/typeinfo \
+  /usr/include/c++/11/bits/nested_exception.h \
   /usr/include/c++/11/bits/streambuf.tcc \
-  /usr/include/c++/11/bits/basic_ios.h \
+  /usr/include/c++/11/bits/invoke.h \
+  /usr/include/c++/11/bits/ranges_util.h \
+  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
+  /usr/include/c++/11/functional \
+  /usr/include/c++/11/tuple \
+  /usr/include/c++/11/array \
+  /usr/include/c++/11/bits/uses_allocator.h \
+  /usr/include/c++/11/bits/refwrap.h \
+  /usr/include/c++/11/bits/std_function.h \
+  /usr/include/c++/11/unordered_map \
+  /usr/include/c++/11/ext/aligned_buffer.h \
+  /usr/include/c++/11/bits/hashtable.h \
+  /usr/include/c++/11/bits/hashtable_policy.h \
+  /usr/include/c++/11/bits/enable_special_members.h \
+  /usr/include/c++/11/bits/node_handle.h \
+  /usr/include/c++/11/bits/unordered_map.h \
+  /usr/include/c++/11/bits/erase_if.h \
+  /usr/include/c++/11/pstl/execution_defs.h \
+  ../src/DataTypes.hh \
+  /usr/include/c++/11/iomanip \
+  /usr/include/c++/11/locale \
   /usr/include/c++/11/bits/locale_facets.h \
   /usr/include/c++/11/cwctype \
   /usr/include/wctype.h \
   /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h \
-  /usr/include/c++/11/bits/streambuf_iterator.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
   /usr/include/c++/11/bits/locale_facets.tcc \
-  /usr/include/c++/11/bits/basic_ios.tcc \
-  /usr/include/c++/11/ostream \
-  /usr/include/c++/11/bits/ostream.tcc \
-  /usr/include/c++/11/bits/istream.tcc \
-  /usr/include/c++/11/bits/codecvt.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
-  /usr/include/c++/11/bits/fstream.tcc \
-  ../src/Utility.hh \
-  /usr/include/c++/11/iomanip \
-  /usr/include/c++/11/locale \
   /usr/include/c++/11/bits/locale_facets_nonio.h \
   /usr/include/c++/11/ctime \
   /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
   /usr/include/libintl.h \
+  /usr/include/c++/11/bits/codecvt.h \
   /usr/include/c++/11/bits/locale_facets_nonio.tcc \
   /usr/include/c++/11/bits/locale_conv.h \
   /usr/include/c++/11/bits/unique_ptr.h \
-  /usr/include/c++/11/utility \
-  /usr/include/c++/11/bits/stl_relops.h \
-  /usr/include/c++/11/tuple \
-  /usr/include/c++/11/array \
-  /usr/include/c++/11/bits/uses_allocator.h \
-  /usr/include/c++/11/bits/invoke.h \
+  /usr/include/c++/11/ostream \
+  /usr/include/c++/11/ios \
+  /usr/include/c++/11/bits/basic_ios.h \
+  /usr/include/c++/11/bits/basic_ios.tcc \
+  /usr/include/c++/11/bits/ostream.tcc \
   /usr/include/c++/11/bits/quoted_string.h \
   /usr/include/c++/11/sstream \
+  /usr/include/c++/11/istream \
+  /usr/include/c++/11/bits/istream.tcc \
   /usr/include/c++/11/bits/sstream.tcc \
   /usr/include/c++/11/iostream \
+  ../src/ControlFlow.hh \
+  ../src/eigen/Eigen/Dense \
+  ../src/eigen/Eigen/Core \
+  ../src/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
+  ../src/eigen/Eigen/src/Core/util/Macros.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
   /usr/include/c++/11/cmath \
   /usr/include/math.h \
   /usr/include/x86_64-linux-gnu/bits/math-vector.h \
@@ -4666,58 +4683,6 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
   /usr/include/c++/11/tr1/poly_hermite.tcc \
   /usr/include/c++/11/tr1/poly_laguerre.tcc \
   /usr/include/c++/11/tr1/riemann_zeta.tcc \
-  /usr/include/c++/11/algorithm \
-  /usr/include/c++/11/bits/ranges_algo.h \
-  /usr/include/c++/11/bits/ranges_algobase.h \
-  /usr/include/c++/11/iterator \
-  /usr/include/c++/11/bits/stream_iterator.h \
-  /usr/include/c++/11/bits/ranges_util.h \
-  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
-  /usr/include/c++/11/functional \
-  /usr/include/c++/11/bits/refwrap.h \
-  /usr/include/c++/11/bits/std_function.h \
-  /usr/include/c++/11/unordered_map \
-  /usr/include/c++/11/ext/aligned_buffer.h \
-  /usr/include/c++/11/bits/hashtable.h \
-  /usr/include/c++/11/bits/hashtable_policy.h \
-  /usr/include/c++/11/bits/enable_special_members.h \
-  /usr/include/c++/11/bits/node_handle.h \
-  /usr/include/c++/11/bits/unordered_map.h \
-  /usr/include/c++/11/bits/erase_if.h \
-  /usr/include/c++/11/vector \
-  /usr/include/c++/11/bits/stl_uninitialized.h \
-  /usr/include/c++/11/bits/stl_vector.h \
-  /usr/include/c++/11/bits/stl_bvector.h \
-  /usr/include/c++/11/bits/vector.tcc \
-  /usr/include/c++/11/pstl/execution_defs.h \
-  /usr/include/c++/11/filesystem \
-  /usr/include/c++/11/bits/fs_fwd.h \
-  /usr/include/c++/11/chrono \
-  /usr/include/c++/11/ratio \
-  /usr/include/c++/11/bits/parse_numbers.h \
-  /usr/include/c++/11/bits/fs_path.h \
-  /usr/include/c++/11/codecvt \
-  /usr/include/c++/11/ext/concurrence.h \
-  /usr/include/c++/11/bits/shared_ptr.h \
-  /usr/include/c++/11/bits/shared_ptr_base.h \
-  /usr/include/c++/11/bits/allocated_ptr.h \
-  /usr/include/c++/11/bits/fs_dir.h \
-  /usr/include/c++/11/bits/fs_ops.h \
-  /usr/include/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
-  /usr/include/x86_64-linux-gnu/bits/environments.h \
-  /usr/include/x86_64-linux-gnu/bits/confname.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
-  /usr/include/linux/close_range.h \
-  ../src/ControlFlow.hh \
-  ../src/eigen/Eigen/Dense \
-  ../src/eigen/Eigen/Core \
-  ../src/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
-  ../src/eigen/Eigen/src/Core/util/Macros.h \
-  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
   ../src/eigen/Eigen/src/Core/util/ConfigureVectorization.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/mmintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h \
@@ -4740,6 +4705,15 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
   /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+  /usr/include/linux/close_range.h \
   /usr/include/syscall.h \
   /usr/include/x86_64-linux-gnu/sys/syscall.h \
   /usr/include/x86_64-linux-gnu/asm/unistd.h \
@@ -4959,70 +4933,589 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
   ../src/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
   ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
   ../src/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
+  ../src/Utility.hh \
+  /usr/include/c++/11/fstream \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+  /usr/include/c++/11/bits/fstream.tcc \
+  /usr/include/c++/11/filesystem \
+  /usr/include/c++/11/bits/fs_fwd.h \
+  /usr/include/c++/11/chrono \
+  /usr/include/c++/11/ratio \
+  /usr/include/c++/11/bits/parse_numbers.h \
+  /usr/include/c++/11/bits/fs_path.h \
+  /usr/include/c++/11/codecvt \
+  /usr/include/c++/11/ext/concurrence.h \
+  /usr/include/c++/11/bits/shared_ptr.h \
+  /usr/include/c++/11/bits/shared_ptr_base.h \
+  /usr/include/c++/11/bits/allocated_ptr.h \
+  /usr/include/c++/11/bits/fs_dir.h \
+  /usr/include/c++/11/bits/fs_ops.h \
+  ../src/Spacetimes.h \
+  ../src/Metric.h \
   ../src/Grid.h \
-  ../src/TensorTypes.hh \
   ../src/Profiler.hh \
   /usr/include/c++/11/mutex \
   /usr/include/c++/11/bits/unique_lock.h \
-  ../src/Metric.h \
-  ../src/Interpolation.hh \
-  /usr/include/c++/11/math.h \
-  ../src/Stencil.hh
+  ../src/Interpolation.h \
+  /usr/include/c++/11/math.h
+
+CMakeFiles/main.out.dir/src/Stencil.cpp.o: ../src/Stencil.cpp \
+  /usr/include/stdc-predef.h \
+  ../src/Stencil.h \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_algobase.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
+  /usr/include/features.h \
+  /usr/include/features-time64.h \
+  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+  /usr/include/x86_64-linux-gnu/bits/timesize.h \
+  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+  /usr/include/x86_64-linux-gnu/bits/long-double.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
+  /usr/include/c++/11/pstl/pstl_config.h \
+  /usr/include/c++/11/bits/functexcept.h \
+  /usr/include/c++/11/bits/exception_defines.h \
+  /usr/include/c++/11/bits/cpp_type_traits.h \
+  /usr/include/c++/11/ext/type_traits.h \
+  /usr/include/c++/11/ext/numeric_traits.h \
+  /usr/include/c++/11/bits/stl_pair.h \
+  /usr/include/c++/11/bits/move.h \
+  /usr/include/c++/11/type_traits \
+  /usr/include/c++/11/compare \
+  /usr/include/c++/11/concepts \
+  /usr/include/c++/11/bits/stl_iterator_base_types.h \
+  /usr/include/c++/11/bits/iterator_concepts.h \
+  /usr/include/c++/11/bits/ptr_traits.h \
+  /usr/include/c++/11/bits/ranges_cmp.h \
+  /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/11/bits/concept_check.h \
+  /usr/include/c++/11/debug/assertions.h \
+  /usr/include/c++/11/bits/stl_iterator.h \
+  /usr/include/c++/11/new \
+  /usr/include/c++/11/bits/exception.h \
+  /usr/include/c++/11/debug/debug.h \
+  /usr/include/c++/11/bits/predefined_ops.h \
+  /usr/include/c++/11/bits/stl_algo.h \
+  /usr/include/c++/11/cstdlib \
+  /usr/include/stdlib.h \
+  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
+  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/x86_64-linux-gnu/sys/types.h \
+  /usr/include/x86_64-linux-gnu/bits/types.h \
+  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+  /usr/include/x86_64-linux-gnu/bits/time64.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+  /usr/include/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/endianness.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+  /usr/include/x86_64-linux-gnu/sys/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
+  /usr/include/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+  /usr/include/c++/11/bits/std_abs.h \
+  /usr/include/c++/11/bits/algorithmfwd.h \
+  /usr/include/c++/11/initializer_list \
+  /usr/include/c++/11/bits/stl_heap.h \
+  /usr/include/c++/11/bits/stl_tempbuf.h \
+  /usr/include/c++/11/bits/stl_construct.h \
+  /usr/include/c++/11/bits/uniform_int_dist.h \
+  /usr/include/c++/11/bits/allocator.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
+  /usr/include/c++/11/ext/new_allocator.h \
+  /usr/include/c++/11/bits/memoryfwd.h \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
+  /usr/include/c++/11/ext/alloc_traits.h \
+  /usr/include/c++/11/bits/alloc_traits.h \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
+  /usr/include/c++/11/bits/functional_hash.h \
+  /usr/include/c++/11/bits/hash_bytes.h \
+  /usr/include/c++/11/bits/range_access.h \
+  /usr/include/c++/11/bits/vector.tcc \
+  /usr/include/c++/11/fstream \
+  /usr/include/c++/11/istream \
+  /usr/include/c++/11/ios \
+  /usr/include/c++/11/iosfwd \
+  /usr/include/c++/11/bits/stringfwd.h \
+  /usr/include/c++/11/bits/postypes.h \
+  /usr/include/c++/11/cwchar \
+  /usr/include/wchar.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+  /usr/include/c++/11/exception \
+  /usr/include/c++/11/bits/exception_ptr.h \
+  /usr/include/c++/11/bits/cxxabi_init_exception.h \
+  /usr/include/c++/11/typeinfo \
+  /usr/include/c++/11/bits/nested_exception.h \
+  /usr/include/c++/11/bits/char_traits.h \
+  /usr/include/c++/11/cstdint \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
+  /usr/include/stdint.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/c++/11/bits/localefwd.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
+  /usr/include/c++/11/clocale \
+  /usr/include/locale.h \
+  /usr/include/x86_64-linux-gnu/bits/locale.h \
+  /usr/include/c++/11/cctype \
+  /usr/include/ctype.h \
+  /usr/include/c++/11/bits/ios_base.h \
+  /usr/include/c++/11/ext/atomicity.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
+  /usr/include/pthread.h \
+  /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
+  /usr/include/time.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
+  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
+  /usr/include/c++/11/bits/locale_classes.h \
+  /usr/include/c++/11/string \
+  /usr/include/c++/11/bits/ostream_insert.h \
+  /usr/include/c++/11/bits/cxxabi_forced.h \
+  /usr/include/c++/11/bits/stl_function.h \
+  /usr/include/c++/11/backward/binders.h \
+  /usr/include/c++/11/bits/basic_string.h \
+  /usr/include/c++/11/string_view \
+  /usr/include/c++/11/bits/ranges_base.h \
+  /usr/include/c++/11/bits/max_size_type.h \
+  /usr/include/c++/11/numbers \
+  /usr/include/c++/11/bits/string_view.tcc \
+  /usr/include/c++/11/ext/string_conversions.h \
+  /usr/include/c++/11/cstdio \
+  /usr/include/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+  /usr/include/c++/11/cerrno \
+  /usr/include/errno.h \
+  /usr/include/x86_64-linux-gnu/bits/errno.h \
+  /usr/include/linux/errno.h \
+  /usr/include/x86_64-linux-gnu/asm/errno.h \
+  /usr/include/asm-generic/errno.h \
+  /usr/include/asm-generic/errno-base.h \
+  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
+  /usr/include/c++/11/bits/charconv.h \
+  /usr/include/c++/11/bits/basic_string.tcc \
+  /usr/include/c++/11/bits/locale_classes.tcc \
+  /usr/include/c++/11/system_error \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
+  /usr/include/c++/11/stdexcept \
+  /usr/include/c++/11/streambuf \
+  /usr/include/c++/11/bits/streambuf.tcc \
+  /usr/include/c++/11/bits/basic_ios.h \
+  /usr/include/c++/11/bits/locale_facets.h \
+  /usr/include/c++/11/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h \
+  /usr/include/c++/11/bits/streambuf_iterator.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
+  /usr/include/c++/11/bits/locale_facets.tcc \
+  /usr/include/c++/11/bits/basic_ios.tcc \
+  /usr/include/c++/11/ostream \
+  /usr/include/c++/11/bits/ostream.tcc \
+  /usr/include/c++/11/bits/istream.tcc \
+  /usr/include/c++/11/bits/codecvt.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+  /usr/include/c++/11/bits/fstream.tcc \
+  ../src/Utility.hh \
+  /usr/include/c++/11/iomanip \
+  /usr/include/c++/11/locale \
+  /usr/include/c++/11/bits/locale_facets_nonio.h \
+  /usr/include/c++/11/ctime \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
+  /usr/include/libintl.h \
+  /usr/include/c++/11/bits/locale_facets_nonio.tcc \
+  /usr/include/c++/11/bits/locale_conv.h \
+  /usr/include/c++/11/bits/unique_ptr.h \
+  /usr/include/c++/11/utility \
+  /usr/include/c++/11/bits/stl_relops.h \
+  /usr/include/c++/11/tuple \
+  /usr/include/c++/11/array \
+  /usr/include/c++/11/bits/uses_allocator.h \
+  /usr/include/c++/11/bits/invoke.h \
+  /usr/include/c++/11/bits/quoted_string.h \
+  /usr/include/c++/11/sstream \
+  /usr/include/c++/11/bits/sstream.tcc \
+  /usr/include/c++/11/iostream \
+  /usr/include/c++/11/cmath \
+  /usr/include/math.h \
+  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+  /usr/include/c++/11/bits/specfun.h \
+  /usr/include/c++/11/limits \
+  /usr/include/c++/11/tr1/gamma.tcc \
+  /usr/include/c++/11/tr1/special_function_util.h \
+  /usr/include/c++/11/tr1/bessel_function.tcc \
+  /usr/include/c++/11/tr1/beta_function.tcc \
+  /usr/include/c++/11/tr1/ell_integral.tcc \
+  /usr/include/c++/11/tr1/exp_integral.tcc \
+  /usr/include/c++/11/tr1/hypergeometric.tcc \
+  /usr/include/c++/11/tr1/legendre_function.tcc \
+  /usr/include/c++/11/tr1/modified_bessel_func.tcc \
+  /usr/include/c++/11/tr1/poly_hermite.tcc \
+  /usr/include/c++/11/tr1/poly_laguerre.tcc \
+  /usr/include/c++/11/tr1/riemann_zeta.tcc \
+  /usr/include/c++/11/algorithm \
+  /usr/include/c++/11/bits/ranges_algo.h \
+  /usr/include/c++/11/bits/ranges_algobase.h \
+  /usr/include/c++/11/iterator \
+  /usr/include/c++/11/bits/stream_iterator.h \
+  /usr/include/c++/11/bits/ranges_util.h \
+  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
+  /usr/include/c++/11/functional \
+  /usr/include/c++/11/bits/refwrap.h \
+  /usr/include/c++/11/bits/std_function.h \
+  /usr/include/c++/11/unordered_map \
+  /usr/include/c++/11/ext/aligned_buffer.h \
+  /usr/include/c++/11/bits/hashtable.h \
+  /usr/include/c++/11/bits/hashtable_policy.h \
+  /usr/include/c++/11/bits/enable_special_members.h \
+  /usr/include/c++/11/bits/node_handle.h \
+  /usr/include/c++/11/bits/unordered_map.h \
+  /usr/include/c++/11/bits/erase_if.h \
+  /usr/include/c++/11/pstl/execution_defs.h \
+  /usr/include/c++/11/filesystem \
+  /usr/include/c++/11/bits/fs_fwd.h \
+  /usr/include/c++/11/chrono \
+  /usr/include/c++/11/ratio \
+  /usr/include/c++/11/bits/parse_numbers.h \
+  /usr/include/c++/11/bits/fs_path.h \
+  /usr/include/c++/11/codecvt \
+  /usr/include/c++/11/ext/concurrence.h \
+  /usr/include/c++/11/bits/shared_ptr.h \
+  /usr/include/c++/11/bits/shared_ptr_base.h \
+  /usr/include/c++/11/bits/allocated_ptr.h \
+  /usr/include/c++/11/bits/fs_dir.h \
+  /usr/include/c++/11/bits/fs_ops.h \
+  ../src/ControlFlow.hh \
+  ../src/eigen/Eigen/Dense \
+  ../src/eigen/Eigen/Core \
+  ../src/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
+  ../src/eigen/Eigen/src/Core/util/Macros.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Core/util/ConfigureVectorization.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/mmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/xmmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/mm_malloc.h \
+  /usr/include/c++/11/stdlib.h \
+  /usr/include/c++/11/complex \
+  ../src/eigen/Eigen/src/Core/util/MKL_support.h \
+  /usr/include/c++/11/atomic \
+  /usr/include/c++/11/bits/atomic_base.h \
+  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
+  /usr/include/c++/11/bits/atomic_wait.h \
+  /usr/include/c++/11/climits \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+  /usr/include/linux/close_range.h \
+  /usr/include/syscall.h \
+  /usr/include/x86_64-linux-gnu/sys/syscall.h \
+  /usr/include/x86_64-linux-gnu/asm/unistd.h \
+  /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
+  /usr/include/x86_64-linux-gnu/bits/syscall.h \
+  /usr/include/c++/11/bits/std_mutex.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/omp.h \
+  /usr/include/c++/11/cstddef \
+  /usr/include/c++/11/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
+  ../src/eigen/Eigen/src/Core/util/Constants.h \
+  ../src/eigen/Eigen/src/Core/util/Meta.h \
+  ../src/eigen/Eigen/src/Core/util/Assert.h \
+  /usr/include/c++/11/cassert \
+  /usr/include/assert.h \
+  ../src/eigen/Eigen/src/Core/util/ForwardDeclarations.h \
+  ../src/eigen/Eigen/src/Core/util/StaticAssert.h \
+  ../src/eigen/Eigen/src/Core/util/XprHelper.h \
+  ../src/eigen/Eigen/src/Core/util/Memory.h \
+  ../src/eigen/Eigen/src/Core/util/IntegralConstant.h \
+  ../src/eigen/Eigen/src/Core/util/Serializer.h \
+  ../src/eigen/Eigen/src/Core/util/SymbolicIndex.h \
+  ../src/eigen/Eigen/src/Core/util/EmulateArray.h \
+  ../src/eigen/Eigen/src/Core/util/MoreMeta.h \
+  ../src/eigen/Eigen/src/Core/NumTraits.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Core/MathFunctions.h \
+  ../src/eigen/Eigen/src/Core/GenericPacketMath.h \
+  ../src/eigen/Eigen/src/Core/MathFunctionsImpl.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/ConjHelper.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/Half.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/BFloat16.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/TypeCasting.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/GenericPacketMathFunctionsFwd.h \
+  ../src/eigen/Eigen/src/Core/arch/SSE/PacketMath.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Core/arch/SSE/TypeCasting.h \
+  ../src/eigen/Eigen/src/Core/arch/SSE/MathFunctions.h \
+  ../src/eigen/Eigen/src/Core/arch/SSE/Complex.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/Settings.h \
+  ../src/eigen/Eigen/src/Core/arch/Default/GenericPacketMathFunctions.h \
+  ../src/eigen/Eigen/src/Core/functors/TernaryFunctors.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Core/functors/BinaryFunctors.h \
+  ../src/eigen/Eigen/src/Core/functors/UnaryFunctors.h \
+  ../src/eigen/Eigen/src/Core/functors/NullaryFunctors.h \
+  ../src/eigen/Eigen/src/Core/functors/StlFunctors.h \
+  ../src/eigen/Eigen/src/Core/functors/AssignmentFunctors.h \
+  ../src/eigen/Eigen/src/Core/util/IndexedViewHelper.h \
+  ../src/eigen/Eigen/src/Core/util/ReshapedHelper.h \
+  ../src/eigen/Eigen/src/Core/ArithmeticSequence.h \
+  ../src/eigen/Eigen/src/Core/IO.h \
+  ../src/eigen/Eigen/src/Core/DenseCoeffsBase.h \
+  ../src/eigen/Eigen/src/Core/DenseBase.h \
+  ../src/eigen/Eigen/src/plugins/CommonCwiseUnaryOps.h \
+  ../src/eigen/Eigen/src/plugins/BlockMethods.h \
+  ../src/eigen/Eigen/src/plugins/IndexedViewMethods.h \
+  ../src/eigen/Eigen/src/plugins/ReshapedMethods.h \
+  ../src/eigen/Eigen/src/plugins/ReshapedMethods.h \
+  ../src/eigen/Eigen/src/Core/MatrixBase.h \
+  ../src/eigen/Eigen/src/plugins/CommonCwiseBinaryOps.h \
+  ../src/eigen/Eigen/src/plugins/MatrixCwiseUnaryOps.h \
+  ../src/eigen/Eigen/src/plugins/MatrixCwiseBinaryOps.h \
+  ../src/eigen/Eigen/src/Core/EigenBase.h \
+  ../src/eigen/Eigen/src/Core/Product.h \
+  ../src/eigen/Eigen/src/Core/CoreEvaluators.h \
+  ../src/eigen/Eigen/src/Core/AssignEvaluator.h \
+  ../src/eigen/Eigen/src/Core/Assign.h \
+  ../src/eigen/Eigen/src/Core/ArrayBase.h \
+  ../src/eigen/Eigen/src/plugins/ArrayCwiseUnaryOps.h \
+  ../src/eigen/Eigen/src/plugins/ArrayCwiseBinaryOps.h \
+  ../src/eigen/Eigen/src/Core/util/BlasUtil.h \
+  ../src/eigen/Eigen/src/Core/DenseStorage.h \
+  ../src/eigen/Eigen/src/Core/NestByValue.h \
+  ../src/eigen/Eigen/src/Core/ReturnByValue.h \
+  ../src/eigen/Eigen/src/Core/NoAlias.h \
+  ../src/eigen/Eigen/src/Core/PlainObjectBase.h \
+  ../src/eigen/Eigen/src/Core/Matrix.h \
+  ../src/eigen/Eigen/src/Core/Array.h \
+  ../src/eigen/Eigen/src/Core/CwiseTernaryOp.h \
+  ../src/eigen/Eigen/src/Core/CwiseBinaryOp.h \
+  ../src/eigen/Eigen/src/Core/CwiseUnaryOp.h \
+  ../src/eigen/Eigen/src/Core/CwiseNullaryOp.h \
+  ../src/eigen/Eigen/src/Core/CwiseUnaryView.h \
+  ../src/eigen/Eigen/src/Core/SelfCwiseBinaryOp.h \
+  ../src/eigen/Eigen/src/Core/Dot.h \
+  ../src/eigen/Eigen/src/Core/StableNorm.h \
+  ../src/eigen/Eigen/src/Core/Stride.h \
+  ../src/eigen/Eigen/src/Core/MapBase.h \
+  ../src/eigen/Eigen/src/Core/Map.h \
+  ../src/eigen/Eigen/src/Core/Ref.h \
+  ../src/eigen/Eigen/src/Core/Block.h \
+  ../src/eigen/Eigen/src/Core/VectorBlock.h \
+  ../src/eigen/Eigen/src/Core/IndexedView.h \
+  ../src/eigen/Eigen/src/Core/Reshaped.h \
+  ../src/eigen/Eigen/src/Core/Transpose.h \
+  ../src/eigen/Eigen/src/Core/DiagonalMatrix.h \
+  ../src/eigen/Eigen/src/Core/Diagonal.h \
+  ../src/eigen/Eigen/src/Core/DiagonalProduct.h \
+  ../src/eigen/Eigen/src/Core/SkewSymmetricMatrix3.h \
+  ../src/eigen/Eigen/src/Core/Redux.h \
+  ../src/eigen/Eigen/src/Core/Visitor.h \
+  ../src/eigen/Eigen/src/Core/Fuzzy.h \
+  ../src/eigen/Eigen/src/Core/Swap.h \
+  ../src/eigen/Eigen/src/Core/CommaInitializer.h \
+  ../src/eigen/Eigen/src/Core/GeneralProduct.h \
+  ../src/eigen/Eigen/src/Core/Solve.h \
+  ../src/eigen/Eigen/src/Core/Inverse.h \
+  ../src/eigen/Eigen/src/Core/SolverBase.h \
+  ../src/eigen/Eigen/src/Core/PermutationMatrix.h \
+  ../src/eigen/Eigen/src/Core/Transpositions.h \
+  ../src/eigen/Eigen/src/Core/TriangularMatrix.h \
+  ../src/eigen/Eigen/src/Core/SelfAdjointView.h \
+  ../src/eigen/Eigen/src/Core/products/GeneralBlockPanelKernel.h \
+  ../src/eigen/Eigen/src/Core/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Core/products/Parallelizer.h \
+  ../src/eigen/Eigen/src/Core/ProductEvaluators.h \
+  ../src/eigen/Eigen/src/Core/products/GeneralMatrixVector.h \
+  ../src/eigen/Eigen/src/Core/products/GeneralMatrixMatrix.h \
+  ../src/eigen/Eigen/src/Core/SolveTriangular.h \
+  ../src/eigen/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h \
+  ../src/eigen/Eigen/src/Core/products/SelfadjointMatrixVector.h \
+  ../src/eigen/Eigen/src/Core/products/SelfadjointMatrixMatrix.h \
+  ../src/eigen/Eigen/src/Core/products/SelfadjointProduct.h \
+  ../src/eigen/Eigen/src/Core/products/SelfadjointRank2Update.h \
+  ../src/eigen/Eigen/src/Core/products/TriangularMatrixVector.h \
+  ../src/eigen/Eigen/src/Core/products/TriangularMatrixMatrix.h \
+  ../src/eigen/Eigen/src/Core/products/TriangularSolverMatrix.h \
+  ../src/eigen/Eigen/src/Core/products/TriangularSolverVector.h \
+  ../src/eigen/Eigen/src/Core/BandMatrix.h \
+  ../src/eigen/Eigen/src/Core/CoreIterators.h \
+  ../src/eigen/Eigen/src/Core/ConditionEstimator.h \
+  ../src/eigen/Eigen/src/Core/Select.h \
+  ../src/eigen/Eigen/src/Core/VectorwiseOp.h \
+  ../src/eigen/Eigen/src/Core/PartialReduxEvaluator.h \
+  ../src/eigen/Eigen/src/Core/Random.h \
+  ../src/eigen/Eigen/src/Core/Replicate.h \
+  ../src/eigen/Eigen/src/Core/Reverse.h \
+  ../src/eigen/Eigen/src/Core/ArrayWrapper.h \
+  ../src/eigen/Eigen/src/Core/StlIterators.h \
+  ../src/eigen/Eigen/src/Core/GlobalFunctions.h \
+  ../src/eigen/Eigen/src/Core/util/ReenableStupidWarnings.h \
+  ../src/eigen/Eigen/LU \
+  ../src/eigen/Eigen/src/misc/Kernel.h \
+  ../src/eigen/Eigen/src/misc/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/misc/Image.h \
+  ../src/eigen/Eigen/src/LU/FullPivLU.h \
+  ../src/eigen/Eigen/src/LU/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/LU/PartialPivLU.h \
+  ../src/eigen/Eigen/src/LU/Determinant.h \
+  ../src/eigen/Eigen/src/LU/InverseImpl.h \
+  ../src/eigen/Eigen/src/LU/arch/InverseSize4.h \
+  ../src/eigen/Eigen/src/LU/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/Cholesky \
+  ../src/eigen/Eigen/Jacobi \
+  ../src/eigen/Eigen/src/Jacobi/Jacobi.h \
+  ../src/eigen/Eigen/src/Jacobi/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Cholesky/LLT.h \
+  ../src/eigen/Eigen/src/Cholesky/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Cholesky/LDLT.h \
+  ../src/eigen/Eigen/QR \
+  ../src/eigen/Eigen/Householder \
+  ../src/eigen/Eigen/src/Householder/Householder.h \
+  ../src/eigen/Eigen/src/Householder/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Householder/HouseholderSequence.h \
+  ../src/eigen/Eigen/src/Householder/BlockHouseholder.h \
+  ../src/eigen/Eigen/src/QR/HouseholderQR.h \
+  ../src/eigen/Eigen/src/QR/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/QR/FullPivHouseholderQR.h \
+  ../src/eigen/Eigen/src/QR/ColPivHouseholderQR.h \
+  ../src/eigen/Eigen/src/QR/CompleteOrthogonalDecomposition.h \
+  ../src/eigen/Eigen/SVD \
+  ../src/eigen/Eigen/src/misc/RealSvd2x2.h \
+  ../src/eigen/Eigen/src/SVD/UpperBidiagonalization.h \
+  ../src/eigen/Eigen/src/SVD/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/SVD/SVDBase.h \
+  ../src/eigen/Eigen/src/SVD/JacobiSVD.h \
+  ../src/eigen/Eigen/src/SVD/BDCSVD.h \
+  ../src/eigen/Eigen/Geometry \
+  ../src/eigen/Eigen/src/Geometry/OrthoMethods.h \
+  ../src/eigen/Eigen/src/Geometry/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Geometry/EulerAngles.h \
+  ../src/eigen/Eigen/src/Geometry/Homogeneous.h \
+  ../src/eigen/Eigen/src/Geometry/RotationBase.h \
+  ../src/eigen/Eigen/src/Geometry/Rotation2D.h \
+  ../src/eigen/Eigen/src/Geometry/Quaternion.h \
+  ../src/eigen/Eigen/src/Geometry/AngleAxis.h \
+  ../src/eigen/Eigen/src/Geometry/Transform.h \
+  ../src/eigen/Eigen/src/Geometry/Translation.h \
+  ../src/eigen/Eigen/src/Geometry/Scaling.h \
+  ../src/eigen/Eigen/src/Geometry/Hyperplane.h \
+  ../src/eigen/Eigen/src/Geometry/ParametrizedLine.h \
+  ../src/eigen/Eigen/src/Geometry/AlignedBox.h \
+  ../src/eigen/Eigen/src/Geometry/Umeyama.h \
+  ../src/eigen/Eigen/src/Geometry/arch/Geometry_SIMD.h \
+  ../src/eigen/Eigen/src/Geometry/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/Eigenvalues \
+  ../src/eigen/Eigen/src/Eigenvalues/Tridiagonalization.h \
+  ../src/eigen/Eigen/src/Eigenvalues/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Eigenvalues/RealSchur.h \
+  ../src/eigen/Eigen/src/Eigenvalues/HessenbergDecomposition.h \
+  ../src/eigen/Eigen/src/Eigenvalues/InternalHeaderCheck.h \
+  ../src/eigen/Eigen/src/Eigenvalues/EigenSolver.h \
+  ../src/eigen/Eigen/src/Eigenvalues/RealSchur.h \
+  ../src/eigen/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h \
+  ../src/eigen/Eigen/src/Eigenvalues/Tridiagonalization.h \
+  ../src/eigen/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h \
+  ../src/eigen/Eigen/src/Eigenvalues/HessenbergDecomposition.h \
+  ../src/eigen/Eigen/src/Eigenvalues/ComplexSchur.h \
+  ../src/eigen/Eigen/src/Eigenvalues/ComplexEigenSolver.h \
+  ../src/eigen/Eigen/src/Eigenvalues/ComplexSchur.h \
+  ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
+  ../src/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
+  ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h \
+  ../src/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
+  ../src/DataTypes.hh
 
 
-../src/WriteData.cpp:
+../src/Stencil.cpp:
 
 ../src/Spacetimes.cpp:
 
 ../src/Metric.cpp:
 
+../src/Interpolation.cpp:
+
 ../src/FourierHarmonics.cpp:
 
-../src/AdvancedUtiltiy.cpp:
-
 ../src/Log.hh:
-
-/usr/include/x86_64-linux-gnu/asm/unistd_64.h:
-
-/usr/include/c++/11/array:
-
-/usr/include/c++/11/tr1/beta_function.tcc:
-
-/usr/include/c++/11/bits/locale_conv.h:
-
-../src/Grid.cpp:
-
-../src/eigen/Eigen/src/SVD/InternalHeaderCheck.h:
-
-../src/eigen/Eigen/src/Geometry/OrthoMethods.h:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h:
-
-/usr/include/c++/11/bits/locale_facets_nonio.h:
-
-../src/eigen/Eigen/src/Geometry/InternalHeaderCheck.h:
-
-/usr/include/c++/11/bits/stl_relops.h:
-
-/usr/include/limits.h:
-
-/usr/include/c++/11/bits/parse_numbers.h:
-
-../src/eigen/Eigen/src/Core/Solve.h:
-
-/usr/include/c++/11/ratio:
-
-/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
-
-/usr/include/c++/11/bits/stl_bvector.h:
-
-/usr/include/c++/11/stdlib.h:
-
-/usr/include/c++/11/bits/fstream.tcc:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h:
 
 /usr/include/c++/11/tr1/riemann_zeta.tcc:
 
@@ -5034,9 +5527,11 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 ../src/eigen/Eigen/src/Core/SolverBase.h:
 
-../src/eigen/Eigen/src/misc/RealSvd2x2.h:
+../src/Interpolation.h:
 
-/usr/include/c++/11/limits:
+/usr/include/c++/11/tr1/beta_function.tcc:
+
+/usr/include/c++/11/array:
 
 /usr/include/c++/11/bits/postypes.h:
 
@@ -5048,13 +5543,47 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 /usr/include/c++/11/string_view:
 
-/usr/include/c++/11/bits/quoted_string.h:
+/usr/include/x86_64-linux-gnu/asm/unistd_64.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
 /usr/include/c++/11/cstring:
 
 ../src/eigen/Eigen/src/Core/Reverse.h:
+
+/usr/include/c++/11/bits/quoted_string.h:
+
+/usr/include/c++/11/bits/stl_relops.h:
+
+/usr/include/limits.h:
+
+/usr/include/c++/11/bits/locale_conv.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h:
+
+/usr/include/c++/11/bits/locale_facets_nonio.h:
+
+../src/eigen/Eigen/src/Geometry/InternalHeaderCheck.h:
+
+/usr/include/c++/11/bits/fstream.tcc:
+
+/usr/include/c++/11/limits:
+
+../src/eigen/Eigen/src/misc/RealSvd2x2.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h:
+
+../src/Grid.cpp:
+
+../src/eigen/Eigen/src/SVD/InternalHeaderCheck.h:
+
+../src/eigen/Eigen/src/Geometry/OrthoMethods.h:
+
+../src/Grid.h:
+
+../src/eigen/Eigen/src/Core/PartialReduxEvaluator.h:
 
 /usr/include/c++/11/bits/istream.tcc:
 
@@ -5124,6 +5653,8 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 /usr/include/c++/11/cerrno:
 
+../src/SpecialMath.cpp:
+
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
@@ -5133,8 +5664,6 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 /usr/include/x86_64-linux-gnu/bits/stdio2.h:
 
 ../src/eigen/Eigen/src/Core/NoAlias.h:
-
-/usr/include/c++/11/chrono:
 
 /usr/include/c++/11/cstdio:
 
@@ -5176,6 +5705,14 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 ../src/eigen/Eigen/src/Core/CwiseTernaryOp.h:
 
+/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
+
+/usr/include/c++/11/bits/stl_bvector.h:
+
 /usr/include/alloca.h:
 
 /usr/include/c++/11/cwchar:
@@ -5208,6 +5745,8 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 ../exe/main.cpp:
 
+/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
+
 /usr/include/c++/11/bits/iterator_concepts.h:
 
 /usr/include/c++/11/ext/numeric_traits.h:
@@ -5215,12 +5754,6 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 /usr/include/c++/11/streambuf:
 
 ../src/eigen/Eigen/src/Core/arch/Default/Half.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
-
-/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
-
-../src/Interpolation.hh:
 
 /usr/include/c++/11/bits/concept_check.h:
 
@@ -5250,19 +5783,17 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
 
-/usr/include/c++/11/filesystem:
-
 ../src/eigen/Eigen/src/LU/FullPivLU.h:
 
 /usr/include/c++/11/bits/specfun.h:
 
 /usr/include/x86_64-linux-gnu/bits/wchar2.h:
 
+/usr/include/c++/11/bits/ranges_algobase.h:
+
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
+
 ../src/eigen/Eigen/src/Core/IndexedView.h:
-
-../src/eigen/Eigen/src/Core/MatrixBase.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
 
 /usr/include/c++/11/bits/stl_tempbuf.h:
 
@@ -5306,6 +5837,8 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
 
+/usr/include/c++/11/chrono:
+
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
 /usr/include/c++/11/ext/type_traits.h:
@@ -5331,6 +5864,12 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 /usr/include/c++/11/cmath:
 
 /usr/include/c++/11/pstl/pstl_config.h:
+
+../src/Spacetimes.h:
+
+/usr/include/c++/11/bits/unique_ptr.h:
+
+../src/eigen/Eigen/src/QR/CompleteOrthogonalDecomposition.h:
 
 /usr/include/c++/11/type_traits:
 
@@ -5458,9 +5997,9 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 /usr/include/c++/11/bits/stl_iterator.h:
 
-/usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
-
 /usr/include/c++/11/bits/ranges_algo.h:
+
+/usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
@@ -5498,6 +6037,8 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 /usr/include/x86_64-linux-gnu/asm/unistd.h:
 
+../src/Metric.h:
+
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
 ../src/Profiler.hh:
@@ -5522,8 +6063,6 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 /usr/include/c++/11/bits/ios_base.h:
 
-/usr/include/c++/11/ext/concurrence.h:
-
 /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h:
 
 /usr/include/c++/11/bits/ranges_base.h:
@@ -5531,6 +6070,10 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 /usr/include/pthread.h:
 
 ../src/eigen/Eigen/src/Householder/InternalHeaderCheck.h:
+
+../src/eigen/Eigen/src/plugins/IndexedViewMethods.h:
+
+../src/ControlFlow.hh:
 
 /usr/include/time.h:
 
@@ -5549,8 +6092,6 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 ../src/eigen/Eigen/src/Core/functors/BinaryFunctors.h:
 
 ../src/eigen/Eigen/src/Householder/BlockHouseholder.h:
-
-../src/Stencil.hh:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
 
@@ -5604,35 +6145,11 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 /usr/include/c++/11/fstream:
 
+../src/SpecialMath.h:
+
 /usr/include/c++/11/bits/algorithmfwd.h:
 
 /usr/include/c++/11/bits/cxxabi_forced.h:
-
-/usr/include/c++/11/codecvt:
-
-/usr/include/assert.h:
-
-/usr/include/c++/11/bits/allocated_ptr.h:
-
-../src/eigen/Eigen/src/Jacobi/InternalHeaderCheck.h:
-
-/usr/include/c++/11/bits/refwrap.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/omp.h:
-
-/usr/include/c++/11/bits/fs_dir.h:
-
-../src/eigen/Eigen/SVD:
-
-../src/eigen/Eigen/src/plugins/IndexedViewMethods.h:
-
-../src/ControlFlow.hh:
-
-/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
-
-/usr/include/c++/11/bits/ranges_algobase.h:
-
-/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
 
 /usr/include/c++/11/bits/stream_iterator.h:
 
@@ -5640,13 +6157,15 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 /usr/include/c++/11/bits/ranges_util.h:
 
+/usr/include/c++/11/bits/refwrap.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/omp.h:
+
 /usr/include/c++/11/unordered_map:
 
 ../src/eigen/Eigen/src/Core/VectorBlock.h:
 
 /usr/include/c++/11/bits/hashtable.h:
-
-../src/AdvancedUtiltiy.h:
 
 /usr/include/c++/11/bits/hashtable_policy.h:
 
@@ -5658,39 +6177,33 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 /usr/include/c++/11/bits/stl_uninitialized.h:
 
-/usr/include/c++/11/math.h:
-
-../src/eigen/Eigen/src/LU/PartialPivLU.h:
-
 /usr/include/c++/11/bits/stl_vector.h:
 
 /usr/include/c++/11/cstddef:
 
 /usr/include/c++/11/bits/vector.tcc:
 
-/usr/include/x86_64-linux-gnu/bits/confname.h:
+/usr/include/c++/11/filesystem:
 
-/usr/include/c++/11/bits/functexcept.h:
+/usr/include/c++/11/ratio:
 
-/usr/include/x86_64-linux-gnu/bits/stdlib.h:
+/usr/include/c++/11/bits/parse_numbers.h:
 
-/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
+../src/eigen/Eigen/src/Core/Solve.h:
 
-/usr/include/x86_64-linux-gnu/bits/unistd.h:
+/usr/include/c++/11/ext/concurrence.h:
 
-../src/eigen/Eigen/src/plugins/ReshapedMethods.h:
+/usr/include/c++/11/codecvt:
 
-../src/eigen/Eigen/src/Core/VectorwiseOp.h:
+/usr/include/assert.h:
 
-../src/eigen/Eigen/src/Eigenvalues/ComplexSchur.h:
+/usr/include/c++/11/bits/allocated_ptr.h:
 
-/usr/include/linux/close_range.h:
+../src/eigen/Eigen/src/Jacobi/InternalHeaderCheck.h:
+
+/usr/include/c++/11/bits/fs_dir.h:
 
 ../src/eigen/Eigen/Core:
-
-/usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
-
-../src/eigen/Eigen/src/Core/MathFunctions.h:
 
 ../src/eigen/Eigen/src/Core/util/Macros.h:
 
@@ -5705,6 +6218,8 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 ../src/eigen/Eigen/src/Core/util/StaticAssert.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/xmmintrin.h:
+
+/usr/include/c++/11/stdlib.h:
 
 /usr/include/c++/11/atomic:
 
@@ -5740,15 +6255,37 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
 
+/usr/include/x86_64-linux-gnu/bits/confname.h:
+
+/usr/include/c++/11/bits/functexcept.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib.h:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
+
+/usr/include/x86_64-linux-gnu/bits/unistd.h:
+
+../src/eigen/Eigen/src/plugins/ReshapedMethods.h:
+
+../src/eigen/Eigen/src/Core/VectorwiseOp.h:
+
+../src/eigen/Eigen/src/Eigenvalues/ComplexSchur.h:
+
+../src/eigen/Eigen/src/Core/MathFunctions.h:
+
+/usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
+
+/usr/include/linux/close_range.h:
+
 /usr/include/syscall.h:
 
 /usr/include/x86_64-linux-gnu/sys/syscall.h:
 
 /usr/include/x86_64-linux-gnu/bits/syscall.h:
 
-../src/Includes.hh:
-
 /usr/include/strings.h:
+
+../src/Config.hh:
 
 /usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
 
@@ -5797,6 +6334,8 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 ../src/eigen/Eigen/src/Core/arch/Default/ConjHelper.h:
 
 ../src/eigen/Eigen/src/Core/arch/Default/TypeCasting.h:
+
+../src/Stencil.h:
 
 /usr/include/c++/11/bits/std_function.h:
 
@@ -5847,6 +6386,14 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 ../src/eigen/Eigen/src/Core/IO.h:
 
 ../src/eigen/Eigen/src/Core/DenseCoeffsBase.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
+
+../src/eigen/Eigen/src/Core/MatrixBase.h:
+
+../src/eigen/Eigen/src/LU/PartialPivLU.h:
+
+/usr/include/c++/11/math.h:
 
 /usr/include/c++/11/algorithm:
 
@@ -5964,10 +6511,6 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 ../src/eigen/Eigen/src/Core/Select.h:
 
-../src/eigen/Eigen/src/Core/PartialReduxEvaluator.h:
-
-../src/Grid.h:
-
 ../src/eigen/Eigen/src/Core/Random.h:
 
 ../src/eigen/Eigen/src/Core/Replicate.h:
@@ -6003,6 +6546,8 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 ../src/eigen/Eigen/src/Core/SkewSymmetricMatrix3.h:
 
 ../src/eigen/Eigen/src/QR/ColPivHouseholderQR.h:
+
+../src/eigen/Eigen/SVD:
 
 /usr/include/c++/11/bits/fs_ops.h:
 
@@ -6056,20 +6601,10 @@ CMakeFiles/main.out.dir/src/WriteData.cpp.o: ../src/WriteData.cpp \
 
 ../src/eigen/Eigen/src/Eigenvalues/RealQZ.h:
 
-../src/TensorTypes.hh:
+../src/DataTypes.hh:
 
 ../src/eigen/Eigen/src/Core/ArrayWrapper.h:
 
 /usr/include/c++/11/mutex:
 
-../src/Metric.h:
-
-/usr/include/c++/11/bits/unique_ptr.h:
-
-../src/eigen/Eigen/src/QR/CompleteOrthogonalDecomposition.h:
-
-../src/Spacetimes.h:
-
 ../src/FourierHarmonics.h:
-
-../src/WriteData.h:

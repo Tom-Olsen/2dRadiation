@@ -2,46 +2,44 @@
 
 
 
-template<class Coord>
-double Dnu(const double nu, const Coordinate2<Coord>& x, const Tensor2<Coord,LF>& v, Metric<Coord>& metric)
+double Dnu(const double nu, const Coord& x, const Tensor2& v, Metric& metric)
 {
     // Vincent, Gourgoulhon, Novak 2012
     double alpha = metric.GetAlpha(x);
-    Tensor2<Coord,LF> dl_alpha = metric.GetDerivAlpha_l(x);
-    Tensor2x2<Coord,LF> K_ll = metric.GetExtrCurv_ll(x);
+    Tensor2 dl_alpha = metric.GetDerivAlpha_l(x);
+    Tensor2x2 K_ll = metric.GetExtrCurv_ll(x);
     double dnu = 0;
     for(int i=1; i<3; i++)
     {
         dnu -= v[i] * dl_alpha[i];
         for(int j=1; j<3; j++)
-            dnu += alpha * K_ll[{i,j}] * v[i]*v[j];
+            dnu += alpha * K_ll[{i,j}] * v[i] * v[j];
     }
     dnu *= nu;
-
     return dnu;
 }
-template<class Coord>
-Tensor2<Coord,LF> Dx(const Coordinate2<Coord>& x, const Tensor2<Coord,LF>& v, Metric<Coord>& metric)
+Tensor2 Dx(const Coord& x, const Tensor2& v, Metric& metric)
 {
-    // Vincent, Gourgoulhon, Novak 2012     evolves 3 velocity measured by eulerian observer v^mu, p^mu = nu(n^mu+v^mu)
+    // Vincent, Gourgoulhon, Novak 2012
+    // evolves 2 velocity measured by eulerian observer v^mu, p^mu = nu(n^mu+v^mu)
     double alpha = metric.GetAlpha(x);
-    Tensor2<Coord,LF> beta_u = metric.GetBeta_u(x);
-    Tensor2<Coord,LF> dx(0.0);
+    Tensor2 beta_u = metric.GetBeta_u(x);
+    Tensor2 dx(0.0);
     for(int k=1; k<3; k++)
         dx[k] = alpha*v[k] - beta_u[k];
     return dx;
 }
-template<class Coord>
-Tensor2<Coord,LF> Dv(const Coordinate2<Coord>& x, const Tensor2<Coord,LF>& v, Metric<Coord>& metric)
+Tensor2 Dv(const Coord& x, const Tensor2& v, Metric& metric)
 {
-    // Vincent, Gourgoulhon, Novak 2012     evolves 3 velocity measured by eulerian observer v^mu, p^mu = nu(n^mu+v^mu)
+    // Vincent, Gourgoulhon, Novak 2012
+    // evolves 2 velocity measured by eulerian observer v^mu, p^mu = nu(n^mu+v^mu)
     double alpha = metric.GetAlpha(x);
-    Tensor2<Coord,LF> dl_Alpha = metric.GetDerivAlpha_l(x);
-    Tensor2x2<Coord,LF> dl_Beta_u = metric.GetDerivBeta_lu(x);
-    Tensor2x2<Coord,LF> K_ll = metric.GetExtrCurv_ll(x);
-    Tensor2x2<Coord,LF> gamma_uu = metric.GetGamma_uu(x);
-    Tensor2x2x2<Coord,LF> dl_gamma_ll = metric.GetDerivGamma_lll(x);
-    Tensor2<Coord,LF> dv(0.0);
+    Tensor2 dl_Alpha = metric.GetDerivAlpha_l(x);
+    Tensor2x2 dl_Beta_u = metric.GetDerivBeta_lu(x);
+    Tensor2x2 K_ll = metric.GetExtrCurv_ll(x);
+    Tensor2x2 gamma_uu = metric.GetGamma_uu(x);
+    Tensor2x2x2 dl_gamma_ll = metric.GetDerivGamma_lll(x);
+    Tensor2 dv(0.0);
     for(int k=1; k<3; k++)
     for(int i=1; i<3; i++)
     {
@@ -56,8 +54,8 @@ Tensor2<Coord,LF> Dv(const Coordinate2<Coord>& x, const Tensor2<Coord,LF>& v, Me
     return dv;
 }
 
-template<int direction, class Coord>
-double Euler_GeodesicEquation(double dt, Coordinate2<Coord>& x, Tensor2<Coord,LF>& v, Metric<Coord>& metric)
+template<int timeDirection>
+double Euler_GeodesicEquation(double dt, Coord& x, Tensor2& v, Metric& metric)
 {
     // nu0 = 1, s = nu/nu0 = nu.
     int N = 2;
@@ -66,30 +64,30 @@ double Euler_GeodesicEquation(double dt, Coordinate2<Coord>& x, Tensor2<Coord,LF
     for(int i=0; i<N; i++)
     {
         double dnu = Dnu(1,x,v,metric);
-        Tensor2<Coord,LF> dx = Dx(x,v,metric);
-        Tensor2<Coord,LF> dv = Dv(x,v,metric);
+        Tensor2 dx = Dx(x,v,metric);
+        Tensor2 dv = Dv(x,v,metric);
         for(int k=1; k<3; k++)
         {
-            x[k] += dx[k]*ddt*direction;
-            v[k] += dv[k]*ddt*direction;
+            x[k] += timeDirection*ddt*dx[k];
+            v[k] += timeDirection*ddt*dv[k];
         }
-        nu += direction*ddt*dnu;
+        nu += timeDirection*ddt*dnu;
     }
     return nu;
 }
 
-constexpr double maxTE = 1e-6;
-template<int direction, class Coord>
-double RK45_GeodesicEquation(double dt, Coordinate2<Coord>& x, Tensor2<Coord,LF>& v, Metric<Coord>& metric)
+constexpr double maxTE = 1e-4;
+template<int timeDirection>
+double RK45_GeodesicEquation(double dt, Coord& x, Tensor2& v, Metric& metric)
 {
-    Tensor2<Coord,LF> k1x, k2x, k3x, k4x, k5x, k6x;
-    Tensor2<Coord,LF> k1v, k2v, k3v, k4v, k5v, k6v;
+    Tensor2 k1x, k2x, k3x, k4x, k5x, k6x;
+    Tensor2 k1v, k2v, k3v, k4v, k5v, k6v;
     double k1nu, k2nu, k3nu, k4nu, k5nu, k6nu;
-    Coordinate2<Coord> xTemp;
-    Tensor2<Coord,LF> vTemp;
+    Coord xTemp;
+    Tensor2 vTemp;
     double nuTemp;
-    Tensor2<Coord,LF> dx;
-    Tensor2<Coord,LF> dv;
+    Tensor2 dx;
+    Tensor2 dv;
     double dnu;
 
     // nu0 = 1, s = nu/nu0 = nu.
@@ -104,55 +102,50 @@ double RK45_GeodesicEquation(double dt, Coordinate2<Coord>& x, Tensor2<Coord,LF>
         k1nu= Dnu(nu,x,v,metric);
         for(int d=1; d<3; d++)
         {
-            xTemp[d] = x[d] + direction*ddt*( (1.0/4.0)*k1x[d] );
-            vTemp[d] = v[d] + direction*ddt*( (1.0/4.0)*k1v[d] );
+            xTemp[d] = x[d] + timeDirection*ddt*( (1.0/4.0)*k1x[d] );
+            vTemp[d] = v[d] + timeDirection*ddt*( (1.0/4.0)*k1v[d] );
         }
-        if constexpr(std::is_same<Coord,rph>::value) { xTemp[2] = fmod(x[2]+2*M_PI,2*M_PI); }
-        nuTemp = nu + direction*ddt*( (1.0/4.0)*k1nu );
+        nuTemp = nu + timeDirection*ddt*( (1.0/4.0)*k1nu );
 
         k2x = Dx(xTemp,vTemp,metric);
         k2v = Dv(xTemp,vTemp,metric);
         k2nu= Dnu(nuTemp,xTemp,vTemp,metric);
         for(int d=1; d<3; d++)
         {
-            xTemp[d] = x[d] + direction*ddt*( (3.0/32.0)*k1x[d] + (9.0/32.0)*k2x[d] );
-            vTemp[d] = v[d] + direction*ddt*( (3.0/32.0)*k1v[d] + (9.0/32.0)*k2v[d] );
+            xTemp[d] = x[d] + timeDirection*ddt*( (3.0/32.0)*k1x[d] + (9.0/32.0)*k2x[d] );
+            vTemp[d] = v[d] + timeDirection*ddt*( (3.0/32.0)*k1v[d] + (9.0/32.0)*k2v[d] );
         }
-        if constexpr(std::is_same<Coord,rph>::value) { xTemp[2] = fmod(x[2]+2*M_PI,2*M_PI); }
-        nuTemp = nu + direction*ddt*( (3.0/32.0)*k1nu + (9.0/32.0)*k2nu );
+        nuTemp = nu + timeDirection*ddt*( (3.0/32.0)*k1nu + (9.0/32.0)*k2nu );
 
         k3x = Dx(xTemp,vTemp,metric);
         k3v = Dv(xTemp,vTemp,metric);
         k3nu= Dnu(nuTemp,xTemp,vTemp,metric);
         for(int d=1; d<3; d++)
         {
-            xTemp[d] = x[d] + direction*ddt*( (1932.0/2197.0)*k1x[d] - (7200.0/2197.0)*k2x[d] + (7296.0/2197.0)*k3x[d] );
-            vTemp[d] = v[d] + direction*ddt*( (1932.0/2197.0)*k1v[d] - (7200.0/2197.0)*k2v[d] + (7296.0/2197.0)*k3v[d] );
+            xTemp[d] = x[d] + timeDirection*ddt*( (1932.0/2197.0)*k1x[d] - (7200.0/2197.0)*k2x[d] + (7296.0/2197.0)*k3x[d] );
+            vTemp[d] = v[d] + timeDirection*ddt*( (1932.0/2197.0)*k1v[d] - (7200.0/2197.0)*k2v[d] + (7296.0/2197.0)*k3v[d] );
         }
-        if constexpr(std::is_same<Coord,rph>::value) { xTemp[2] = fmod(x[2]+2*M_PI,2*M_PI); }
-        nuTemp = nu + direction*ddt*( (1932.0/2197.0)*k1nu - (7200.0/2197.0)*k2nu + (7296.0/2197.0)*k3nu );
+        nuTemp = nu + timeDirection*ddt*( (1932.0/2197.0)*k1nu - (7200.0/2197.0)*k2nu + (7296.0/2197.0)*k3nu );
 
         k4x = Dx(xTemp,vTemp,metric);
         k4v = Dv(xTemp,vTemp,metric);
         k4nu= Dnu(nuTemp,xTemp,vTemp,metric);
         for(int d=1; d<3; d++)
         {
-            xTemp[d] = x[d] + direction*ddt*( (439.0/216.0)*k1x[d] - (8.0)*k2x[d] + (3680.0/513.0)*k3x[d] - (845.0/4104.0)*k4x[d] );
-            vTemp[d] = v[d] + direction*ddt*( (439.0/216.0)*k1v[d] - (8.0)*k2v[d] + (3680.0/513.0)*k3v[d] - (845.0/4104.0)*k4v[d] );
+            xTemp[d] = x[d] + timeDirection*ddt*( (439.0/216.0)*k1x[d] - (8.0)*k2x[d] + (3680.0/513.0)*k3x[d] - (845.0/4104.0)*k4x[d] );
+            vTemp[d] = v[d] + timeDirection*ddt*( (439.0/216.0)*k1v[d] - (8.0)*k2v[d] + (3680.0/513.0)*k3v[d] - (845.0/4104.0)*k4v[d] );
         }
-        if constexpr(std::is_same<Coord,rph>::value) { xTemp[2] = fmod(x[2]+2*M_PI,2*M_PI); }
-        nuTemp = nu + direction*ddt*( (439.0/216.0)*k1nu - (8.0)*k2nu + (3680.0/513.0)*k3nu - (845.0/4104.0)*k4nu );
+        nuTemp = nu + timeDirection*ddt*( (439.0/216.0)*k1nu - (8.0)*k2nu + (3680.0/513.0)*k3nu - (845.0/4104.0)*k4nu );
 
         k5x = Dx(xTemp,vTemp,metric);
         k5v = Dv(xTemp,vTemp,metric);
         k5nu= Dnu(nuTemp,xTemp,vTemp,metric);
         for(int d=1; d<3; d++)
         {
-            xTemp[d] = x[d] + direction*ddt*( -(8.0/27.0)*k1x[d] + (2.0)*k2x[d] - (3544.0/2565.0)*k3x[d] + (1859.0/4104.0)*k4x[d] - (11.0/44.0)*k5x[d] );
-            vTemp[d] = v[d] + direction*ddt*( -(8.0/27.0)*k1v[d] + (2.0)*k2v[d] - (3544.0/2565.0)*k3v[d] + (1859.0/4104.0)*k4v[d] - (11.0/44.0)*k5v[d] );
+            xTemp[d] = x[d] + timeDirection*ddt*( -(8.0/27.0)*k1x[d] + (2.0)*k2x[d] - (3544.0/2565.0)*k3x[d] + (1859.0/4104.0)*k4x[d] - (11.0/44.0)*k5x[d] );
+            vTemp[d] = v[d] + timeDirection*ddt*( -(8.0/27.0)*k1v[d] + (2.0)*k2v[d] - (3544.0/2565.0)*k3v[d] + (1859.0/4104.0)*k4v[d] - (11.0/44.0)*k5v[d] );
         }
-        if constexpr(std::is_same<Coord,rph>::value) { xTemp[2] = fmod(x[2]+2*M_PI,2*M_PI); }
-        nuTemp = nu + direction*ddt*( -(8.0/27.0)*k1nu + (2.0)*k2nu - (3544.0/2565.0)*k3nu + (1859.0/4104.0)*k4nu - (11.0/44.0)*k5nu );
+        nuTemp = nu + timeDirection*ddt*( -(8.0/27.0)*k1nu + (2.0)*k2nu - (3544.0/2565.0)*k3nu + (1859.0/4104.0)*k4nu - (11.0/44.0)*k5nu );
 
         k6x = Dx(xTemp,vTemp,metric);
         k6v = Dv(xTemp,vTemp,metric);
@@ -179,11 +172,10 @@ double RK45_GeodesicEquation(double dt, Coordinate2<Coord>& x, Tensor2<Coord,LF>
         {// Accept new point:
             for(int d=1; d<3; d++)
             {
-                x[d] += direction*ddt*dx[d];
-                v[d] += direction*ddt*dv[d];
+                x[d] += timeDirection*ddt*dx[d];
+                v[d] += timeDirection*ddt*dv[d];
             }
-            if constexpr(std::is_same<Coord,rph>::value) { x[2] = fmod(x[2]+2*M_PI,2*M_PI); }
-            nu += direction*ddt*dnu;
+            nu += timeDirection*ddt*dnu;
             
             totalTime += ddt;
             ddt *= 0.95 * pow(maxTE / (TE + 1e-50), 1.0/4.0);
@@ -197,13 +189,7 @@ double RK45_GeodesicEquation(double dt, Coordinate2<Coord>& x, Tensor2<Coord,LF>
 
 
 
-// Template decleration:
-template double RK45_GeodesicEquation < 1,xy >    (double dt, Coordinate2<xy>&  x, Tensor2<xy,LF>&  v, Metric<xy>&  metric);
-template double RK45_GeodesicEquation < 1,rph>    (double dt, Coordinate2<rph>& x, Tensor2<rph,LF>& v, Metric<rph>& metric);
-template double RK45_GeodesicEquation <-1,xy >    (double dt, Coordinate2<xy>&  x, Tensor2<xy,LF>&  v, Metric<xy>&  metric);
-template double RK45_GeodesicEquation <-1,rph>    (double dt, Coordinate2<rph>& x, Tensor2<rph,LF>& v, Metric<rph>& metric);
-
-template double Euler_GeodesicEquation< 1,xy >    (double dt, Coordinate2<xy>&  x, Tensor2<xy,LF>&  v, Metric<xy>&  metric);
-template double Euler_GeodesicEquation< 1,rph>    (double dt, Coordinate2<rph>& x, Tensor2<rph,LF>& v, Metric<rph>& metric);
-template double Euler_GeodesicEquation<-1,xy >    (double dt, Coordinate2<xy>&  x, Tensor2<xy,LF>&  v, Metric<xy>&  metric);
-template double Euler_GeodesicEquation<-1,rph>    (double dt, Coordinate2<rph>& x, Tensor2<rph,LF>& v, Metric<rph>& metric);
+template double Euler_GeodesicEquation< 1>(double dt, Coord& x, Tensor2& v, Metric& metric);
+template double Euler_GeodesicEquation<-1>(double dt, Coord& x, Tensor2& v, Metric& metric);
+template double RK45_GeodesicEquation < 1>(double dt, Coord& x, Tensor2& v, Metric& metric);
+template double RK45_GeodesicEquation <-1>(double dt, Coord& x, Tensor2& v, Metric& metric);

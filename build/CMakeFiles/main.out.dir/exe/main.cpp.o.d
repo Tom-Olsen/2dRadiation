@@ -160,9 +160,31 @@ CMakeFiles/main.out.dir/exe/main.cpp.o: \
  /usr/include/c++/11/bits/locale_facets.tcc \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
- /usr/include/c++/11/bits/istream.tcc /usr/include/c++/11/math.h \
- /usr/include/c++/11/cmath /usr/include/math.h \
- /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/c++/11/bits/istream.tcc \
+ /mnt/ceph/tolsen/2dRadiation/exe/../src/Radiation.h \
+ /mnt/ceph/tolsen/2dRadiation/exe/../src/GeodesicEquationSolver.h \
+ /mnt/ceph/tolsen/2dRadiation/exe/../src/Spacetimes.h \
+ /mnt/ceph/tolsen/2dRadiation/exe/../src/Metric.h \
+ /mnt/ceph/tolsen/2dRadiation/exe/../src/Grid.h \
+ /usr/include/c++/11/fstream /usr/include/c++/11/bits/codecvt.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+ /usr/include/c++/11/bits/fstream.tcc \
+ /mnt/ceph/tolsen/2dRadiation/exe/../src/ControlFlow.hh \
+ /mnt/ceph/tolsen/2dRadiation/exe/../src/Utility.hh \
+ /usr/include/c++/11/iomanip /usr/include/c++/11/locale \
+ /usr/include/c++/11/bits/locale_facets_nonio.h /usr/include/c++/11/ctime \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
+ /usr/include/libintl.h /usr/include/c++/11/bits/locale_facets_nonio.tcc \
+ /usr/include/c++/11/bits/locale_conv.h \
+ /usr/include/c++/11/bits/unique_ptr.h /usr/include/c++/11/utility \
+ /usr/include/c++/11/bits/stl_relops.h /usr/include/c++/11/tuple \
+ /usr/include/c++/11/array /usr/include/c++/11/bits/uses_allocator.h \
+ /usr/include/c++/11/bits/invoke.h \
+ /usr/include/c++/11/bits/quoted_string.h /usr/include/c++/11/sstream \
+ /usr/include/c++/11/bits/sstream.tcc /usr/include/c++/11/cmath \
+ /usr/include/math.h /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
@@ -183,43 +205,17 @@ CMakeFiles/main.out.dir/exe/main.cpp.o: \
  /usr/include/c++/11/tr1/modified_bessel_func.tcc \
  /usr/include/c++/11/tr1/poly_hermite.tcc \
  /usr/include/c++/11/tr1/poly_laguerre.tcc \
- /usr/include/c++/11/tr1/riemann_zeta.tcc /usr/include/c++/11/fstream \
- /usr/include/c++/11/bits/codecvt.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
- /usr/include/c++/11/bits/fstream.tcc /usr/include/c++/11/stdlib.h \
- /usr/include/c++/11/filesystem /usr/include/c++/11/bits/fs_fwd.h \
- /usr/include/c++/11/chrono /usr/include/c++/11/ratio \
- /usr/include/c++/11/ctime /usr/include/c++/11/bits/parse_numbers.h \
- /usr/include/c++/11/bits/fs_path.h /usr/include/c++/11/utility \
- /usr/include/c++/11/bits/stl_relops.h /usr/include/c++/11/locale \
- /usr/include/c++/11/bits/locale_facets_nonio.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
- /usr/include/libintl.h /usr/include/c++/11/bits/locale_facets_nonio.tcc \
- /usr/include/c++/11/bits/locale_conv.h \
- /usr/include/c++/11/bits/unique_ptr.h /usr/include/c++/11/tuple \
- /usr/include/c++/11/array /usr/include/c++/11/bits/uses_allocator.h \
- /usr/include/c++/11/bits/invoke.h /usr/include/c++/11/iomanip \
- /usr/include/c++/11/bits/quoted_string.h /usr/include/c++/11/sstream \
- /usr/include/c++/11/bits/sstream.tcc /usr/include/c++/11/codecvt \
- /usr/include/c++/11/ext/concurrence.h \
- /usr/include/c++/11/bits/shared_ptr.h \
- /usr/include/c++/11/bits/shared_ptr_base.h \
- /usr/include/c++/11/bits/allocated_ptr.h \
- /usr/include/c++/11/bits/refwrap.h \
- /usr/include/c++/11/ext/aligned_buffer.h \
- /usr/include/c++/11/bits/fs_dir.h /usr/include/c++/11/bits/fs_ops.h \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/Includes.hh \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/ControlFlow.hh \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/Utility.hh \
- /usr/include/c++/11/algorithm /usr/include/c++/11/bits/ranges_algo.h \
+ /usr/include/c++/11/tr1/riemann_zeta.tcc /usr/include/c++/11/algorithm \
+ /usr/include/c++/11/bits/ranges_algo.h \
  /usr/include/c++/11/bits/ranges_algobase.h /usr/include/c++/11/iterator \
  /usr/include/c++/11/bits/stream_iterator.h \
  /usr/include/c++/11/bits/ranges_util.h \
  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
- /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h \
- /usr/include/c++/11/unordered_map /usr/include/c++/11/bits/hashtable.h \
+ /usr/include/c++/11/functional /usr/include/c++/11/bits/refwrap.h \
+ /usr/include/c++/11/bits/std_function.h \
+ /usr/include/c++/11/unordered_map \
+ /usr/include/c++/11/ext/aligned_buffer.h \
+ /usr/include/c++/11/bits/hashtable.h \
  /usr/include/c++/11/bits/hashtable_policy.h \
  /usr/include/c++/11/bits/enable_special_members.h \
  /usr/include/c++/11/bits/node_handle.h \
@@ -229,15 +225,15 @@ CMakeFiles/main.out.dir/exe/main.cpp.o: \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
- /usr/include/c++/11/pstl/execution_defs.h /usr/include/unistd.h \
- /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
- /usr/include/x86_64-linux-gnu/bits/environments.h \
- /usr/include/x86_64-linux-gnu/bits/confname.h \
- /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
- /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
- /usr/include/x86_64-linux-gnu/bits/unistd.h \
- /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
- /usr/include/linux/close_range.h \
+ /usr/include/c++/11/pstl/execution_defs.h /usr/include/c++/11/filesystem \
+ /usr/include/c++/11/bits/fs_fwd.h /usr/include/c++/11/chrono \
+ /usr/include/c++/11/ratio /usr/include/c++/11/bits/parse_numbers.h \
+ /usr/include/c++/11/bits/fs_path.h /usr/include/c++/11/codecvt \
+ /usr/include/c++/11/ext/concurrence.h \
+ /usr/include/c++/11/bits/shared_ptr.h \
+ /usr/include/c++/11/bits/shared_ptr_base.h \
+ /usr/include/c++/11/bits/allocated_ptr.h \
+ /usr/include/c++/11/bits/fs_dir.h /usr/include/c++/11/bits/fs_ops.h \
  /mnt/ceph/tolsen/2dRadiation/exe/../src/eigen/Eigen/Dense \
  /mnt/ceph/tolsen/2dRadiation/exe/../src/eigen/Eigen/Core \
  /mnt/ceph/tolsen/2dRadiation/exe/../src/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
@@ -248,7 +244,7 @@ CMakeFiles/main.out.dir/exe/main.cpp.o: \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/xmmintrin.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/mm_malloc.h \
- /usr/include/c++/11/complex \
+ /usr/include/c++/11/stdlib.h /usr/include/c++/11/complex \
  /mnt/ceph/tolsen/2dRadiation/exe/../src/eigen/Eigen/src/Core/util/MKL_support.h \
  /usr/include/c++/11/atomic /usr/include/c++/11/bits/atomic_base.h \
  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
@@ -260,7 +256,15 @@ CMakeFiles/main.out.dir/exe/main.cpp.o: \
  /usr/include/linux/limits.h \
  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
- /usr/include/x86_64-linux-gnu/bits/uio_lim.h /usr/include/syscall.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h /usr/include/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/x86_64-linux-gnu/bits/environments.h \
+ /usr/include/x86_64-linux-gnu/bits/confname.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+ /usr/include/linux/close_range.h /usr/include/syscall.h \
  /usr/include/x86_64-linux-gnu/sys/syscall.h \
  /usr/include/x86_64-linux-gnu/asm/unistd.h \
  /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
@@ -476,17 +480,13 @@ CMakeFiles/main.out.dir/exe/main.cpp.o: \
  /mnt/ceph/tolsen/2dRadiation/exe/../src/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
  /mnt/ceph/tolsen/2dRadiation/exe/../src/eigen/Eigen/src/Eigenvalues/./RealQZ.h \
  /mnt/ceph/tolsen/2dRadiation/exe/../src/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/TensorTypes.hh \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/Grid.h \
+ /mnt/ceph/tolsen/2dRadiation/exe/../src/DataTypes.hh \
  /mnt/ceph/tolsen/2dRadiation/exe/../src/Profiler.hh \
  /usr/include/c++/11/mutex /usr/include/c++/11/bits/unique_lock.h \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/Stencil.hh \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/Interpolation.hh \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/Metric.h \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/Spacetimes.h \
+ /mnt/ceph/tolsen/2dRadiation/exe/../src/Interpolation.h \
+ /usr/include/c++/11/math.h \
+ /mnt/ceph/tolsen/2dRadiation/exe/../src/SpecialMath.h \
  /mnt/ceph/tolsen/2dRadiation/exe/../src/FourierHarmonics.h \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/WriteData.h \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/AdvancedUtiltiy.h \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/GeodesicEquationSolver.h \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/Radiation.h \
- /mnt/ceph/tolsen/2dRadiation/exe/../src/Log.hh
+ /mnt/ceph/tolsen/2dRadiation/exe/../src/Stencil.h \
+ /mnt/ceph/tolsen/2dRadiation/exe/../src/Log.hh \
+ /mnt/ceph/tolsen/2dRadiation/exe/../src/Config.hh

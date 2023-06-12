@@ -1,6 +1,8 @@
 #include "FourierHarmonics.h"
 
-double Fourier::Basis(const int k, const double phi)
+
+
+double Fourier::Basis(int k, double phi)
 {
     if (k == 0)
         return 1.0 / sqrt(2);
@@ -8,29 +10,52 @@ double Fourier::Basis(const int k, const double phi)
         return cos(phi * (k+1.0)/2.0);
     else // (k%2 == 0)
         return sin(phi * k/2.0);
-        // return 0;
 }
 
-// data array length = fourierStencil.nDir
-std::vector<double> Fourier::Expansion::GetCoefficients(const Stencil& fourierStencil, const double* const data, double rotation)
+
+
+std::vector<double> Fourier::GetCoefficients(const Stencil& stencil, const double* const data)
 {
-    int N = fourierStencil.nDir;
-    std::vector<double> coefficients(N);
-    // Coefficients:
-    for(int k=0; k<N; k++)
+    std::vector<double> coefficients(stencil.nCoefficients);
+    for(size_t i=0; i<stencil.nCoefficients; i++)
+        coefficients[i] = 0;
+    for(int d=0; d<stencil.nDir; d++)
     {
-        coefficients[k] = 0;
-        // Integral:
-        for(int i=0; i<N; i++)
-            coefficients[k] += data[i] * Fourier::Basis(k,fourierStencil.Phi(i,rotation)) * fourierStencil.W(i);
+        double phi = stencil.Phi(d);
+        double c = data[d] * stencil.W(d);
+        
+        for(int i=0; i<stencil.nCoefficients; i++)
+            coefficients[i] += c * Basis(i,phi);
     }
     return coefficients;
 }
-double Fourier::Expansion::GetValue(double phi, const std::vector<double>& coefficients)
+void Fourier::GetCoefficients(const Stencil& stencil, const double* data, double* coefficients)
 {
-    int N = coefficients.size();
+    for(size_t i=0; i<stencil.nCoefficients; i++)
+        coefficients[i] = 0;
+    for(size_t d=0; d<stencil.nDir; d++)
+    {
+        double phi = stencil.Phi(d);
+        double c = data[d] * stencil.W(d);
+
+        for(size_t i=0; i<stencil.nCoefficients; i++)
+            coefficients[i] += c * Basis(i,phi);
+    }
+}
+
+
+
+double Fourier::GetValue(double phi, const std::vector<double>& coefficients)
+{
     double result = 0;
-    for(int j=0; j<N; j++)
-        result += coefficients[j] * Fourier::Basis(j,phi);
+    for(size_t i=0; i<coefficients.size(); i++)
+        result += coefficients[i] * Basis(i,phi);
+    return result;
+}
+double Fourier::GetValue(double phi, double* coefficients, size_t nCoefficients)
+{
+    double result = 0;
+    for(size_t i=0; i<nCoefficients; i++)
+        result += coefficients[i] * Basis(i,phi);
     return result;
 }

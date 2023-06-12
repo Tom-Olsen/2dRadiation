@@ -3,16 +3,22 @@
 
 
 
-// Coordinate Systems:
-class xy {};
-class rph {};
-
-
-
 // Frames:
 class IF {};
 class LF {};
-class Tetrad {}; // the tetrad is actually a mixed tensor having one IF and one LF index, e.g. e^mu'_mu
+
+
+
+// Datastructure:
+// #define ijd
+#define dij // is faster on CPU
+
+
+
+// If defined std::sin etc are used. Otherwise the Mysin etc. optimisations are used.
+// #define USE_STD_MATH
+// Order of polynomial approximation for MySin, MyCos, MyAtan, MyAtan2:
+#define APPROXIMATION_ORDER 9
 
 
 
@@ -21,13 +27,11 @@ class Tetrad {}; // the tetrad is actually a mixed tensor having one IF and one 
 
 
 
-// Inlining:
-#define INLINING 0
-#if INLINING
-    #define INLINE inline __attribute__((always_inline))
-#else
-    #define INLINE inline
-#endif
+// omp parallel for macro:
+#define STRINGIFY(X) #X
+#define PRAGMA(X) _Pragma(STRINGIFY(X))
+// #define PARALLEL_FOR(N)
+#define PARALLEL_FOR(N) PRAGMA(omp parallel for collapse(N) schedule(dynamic,50))
 
 
 

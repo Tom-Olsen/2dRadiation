@@ -10,8 +10,8 @@
 // #include "src/Stencil.hh"
 
 using namespace std;
-//using namespace tensors;
 
+/*
 void Test_Utiliy()
 {
     cout << "------------------------------------------------------------" << endl;
@@ -1296,3 +1296,4 @@ int main()
     // a.Print();
     // b.Print();
 }
+*/

@@ -130,17 +130,154 @@ main.out/fast:
 .PHONY : main.out/fast
 
 #=============================================================================
-# Target rules for targets named test.out
+# Target rules for targets named dataTypesTest.out
 
 # Build rule for target.
-test.out: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test.out
-.PHONY : test.out
+dataTypesTest.out: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dataTypesTest.out
+.PHONY : dataTypesTest.out
 
 # fast build rule for target.
-test.out/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/build
-.PHONY : test.out/fast
+dataTypesTest.out/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/build
+.PHONY : dataTypesTest.out/fast
+
+#=============================================================================
+# Target rules for targets named gridTest.out
+
+# Build rule for target.
+gridTest.out: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gridTest.out
+.PHONY : gridTest.out
+
+# fast build rule for target.
+gridTest.out/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/build
+.PHONY : gridTest.out/fast
+
+#=============================================================================
+# Target rules for targets named myMathTest.out
+
+# Build rule for target.
+myMathTest.out: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 myMathTest.out
+.PHONY : myMathTest.out
+
+# fast build rule for target.
+myMathTest.out/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/build
+.PHONY : myMathTest.out/fast
+
+#=============================================================================
+# Target rules for targets named stencilTest.out
+
+# Build rule for target.
+stencilTest.out: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stencilTest.out
+.PHONY : stencilTest.out
+
+# fast build rule for target.
+stencilTest.out/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/build
+.PHONY : stencilTest.out/fast
+
+#=============================================================================
+# Target rules for targets named metricTest.out
+
+# Build rule for target.
+metricTest.out: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 metricTest.out
+.PHONY : metricTest.out
+
+# fast build rule for target.
+metricTest.out/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/build
+.PHONY : metricTest.out/fast
+
+#=============================================================================
+# Target rules for targets named geodesicEquationSolverTest.out
+
+# Build rule for target.
+geodesicEquationSolverTest.out: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 geodesicEquationSolverTest.out
+.PHONY : geodesicEquationSolverTest.out
+
+# fast build rule for target.
+geodesicEquationSolverTest.out/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/build
+.PHONY : geodesicEquationSolverTest.out/fast
+
+exe/dataTypesTest.o: exe/dataTypesTest.cpp.o
+.PHONY : exe/dataTypesTest.o
+
+# target to build an object file
+exe/dataTypesTest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/exe/dataTypesTest.cpp.o
+.PHONY : exe/dataTypesTest.cpp.o
+
+exe/dataTypesTest.i: exe/dataTypesTest.cpp.i
+.PHONY : exe/dataTypesTest.i
+
+# target to preprocess a source file
+exe/dataTypesTest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/exe/dataTypesTest.cpp.i
+.PHONY : exe/dataTypesTest.cpp.i
+
+exe/dataTypesTest.s: exe/dataTypesTest.cpp.s
+.PHONY : exe/dataTypesTest.s
+
+# target to generate assembly for a file
+exe/dataTypesTest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/exe/dataTypesTest.cpp.s
+.PHONY : exe/dataTypesTest.cpp.s
+
+exe/geodesicEquationSolverTest.o: exe/geodesicEquationSolverTest.cpp.o
+.PHONY : exe/geodesicEquationSolverTest.o
+
+# target to build an object file
+exe/geodesicEquationSolverTest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/exe/geodesicEquationSolverTest.cpp.o
+.PHONY : exe/geodesicEquationSolverTest.cpp.o
+
+exe/geodesicEquationSolverTest.i: exe/geodesicEquationSolverTest.cpp.i
+.PHONY : exe/geodesicEquationSolverTest.i
+
+# target to preprocess a source file
+exe/geodesicEquationSolverTest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/exe/geodesicEquationSolverTest.cpp.i
+.PHONY : exe/geodesicEquationSolverTest.cpp.i
+
+exe/geodesicEquationSolverTest.s: exe/geodesicEquationSolverTest.cpp.s
+.PHONY : exe/geodesicEquationSolverTest.s
+
+# target to generate assembly for a file
+exe/geodesicEquationSolverTest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/exe/geodesicEquationSolverTest.cpp.s
+.PHONY : exe/geodesicEquationSolverTest.cpp.s
+
+exe/gridTest.o: exe/gridTest.cpp.o
+.PHONY : exe/gridTest.o
+
+# target to build an object file
+exe/gridTest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/exe/gridTest.cpp.o
+.PHONY : exe/gridTest.cpp.o
+
+exe/gridTest.i: exe/gridTest.cpp.i
+.PHONY : exe/gridTest.i
+
+# target to preprocess a source file
+exe/gridTest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/exe/gridTest.cpp.i
+.PHONY : exe/gridTest.cpp.i
+
+exe/gridTest.s: exe/gridTest.cpp.s
+.PHONY : exe/gridTest.s
+
+# target to generate assembly for a file
+exe/gridTest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/exe/gridTest.cpp.s
+.PHONY : exe/gridTest.cpp.s
 
 exe/main.o: exe/main.cpp.o
 .PHONY : exe/main.o
@@ -166,56 +303,77 @@ exe/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/exe/main.cpp.s
 .PHONY : exe/main.cpp.s
 
-exe/test.o: exe/test.cpp.o
-.PHONY : exe/test.o
+exe/metricTest.o: exe/metricTest.cpp.o
+.PHONY : exe/metricTest.o
 
 # target to build an object file
-exe/test.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/exe/test.cpp.o
-.PHONY : exe/test.cpp.o
+exe/metricTest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/exe/metricTest.cpp.o
+.PHONY : exe/metricTest.cpp.o
 
-exe/test.i: exe/test.cpp.i
-.PHONY : exe/test.i
+exe/metricTest.i: exe/metricTest.cpp.i
+.PHONY : exe/metricTest.i
 
 # target to preprocess a source file
-exe/test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/exe/test.cpp.i
-.PHONY : exe/test.cpp.i
+exe/metricTest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/exe/metricTest.cpp.i
+.PHONY : exe/metricTest.cpp.i
 
-exe/test.s: exe/test.cpp.s
-.PHONY : exe/test.s
+exe/metricTest.s: exe/metricTest.cpp.s
+.PHONY : exe/metricTest.s
 
 # target to generate assembly for a file
-exe/test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/exe/test.cpp.s
-.PHONY : exe/test.cpp.s
+exe/metricTest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/exe/metricTest.cpp.s
+.PHONY : exe/metricTest.cpp.s
 
-src/AdvancedUtiltiy.o: src/AdvancedUtiltiy.cpp.o
-.PHONY : src/AdvancedUtiltiy.o
+exe/myMathTest.o: exe/myMathTest.cpp.o
+.PHONY : exe/myMathTest.o
 
 # target to build an object file
-src/AdvancedUtiltiy.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/AdvancedUtiltiy.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.o
-.PHONY : src/AdvancedUtiltiy.cpp.o
+exe/myMathTest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/exe/myMathTest.cpp.o
+.PHONY : exe/myMathTest.cpp.o
 
-src/AdvancedUtiltiy.i: src/AdvancedUtiltiy.cpp.i
-.PHONY : src/AdvancedUtiltiy.i
+exe/myMathTest.i: exe/myMathTest.cpp.i
+.PHONY : exe/myMathTest.i
 
 # target to preprocess a source file
-src/AdvancedUtiltiy.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/AdvancedUtiltiy.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.i
-.PHONY : src/AdvancedUtiltiy.cpp.i
+exe/myMathTest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/exe/myMathTest.cpp.i
+.PHONY : exe/myMathTest.cpp.i
 
-src/AdvancedUtiltiy.s: src/AdvancedUtiltiy.cpp.s
-.PHONY : src/AdvancedUtiltiy.s
+exe/myMathTest.s: exe/myMathTest.cpp.s
+.PHONY : exe/myMathTest.s
 
 # target to generate assembly for a file
-src/AdvancedUtiltiy.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/AdvancedUtiltiy.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/AdvancedUtiltiy.cpp.s
-.PHONY : src/AdvancedUtiltiy.cpp.s
+exe/myMathTest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/exe/myMathTest.cpp.s
+.PHONY : exe/myMathTest.cpp.s
+
+exe/stencilTest.o: exe/stencilTest.cpp.o
+.PHONY : exe/stencilTest.o
+
+# target to build an object file
+exe/stencilTest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/exe/stencilTest.cpp.o
+.PHONY : exe/stencilTest.cpp.o
+
+exe/stencilTest.i: exe/stencilTest.cpp.i
+.PHONY : exe/stencilTest.i
+
+# target to preprocess a source file
+exe/stencilTest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/exe/stencilTest.cpp.i
+.PHONY : exe/stencilTest.cpp.i
+
+exe/stencilTest.s: exe/stencilTest.cpp.s
+.PHONY : exe/stencilTest.s
+
+# target to generate assembly for a file
+exe/stencilTest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/exe/stencilTest.cpp.s
+.PHONY : exe/stencilTest.cpp.s
 
 src/FourierHarmonics.o: src/FourierHarmonics.cpp.o
 .PHONY : src/FourierHarmonics.o
@@ -223,7 +381,12 @@ src/FourierHarmonics.o: src/FourierHarmonics.cpp.o
 # target to build an object file
 src/FourierHarmonics.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/FourierHarmonics.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/FourierHarmonics.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/FourierHarmonics.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/FourierHarmonics.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/FourierHarmonics.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/FourierHarmonics.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/FourierHarmonics.cpp.o
 .PHONY : src/FourierHarmonics.cpp.o
 
 src/FourierHarmonics.i: src/FourierHarmonics.cpp.i
@@ -232,7 +395,12 @@ src/FourierHarmonics.i: src/FourierHarmonics.cpp.i
 # target to preprocess a source file
 src/FourierHarmonics.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/FourierHarmonics.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/FourierHarmonics.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/FourierHarmonics.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/FourierHarmonics.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/FourierHarmonics.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/FourierHarmonics.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/FourierHarmonics.cpp.i
 .PHONY : src/FourierHarmonics.cpp.i
 
 src/FourierHarmonics.s: src/FourierHarmonics.cpp.s
@@ -241,7 +409,12 @@ src/FourierHarmonics.s: src/FourierHarmonics.cpp.s
 # target to generate assembly for a file
 src/FourierHarmonics.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/FourierHarmonics.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/FourierHarmonics.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/FourierHarmonics.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/FourierHarmonics.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/FourierHarmonics.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/FourierHarmonics.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/FourierHarmonics.cpp.s
 .PHONY : src/FourierHarmonics.cpp.s
 
 src/GeodesicEquationSolver.o: src/GeodesicEquationSolver.cpp.o
@@ -250,7 +423,12 @@ src/GeodesicEquationSolver.o: src/GeodesicEquationSolver.cpp.o
 # target to build an object file
 src/GeodesicEquationSolver.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/GeodesicEquationSolver.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/GeodesicEquationSolver.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/GeodesicEquationSolver.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/GeodesicEquationSolver.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/GeodesicEquationSolver.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/GeodesicEquationSolver.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/GeodesicEquationSolver.cpp.o
 .PHONY : src/GeodesicEquationSolver.cpp.o
 
 src/GeodesicEquationSolver.i: src/GeodesicEquationSolver.cpp.i
@@ -259,7 +437,12 @@ src/GeodesicEquationSolver.i: src/GeodesicEquationSolver.cpp.i
 # target to preprocess a source file
 src/GeodesicEquationSolver.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/GeodesicEquationSolver.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/GeodesicEquationSolver.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/GeodesicEquationSolver.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/GeodesicEquationSolver.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/GeodesicEquationSolver.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/GeodesicEquationSolver.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/GeodesicEquationSolver.cpp.i
 .PHONY : src/GeodesicEquationSolver.cpp.i
 
 src/GeodesicEquationSolver.s: src/GeodesicEquationSolver.cpp.s
@@ -268,7 +451,12 @@ src/GeodesicEquationSolver.s: src/GeodesicEquationSolver.cpp.s
 # target to generate assembly for a file
 src/GeodesicEquationSolver.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/GeodesicEquationSolver.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/GeodesicEquationSolver.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/GeodesicEquationSolver.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/GeodesicEquationSolver.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/GeodesicEquationSolver.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/GeodesicEquationSolver.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/GeodesicEquationSolver.cpp.s
 .PHONY : src/GeodesicEquationSolver.cpp.s
 
 src/Grid.o: src/Grid.cpp.o
@@ -277,7 +465,12 @@ src/Grid.o: src/Grid.cpp.o
 # target to build an object file
 src/Grid.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Grid.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/Grid.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Grid.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Grid.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Grid.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Grid.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Grid.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Grid.cpp.o
 .PHONY : src/Grid.cpp.o
 
 src/Grid.i: src/Grid.cpp.i
@@ -286,7 +479,12 @@ src/Grid.i: src/Grid.cpp.i
 # target to preprocess a source file
 src/Grid.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Grid.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/Grid.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Grid.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Grid.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Grid.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Grid.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Grid.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Grid.cpp.i
 .PHONY : src/Grid.cpp.i
 
 src/Grid.s: src/Grid.cpp.s
@@ -295,8 +493,55 @@ src/Grid.s: src/Grid.cpp.s
 # target to generate assembly for a file
 src/Grid.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Grid.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/Grid.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Grid.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Grid.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Grid.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Grid.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Grid.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Grid.cpp.s
 .PHONY : src/Grid.cpp.s
+
+src/Interpolation.o: src/Interpolation.cpp.o
+.PHONY : src/Interpolation.o
+
+# target to build an object file
+src/Interpolation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Interpolation.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Interpolation.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Interpolation.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Interpolation.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Interpolation.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Interpolation.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Interpolation.cpp.o
+.PHONY : src/Interpolation.cpp.o
+
+src/Interpolation.i: src/Interpolation.cpp.i
+.PHONY : src/Interpolation.i
+
+# target to preprocess a source file
+src/Interpolation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Interpolation.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Interpolation.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Interpolation.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Interpolation.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Interpolation.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Interpolation.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Interpolation.cpp.i
+.PHONY : src/Interpolation.cpp.i
+
+src/Interpolation.s: src/Interpolation.cpp.s
+.PHONY : src/Interpolation.s
+
+# target to generate assembly for a file
+src/Interpolation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Interpolation.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Interpolation.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Interpolation.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Interpolation.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Interpolation.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Interpolation.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Interpolation.cpp.s
+.PHONY : src/Interpolation.cpp.s
 
 src/Metric.o: src/Metric.cpp.o
 .PHONY : src/Metric.o
@@ -304,7 +549,12 @@ src/Metric.o: src/Metric.cpp.o
 # target to build an object file
 src/Metric.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Metric.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/Metric.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Metric.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Metric.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Metric.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Metric.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Metric.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Metric.cpp.o
 .PHONY : src/Metric.cpp.o
 
 src/Metric.i: src/Metric.cpp.i
@@ -313,7 +563,12 @@ src/Metric.i: src/Metric.cpp.i
 # target to preprocess a source file
 src/Metric.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Metric.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/Metric.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Metric.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Metric.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Metric.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Metric.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Metric.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Metric.cpp.i
 .PHONY : src/Metric.cpp.i
 
 src/Metric.s: src/Metric.cpp.s
@@ -322,7 +577,12 @@ src/Metric.s: src/Metric.cpp.s
 # target to generate assembly for a file
 src/Metric.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Metric.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/Metric.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Metric.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Metric.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Metric.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Metric.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Metric.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Metric.cpp.s
 .PHONY : src/Metric.cpp.s
 
 src/Radiation.o: src/Radiation.cpp.o
@@ -331,7 +591,12 @@ src/Radiation.o: src/Radiation.cpp.o
 # target to build an object file
 src/Radiation.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Radiation.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/Radiation.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Radiation.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Radiation.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Radiation.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Radiation.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Radiation.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Radiation.cpp.o
 .PHONY : src/Radiation.cpp.o
 
 src/Radiation.i: src/Radiation.cpp.i
@@ -340,7 +605,12 @@ src/Radiation.i: src/Radiation.cpp.i
 # target to preprocess a source file
 src/Radiation.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Radiation.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/Radiation.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Radiation.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Radiation.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Radiation.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Radiation.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Radiation.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Radiation.cpp.i
 .PHONY : src/Radiation.cpp.i
 
 src/Radiation.s: src/Radiation.cpp.s
@@ -349,7 +619,12 @@ src/Radiation.s: src/Radiation.cpp.s
 # target to generate assembly for a file
 src/Radiation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Radiation.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/Radiation.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Radiation.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Radiation.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Radiation.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Radiation.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Radiation.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Radiation.cpp.s
 .PHONY : src/Radiation.cpp.s
 
 src/Spacetimes.o: src/Spacetimes.cpp.o
@@ -358,7 +633,12 @@ src/Spacetimes.o: src/Spacetimes.cpp.o
 # target to build an object file
 src/Spacetimes.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Spacetimes.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/Spacetimes.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Spacetimes.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Spacetimes.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Spacetimes.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Spacetimes.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Spacetimes.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Spacetimes.cpp.o
 .PHONY : src/Spacetimes.cpp.o
 
 src/Spacetimes.i: src/Spacetimes.cpp.i
@@ -367,7 +647,12 @@ src/Spacetimes.i: src/Spacetimes.cpp.i
 # target to preprocess a source file
 src/Spacetimes.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Spacetimes.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/Spacetimes.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Spacetimes.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Spacetimes.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Spacetimes.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Spacetimes.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Spacetimes.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Spacetimes.cpp.i
 .PHONY : src/Spacetimes.cpp.i
 
 src/Spacetimes.s: src/Spacetimes.cpp.s
@@ -376,35 +661,97 @@ src/Spacetimes.s: src/Spacetimes.cpp.s
 # target to generate assembly for a file
 src/Spacetimes.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Spacetimes.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/Spacetimes.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Spacetimes.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Spacetimes.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Spacetimes.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Spacetimes.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Spacetimes.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Spacetimes.cpp.s
 .PHONY : src/Spacetimes.cpp.s
 
-src/WriteData.o: src/WriteData.cpp.o
-.PHONY : src/WriteData.o
+src/SpecialMath.o: src/SpecialMath.cpp.o
+.PHONY : src/SpecialMath.o
 
 # target to build an object file
-src/WriteData.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/WriteData.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/WriteData.cpp.o
-.PHONY : src/WriteData.cpp.o
+src/SpecialMath.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/SpecialMath.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/SpecialMath.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/SpecialMath.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/SpecialMath.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/SpecialMath.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/SpecialMath.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/SpecialMath.cpp.o
+.PHONY : src/SpecialMath.cpp.o
 
-src/WriteData.i: src/WriteData.cpp.i
-.PHONY : src/WriteData.i
+src/SpecialMath.i: src/SpecialMath.cpp.i
+.PHONY : src/SpecialMath.i
 
 # target to preprocess a source file
-src/WriteData.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/WriteData.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/WriteData.cpp.i
-.PHONY : src/WriteData.cpp.i
+src/SpecialMath.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/SpecialMath.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/SpecialMath.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/SpecialMath.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/SpecialMath.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/SpecialMath.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/SpecialMath.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/SpecialMath.cpp.i
+.PHONY : src/SpecialMath.cpp.i
 
-src/WriteData.s: src/WriteData.cpp.s
-.PHONY : src/WriteData.s
+src/SpecialMath.s: src/SpecialMath.cpp.s
+.PHONY : src/SpecialMath.s
 
 # target to generate assembly for a file
-src/WriteData.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/WriteData.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.out.dir/build.make CMakeFiles/test.out.dir/src/WriteData.cpp.s
-.PHONY : src/WriteData.cpp.s
+src/SpecialMath.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/SpecialMath.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/SpecialMath.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/SpecialMath.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/SpecialMath.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/SpecialMath.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/SpecialMath.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/SpecialMath.cpp.s
+.PHONY : src/SpecialMath.cpp.s
+
+src/Stencil.o: src/Stencil.cpp.o
+.PHONY : src/Stencil.o
+
+# target to build an object file
+src/Stencil.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Stencil.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Stencil.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Stencil.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Stencil.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Stencil.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Stencil.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Stencil.cpp.o
+.PHONY : src/Stencil.cpp.o
+
+src/Stencil.i: src/Stencil.cpp.i
+.PHONY : src/Stencil.i
+
+# target to preprocess a source file
+src/Stencil.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Stencil.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Stencil.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Stencil.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Stencil.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Stencil.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Stencil.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Stencil.cpp.i
+.PHONY : src/Stencil.cpp.i
+
+src/Stencil.s: src/Stencil.cpp.s
+.PHONY : src/Stencil.s
+
+# target to generate assembly for a file
+src/Stencil.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.out.dir/build.make CMakeFiles/main.out.dir/src/Stencil.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dataTypesTest.out.dir/build.make CMakeFiles/dataTypesTest.out.dir/src/Stencil.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gridTest.out.dir/build.make CMakeFiles/gridTest.out.dir/src/Stencil.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myMathTest.out.dir/build.make CMakeFiles/myMathTest.out.dir/src/Stencil.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/stencilTest.out.dir/build.make CMakeFiles/stencilTest.out.dir/src/Stencil.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/metricTest.out.dir/build.make CMakeFiles/metricTest.out.dir/src/Stencil.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/geodesicEquationSolverTest.out.dir/build.make CMakeFiles/geodesicEquationSolverTest.out.dir/src/Stencil.cpp.s
+.PHONY : src/Stencil.cpp.s
 
 # Help Target
 help:
@@ -414,17 +761,34 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... dataTypesTest.out"
+	@echo "... geodesicEquationSolverTest.out"
+	@echo "... gridTest.out"
 	@echo "... main.out"
-	@echo "... test.out"
+	@echo "... metricTest.out"
+	@echo "... myMathTest.out"
+	@echo "... stencilTest.out"
+	@echo "... exe/dataTypesTest.o"
+	@echo "... exe/dataTypesTest.i"
+	@echo "... exe/dataTypesTest.s"
+	@echo "... exe/geodesicEquationSolverTest.o"
+	@echo "... exe/geodesicEquationSolverTest.i"
+	@echo "... exe/geodesicEquationSolverTest.s"
+	@echo "... exe/gridTest.o"
+	@echo "... exe/gridTest.i"
+	@echo "... exe/gridTest.s"
 	@echo "... exe/main.o"
 	@echo "... exe/main.i"
 	@echo "... exe/main.s"
-	@echo "... exe/test.o"
-	@echo "... exe/test.i"
-	@echo "... exe/test.s"
-	@echo "... src/AdvancedUtiltiy.o"
-	@echo "... src/AdvancedUtiltiy.i"
-	@echo "... src/AdvancedUtiltiy.s"
+	@echo "... exe/metricTest.o"
+	@echo "... exe/metricTest.i"
+	@echo "... exe/metricTest.s"
+	@echo "... exe/myMathTest.o"
+	@echo "... exe/myMathTest.i"
+	@echo "... exe/myMathTest.s"
+	@echo "... exe/stencilTest.o"
+	@echo "... exe/stencilTest.i"
+	@echo "... exe/stencilTest.s"
 	@echo "... src/FourierHarmonics.o"
 	@echo "... src/FourierHarmonics.i"
 	@echo "... src/FourierHarmonics.s"
@@ -434,6 +798,9 @@ help:
 	@echo "... src/Grid.o"
 	@echo "... src/Grid.i"
 	@echo "... src/Grid.s"
+	@echo "... src/Interpolation.o"
+	@echo "... src/Interpolation.i"
+	@echo "... src/Interpolation.s"
 	@echo "... src/Metric.o"
 	@echo "... src/Metric.i"
 	@echo "... src/Metric.s"
@@ -443,9 +810,12 @@ help:
 	@echo "... src/Spacetimes.o"
 	@echo "... src/Spacetimes.i"
 	@echo "... src/Spacetimes.s"
-	@echo "... src/WriteData.o"
-	@echo "... src/WriteData.i"
-	@echo "... src/WriteData.s"
+	@echo "... src/SpecialMath.o"
+	@echo "... src/SpecialMath.i"
+	@echo "... src/SpecialMath.s"
+	@echo "... src/Stencil.o"
+	@echo "... src/Stencil.i"
+	@echo "... src/Stencil.s"
 .PHONY : help
 
 

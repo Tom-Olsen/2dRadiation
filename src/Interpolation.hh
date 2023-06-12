@@ -3,11 +3,11 @@
 #include <math.h>
 #include <iostream>
 #include "Stencil.hh"
-#include "TensorTypes.hh"
+#include "DataTypes.hh"
 #include "Profiler.hh"
 
 
-
+/*
 // x€[0,1], f0=f(x=0), f1=f(x=1).
 INLINE double LinearInterpolation(double x, double f0, double f1)
 {
@@ -58,5 +58,5 @@ INLINE double BicubicInterpolation
     double Fp1 = CubicInterpolation(x,fm1p1,fp0p1,fp1p1,fp2p1);
     double Fp2 = CubicInterpolation(x,fm1p2,fp0p2,fp1p2,fp2p2);
     return CubicInterpolation(y,Fm1,Fp0,Fp1,Fp2);
-}
+}*/
 #endif //__INCLUDE_GUARD_Interpolation_hh__
