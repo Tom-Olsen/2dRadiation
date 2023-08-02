@@ -4,12 +4,13 @@
 
 double Fourier::Basis(int k, double phi)
 {
+    constexpr double sqrt2 = sqrt(2);
     if (k == 0)
-        return 1.0 / sqrt(2);
+        return 1.0;
     else if (k%2 != 0)
-        return cos(phi * (k+1.0)/2.0);
+        return sqrt2 * cos(phi * (k+1.0)/2.0);
     else // (k%2 == 0)
-        return sin(phi * k/2.0);
+        return sqrt2 * sin(phi * k/2.0);
 }
 
 

@@ -1,0 +1,402 @@
+[
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/main.out.dir/exe/main.cpp.o -c /mnt/ceph/tolsen/2dRadiation/exe/main.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/exe/main.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/main.out.dir/src/FourierHarmonics.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/main.out.dir/src/GeodesicEquationSolver.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/main.out.dir/src/Grid.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Grid.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Grid.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/main.out.dir/src/Interpolation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/main.out.dir/src/Metric.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Metric.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Metric.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/main.out.dir/src/Radiation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/main.out.dir/src/Spacetimes.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/main.out.dir/src/SpecialMath.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/main.out.dir/src/Stencil.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/test.out.dir/exe/test.cpp.o -c /mnt/ceph/tolsen/2dRadiation/exe/test.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/exe/test.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/test.out.dir/src/FourierHarmonics.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/test.out.dir/src/GeodesicEquationSolver.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/test.out.dir/src/Grid.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Grid.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Grid.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/test.out.dir/src/Interpolation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/test.out.dir/src/Metric.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Metric.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Metric.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/test.out.dir/src/Radiation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/test.out.dir/src/Spacetimes.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/test.out.dir/src/SpecialMath.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/test.out.dir/src/Stencil.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/dataTypesTest.out.dir/exe/dataTypesTest.cpp.o -c /mnt/ceph/tolsen/2dRadiation/exe/dataTypesTest.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/exe/dataTypesTest.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/dataTypesTest.out.dir/src/FourierHarmonics.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/dataTypesTest.out.dir/src/GeodesicEquationSolver.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/dataTypesTest.out.dir/src/Grid.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Grid.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Grid.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/dataTypesTest.out.dir/src/Interpolation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/dataTypesTest.out.dir/src/Metric.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Metric.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Metric.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/dataTypesTest.out.dir/src/Radiation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/dataTypesTest.out.dir/src/Spacetimes.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/dataTypesTest.out.dir/src/SpecialMath.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/dataTypesTest.out.dir/src/Stencil.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/gridTest.out.dir/exe/gridTest.cpp.o -c /mnt/ceph/tolsen/2dRadiation/exe/gridTest.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/exe/gridTest.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/gridTest.out.dir/src/FourierHarmonics.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/gridTest.out.dir/src/GeodesicEquationSolver.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/gridTest.out.dir/src/Grid.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Grid.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Grid.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/gridTest.out.dir/src/Interpolation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/gridTest.out.dir/src/Metric.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Metric.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Metric.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/gridTest.out.dir/src/Radiation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/gridTest.out.dir/src/Spacetimes.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/gridTest.out.dir/src/SpecialMath.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/gridTest.out.dir/src/Stencil.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/myMathTest.out.dir/exe/myMathTest.cpp.o -c /mnt/ceph/tolsen/2dRadiation/exe/myMathTest.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/exe/myMathTest.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/myMathTest.out.dir/src/FourierHarmonics.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/myMathTest.out.dir/src/GeodesicEquationSolver.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/myMathTest.out.dir/src/Grid.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Grid.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Grid.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/myMathTest.out.dir/src/Interpolation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/myMathTest.out.dir/src/Metric.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Metric.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Metric.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/myMathTest.out.dir/src/Radiation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/myMathTest.out.dir/src/Spacetimes.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/myMathTest.out.dir/src/SpecialMath.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/myMathTest.out.dir/src/Stencil.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/stencilTest.out.dir/exe/stencilTest.cpp.o -c /mnt/ceph/tolsen/2dRadiation/exe/stencilTest.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/exe/stencilTest.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/stencilTest.out.dir/src/FourierHarmonics.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/stencilTest.out.dir/src/GeodesicEquationSolver.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/stencilTest.out.dir/src/Grid.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Grid.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Grid.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/stencilTest.out.dir/src/Interpolation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/stencilTest.out.dir/src/Metric.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Metric.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Metric.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/stencilTest.out.dir/src/Radiation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/stencilTest.out.dir/src/Spacetimes.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/stencilTest.out.dir/src/SpecialMath.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/stencilTest.out.dir/src/Stencil.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/metricTest.out.dir/exe/metricTest.cpp.o -c /mnt/ceph/tolsen/2dRadiation/exe/metricTest.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/exe/metricTest.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/metricTest.out.dir/src/FourierHarmonics.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/metricTest.out.dir/src/GeodesicEquationSolver.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/metricTest.out.dir/src/Grid.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Grid.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Grid.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/metricTest.out.dir/src/Interpolation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/metricTest.out.dir/src/Metric.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Metric.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Metric.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/metricTest.out.dir/src/Radiation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/metricTest.out.dir/src/Spacetimes.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/metricTest.out.dir/src/SpecialMath.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/metricTest.out.dir/src/Stencil.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/geodesicEquationSolverTest.out.dir/exe/geodesicEquationSolverTest.cpp.o -c /mnt/ceph/tolsen/2dRadiation/exe/geodesicEquationSolverTest.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/exe/geodesicEquationSolverTest.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/geodesicEquationSolverTest.out.dir/src/FourierHarmonics.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/FourierHarmonics.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/geodesicEquationSolverTest.out.dir/src/GeodesicEquationSolver.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/GeodesicEquationSolver.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/geodesicEquationSolverTest.out.dir/src/Grid.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Grid.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Grid.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/geodesicEquationSolverTest.out.dir/src/Interpolation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Interpolation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/geodesicEquationSolverTest.out.dir/src/Metric.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Metric.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Metric.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/geodesicEquationSolverTest.out.dir/src/Radiation.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Radiation.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/geodesicEquationSolverTest.out.dir/src/Spacetimes.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Spacetimes.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/geodesicEquationSolverTest.out.dir/src/SpecialMath.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/SpecialMath.cpp"
+},
+{
+  "directory": "/mnt/ceph/tolsen/2dRadiation/build",
+  "command": "/usr/bin/X11/c++   -g -O3 -ffast-math -fopenmp -std=gnu++20 -o CMakeFiles/geodesicEquationSolverTest.out.dir/src/Stencil.cpp.o -c /mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp",
+  "file": "/mnt/ceph/tolsen/2dRadiation/src/Stencil.cpp"
+}
+]

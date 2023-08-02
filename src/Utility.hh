@@ -53,7 +53,9 @@ public:
 using IntBuffer     = std::vector<int                 , AlignedArrayAllocator<int>                 >;
 using SizeTBuffer   = std::vector<size_t              , AlignedArrayAllocator<size_t>              >;
 using RealBuffer    = std::vector<double              , AlignedArrayAllocator<double>              >;
+using Index2Buffer  = std::vector<std::array<size_t,2>, AlignedArrayAllocator<std::array<size_t,2>>>;
 using Index4Buffer  = std::vector<std::array<size_t,4>, AlignedArrayAllocator<std::array<size_t,4>>>;
+using Double2Buffer = std::vector<std::array<double,2>, AlignedArrayAllocator<std::array<double,2>>>;
 using Double4Buffer = std::vector<std::array<double,4>, AlignedArrayAllocator<std::array<double,4>>>;
 
 

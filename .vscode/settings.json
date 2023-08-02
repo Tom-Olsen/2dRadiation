@@ -175,7 +175,10 @@
         "viewport": "cpp",
         "span": "cpp",
         "valueobject": "cpp",
-        "plane": "cpp"
+        "plane": "cpp",
+        "boundingbox": "cpp",
+        "boundingsphere": "cpp"
     },
-    "cmake.configureOnOpen": true
+    "cmake.configureOnOpen": true,
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }

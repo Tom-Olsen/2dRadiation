@@ -1,0 +1,123 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Radiation2d",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "dataTypesTest.out::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dataTypesTest.out-Debug-fcccc742334c8827f8a3.json",
+					"name" : "dataTypesTest.out",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "geodesicEquationSolverTest.out::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-geodesicEquationSolverTest.out-Debug-cd70c45e3fa42219c7d9.json",
+					"name" : "geodesicEquationSolverTest.out",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "gridTest.out::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-gridTest.out-Debug-242a4fdb55d7ce3db29d.json",
+					"name" : "gridTest.out",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "main.out::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-main.out-Debug-443696fa1e4674f879a2.json",
+					"name" : "main.out",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "metricTest.out::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-metricTest.out-Debug-019bbefac055ff630ad9.json",
+					"name" : "metricTest.out",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "myMathTest.out::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-myMathTest.out-Debug-609804f5afc662a3b00a.json",
+					"name" : "myMathTest.out",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "stencilTest.out::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-stencilTest.out-Debug-15b5c85ca335aa622913.json",
+					"name" : "stencilTest.out",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "test.out::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-test.out-Debug-26ab85efbfcc27191c01.json",
+					"name" : "test.out",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/mnt/ceph/tolsen/2dRadiation/build",
+		"source" : "/mnt/ceph/tolsen/2dRadiation"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

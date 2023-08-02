@@ -4,7 +4,8 @@
 # Binaries:
 *.out
 
-# Output folder:
+# Output:
 output/
 KerrSchild Error/
 SchwarzSchild Error/
+slurm*

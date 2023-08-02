@@ -5,38 +5,37 @@
 #include "Utility.hh"
 #include "DataTypes.hh"
 
-
-
 struct Stencil;
-
-
 
 struct InterpolationGrid
 {
 public:
     // Public Properties:
     size_t nGrid;
-    Index4Buffer  neighbourIndexes;
-    Double4Buffer neighbourWeights;
+    Index2Buffer neighbourIndexesLinear;
+    Double2Buffer neighbourWeightsLinear;
+    Index4Buffer neighbourIndexesCubic;
+    Double4Buffer neighbourWeightsCubic;
 
     // Constructor:
     InterpolationGrid() = default;
-    InterpolationGrid(size_t nGrid, const Stencil& stencil);
+    InterpolationGrid(size_t nGrid, const Stencil &stencil);
 
     // Grid Index:
     double d(double phi) const;
-    
+    double Phi(size_t d) const;
+
 private:
     // Initialization:
-    std::array<size_t,4> SurroundingNeighbourIndexes(double phi, const Stencil& stencil);
-    std::array<double,4> LagrangeWeights(double phi, std::array<size_t,4> neighbours, const Stencil& stencil);
+    std::array<size_t, 2> NeighbourIndexesLinear(double phi, const Stencil &stencil);
+    std::array<double, 2> LagrangeWeightsLinear(double phi, std::array<size_t, 2> neighbours, const Stencil &stencil);
+    std::array<size_t, 4> NeighbourIndexesCubic(double phi, const Stencil &stencil);
+    std::array<double, 4> LagrangeWeightsCubic(double phi, std::array<size_t, 4> neighbours, const Stencil &stencil);
 
 public:
     // Debugging:
     void Print() const;
 };
-
-
 
 // Polar Coordinates convention:
 // phi € [0,2pi]
@@ -48,12 +47,13 @@ struct Stencil
 {
 public:
     // Public Properties:
-    std::string name;       // Name of the stencel, e.g. "Stencil9.13"
-    size_t nDir;            // Number of directions in stencil.
-    size_t nGhost;          // Number of ghost directions in stencil.
-    size_t nOrder;          // Quadrature integration.
-    size_t nCoefficients;   // Number of exact Fourier Harmonics that cna be integrated.
+    std::string name;     // Name of the stencel, e.g. "Stencil9.13"
+    size_t nDir;          // Number of directions in stencil.
+    size_t nGhost;        // Number of ghost directions in stencil.
+    size_t nOrder;        // Quadrature integration.
+    size_t nCoefficients; // Number of exact Fourier Harmonics that cna be integrated.
     InterpolationGrid interpolationGrid;
+    constexpr static double deltaPhi = M_PI / 8.0 + 1e-8; // +- angle range in which ghost directions are arranged.
 
 private:
     // Internal Buffers:

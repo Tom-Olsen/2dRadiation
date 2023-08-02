@@ -1,4 +1,5 @@
 /mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/main.out.dir
+/mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/test.out.dir
 /mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/dataTypesTest.out.dir
 /mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/gridTest.out.dir
 /mnt/ceph/tolsen/2dRadiation/build/CMakeFiles/myMathTest.out.dir
