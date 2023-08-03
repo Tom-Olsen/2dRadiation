@@ -2,7 +2,7 @@
 #include "../src/Radiation.h"
 using namespace std;
 
-void StraightBeam(Stencil stencil, StreamingType streamingType, double F, double cfl)
+void StraightBeam(Stencil stencil, StreamingType streamingType, double cfl, Tensor2 F)
 {
     // Create Radiation object:
     size_t nx = 900 + 1 + 2;
@@ -19,7 +19,7 @@ void StraightBeam(Stencil stencil, StreamingType streamingType, double F, double
     // Config:
     Config config =
         {
-            .name = "Straight Beam 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(F, 1) + "F" + Format(cfl, 2) + "cfl",
+            .name = "Straight Beam 2d/" + StreamingName(streamingType) + " " + stencil.name + "(" + Format(F[1], 1) + "," + Format(F[2], 1) + ")F" + Format(cfl, 2) + "cfl",
             .t0 = 0,
             .simTime = 2.8,
             .writePeriod = 3, // write first and last frame only.
@@ -49,8 +49,8 @@ void StraightBeam(Stencil stencil, StreamingType streamingType, double F, double
             {
                 radiation.isInitialGridPoint[ij] = true;
                 radiation.initialE_LF[ij] = 1;
-                radiation.initialFx_LF[ij] = 1 * F;
-                radiation.initialFy_LF[ij] = 0 * F;
+                radiation.initialFx_LF[ij] = F[1];
+                radiation.initialFy_LF[ij] = F[2];
             }
         }
     radiation.RunSimulation();
@@ -437,6 +437,59 @@ void Diffusion(Stencil stencil, StreamingType streamingType, double cfl)
     radiation.RunSimulation();
 }
 
+void TestBeam(Stencil stencil, StreamingType streamingType, double cfl, Tensor2 F)
+{
+    // Create Radiation object:
+    size_t nx = 200 + 1 + 2;
+    size_t ny = 200 + 1 + 2;
+    double dx = 1.0 / (nx - 1.0 - 2.0);
+    double dy = 1.0 / (ny - 1.0 - 2.0);
+    Coord start(-1 - dx, -1 - dy);
+    Coord end(1 + dx, 1 + dy);
+    Grid grid(nx, ny, start, end);
+    grid.SetCFL(cfl);
+    Minkowski metric(grid, 1.0, 0.0);
+    Stencil streamingStencil(5);
+
+    // Config:
+    Config config =
+        {
+            .name = "Test Beam 2d/" + StreamingName(streamingType) + " " + stencil.name + "(" + Format(F[1], 1) + "," + Format(F[2], 1) + ")F" + Format(cfl, 2) + "cfl",
+            .t0 = 0,
+            .simTime = 2.8,
+            .writePeriod = 3, // write first and last frame only.
+            .updateFourierHarmonics = false,
+            .keepSourceNodesActive = true,
+            .writeData = true,
+            .printToTerminal = true,
+            .streamingType = streamingType,
+            .initialDataType = InitialDataType::Moments,
+        };
+
+    // Radiation:
+    Radiation radiation(metric, stencil, streamingStencil, config);
+
+    // Initial Data:
+    for (size_t j = 0; j < grid.ny; j++)
+        for (size_t i = 0; i < grid.nx; i++)
+        {
+            size_t ij = grid.Index(i, j);
+            Coord xy = grid.xy(i, j);
+            double r = xy.EuklNorm();
+            radiation.initialKappa0[ij] = 0;
+            radiation.initialKappa1[ij] = 0;
+            radiation.initialKappaA[ij] = 0;
+            radiation.initialEta[ij] = 0;
+            if (r < 0.2)
+            {
+                radiation.isInitialGridPoint[ij] = true;
+                radiation.initialE_LF[ij] = 1;
+                radiation.initialFx_LF[ij] = F[1];
+                radiation.initialFy_LF[ij] = F[2];
+            }
+        }
+    radiation.RunSimulation();
+}
 // Note:
 // -TE changed from 1e-6 to 1e-4
 
@@ -451,9 +504,12 @@ int main(int argc, char *argv[])
         n = atoi(argv[1]);
 
     // Straight Beam:
-    // if(n==0) StraightBeam(Stencil(200, 0), StreamingType::FlatFixed   , 2000, 0.75);
-    // if(n==1) StraightBeam(Stencil(110, 0), StreamingType::FlatAdaptive, 250, 0.75);
-    // if(n==2) StraightBeam(Stencil(100,10), StreamingType::FlatAdaptive, 2000, 0.75);
+    // if (n == 0)
+    // StraightBeam(Stencil(200, 0), StreamingType::FlatFixed, 0.75, Tensor2(1, 0));
+    // if (n == 1)
+    // StraightBeam(Stencil(110, 0), StreamingType::FlatAdaptive, 0.75, Tensor2(1, 0));
+    // if (n == 2)
+    // StraightBeam(Stencil(100, 10), StreamingType::FlatAdaptive, 0.75, Tensor2(1, 0));
 
     // Beam Crossing:
     // if(n==0) BeamCrossing(Stencil(200 ,0), StreamingType::FlatFixed   , 2000, 0.75);
@@ -461,12 +517,12 @@ int main(int argc, char *argv[])
     // if(n==2) BeamCrossing(Stencil(100,10), StreamingType::FlatAdaptive,  600, 0.75);
 
     // Straight Beam Shadow:
-    if (n == 0)
-        StraightBeamShadow(Stencil(200, 0), StreamingType::FlatFixed, 0.75);
-    if (n == 1)
-        StraightBeamShadow(Stencil(110, 0), StreamingType::FlatAdaptive, 0.75);
-    if (n == 2)
-        StraightBeamShadow(Stencil(100, 10), StreamingType::FlatAdaptive, 0.75);
+    // if (n == 0)
+    // StraightBeamShadow(Stencil(200, 0), StreamingType::FlatFixed, 0.75);
+    // if (n == 1)
+    // StraightBeamShadow(Stencil(100, 10), StreamingType::FlatAdaptive, 0.75);
+    // if (n == 2)
+    // StraightBeamShadow(Stencil(110, 0), StreamingType::FlatAdaptive, 0.75);
 
     // Sphere Wave
     // if(n==1) SphereWave(Stencil(60,0), StreamingType::FlatFixed   , 0, 0.75);
@@ -479,42 +535,26 @@ int main(int argc, char *argv[])
     // if(n==2) SphereWaveShadow(Stencil(100,10), StreamingType::FlatAdaptive,  10, 0.75);
 
     // Curved Beam:
-    if (n == 3)
-        CurvedBeam(Stencil(200, 0), StreamingType::CurvedFixed, 0.75);
-    if (n == 4)
-        CurvedBeam(Stencil(110, 0), StreamingType::CurvedAdaptive, 0.75);
-    if (n == 5)
-        CurvedBeam(Stencil(100, 10), StreamingType::CurvedAdaptive, 0.75);
+    // if (n == 3)
+    //     CurvedBeam(Stencil(200, 0), StreamingType::CurvedFixed, 0.75);
+    // if (n == 4)
+    //     CurvedBeam(Stencil(110, 0), StreamingType::CurvedAdaptive, 0.75);
+    // if (n == 5)
+    //     CurvedBeam(Stencil(100, 10), StreamingType::CurvedAdaptive, 0.75);
 
     // Diffusion:
-    // if(n==0) Diffusion(Stencil(200, 0), StreamingType::FlatFixed   , 0.75);
-    // if(n==1) Diffusion(Stencil(110, 0), StreamingType::FlatAdaptive,  10, 0.75);
-    // if(n==2) Diffusion(Stencil(100,10), StreamingType::FlatAdaptive,  10, 0.75);
-
-    // Testiing:
-    // Diffusion(Stencil(50, 0), StreamingType::FlatFixed, 0.2);
-    // StraightBeamShadow(Stencil(50), StreamingType::FlatFixed, 0.75);
-    // StraightBeamShadow(Stencil(50, 0), StreamingType::FlatAdaptive, 0.75);
-    // BeamCrossing(Stencil(200 ,0), StreamingType::FlatFixed   , 0.75);
-    // CurvedBeam(Stencil(200, 0), StreamingType::CurvedFixed   , 0.75);
     // if (n == 0)
-    // CurvedBeam(Stencil(200, 0), StreamingType::CurvedFixed, 0.75);
+    //     Diffusion(Stencil(200, 0), StreamingType::FlatFixed, 0.2);
     // if (n == 1)
-    // CurvedBeam(Stencil(110, 0), StreamingType::CurvedAdaptive, 0.75);
+    //     Diffusion(Stencil(110, 0), StreamingType::FlatAdaptive, 0.2);
     // if (n == 2)
-    // CurvedBeam(Stencil(100, 10), StreamingType::CurvedAdaptive, 0.75);
+    //     Diffusion(Stencil(100, 10), StreamingType::FlatAdaptive, 0.2);
 
-    // Runs for paper: Curved Beam
-    // CurvedBeam(200,200, Stencil( 50, 0), 100, 10, StreamingType::CurvedFixed);
-    // CurvedBeam(200,200, Stencil(100, 0), 250, 10, StreamingType::CurvedFixed);
-    // CurvedBeam(200,200, Stencil(200, 0), 700, 10, StreamingType::CurvedFixed);
-    // CurvedBeam(200,200, Stencil( 50, 0), 100, 10, StreamingType::CurvedAdaptive);
-    // CurvedBeam(200,200, Stencil( 50,10), 100, 10, StreamingType::CurvedAdaptive);
-    // CurvedBeam(200,200, Stencil( 60, 0), 100, 10, StreamingType::CurvedAdaptive);
-    // CurvedBeam(200,200, Stencil(100, 0), 250, 10, StreamingType::CurvedAdaptive);
-    // CurvedBeam(200,200, Stencil(100,10), 250, 10, StreamingType::CurvedAdaptive);
-    // CurvedBeam(200,200, Stencil(110, 0), 250, 10, StreamingType::CurvedAdaptive);
-    // CurvedBeam(200,200, Stencil(200, 0), 700, 10, StreamingType::CurvedAdaptive);
-    // CurvedBeam(200,200, Stencil(200,20), 700, 10, StreamingType::CurvedAdaptive);
-    // CurvedBeam(200,200, Stencil(220, 0), 700, 10, StreamingType::CurvedAdaptive);
+    // Testing:
+    if (n == 0)
+        TestBeam(Stencil(200), StreamingType::FlatFixed, 0.75, Tensor2(1, 1));
+    if (n == 1)
+        TestBeam(Stencil(110), StreamingType::FlatAdaptive, 0.75, Tensor2(1, 1));
+    if (n == 2)
+        TestBeam(Stencil(100, 10), StreamingType::FlatAdaptive, 0.75, Tensor2(1, 1));
 }

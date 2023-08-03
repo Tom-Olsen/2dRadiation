@@ -148,7 +148,7 @@ int main()
     // Interpolation(Stencil(30,10));
 
     // Stencil(20, 5).interpolationGrid.Print();
-    Stencil(20, 10).Print();
+    Stencil(100, 0).Print();
     // Stencil(50,10).WriteToCsv();
     // Stencil(9,5).interpolationGrid.Print();
 }

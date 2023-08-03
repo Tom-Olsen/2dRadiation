@@ -24,6 +24,9 @@ public:
     // Grid Index:
     double d(double phi) const;
     double Phi(size_t d) const;
+    double Cx(size_t d) const;
+    double Cy(size_t d) const;
+    Tensor2 C(size_t d) const;
 
 private:
     // Initialization:

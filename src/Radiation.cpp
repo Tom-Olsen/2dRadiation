@@ -9,6 +9,9 @@ Radiation::Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil
     initialE_LF.resize(grid.nxy);
     initialFx_LF.resize(grid.nxy);
     initialFy_LF.resize(grid.nxy);
+    initialPxx_LF.resize(grid.nxy);
+    initialPxy_LF.resize(grid.nxy);
+    initialPyy_LF.resize(grid.nxy);
     initialKappa0.resize(grid.nxy);
     initialKappa1.resize(grid.nxy);
     initialKappaA.resize(grid.nxy);
@@ -71,16 +74,21 @@ size_t Radiation::HarmonicIndex(size_t f, size_t ij)
 Tensor3 Radiation::InitialDataLFtoIF(size_t ij)
 {
     // Transform given initial E_LF, Fx_LF, Fy_LF into initial E_IF, Fx_IF, Fy_IF:
-    Tensor3x3 tetrad = metric.GetTetrad(ij);
-    double initialE_IF = initialE_LF[ij] / IntegerPow<2>(tetrad[{0, 0}]);
-    double A = initialFx_LF[ij] / tetrad[{0, 0}] - tetrad[{1, 0}] * initialE_IF;
-    double B = initialFy_LF[ij] / tetrad[{0, 0}] - tetrad[{2, 0}] * initialE_IF;
-    double initialFx_IF = (A * tetrad[{2, 2}] - B * tetrad[{1, 2}]) / (tetrad[{1, 1}] * tetrad[{2, 2}] - tetrad[{2, 1}] * tetrad[{1, 2}]);
-    double initialFy_IF = (A * tetrad[{2, 1}] - B * tetrad[{1, 1}]) / (tetrad[{1, 2}] * tetrad[{2, 1}] - tetrad[{2, 2}] * tetrad[{1, 1}]);
-    double initialF_IF = Tensor2(initialFx_IF, initialFy_IF).EuklNorm();
+    Tensor3x3 EnergyMomentumTensorLF(initialE_LF[ij], initialFx_LF[ij], initialFy_LF[ij],
+                                     initialFx_LF[ij], initialPxx_LF[ij], initialPxy_LF[ij],
+                                     initialFy_LF[ij], initialPxy_LF[ij], initialPyy_LF[ij]);
+    Tensor3x3 EnergyMomentumTensorIF = TransformLFtoIF(EnergyMomentumTensorLF, metric.GetTetrad(ij).Invert());
 
-    // |F| > E is unphysical. We furthermore limit the flux depending on the streaming stencils direction count:
-    // double Fmax = initialE_IF * (2.0 / (1.0 + exp(-(double)stencil.nDir / 10.0)) - 1.0);
+    double initialE_IF = EnergyMomentumTensorIF[{0, 0}];
+    double initialFx_IF = EnergyMomentumTensorLF[{0, 1}];
+    double initialFy_IF = EnergyMomentumTensorLF[{0, 2}];
+    double initialPxx_IF = EnergyMomentumTensorLF[{1, 1}];
+    double initialPxy_IF = EnergyMomentumTensorLF[{1, 2}];
+    double initialPyy_IF = EnergyMomentumTensorLF[{2, 2}];
+    double initialPyz_IF = EnergyMomentumTensorLF[{2, 3}];
+
+    // |F| > E is unphysical:
+    double initialF_IF = Tensor2(initialFx_IF, initialFy_IF).EuklNorm();
     if (initialF_IF > initialE_IF)
     {
         initialFx_IF *= initialE_IF / initialF_IF;
@@ -88,6 +96,24 @@ Tensor3 Radiation::InitialDataLFtoIF(size_t ij)
     }
 
     return Tensor3(initialE_IF, initialFx_IF, initialFy_IF);
+
+    //// Transform given initial E_LF, Fx_LF, Fy_LF into initial E_IF, Fx_IF, Fy_IF:
+    // Tensor3x3 tetrad = metric.GetTetrad(ij);
+    // double initialE_IF = initialE_LF[ij] / IntegerPow<2>(tetrad[{0, 0}]);
+    // double A = initialFx_LF[ij] / tetrad[{0, 0}] - tetrad[{1, 0}] * initialE_IF;
+    // double B = initialFy_LF[ij] / tetrad[{0, 0}] - tetrad[{2, 0}] * initialE_IF;
+    // double initialFx_IF = (A * tetrad[{2, 2}] - B * tetrad[{1, 2}]) / (tetrad[{1, 1}] * tetrad[{2, 2}] - tetrad[{2, 1}] * tetrad[{1, 2}]);
+    // double initialFy_IF = (A * tetrad[{2, 1}] - B * tetrad[{1, 1}]) / (tetrad[{1, 2}] * tetrad[{2, 1}] - tetrad[{2, 2}] * tetrad[{1, 1}]);
+    // double initialF_IF = Tensor2(initialFx_IF, initialFy_IF).EuklNorm();
+    //
+    //// |F| > E is unphysical:
+    // if (initialF_IF > initialE_IF)
+    //{
+    //     initialFx_IF *= initialE_IF / initialF_IF;
+    //     initialFy_IF *= initialE_IF / initialF_IF;
+    // }
+    //
+    // return Tensor3(initialE_IF, initialFx_IF, initialFy_IF);
 }
 void Radiation::InitSigmaAndNormalization()
 {
@@ -103,6 +129,7 @@ void Radiation::InitSigmaAndNormalization()
         RealBuffer Ioriginal;
         Ioriginal.resize(stencil.nDir);
 
+        // Convert given LF initial data to IF:
         Tensor3 initialDataIF = InitialDataLFtoIF(ij);
         double E_IF = initialDataIF[0];
         double Fx_IF = initialDataIF[1];
@@ -112,6 +139,7 @@ void Radiation::InitSigmaAndNormalization()
         Tensor2 Fxy_IF(Fx_IF, Fy_IF);
         double F_IF = Fxy_IF.EuklNorm();
         initialFluxAngle_IF[ij] = Fxy_IF.Phi();
+        Tensor2 dirF = (isAdaptiveStreaming) ? Tensor2(1, 0) : Tensor2(Fx_IF / F_IF, Fy_IF / F_IF);
 
         // Catch uniform distibution:
         if (F_IF < MIN_FLUX_NORM)
@@ -125,7 +153,7 @@ void Radiation::InitSigmaAndNormalization()
                 double c = stencil.W(d) * Id;
                 normalization[ij] += c;
             }
-            normalization[ij] = -log(normalization[ij]);
+            normalization[ij] = log(normalization[ij]);
             continue;
         }
 
@@ -133,47 +161,52 @@ void Radiation::InitSigmaAndNormalization()
         sigma[ij] = -1;
         double currentF = 0;
         int refinement = 0;
-        int errorToBigCounter = 0;
         double lastGoodSigma = -1;
-
         while (abs(currentF - F_IF) / F_IF > 0.001) // while difference bigger 0.1%
         {
             // Adjust sigma:
             if (currentF < F_IF)
-            { // Inscrese sigma:
+                // Inscrese sigma:
                 sigma[ij] += pow(10, -refinement);
-            }
-            if (currentF > F_IF)
-            { // Go back to previous sigma and make sigma step one magnetude smaller:
+            else if (currentF > F_IF)
+            {
+                // Go back to previous sigma and make sigma step one magnitude smaller:
                 sigma[ij] -= pow(10, -refinement);
                 refinement++;
-                currentF = 0;
+                if (refinement > 10) // 10 digits after decimal point.
+                {
+                    sigma[ij] = lastGoodSigma;
+                    break;
+                }
+                currentF = 0; // trigger above branch in next iteration.
                 continue;
             }
-            // std::cout << ij << ": " << sigma[ij] << ", " << errorToBigCounter << std::endl;
+            else
+                // found exact sigma (unlickely).
+                break;
 
             // Determine normalization for current sigma value:
             normalization[ij] = 0;
             for (int d = 0; d < stencil.nDir; d++)
             {
-                double angle = (isAdaptiveStreaming) ? stencil.Phi(d) : fmod(stencil.Phi(d) - initialFluxAngle_IF[ij] + 2.0 * M_PI, 2.0 * M_PI);
-                double Id = exp(sigma[ij] * (MyCos(angle) - 1.0));
+                double Id = exp(sigma[ij] * Tensor2::Dot(dirF, stencil.C(d)));
                 double c = stencil.W(d) * Id;
                 normalization[ij] += c;
             }
-            normalization[ij] = -log(normalization[ij]);
+            normalization[ij] = log(normalization[ij]);
 
-            // Calculate F with current sigma value:
+            // Calculate moments with current sigma value:
+            double currentE = 0;
             double currentFx = 0;
             double currentFy = 0;
             for (int d = 0; d < stencil.nDir; d++)
             {
-                double angle = (isAdaptiveStreaming) ? stencil.Phi(d) : fmod(stencil.Phi(d) - initialFluxAngle_IF[ij] + 2.0 * M_PI, 2.0 * M_PI);
-                Ioriginal[d] = E_IF * exp(sigma[ij] * (MyCos(angle) - 1.0) + normalization[ij]);
+                Ioriginal[d] = E_IF * exp(sigma[ij] * Tensor2::Dot(dirF, stencil.C(d)) - normalization[ij]);
+                Tensor2 dir = RotationMatrix((isAdaptiveStreaming) ? initialFluxAngle_IF[ij] : 0) * stencil.C(d);
                 double c = stencil.W(d) * Ioriginal[d];
-                // we only care about norm of flux, thus correct rotation not needed.
-                currentFx += c * stencil.Cx(d);
-                currentFy += c * stencil.Cy(d);
+                currentE += c;
+                currentFx += c * dir[1];
+                currentFy += c * dir[2];
             }
             currentF = Tensor2(currentFx, currentFy).EuklNorm();
 
@@ -182,29 +215,19 @@ void Radiation::InitSigmaAndNormalization()
             int count = 0;
             for (int d = 0; d < stencil.interpolationGrid.nGrid; d++)
             {
-                double angle = (isAdaptiveStreaming) ? stencil.interpolationGrid.Phi(d) : fmod(stencil.interpolationGrid.Phi(d) - initialFluxAngle_IF[ij] + 2.0 * M_PI, 2.0 * M_PI);
-
                 // Skip angles outside the +-deltaPhi/2 range in which most of the ghost directions are arranged:
-                double distTo0 = std::min(angle, 2.0 * M_PI - angle);
-                if (distTo0 > stencil.deltaPhi / 2.0)
+                if (acos(Tensor2::Dot(dirF, stencil.interpolationGrid.C(d))) > stencil.deltaPhi / 2.0)
                     continue;
 
                 // Analytic intensity:
-                double analyticValue = E_IF * exp(sigma[ij] * (MyCos(angle) - 1.0) + normalization[ij]);
+                double analyticValue = E_IF * exp(sigma[ij] * Tensor2::Dot(dirF, stencil.interpolationGrid.C(d)) - normalization[ij]);
 
-                // Interpolated intensity Cubic:
+                // Cubic interpolated intensity:
                 std::array<size_t, 4> neighbourIndexesCubic = stencil.interpolationGrid.neighbourIndexesCubic[d];
                 std::array<double, 4> neighbourWeightsCubic = stencil.interpolationGrid.neighbourWeightsCubic[d];
                 double interpolatetValue = 0;
                 for (size_t k = 0; k < 4; k++)
                     interpolatetValue += neighbourWeightsCubic[k] * Ioriginal[neighbourIndexesCubic[k]];
-
-                ////  Interpolated intensity Linear:
-                // std::array<size_t, 2> neighbourIndexesLinear = stencil.interpolationGrid.neighbourIndexesLinear[d];
-                // std::array<double, 2> neighbourWeightsLinear = stencil.interpolationGrid.neighbourWeightsLinear[d];
-                // double interpolatetValue = 0;
-                // for (size_t k = 0; k < 2; k++)
-                //     interpolatetValue += neighbourWeightsLinear[k] * Ioriginal[neighbourIndexesLinear[k]];
 
                 // Error:
                 double error = std::abs((analyticValue - interpolatetValue) / analyticValue);
@@ -214,15 +237,7 @@ void Radiation::InitSigmaAndNormalization()
             averageError /= count;
 
             if (averageError > MAX_INTERPOLATION_ERROR)
-            {
-                errorToBigCounter++;
-                currentF = F_IF + 1; // trigger search refinement!
-                if (errorToBigCounter == 10)
-                {
-                    sigma[ij] = lastGoodSigma;
-                    break;
-                }
-            }
+                currentF = F_IF + 1e100; // trigger search refinement!
             else
                 lastGoodSigma = sigma[ij];
         }
@@ -240,6 +255,9 @@ double Radiation::FluxMax()
     double fluxMax = 0;
     for (int ij = 0; ij < grid.nxy; ij++)
     {
+        if (!isInitialGridPoint[ij])
+            continue;
+
         Tensor3 initialDataIF = InitialDataLFtoIF(ij);
         double E_IF = initialDataIF[0];
         double Fx_IF = initialDataIF[1];
@@ -262,7 +280,8 @@ double Radiation::FluxMax()
         }
         double currentF = Tensor2(currentFx, currentFy).EuklNorm();
 
-        fluxMax = std::max(fluxMax, currentF / F_IF);
+        if (F_IF != 0)
+            fluxMax = std::max(fluxMax, currentF / F_IF);
     }
     return fluxMax;
 }
@@ -275,8 +294,17 @@ void Radiation::LoadInitialData()
     PARALLEL_FOR(1)
     for (size_t ij = 0; ij < grid.nxy; ij++)
     {
+        // Convert given LF initial data to IF:
         Tensor3 initialDataIF = InitialDataLFtoIF(ij);
         double E_IF = initialDataIF[0];
+        double Fx_IF = initialDataIF[1];
+        double Fy_IF = initialDataIF[2];
+
+        // Flux angle and magnitude in IF:
+        Tensor2 Fxy_IF(Fx_IF, Fy_IF);
+        double F_IF = Fxy_IF.EuklNorm();
+        initialFluxAngle_IF[ij] = Fxy_IF.Phi();
+        Tensor2 dirF = (isAdaptiveStreaming) ? Tensor2(1, 0) : Tensor2(Fx_IF / F_IF, Fy_IF / F_IF);
 
         kappa0[ij] = initialKappa0[ij];
         kappa1[ij] = initialKappa1[ij];
@@ -288,33 +316,16 @@ void Radiation::LoadInitialData()
             // https://en.wikipedia.org/wiki/Von_Mises_distribution
             if (isInitialGridPoint[ij])
             {
-                // In case of adaptive streaming the stencil is rotated such that its east side points towards n, whenever stencil.C is used.
-                // This means that the Von Mises distribution needs to point east for the adaptive streaming case.
-                if (isAdaptiveStreaming)
-                {
-                    rotationAngle[ij] = initialFluxAngle_IF[ij];
-                    for (size_t d = 0; d < stencil.nDir; d++)
-                    {
-                        double angle = stencil.Phi(d);
-                        I[Index(ij, d)] = E_IF * exp(sigma[ij] * (MyCos(angle) - 1.0) + normalization[ij]);
-                    }
-                }
-                else
-                {
-                    for (size_t d = 0; d < stencil.nDir; d++)
-                    {
-                        double angle = fmod(stencil.Phi(d) - initialFluxAngle_IF[ij] + 2.0 * M_PI, 2.0 * M_PI);
-                        I[Index(ij, d)] = E_IF * exp(sigma[ij] * (MyCos(angle) - 1.0) + normalization[ij]);
-                    }
-                }
+                rotationAngle[ij] = (isAdaptiveStreaming) ? initialFluxAngle_IF[ij] : 0;
+                for (size_t d = 0; d < stencil.nDir; d++)
+                    I[Index(ij, d)] = E_IF * exp(sigma[ij] * Tensor2::Dot(dirF, stencil.C(d)) - normalization[ij]);
             }
         }
         else if (config.initialDataType == InitialDataType::Intensities)
         {
             if (isInitialGridPoint[ij])
             {
-                if (isAdaptiveStreaming)
-                    rotationAngle[ij] = initialFluxAngle_IF[ij];
+                rotationAngle[ij] = (isAdaptiveStreaming) ? initialFluxAngle_IF[ij] : 0;
                 for (size_t d = 0; d < stencil.nDir; d++)
                     I[Index(ij, d)] = initialE_LF[ij] * initialI[Index(ij, d)];
             }

@@ -40,6 +40,18 @@ double InterpolationGrid::Phi(size_t d) const
 {
     return 2.0 * M_PI * d / nGrid;
 }
+double InterpolationGrid::Cx(size_t d) const
+{
+    return MyCos(Phi(d));
+}
+double InterpolationGrid::Cy(size_t d) const
+{
+    return MySin(Phi(d));
+}
+Tensor2 InterpolationGrid::C(size_t d) const
+{
+    return Tensor2(Cx(d), Cy(d));
+}
 
 // Linear:
 std::array<size_t, 2> InterpolationGrid::NeighbourIndexesLinear(double phi, const Stencil &stencil)

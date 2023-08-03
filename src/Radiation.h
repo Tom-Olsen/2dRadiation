@@ -30,6 +30,9 @@ public:
     RealBuffer initialE_LF;
     RealBuffer initialFx_LF;
     RealBuffer initialFy_LF;
+    RealBuffer initialPxx_LF;
+    RealBuffer initialPxy_LF;
+    RealBuffer initialPyy_LF;
     RealBuffer initialKappa0;
     RealBuffer initialKappa1;
     RealBuffer initialKappaA;
@@ -81,7 +84,6 @@ public:
     Tensor2 AverageF(size_t i, size_t j);
 
     Tensor3 InitialDataLFtoIF(size_t ij);
-    void InitSigmaAndNormalizationFixed();
     void InitSigmaAndNormalization();
     double SigmaMax();
     double FluxMax();
