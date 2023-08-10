@@ -16,8 +16,9 @@ private:
     static constexpr double LAMBDA_ITTERATION_TOLERENCE = 1e-12;
     static constexpr int MAX_LAMBDA_ITERATIONS = 100;
     static constexpr double MAX_INTERPOLATION_ERROR = 0.01; // in %
-    static constexpr double etaCGStoCode = 7.67822;
-    static constexpr double kappaCGStoCode = 1.47760;
+    // Units conversion is not correct yet!
+    double etaCGStoCode = 7.67822;
+    double kappaCGStoCode = 1.47760;
 
 public:
     Grid &grid;
