@@ -1,6 +1,5 @@
 #ifndef __INCLUDE_GUARD_Radiation_h__
 #define __INCLUDE_GUARD_Radiation_h__
-#include <tgmath.h>                 // long double exp(long double x)
 #include "GeodesicEquationSolver.h" // Solves geodesic equation, given xyz coordinates, LF 3 velocity, and metric.
 #include "SpecialMath.h"            // More specific tensor operations, nullNormalize etc.
 #include "FourierHarmonics.h"       // Fourier harmonic functions and fourier transforms.
@@ -11,11 +10,14 @@ class Radiation
 {
 private:
     // Constants:
+    static constexpr int HALO = 1;
     static constexpr double MIN_FLUX_NORM = 1e-16;
     static constexpr double MIN_ENERGY_DENSITY = 1e-16;
     static constexpr double LAMBDA_ITTERATION_TOLERENCE = 1e-12;
     static constexpr int MAX_LAMBDA_ITERATIONS = 100;
     static constexpr double MAX_INTERPOLATION_ERROR = 0.01; // in %
+    static constexpr double etaCGStoCode = 7.67822;
+    static constexpr double kappaCGStoCode = 1.47760;
 
 public:
     Grid &grid;
@@ -39,6 +41,8 @@ public:
     RealBuffer initialEta;
     RealBuffer initialI;
     RealBuffer initialFluxAngle_IF;
+    // kappa* and eta must be givne in CGS units
+    // and will be converted to code units in the LoadInitialData() method.
 
     RealBuffer sigma;
     RealBuffer normalization;
@@ -100,6 +104,7 @@ public:
 
     void CollideStaticFluidForwardEuler();
     void CollideStaticFluidBackwardEuler();
+    void CollideStaticFluidBackwardEuler2();
     void CollideForwardEuler();
     void CollideBackwardEuler();
 

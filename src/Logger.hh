@@ -36,7 +36,7 @@ public:
 
         // Derived from simulation parameters:
         timeSteps = ceil(simTime / metric.grid.dt);
-        simTime = timeSteps * metric.grid.dt;
+        this->simTime = simTime = timeSteps * metric.grid.dt;
 
         // Creation time:
         auto t = std::time(nullptr);

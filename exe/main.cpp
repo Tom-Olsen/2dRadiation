@@ -2,7 +2,7 @@
 #include "../src/Radiation.h"
 using namespace std;
 
-void StraightBeam(Stencil stencil, StreamingType streamingType, double cfl, Tensor2 F)
+void StraightBeam(Stencil stencil, StreamingType streamingType, double cfl)
 {
     // Create Radiation object:
     size_t nx = 900 + 1 + 2;
@@ -19,7 +19,7 @@ void StraightBeam(Stencil stencil, StreamingType streamingType, double cfl, Tens
     // Config:
     Config config =
         {
-            .name = "Straight Beam 2d/" + StreamingName(streamingType) + " " + stencil.name + "(" + Format(F[1], 1) + "," + Format(F[2], 1) + ")F" + Format(cfl, 2) + "cfl",
+            .name = "Straight Beam 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(cfl, 2) + "cfl",
             .t0 = 0,
             .simTime = 2.8,
             .writePeriod = 3, // write first and last frame only.
@@ -49,8 +49,8 @@ void StraightBeam(Stencil stencil, StreamingType streamingType, double cfl, Tens
             {
                 radiation.isInitialGridPoint[ij] = true;
                 radiation.initialE_LF[ij] = 1;
-                radiation.initialFx_LF[ij] = F[1];
-                radiation.initialFy_LF[ij] = F[2];
+                radiation.initialFx_LF[ij] = 1;
+                radiation.initialFy_LF[ij] = 0;
             }
         }
     radiation.RunSimulation();
@@ -178,7 +178,7 @@ void StraightBeamShadow(Stencil stencil, StreamingType streamingType, double cfl
     radiation.RunSimulation();
 }
 
-void SphereWave(Stencil stencil, StreamingType streamingType, double F, double cfl)
+void SphereWave(Stencil stencil, StreamingType streamingType, double cfl)
 {
     // Create Radiation object:
     size_t nx, ny;
@@ -193,7 +193,7 @@ void SphereWave(Stencil stencil, StreamingType streamingType, double F, double c
     // Config:
     Config config =
         {
-            .name = "Sphere Wave 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(F, 1) + "F" + Format(cfl, 2) + "cfl",
+            .name = "Sphere Wave 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(cfl, 2) + "cfl",
             .t0 = 0,
             .simTime = 0.7,
             .writePeriod = 1, // write first and last frame only.
@@ -223,14 +223,14 @@ void SphereWave(Stencil stencil, StreamingType streamingType, double F, double c
             {
                 radiation.isInitialGridPoint[ij] = true;
                 radiation.initialE_LF[ij] = 1;
-                radiation.initialFx_LF[ij] = xy[1] * F;
-                radiation.initialFy_LF[ij] = xy[2] * F;
+                radiation.initialFx_LF[ij] = xy[1] / r;
+                radiation.initialFy_LF[ij] = xy[2] / r;
             }
         }
     radiation.RunSimulation();
 }
 
-void SphereWaveShadow(Stencil stencil, StreamingType streamingType, double F, double cfl)
+void SphereWaveShadow(Stencil stencil, StreamingType streamingType, double cfl)
 {
     // Create Radiation object:
     size_t nx, ny;
@@ -245,7 +245,7 @@ void SphereWaveShadow(Stencil stencil, StreamingType streamingType, double F, do
     // Config:
     Config config =
         {
-            .name = "Sphere Wave Shadow 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(F, 1) + "F" + Format(cfl, 2) + "cfl",
+            .name = "Sphere Wave Shadow 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(cfl, 2) + "cfl",
             .t0 = 0,
             .simTime = 1.55,
             .writePeriod = 2, // write first and last frame only.
@@ -278,8 +278,8 @@ void SphereWaveShadow(Stencil stencil, StreamingType streamingType, double F, do
             {
                 radiation.isInitialGridPoint[ij] = true;
                 radiation.initialE_LF[ij] = 1;
-                radiation.initialFx_LF[ij] = F * xy[1];
-                radiation.initialFy_LF[ij] = F * xy[2];
+                radiation.initialFx_LF[ij] = xy[1] / r;
+                radiation.initialFy_LF[ij] = xy[2] / r;
             }
             double dist = (center - xy).EuklNorm();
             if (dist <= shadowRadius)
@@ -339,23 +339,9 @@ void CurvedBeam(Stencil stencil, StreamingType streamingType, double cfl)
                 Tensor2 vLF = Vec2ObservedByEulObs<LF, LF>(uLF, xy, metric);
                 radiation.isInitialGridPoint[ij] = true;
                 radiation.initialE_LF[ij] = 1;
-                radiation.initialFx_LF[ij] = 1 * vLF[1];
-                radiation.initialFy_LF[ij] = 1 * vLF[2];
-
-                // Tensor3 uLF(1,1,0);
-                // uLF = NullNormalize(uLF,metric.GetMetric_ll(ij));
-                // Tensor2 vLF = Vec2ObservedByEulObs<LF,LF>(uLF, xy, metric);
-                // double E = 2;
-                // Tensor3 vec(E, vLF[1], vLF[2]);
-                // vec = NullNormalize(vec,metric.GetMetric_ll(ij));
-                // radiation.isInitialGridPoint[ij] = true;
-                // radiation.initialE_LF[ij]  = vec[0];
-                // radiation.initialFx_LF[ij] = vec[1];
-                // radiation.initialFy_LF[ij] = vec[2];
-                //  vec.Print("vec");
-                //  PrintDouble(Norm2(vec,metric.GetMetric_ll(ij)), "|vec|");
-                //  vLF.Print("vLF");
-                //  PrintDouble(Norm2(vLF,metric.GetGamma_ll(ij)), "|vLF|");
+                // High F, will be normalized to |F| = E anyway:
+                radiation.initialFx_LF[ij] = 10 * vLF[1];
+                radiation.initialFy_LF[ij] = 10 * vLF[2];
             }
         }
     radiation.RunSimulation();
@@ -401,7 +387,7 @@ void Diffusion(Stencil stencil, StreamingType streamingType, double cfl)
     // double kappa1 = kappa0 * lambda / 3.0;
 
     // Initial Data Lucas:
-    double kappa0 = 100;
+    double kappa0 = 100; // kappa0=0 not allowed by analytic initial data!
     double lambda = 0.0;
     double kappa1 = kappa0 * lambda / 3.0;
     double A = 1;
@@ -495,7 +481,6 @@ void TestBeam(Stencil stencil, StreamingType streamingType, double cfl, Tensor2 
 
 // TODO:
 // -fix kerr metric initial direction?
-// -try higher cfl condition
 // -test Halo=1 vs Halo=2
 int main(int argc, char *argv[])
 {
@@ -518,11 +503,11 @@ int main(int argc, char *argv[])
 
     // Straight Beam Shadow:
     // if (n == 0)
-    // StraightBeamShadow(Stencil(200, 0), StreamingType::FlatFixed, 0.75);
+    //     StraightBeamShadow(Stencil(200, 0), StreamingType::FlatFixed, 0.75);
     // if (n == 1)
-    // StraightBeamShadow(Stencil(100, 10), StreamingType::FlatAdaptive, 0.75);
+    //     StraightBeamShadow(Stencil(100, 10), StreamingType::FlatAdaptive, 0.75);
     // if (n == 2)
-    // StraightBeamShadow(Stencil(110, 0), StreamingType::FlatAdaptive, 0.75);
+    //     StraightBeamShadow(Stencil(110, 0), StreamingType::FlatAdaptive, 0.75);
 
     // Sphere Wave
     // if(n==1) SphereWave(Stencil(60,0), StreamingType::FlatFixed   , 0, 0.75);
@@ -543,18 +528,18 @@ int main(int argc, char *argv[])
     //     CurvedBeam(Stencil(100, 10), StreamingType::CurvedAdaptive, 0.75);
 
     // Diffusion:
-    // if (n == 0)
-    //     Diffusion(Stencil(200, 0), StreamingType::FlatFixed, 0.2);
-    // if (n == 1)
-    //     Diffusion(Stencil(110, 0), StreamingType::FlatAdaptive, 0.2);
-    // if (n == 2)
-    //     Diffusion(Stencil(100, 10), StreamingType::FlatAdaptive, 0.2);
+    if (n == 0)
+        Diffusion(Stencil(200, 0), StreamingType::FlatFixed, 0.2);
+    if (n == 1)
+        Diffusion(Stencil(110, 0), StreamingType::FlatAdaptive, 0.2);
+    if (n == 2)
+        Diffusion(Stencil(100, 10), StreamingType::FlatAdaptive, 0.2);
 
     // Testing:
-    if (n == 0)
-        TestBeam(Stencil(200), StreamingType::FlatFixed, 0.75, Tensor2(1, 1));
-    if (n == 1)
-        TestBeam(Stencil(110), StreamingType::FlatAdaptive, 0.75, Tensor2(1, 1));
-    if (n == 2)
-        TestBeam(Stencil(100, 10), StreamingType::FlatAdaptive, 0.75, Tensor2(1, 1));
+    // if (n == 0)
+    //    TestBeam(Stencil(200), StreamingType::FlatFixed, 0.75, Tensor2(1, 1));
+    // if (n == 1)
+    //    TestBeam(Stencil(110), StreamingType::FlatAdaptive, 0.75, Tensor2(1, 1));
+    // if (n == 2)
+    //    TestBeam(Stencil(100, 10), StreamingType::FlatAdaptive, 0.75, Tensor2(1, 1));
 }

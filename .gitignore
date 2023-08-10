@@ -9,6 +9,12 @@
 
 # Output:
 output/
-KerrSchild Error/
-SchwarzSchild Error/
 slurm*
+
+# Build files:
+build/.cmake
+build/CMakeFiles
+build/cmake_install.cmake
+build/CMakeCache.txt
+build/compile_commands.json
+build/Makefile

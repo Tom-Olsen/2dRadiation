@@ -7,6 +7,16 @@
 #include "../src/Interpolation.h"
 using namespace std;
 
+void UnitQuadrature(const Stencil &stencil)
+{
+    double E = 0;
+    for (int d = 0; d < stencil.nDir; d++)
+    {
+        E += stencil.W(d) * 1.0;
+    }
+    PrintDouble(E, "E");
+}
+
 void Quadrature(const Stencil &stencil)
 {
     cout << "nDir = " << stencil.nDir << endl;
@@ -142,13 +152,14 @@ void Interpolation(const Stencil &stencil)
 
 int main()
 {
+    UnitQuadrature(Stencil(20, 5));
     // Quadrature(Stencil(5,0));
     // Interpolation(Stencil(9,5));
     // Interpolation(Stencil(15,5));
     // Interpolation(Stencil(30,10));
 
     // Stencil(20, 5).interpolationGrid.Print();
-    Stencil(100, 0).Print();
+    // Stencil(100, 0).Print();
     // Stencil(50,10).WriteToCsv();
     // Stencil(9,5).interpolationGrid.Print();
 }

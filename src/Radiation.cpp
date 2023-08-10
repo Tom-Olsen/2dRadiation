@@ -1,7 +1,5 @@
 #include "Radiation.h"
 
-#define HALO 1
-
 Radiation::Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil, Config config)
     : grid(metric.grid), metric(metric), stencil(stencil), streamingStencil(streamingStencil), config(config), logger(stencil, streamingStencil, metric)
 {
@@ -85,7 +83,6 @@ Tensor3 Radiation::InitialDataLFtoIF(size_t ij)
     double initialPxx_IF = EnergyMomentumTensorLF[{1, 1}];
     double initialPxy_IF = EnergyMomentumTensorLF[{1, 2}];
     double initialPyy_IF = EnergyMomentumTensorLF[{2, 2}];
-    double initialPyz_IF = EnergyMomentumTensorLF[{2, 3}];
 
     // |F| > E is unphysical:
     double initialF_IF = Tensor2(initialFx_IF, initialFy_IF).EuklNorm();
@@ -96,24 +93,6 @@ Tensor3 Radiation::InitialDataLFtoIF(size_t ij)
     }
 
     return Tensor3(initialE_IF, initialFx_IF, initialFy_IF);
-
-    //// Transform given initial E_LF, Fx_LF, Fy_LF into initial E_IF, Fx_IF, Fy_IF:
-    // Tensor3x3 tetrad = metric.GetTetrad(ij);
-    // double initialE_IF = initialE_LF[ij] / IntegerPow<2>(tetrad[{0, 0}]);
-    // double A = initialFx_LF[ij] / tetrad[{0, 0}] - tetrad[{1, 0}] * initialE_IF;
-    // double B = initialFy_LF[ij] / tetrad[{0, 0}] - tetrad[{2, 0}] * initialE_IF;
-    // double initialFx_IF = (A * tetrad[{2, 2}] - B * tetrad[{1, 2}]) / (tetrad[{1, 1}] * tetrad[{2, 2}] - tetrad[{2, 1}] * tetrad[{1, 2}]);
-    // double initialFy_IF = (A * tetrad[{2, 1}] - B * tetrad[{1, 1}]) / (tetrad[{1, 2}] * tetrad[{2, 1}] - tetrad[{2, 2}] * tetrad[{1, 1}]);
-    // double initialF_IF = Tensor2(initialFx_IF, initialFy_IF).EuklNorm();
-    //
-    //// |F| > E is unphysical:
-    // if (initialF_IF > initialE_IF)
-    //{
-    //     initialFx_IF *= initialE_IF / initialF_IF;
-    //     initialFy_IF *= initialE_IF / initialF_IF;
-    // }
-    //
-    // return Tensor3(initialE_IF, initialFx_IF, initialFy_IF);
 }
 void Radiation::InitSigmaAndNormalization()
 {
@@ -126,54 +105,47 @@ void Radiation::InitSigmaAndNormalization()
         if (!isInitialGridPoint[ij])
             continue;
 
-        RealBuffer Ioriginal;
-        Ioriginal.resize(stencil.nDir);
-
         // Convert given LF initial data to IF:
         Tensor3 initialDataIF = InitialDataLFtoIF(ij);
-        double E_IF = initialDataIF[0];
-        double Fx_IF = initialDataIF[1];
-        double Fy_IF = initialDataIF[2];
+        double initialE_IF = initialDataIF[0];
+        double initialFx_IF = initialDataIF[1];
+        double initialFy_IF = initialDataIF[2];
 
         // Flux angle and magnitude in IF:
-        Tensor2 Fxy_IF(Fx_IF, Fy_IF);
-        double F_IF = Fxy_IF.EuklNorm();
-        initialFluxAngle_IF[ij] = Fxy_IF.Phi();
-        Tensor2 dirF = (isAdaptiveStreaming) ? Tensor2(1, 0) : Tensor2(Fx_IF / F_IF, Fy_IF / F_IF);
+        Tensor2 initialFxy_IF(initialFx_IF, initialFy_IF);
+        double initialF_IF = initialFxy_IF.EuklNorm();
+        initialFluxAngle_IF[ij] = initialFxy_IF.Phi();
+        Tensor2 dirInitialF = (isAdaptiveStreaming) ? Tensor2(1, 0) : Tensor2(initialFx_IF / initialF_IF, initialFy_IF / initialF_IF);
 
         // Catch uniform distibution:
-        if (F_IF < MIN_FLUX_NORM)
+        if (initialF_IF < MIN_FLUX_NORM)
         {
             initialFluxAngle_IF[ij] = 0;
             sigma[ij] = 0;
             normalization[ij] = 0;
             for (int d = 0; d < stencil.nDir; d++)
-            {
-                double Id = 1.0;
-                double c = stencil.W(d) * Id;
-                normalization[ij] += c;
-            }
+                normalization[ij] += stencil.W(d) * 1.0;
             normalization[ij] = log(normalization[ij]);
             continue;
         }
 
         // Prepare normalization factor and sigma search:
-        sigma[ij] = -1;
+        sigma[ij] = 0;
         double currentF = 0;
-        int refinement = 0;
+        int refinement = 2; // start with 1e2=100 steps in sigma search.
         double lastGoodSigma = -1;
-        while (abs(currentF - F_IF) / F_IF > 0.001) // while difference bigger 0.1%
+        while (abs(currentF - initialF_IF) / initialF_IF > 0.001) // while difference bigger 0.1%
         {
             // Adjust sigma:
-            if (currentF < F_IF)
-                // Inscrese sigma:
-                sigma[ij] += pow(10, -refinement);
-            else if (currentF > F_IF)
+            if (currentF < initialF_IF)
+                // Increase sigma:
+                sigma[ij] += pow(10, refinement);
+            else if (currentF > initialF_IF)
             {
                 // Go back to previous sigma and make sigma step one magnitude smaller:
-                sigma[ij] -= pow(10, -refinement);
-                refinement++;
-                if (refinement > 10) // 10 digits after decimal point.
+                sigma[ij] -= pow(10, refinement);
+                refinement--;
+                if (refinement < -10) // 10 digits after decimal point.
                 {
                     sigma[ij] = lastGoodSigma;
                     break;
@@ -188,11 +160,7 @@ void Radiation::InitSigmaAndNormalization()
             // Determine normalization for current sigma value:
             normalization[ij] = 0;
             for (int d = 0; d < stencil.nDir; d++)
-            {
-                double Id = exp(sigma[ij] * Tensor2::Dot(dirF, stencil.C(d)));
-                double c = stencil.W(d) * Id;
-                normalization[ij] += c;
-            }
+                normalization[ij] += stencil.W(d) * exp(sigma[ij] * Tensor2::Dot(dirInitialF, stencil.C(d)));
             normalization[ij] = log(normalization[ij]);
 
             // Calculate moments with current sigma value:
@@ -201,14 +169,22 @@ void Radiation::InitSigmaAndNormalization()
             double currentFy = 0;
             for (int d = 0; d < stencil.nDir; d++)
             {
-                Ioriginal[d] = E_IF * exp(sigma[ij] * Tensor2::Dot(dirF, stencil.C(d)) - normalization[ij]);
+                I[Index(ij, d)] = initialE_IF * exp(sigma[ij] * Tensor2::Dot(dirInitialF, stencil.C(d)) - normalization[ij]);
                 Tensor2 dir = RotationMatrix((isAdaptiveStreaming) ? initialFluxAngle_IF[ij] : 0) * stencil.C(d);
-                double c = stencil.W(d) * Ioriginal[d];
+                double c = stencil.W(d) * I[Index(ij, d)];
                 currentE += c;
                 currentFx += c * dir[1];
                 currentFy += c * dir[2];
             }
             currentF = Tensor2(currentFx, currentFy).EuklNorm();
+
+            // Debugging:
+            // int i = grid.i(ij);
+            // int j = grid.j(ij);
+            // if ((i == 1) && (j == grid.ny / 2))
+            // {
+            //     std::cout << Format(currentE) << ", " << Format(currentFx) << ", " << Format(currentFy) << ", " << Format(sigma[ij]) << std::endl;
+            // }
 
             // Check if interpolation error is acceptable:
             double averageError = 0;
@@ -216,18 +192,18 @@ void Radiation::InitSigmaAndNormalization()
             for (int d = 0; d < stencil.interpolationGrid.nGrid; d++)
             {
                 // Skip angles outside the +-deltaPhi/2 range in which most of the ghost directions are arranged:
-                if (acos(Tensor2::Dot(dirF, stencil.interpolationGrid.C(d))) > stencil.deltaPhi / 2.0)
+                if (acos(Tensor2::Dot(dirInitialF, stencil.interpolationGrid.C(d))) > stencil.deltaPhi / 2.0)
                     continue;
 
                 // Analytic intensity:
-                double analyticValue = E_IF * exp(sigma[ij] * Tensor2::Dot(dirF, stencil.interpolationGrid.C(d)) - normalization[ij]);
+                double analyticValue = initialE_IF * exp(sigma[ij] * Tensor2::Dot(dirInitialF, stencil.interpolationGrid.C(d)) - normalization[ij]);
 
                 // Cubic interpolated intensity:
                 std::array<size_t, 4> neighbourIndexesCubic = stencil.interpolationGrid.neighbourIndexesCubic[d];
                 std::array<double, 4> neighbourWeightsCubic = stencil.interpolationGrid.neighbourWeightsCubic[d];
                 double interpolatetValue = 0;
-                for (size_t k = 0; k < 4; k++)
-                    interpolatetValue += neighbourWeightsCubic[k] * Ioriginal[neighbourIndexesCubic[k]];
+                for (size_t p = 0; p < 4; p++)
+                    interpolatetValue += neighbourWeightsCubic[p] * I[Index(ij, neighbourIndexesCubic[p])];
 
                 // Error:
                 double error = std::abs((analyticValue - interpolatetValue) / analyticValue);
@@ -237,12 +213,13 @@ void Radiation::InitSigmaAndNormalization()
             averageError /= count;
 
             if (averageError > MAX_INTERPOLATION_ERROR)
-                currentF = F_IF + 1e100; // trigger search refinement!
+                currentF = initialF_IF + 1e100; // trigger search refinement!
             else
                 lastGoodSigma = sigma[ij];
         }
     }
 }
+
 double Radiation::SigmaMax()
 {
     double sigmaMax = 0;
@@ -259,13 +236,13 @@ double Radiation::FluxMax()
             continue;
 
         Tensor3 initialDataIF = InitialDataLFtoIF(ij);
-        double E_IF = initialDataIF[0];
-        double Fx_IF = initialDataIF[1];
-        double Fy_IF = initialDataIF[2];
+        double initialE_IF = initialDataIF[0];
+        double initialFx_IF = initialDataIF[1];
+        double initialFy_IF = initialDataIF[2];
 
         // Intendet initial data flux norm:
-        Tensor2 Fxy_IF(Fx_IF, Fy_IF);
-        double F_IF = Fxy_IF.EuklNorm();
+        Tensor2 initialFxy_IF(initialFx_IF, initialFy_IF);
+        double initialF_IF = initialFxy_IF.EuklNorm();
 
         // Actual initial data flux norm:
         double currentFx = 0.0;
@@ -280,8 +257,8 @@ double Radiation::FluxMax()
         }
         double currentF = Tensor2(currentFx, currentFy).EuklNorm();
 
-        if (F_IF != 0)
-            fluxMax = std::max(fluxMax, currentF / F_IF);
+        if (initialF_IF != 0)
+            fluxMax = std::max(fluxMax, currentF / initialF_IF);
     }
     return fluxMax;
 }
@@ -294,22 +271,27 @@ void Radiation::LoadInitialData()
     PARALLEL_FOR(1)
     for (size_t ij = 0; ij < grid.nxy; ij++)
     {
+        if (!isInitialGridPoint[ij])
+            continue;
+
         // Convert given LF initial data to IF:
         Tensor3 initialDataIF = InitialDataLFtoIF(ij);
-        double E_IF = initialDataIF[0];
-        double Fx_IF = initialDataIF[1];
-        double Fy_IF = initialDataIF[2];
+        double initialE_IF = initialDataIF[0];
+        double initialFx_IF = initialDataIF[1];
+        double initialFy_IF = initialDataIF[2];
 
-        // Flux angle and magnitude in IF:
-        Tensor2 Fxy_IF(Fx_IF, Fy_IF);
-        double F_IF = Fxy_IF.EuklNorm();
-        initialFluxAngle_IF[ij] = Fxy_IF.Phi();
-        Tensor2 dirF = (isAdaptiveStreaming) ? Tensor2(1, 0) : Tensor2(Fx_IF / F_IF, Fy_IF / F_IF);
+        // Flux direction and magnitude in IF:
+        Tensor2 initialFxy_IF(initialFx_IF, initialFy_IF);
+        double initialF_IF = initialFxy_IF.EuklNorm();
+        Tensor2 dirInitialF = (isAdaptiveStreaming) ? Tensor2(1, 0) : Tensor2(initialFx_IF / initialF_IF, initialFy_IF / initialF_IF);
+        if (initialF_IF < MIN_FLUX_NORM)
+            dirInitialF = Tensor2(1, 0);
 
-        kappa0[ij] = initialKappa0[ij];
-        kappa1[ij] = initialKappa1[ij];
-        kappaA[ij] = initialKappaA[ij];
-        eta[ij] = initialEta[ij];
+        // CSG to code unit coversion:
+        kappa0[ij] = kappaCGStoCode * initialKappa0[ij];
+        kappa1[ij] = kappaCGStoCode * initialKappa1[ij];
+        kappaA[ij] = kappaCGStoCode * initialKappaA[ij];
+        eta[ij] = etaCGStoCode * initialEta[ij];
         if (config.initialDataType == InitialDataType::Moments)
         {
             // Von Mises distribution:
@@ -318,7 +300,7 @@ void Radiation::LoadInitialData()
             {
                 rotationAngle[ij] = (isAdaptiveStreaming) ? initialFluxAngle_IF[ij] : 0;
                 for (size_t d = 0; d < stencil.nDir; d++)
-                    I[Index(ij, d)] = E_IF * exp(sigma[ij] * Tensor2::Dot(dirF, stencil.C(d)) - normalization[ij]);
+                    I[Index(ij, d)] = initialE_IF * exp(sigma[ij] * Tensor2::Dot(dirInitialF, stencil.C(d)) - normalization[ij]);
             }
         }
         else if (config.initialDataType == InitialDataType::Intensities)
@@ -395,6 +377,10 @@ void Radiation::ComputeMomentsIF()
         Pyy[ij] = 0.0;
         for (size_t d = 0; d < stencil.nDir; d++)
         {
+            // Skip ghost directions:
+            if (stencil.W(d) == 0.0)
+                continue;
+
             Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
             size_t index = Index(ij, d);
             double c = stencil.W(d) * I[index];
@@ -742,7 +728,7 @@ void Radiation::CollideStaticFluidBackwardEuler()
 {
     PROFILE_FUNCTION();
 
-    int highestIteration = 0;
+    // int highestIteration = 0;
     // std::mutex mutex;
     PARALLEL_FOR(2)
     for (size_t j = HALO; j < grid.ny - HALO; j++)
@@ -751,11 +737,12 @@ void Radiation::CollideStaticFluidBackwardEuler()
             if (metric.InsideBH(grid.xy(i, j)))
                 continue;
             size_t ij = grid.Index(i, j);
-            double diff = 1;
 
             double alpha = metric.GetAlpha(ij);
+            double guessGammaLinear = 1.0 + alpha * grid.dt * (kappaA[ij] + kappa0[ij]);
 
-            int cycles = -1;
+            int cycles = 0;
+            double diff = 1;
             while (abs(diff) > LAMBDA_ITTERATION_TOLERENCE && (cycles < MAX_LAMBDA_ITERATIONS))
             {
                 cycles++;
@@ -765,6 +752,7 @@ void Radiation::CollideStaticFluidBackwardEuler()
                 double guessPxx = Pxx[ij];
                 double guessPxy = Pxy[ij];
                 double guessPyy = Pyy[ij];
+                double partOfGammaNoneLinear = eta[ij] + kappa0[ij] * guessE;
 
                 E[ij] = 0.0;
                 Fx[ij] = 0.0;
@@ -778,9 +766,8 @@ void Radiation::CollideStaticFluidBackwardEuler()
                     size_t index = Index(ij, d);
                     double cDotGuessF = dir[1] * guessFx + dir[2] * guessFy;
 
-                    double GuessGammaNoneLinear = eta[ij] + kappa0[ij] * guessE + 3.0 * kappa1[ij] * cDotGuessF;
-                    double GuessGammaLinear = 1.0 + alpha * grid.dt * (kappaA[ij] + kappa0[ij]);
-                    Inew[index] = (I[index] + alpha * grid.dt * GuessGammaNoneLinear) / GuessGammaLinear;
+                    double guessGammaNoneLinear = partOfGammaNoneLinear + 3.0 * kappa1[ij] * cDotGuessF;
+                    Inew[index] = (I[index] + alpha * grid.dt * guessGammaNoneLinear) / guessGammaLinear;
 
                     double c = stencil.W(d) * Inew[index];
                     E[ij] += c;
@@ -790,13 +777,13 @@ void Radiation::CollideStaticFluidBackwardEuler()
                     Pxy[ij] += c * dir[1] * dir[2];
                     Pyy[ij] += c * dir[2] * dir[2];
                 }
-                double diffE = abs((guessE - E[ij]) / E[ij]);
-                double diffFx = abs((guessFx - Fx[ij]) / Fx[ij]);
-                double diffFy = abs((guessFy - Fy[ij]) / Fy[ij]);
-                double diffPxx = abs((guessPxx - Pxx[ij]) / Pxx[ij]);
-                double diffPxy = abs((guessPxy - Pxy[ij]) / Pxy[ij]);
-                double diffPyy = abs((guessPyy - Pyy[ij]) / Pyy[ij]);
-                diff = diffE + diffFx + diffFy + diffPxx + diffPxy + diffPyy;
+                double diffE = IntegerPow<2>((guessE - E[ij]) / E[ij]);
+                double diffFx = IntegerPow<2>((guessFx - Fx[ij]) / Fx[ij]);
+                double diffFy = IntegerPow<2>((guessFy - Fy[ij]) / Fy[ij]);
+                double diffPxx = IntegerPow<2>((guessPxx - Pxx[ij]) / Pxx[ij]);
+                double diffPxy = IntegerPow<2>((guessPxy - Pxy[ij]) / Pxy[ij]);
+                double diffPyy = IntegerPow<2>((guessPyy - Pyy[ij]) / Pyy[ij]);
+                diff = sqrt(diffE + diffFx + diffFy + diffPxx + diffPxy + diffPyy);
             }
             //{
             //    std::lock_guard<std::mutex> lock(mutex);
@@ -804,6 +791,66 @@ void Radiation::CollideStaticFluidBackwardEuler()
             //}
         }
     // std::cout << " highestIteration = " << highestIteration << std::endl;
+    std::swap(I, Inew);
+}
+void Radiation::CollideStaticFluidBackwardEuler2()
+{
+    // Uses inverse of E matrix instead of only linear term. Does not converge at all!
+    PROFILE_FUNCTION();
+
+    double wSum = 0;
+    for (int d = 0; d < stencil.nDir; d++)
+        wSum += stencil.W(d);
+
+    PARALLEL_FOR(2)
+    for (size_t j = HALO; j < grid.ny - HALO; j++)
+        for (size_t i = HALO; i < grid.nx - HALO; i++)
+        {
+            if (metric.InsideBH(grid.xy(i, j)))
+                continue;
+            size_t ij = grid.Index(i, j);
+
+            // Constants:
+            double alpha = metric.GetAlpha(ij);
+            double a = 1.0 + kappa0[ij] + kappaA[ij];
+            double b = a - wSum;
+            double D = a * b;
+            double GuessGammaLinear = 1.0 + alpha * grid.dt * (kappaA[ij] + kappa0[ij]);
+
+            int cycles = 0;
+            double diff = 1;
+            while (abs(diff) > LAMBDA_ITTERATION_TOLERENCE && (cycles < MAX_LAMBDA_ITERATIONS))
+            {
+                cycles++;
+                double guessFx = Fx[ij];
+                double guessFy = Fy[ij];
+
+                Fx[ij] = 0.0;
+                Fy[ij] = 0.0;
+                for (size_t d = 0; d < stencil.nDir; d++)
+                {
+                    size_t index = Index(ij, d);
+
+                    Inew[index] = 0;
+                    for (size_t k = 0; k < stencil.nDir; k++)
+                    {
+                        Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(k);
+                        double cDotGuessF = dir[1] * guessFx + dir[2] * guessFy;
+                        double GuessGammaNoneLinear = eta[ij] + 3.0 * kappa1[ij] * cDotGuessF;
+                        Inew[index] += (stencil.W(d) + (d == k) * b) * (I[Index(ij, k)] + alpha * grid.dt * GuessGammaNoneLinear);
+                    }
+                    Inew[index] /= D;
+
+                    Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
+                    double c = stencil.W(d) * Inew[index];
+                    Fx[ij] += c * dir[1];
+                    Fy[ij] += c * dir[2];
+                }
+                double diffFx = abs((guessFx - Fx[ij]) / Fx[ij]);
+                double diffFy = abs((guessFy - Fy[ij]) / Fy[ij]);
+                diff = diffFx + diffFy;
+            }
+        }
     std::swap(I, Inew);
 }
 void Radiation::CollideForwardEuler()
@@ -854,13 +901,14 @@ void Radiation::CollideBackwardEuler()
             if (metric.InsideBH(grid.xy(i, j)))
                 continue;
             size_t ij = grid.Index(i, j);
-            double diff = 1;
 
             double alpha = metric.GetAlpha(ij);
+            double guessGammaLinear = 1.0 + alpha * grid.dt * (kappaA[ij] + kappa0[ij]);
             Tensor2 u(0.0);                                                // fluid 2 velocity as seen by Eulerian observer
             double W = 1.0 / sqrt(1.0 - Norm2(u, metric.GetGamma_ll(ij))); // Lorentz factor
 
-            int cycles = -1;
+            int cycles = 0;
+            double diff = 1;
             while (abs(diff) > LAMBDA_ITTERATION_TOLERENCE && (cycles < MAX_LAMBDA_ITERATIONS))
             {
                 cycles++;
@@ -878,6 +926,7 @@ void Radiation::CollideBackwardEuler()
                 double guessFluidE = W * W * (guessE - 2.0 * uDotF + uuDotP);
                 double guessFluidFx = W * W * W * (2.0 * uDotF - guessE - uuDotP) * u[1] + W * (guessFx - uDotPx);
                 double guessFluidFy = W * W * W * (2.0 * uDotF - guessE - uuDotP) * u[2] + W * (guessFy - uDotPy);
+                double partOfGammaNoneLinear = eta[ij] + kappa0[ij] * guessFluidE;
 
                 E[ij] = 0.0;
                 Fx[ij] = 0.0;
@@ -892,9 +941,8 @@ void Radiation::CollideBackwardEuler()
                     double A = W * (1.0 - Tensor2::Dot(dir, u));
                     double cDotGuessFluidF = dir[1] * guessFluidFx + dir[2] * guessFluidFy;
 
-                    double GuessGammaNoneLinear = (eta[ij] + kappa0[ij] * guessFluidE + 3.0 * kappa1[ij] * cDotGuessFluidF) / (A * A * A);
-                    double GuessGammaLinear = 1.0 + alpha * grid.dt * A * (kappaA[ij] + kappa0[ij]);
-                    Inew[index] = (I[index] + alpha * grid.dt * GuessGammaNoneLinear) / GuessGammaLinear;
+                    double guessGammaNoneLinear = (partOfGammaNoneLinear + 3.0 * kappa1[ij] * cDotGuessFluidF) / (A * A * A);
+                    Inew[index] = (I[index] + alpha * grid.dt * guessGammaNoneLinear) / guessGammaLinear;
 
                     double c = stencil.W(d) * Inew[index];
                     E[ij] += c;
@@ -923,6 +971,10 @@ void Radiation::CollideBackwardEuler()
 
 void Radiation::RunSimulation()
 {
+    // Initialize Profiler:
+    Profiler::Session &session = Profiler::Session::Get();
+    session.Start(config.name, "output/" + config.name + "/profileResults.json");
+
     // -------------------- Initialization --------------------
     InitSigmaAndNormalization();
     LoadInitialData();
@@ -950,8 +1002,6 @@ void Radiation::RunSimulation()
     // --------------------------------------------------------
 
     // ----------------- Main simulation Loop -----------------
-    Profiler::Session &session = Profiler::Session::Get();
-    session.Start(config.name, "output/" + config.name + "/profileResults.json");
     {
         PROFILE_SCOPE("Total Time");
         double currentTime = config.t0;
@@ -995,6 +1045,7 @@ void Radiation::RunSimulation()
             ComputeMomentsIF();
             // CollideStaticFluidForwardEuler();
             CollideStaticFluidBackwardEuler();
+            // CollideStaticFluidBackwardEuler2();
             // CollideForwardEuler();
             // CollideBackwardEuler();
 
@@ -1026,6 +1077,7 @@ void Radiation::RunSimulation()
         }
     }
     // --------------------------------------------------------
+    // Terminate profiler:
     session.End();
 
     // ---------------------- Termination ---------------------
