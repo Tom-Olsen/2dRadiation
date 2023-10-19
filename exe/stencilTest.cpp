@@ -168,6 +168,6 @@ int main()
     for (int d = 0; d < s.nDir; d++)
         sum += s.W(d);
     cout << sum << endl;
-    s.fluxToSigmaTable.WriteToCsv("sigmaTable", -1);
-    s.fluxToNormalizationTable.WriteToCsv("normalizationTable", -1);
+    s.fluxToSigmaTable.WriteToCsv("../output/sigmaTable", -1);
+    s.fluxToNormalizationTable.WriteToCsv("../output/normalizationTable", -1);
 }
