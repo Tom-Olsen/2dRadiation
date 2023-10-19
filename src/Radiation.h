@@ -13,12 +13,9 @@ private:
     static constexpr int HALO = 1;
     static constexpr double MIN_FLUX_NORM = 1e-16;
     static constexpr double MIN_ENERGY_DENSITY = 1e-16;
-    static constexpr double LAMBDA_ITTERATION_TOLERENCE = 1e-12;
+    static constexpr double LAMBDA_ITTERATION_TOLERENCE = 1e-6;
     static constexpr int MAX_LAMBDA_ITERATIONS = 100;
-    static constexpr double MAX_INTERPOLATION_ERROR = 0.01; // in %
-    // Units conversion is not correct yet!
-    double etaCGStoCode = 7.67822;
-    double kappaCGStoCode = 1.47760;
+    static constexpr double MAX_INTERPOLATION_ERROR = 0.01; // 1%
 
 public:
     Grid &grid;
@@ -45,8 +42,6 @@ public:
     // kappa* and eta must be givne in CGS units
     // and will be converted to code units in the LoadInitialData() method.
 
-    RealBuffer sigma;
-    RealBuffer normalization;
     RealBuffer rotationAngle;
     RealBuffer rotationAngleNew;
     RealBuffer E;
@@ -58,6 +53,7 @@ public:
     RealBuffer E_LF;
     RealBuffer Fx_LF;
     RealBuffer Fy_LF;
+    RealBuffer F_LF;
     RealBuffer Pxx_LF;
     RealBuffer Pxy_LF;
     RealBuffer Pyy_LF;
@@ -89,7 +85,6 @@ public:
     Tensor2 AverageF(size_t i, size_t j);
 
     Tensor3 InitialDataLFtoIF(size_t ij);
-    void InitSigmaAndNormalization();
     double SigmaMax();
     double FluxMax();
     void LoadInitialData();
@@ -106,6 +101,7 @@ public:
     void CollideStaticFluidForwardEuler();
     void CollideStaticFluidBackwardEuler();
     void CollideStaticFluidBackwardEuler2();
+    void CollideStaticFluidBackwardEuler3();
     void CollideForwardEuler();
     void CollideBackwardEuler();
 

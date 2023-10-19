@@ -152,7 +152,7 @@ void Interpolation(const Stencil &stencil)
 
 int main()
 {
-    UnitQuadrature(Stencil(20, 5));
+    // UnitQuadrature(Stencil(20, 5));
     // Quadrature(Stencil(5,0));
     // Interpolation(Stencil(9,5));
     // Interpolation(Stencil(15,5));
@@ -162,4 +162,12 @@ int main()
     // Stencil(100, 0).Print();
     // Stencil(50,10).WriteToCsv();
     // Stencil(9,5).interpolationGrid.Print();
+
+    Stencil s(50, 0);
+    double sum = 0;
+    for (int d = 0; d < s.nDir; d++)
+        sum += s.W(d);
+    cout << sum << endl;
+    s.fluxToSigmaTable.WriteToCsv("sigmaTable", -1);
+    s.fluxToNormalizationTable.WriteToCsv("normalizationTable", -1);
 }

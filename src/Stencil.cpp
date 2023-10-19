@@ -234,7 +234,7 @@ Stencil::Stencil(size_t nOrder, int nGhost)
 
         // Fill Buckets:
         auto Distribution = [](double x)
-        { return std::acos(1.0 - 2.0 * x) / M_PI; };
+        { return MyAcos(1.0 - 2.0 * x) / M_PI; };
         for (int i = 0; i < nGhost; i++)
         {
             double x = (i + 0.5) / nGhost;
@@ -254,7 +254,7 @@ Stencil::Stencil(size_t nOrder, int nGhost)
             }
         }
 
-        // Add angles uniformly in buckets:
+        // Add angles according to distribution function in buckets:
         double phiGhost[nGhost];
         int index = 0;
         for (int i = 0; i < bucketCount.size(); i++)
@@ -278,6 +278,9 @@ Stencil::Stencil(size_t nOrder, int nGhost)
 
     SortDirections();
     interpolationGrid = InterpolationGrid(10 * nOrder, *this);
+    PopulateLookUpTable();
+    sigmaMax = fluxToSigmaTable.outputs[fluxToSigmaTable.size - 1];
+    relativeFluxMax = fluxToSigmaTable.inputs[fluxToSigmaTable.size - 1];
 }
 
 void Stencil::SortDirections()
@@ -349,5 +352,79 @@ void Stencil::WriteToCsv() const
     fileOut << "#d,w,phi,cx,cy,cz\n";
     for (size_t d = 0; d < nDir; d++)
         fileOut << Format(d) << "," << Format(W(d)) << "," << Format(Phi(d)) << "," << Format(Cx(d)) << "," << Format(Cy(d)) << ",0\n";
+}
+
+void Stencil::PopulateLookUpTable()
+{
+    double E = 1.0;
+    Tensor2 F(1, 0);
+    double *I = new double[nDir];
+    double sigma = 0;
+    double currentF = 0;
+    int refinement = 1;
+
+    while (true)
+    {
+        // Determine normalization for current sigma value:
+        double normalization = 0;
+        for (int d = 0; d < nDir; d++)
+            normalization += W(d) * exp(sigma * Tensor2::Dot(F, C(d)));
+        normalization = log(normalization);
+
+        // Calculate moments with current sigma value:
+        double currentE = 0;
+        double currentFx = 0;
+        double currentFy = 0;
+        for (int d = 0; d < nDir; d++)
+        {
+            I[d] = E * exp(sigma * Tensor2::Dot(F, C(d)) - normalization);
+            double c = W(d) * I[d];
+            currentE += c;
+            currentFx += c * Cx(d);
+            currentFy += c * Cy(d);
+        }
+        currentF = Tensor2(currentFx, currentFy).EuklNorm();
+
+        // Check if interpolation error is acceptable:
+        double averageError = 0;
+        int count = 0;
+        for (int d = 0; d < interpolationGrid.nGrid; d++)
+        {
+            // Skip angles outside the +-deltaPhi/2 range in which most of the ghost directions are arranged:
+            if (MyAcos(Tensor2::Dot(F, interpolationGrid.C(d))) > deltaPhi / 2.0)
+                continue;
+
+            // Analytic intensity:
+            double analyticValue = E * exp(sigma * Tensor2::Dot(F, interpolationGrid.C(d)) - normalization);
+
+            // Cubic interpolated intensity:
+            std::array<size_t, 4> neighbourIndexesCubic = interpolationGrid.neighbourIndexesCubic[d];
+            std::array<double, 4> neighbourWeightsCubic = interpolationGrid.neighbourWeightsCubic[d];
+            double interpolatetValue = 0;
+            for (size_t p = 0; p < 4; p++)
+                interpolatetValue += neighbourWeightsCubic[p] * I[neighbourIndexesCubic[p]];
+
+            // Error:
+            double error = std::abs((analyticValue - interpolatetValue) / analyticValue);
+            averageError += error;
+            count++;
+        }
+        averageError /= count;
+
+        if (averageError > maxInterpolationError)
+        {
+            sigma -= pow(10, -refinement);
+            refinement++;
+            sigma += pow(10, -refinement);
+            if (refinement == 8)
+                break;
+        }
+        else
+        {
+            fluxToSigmaTable.Add(currentF, sigma);
+            fluxToNormalizationTable.Add(currentF, normalization);
+            sigma += pow(10, -refinement);
+        }
+    }
 }
 // -------------------------------------------------

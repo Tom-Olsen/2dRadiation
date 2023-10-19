@@ -265,7 +265,9 @@ void GrammSchmidt()
 }
 
 double Dy(double y)
-{ return -15 * y; }
+{
+    return -15 * y;
+}
 void LambdaIteration()
 {
     double dt = 0.25;
@@ -275,7 +277,7 @@ void LambdaIteration()
     solution.push_back(y0);
     double t = 0;
     double y = y0;
-    while(t<1)
+    while (t < 1)
     {
         double dy = Dy(y);
         y += dy * dt;
@@ -283,7 +285,28 @@ void LambdaIteration()
         t += dt;
     }
 
-    PrintList(solution,"solution");
+    PrintList(solution, "solution");
+}
+
+void UnitConversion()
+{
+    double centralMass = 1.0;     // mass of central object in solar masses.
+    double mSolar = 1.4776 * 1e5; // solar mass in geometrized cgs units.
+
+    double massCgsToCode = 1.0 / mSolar * centralMass;
+    double massCodeToCgs = 1.0 / massCgsToCode;
+    double lengthCgsToCode = 1.0 / mSolar * centralMass;
+    double lengthCodeToCgs = 1.0 / lengthCgsToCode;
+    double timeCgsToCode = 1.0 / mSolar * centralMass;
+    double timeCodeToCgs = 1.0 / timeCgsToCode;
+
+    double energyDensityCgsToCode = massCgsToCode / (lengthCgsToCode * timeCgsToCode * timeCgsToCode);
+    double energyDensityCodeToCgs = 1.0 / energyDensityCgsToCode;
+    double fluxDensityCgsToCode = massCgsToCode / (timeCgsToCode * lengthCgsToCode * lengthCgsToCode);
+    double fluxDensityCodeToCgs = 1.0 / fluxDensityCgsToCode;
+
+    cout << "1 cgs energy density in code units: " << energyDensityCgsToCode << endl;
+    cout << "1 cgs flux density in code units: " << fluxDensityCgsToCode << endl;
 }
 
 int main()
@@ -292,5 +315,6 @@ int main()
     // MomentsTransformation();
     // DistributionNormalization();
     // GrammSchmidt();
-    LambdaIteration();
+    // LambdaIteration();
+    UnitConversion();
 }

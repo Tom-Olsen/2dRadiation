@@ -347,11 +347,11 @@ void CurvedBeam(Stencil stencil, StreamingType streamingType, double cfl)
     radiation.RunSimulation();
 }
 
-void Diffusion(Stencil stencil, StreamingType streamingType, double cfl)
+void Diffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl)
 {
     // Create Radiation object:
     size_t nx, ny;
-    nx = ny = 101;
+    nx = ny = 201;
     Coord start(-0.5, -0.5);
     Coord end(0.5, 0.5);
     Grid grid(nx, ny, start, end);
@@ -359,14 +359,22 @@ void Diffusion(Stencil stencil, StreamingType streamingType, double cfl)
     Minkowski metric(grid, 1.0, 0.0);
     Stencil streamingStencil(5);
 
+    // Initial Data:
+    // double lambda = 0.0;  // = 3kappa1 / kappa0
+    double kappa0 = kappaS / (1.0 - lambda / 9.0);
+    double kappa1 = kappa0 * lambda / 3.0;
+    double PE = kappa0 * grid.dx;
+    double D = 1.0 / (2.0 * kappa0) * (1.0 + 0.65 * PE); // Me
+    // double D = 1.0 / (2.0 * kappa0) * (1.0 - 0.98 * PE) + grid.dx * grid.dx / grid.dt * 0.65; // Lukas
+    // double D = 1.0 / (2.0 * kappa0); // analytical diffusion
+
     // Config:
-    int d = 2;
-    double t = 0;
-    // double t = 1;
+    double t0 = 1;
     Config config =
         {
-            .name = "Diffusion 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(cfl, 2) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny",
-            .t0 = t,
+            // .name = "Diffusion 2d/" + StreamingName(streamingType) + " " + stencil.name + " " + Format(cfl, 2, true) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny " + Format(PE, 1, true) + "PE",
+            .name = "Diffusion 2d/" + StreamingName(streamingType) + " " + stencil.name + " " + Format(cfl, 2, true) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny " + std::to_string((int)kappa0) + "kappa0 " + std::to_string((int)kappa1) + "kappa1 " + Format(PE, 1, true) + "PE",
+            .t0 = t0,
             .simTime = 3,
             .writePeriod = 1,
             .updateFourierHarmonics = false,
@@ -380,21 +388,6 @@ void Diffusion(Stencil stencil, StreamingType streamingType, double cfl)
     // Radiation:
     Radiation radiation(metric, stencil, streamingStencil, config);
 
-    // Initial Data Carlo:
-    // double kappaS = 100; // = kappa0 - kappa1/3
-    // double lambda = 0.0; // = 3kappa1 / kappa0
-    // double kappa0 = kappaS / (1.0 - lambda / 9.0);
-    // double kappa1 = kappa0 * lambda / 3.0;
-
-    // Initial Data Lucas:
-    double kappa0 = 100; // kappa0=0 not allowed by analytic initial data!
-    double lambda = 0.0;
-    double kappa1 = kappa0 * lambda / 3.0;
-    double A = 1;
-    double sigma0 = 0.1;
-    double D = (1.0 - grid.dt * kappa0 / 2.0) / (d * kappa0);
-    double sigmaD = sqrt(2 * D * t);
-
     for (size_t j = 0; j < grid.ny; j++)
         for (size_t i = 0; i < grid.nx; i++)
         {
@@ -407,19 +400,14 @@ void Diffusion(Stencil stencil, StreamingType streamingType, double cfl)
             radiation.initialKappa1[ij] = kappa1;
             radiation.initialKappaA[ij] = 0;
             radiation.initialEta[ij] = 0;
-
             radiation.isInitialGridPoint[ij] = true;
-            // Carlo:
-            // double E = pow(kappaS / t, d / 2.0) * exp(-3.0 * kappaS * r * r / (4.0 * t));
-            // radiation.initialE_LF[ij] = E;
-            // radiation.initialFx_LF[ij] = x / (2.0 * t) * E;
-            // radiation.initialFy_LF[ij] = y / (2.0 * t) * E;
-            // Lucas:
-            double E = A * (sigma0 * sigma0) / (sigma0 * sigma0 + sigmaD * sigmaD) * exp(-r * r / (2 * sigma0 * sigma0 + 2 * sigmaD * sigmaD));
+
+            double E = 1.0 / t0 * exp(-r * r / (4.0 * D * t0));
             radiation.initialE_LF[ij] = E;
-            radiation.initialFx_LF[ij] = (x * E) / (3.0 * kappa0 * (sigma0 * sigma0 + sigmaD * sigmaD));
-            radiation.initialFy_LF[ij] = (y * E) / (3.0 * kappa0 * (sigma0 * sigma0 + sigmaD * sigmaD));
+            radiation.initialFx_LF[ij] = (x * E) / (2.0 * t0);
+            radiation.initialFy_LF[ij] = (y * E) / (2.0 * t0);
         }
+
     radiation.RunSimulation();
 }
 
@@ -528,12 +516,26 @@ int main(int argc, char *argv[])
     //     CurvedBeam(Stencil(100, 10), StreamingType::CurvedAdaptive, 0.75);
 
     // Diffusion:
+    double lambda = 0;
+    double cfl = 0.25;
     if (n == 0)
-        Diffusion(Stencil(200, 0), StreamingType::FlatFixed, 0.2);
+        Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 100.0, lambda, cfl);
     if (n == 1)
-        Diffusion(Stencil(110, 0), StreamingType::FlatAdaptive, 0.2);
+        Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 200.0, lambda, cfl);
     if (n == 2)
-        Diffusion(Stencil(100, 10), StreamingType::FlatAdaptive, 0.2);
+        Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 300.0, lambda, cfl);
+    if (n == 3)
+        Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 400.0, lambda, cfl);
+    if (n == 4)
+        Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 500.0, lambda, cfl);
+    if (n == 5)
+        Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 1000.0, lambda, cfl);
+    if (n == 6)
+        Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 10000.0, lambda, cfl);
+    if (n == 7)
+        Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 100000.0, lambda, cfl);
+    if (n == 8)
+        Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 1000000.0, lambda, cfl);
 
     // Testing:
     // if (n == 0)

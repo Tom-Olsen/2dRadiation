@@ -2,6 +2,7 @@
 #define __INCLUDE_GUARD_DataTypes_hh__
 #include <iomanip>           // std::setprecision()
 #include <iostream>          // cout
+#include <fstream>           // File input/output.
 #include "ControlFlow.hh"    // used for template arguments
 #include "eigen/Eigen/Dense" // Eigen library for solving linear systems
 #include "Utility.hh"        // utility functions and constants
@@ -566,4 +567,100 @@ inline Tensor2 operator*(const RotationMatrix &matrix, const Tensor2 &tensor)
     double c = MyCos(matrix.angle);
     return Tensor2(tensor[1] * c - tensor[2] * s, tensor[1] * s + tensor[2] * c);
 }
+
+template <typename T>
+struct LookUpTable
+{
+    int size = 0;
+    std::vector<T> inputs;
+    std::vector<T> outputs;
+
+    void Add(T input, T output)
+    {
+        if (inputs.size() == 0 || input < inputs[0])
+        {
+            inputs.insert(inputs.begin(), input);
+            outputs.insert(outputs.begin(), output);
+        }
+        else if (input > inputs.back())
+        {
+            inputs.push_back(input);
+            outputs.push_back(output);
+        }
+        else
+        {
+            // Find the correct spot where new values must be inserted:
+            auto iterator = std::lower_bound(inputs.begin(), inputs.end(), input);
+
+            // Only add new values if they are not in the vectors yet:
+            if (iterator == inputs.end() || input < *iterator)
+            {
+                int index = std::distance(inputs.begin(), iterator);
+                inputs.insert(inputs.begin() + index, input);
+                outputs.insert(outputs.begin() + index, output);
+            }
+        }
+        size = inputs.size();
+    }
+
+    T Evaluate(T x)
+    {
+        if (size == 0)
+            ExitOnError("Trying to read from empty look up table.");
+        if (x <= inputs[0] || size == 1)
+            return outputs[0];
+        if (x >= inputs[size - 1])
+            return outputs[size - 1];
+
+        auto lowerIterator = std::lower_bound(inputs.begin(), inputs.end(), x) - 1;
+        auto upperIterator = lowerIterator + 1;
+
+        // Handle the case where x is exactly one of the input values
+        if (lowerIterator != inputs.end() && *lowerIterator == x)
+        {
+            int index = std::distance(inputs.begin(), lowerIterator);
+            return outputs[index];
+        }
+
+        int index0 = std::distance(inputs.begin(), lowerIterator);
+        int index1 = std::distance(inputs.begin(), upperIterator);
+
+        T x0 = inputs[index0];
+        T x1 = inputs[index1];
+        T y0 = outputs[index0];
+        T y1 = outputs[index1];
+
+        T t = (x - x0) / (x1 - x0);
+        return y0 + t * (y1 - y0);
+    }
+
+    void WriteToCsv(std::string name, int resolution)
+    {
+        if (inputs.size() == 0)
+            ExitOnError("Trying to read from empty look up table.");
+
+        std::ofstream fileOut(name + ".csv");
+
+        T x0 = inputs[0];
+        T x1 = inputs[inputs.size() - 1];
+
+        fileOut << "#x,y\n";
+        if (resolution < 0)
+        {
+            for (size_t i = 0; i < size; i++)
+                fileOut << Format(inputs[i], 8, false, 3) << "," << Format(outputs[i], 8, false, 3) << "\n";
+        }
+        else
+        {
+            for (size_t i = 0; i < resolution; i++)
+            {
+                T t = i / (resolution - 1.0);
+                T x = x0 + t * (x1 - x0);
+                fileOut << Format(x, 8, false, 3) << "," << Format(Evaluate(x), 8, false, 3) << "\n";
+            }
+        }
+
+        fileOut.close();
+    }
+};
 #endif //__INCLUDE_GUARD_DataTypes_hh__

@@ -56,7 +56,12 @@ public:
     size_t nOrder;        // Quadrature integration.
     size_t nCoefficients; // Number of exact Fourier Harmonics that cna be integrated.
     InterpolationGrid interpolationGrid;
-    constexpr static double deltaPhi = M_PI / 8.0 + 1e-8; // +- angle range in which ghost directions are arranged.
+    LookUpTable<double> fluxToSigmaTable;
+    LookUpTable<double> fluxToNormalizationTable;
+    double sigmaMax;
+    double relativeFluxMax;
+    static constexpr double deltaPhi = M_PI / 8.0 + 1e-8; // +- angle range in which ghost directions are arranged.
+    static constexpr double maxInterpolationError = 0.01; // 1%
 
 private:
     // Internal Buffers:
@@ -66,6 +71,7 @@ private:
     RealBuffer cy;
     // Initialization:
     void SortDirections();
+    void PopulateLookUpTable();
 
 public:
     // Constructor:
