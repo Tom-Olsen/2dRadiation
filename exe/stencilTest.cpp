@@ -150,6 +150,27 @@ void Interpolation(const Stencil &stencil)
     file2.close();
 }
 
+void StencilAnalysis()
+{
+    std::ofstream fileOut("../output/fluxMax.csv");
+    int nOrders[5] = {50, 100, 150, 200, 250};
+    int nGhosts[5] = {0, 5, 10, 15, 20};
+
+    for (int j = 0; j < 5; j++)
+        for (int i = 0; i < 5; i++)
+        {
+            int nGhost = nGhosts[i];
+            int nOrder = nOrders[j];
+            Stencil stencil(nOrder, nGhost);
+
+            std::string directory = "../output/" + std::to_string(nOrder) + "/";
+            CreateDirectory(directory);
+
+            stencil.fluxToSigmaTable.WriteToCsv(directory + "sigmaTable " + stencil.name, -1);
+            fileOut << stencil.name << " " << stencil.relativeFluxMax << "\n";
+        }
+}
+
 int main()
 {
     // UnitQuadrature(Stencil(20, 5));
@@ -163,11 +184,13 @@ int main()
     // Stencil(50,10).WriteToCsv();
     // Stencil(9,5).interpolationGrid.Print();
 
-    Stencil s(50, 0);
-    double sum = 0;
-    for (int d = 0; d < s.nDir; d++)
-        sum += s.W(d);
-    cout << sum << endl;
-    s.fluxToSigmaTable.WriteToCsv("../output/sigmaTable", -1);
-    s.fluxToNormalizationTable.WriteToCsv("../output/normalizationTable", -1);
+    StencilAnalysis();
+
+    // Stencil s(50, 0);
+    // double sum = 0;
+    // for (int d = 0; d < s.nDir; d++)
+    //     sum += s.W(d);
+    // cout << sum << endl;
+    // s.fluxToSigmaTable.WriteToCsv("../output/sigmaTable", -1);
+    // s.fluxToNormalizationTable.WriteToCsv("../output/normalizationTable", -1);
 }

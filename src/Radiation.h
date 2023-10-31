@@ -101,7 +101,6 @@ public:
     void CollideStaticFluidForwardEuler();
     void CollideStaticFluidBackwardEuler();
     void CollideStaticFluidBackwardEuler2();
-    void CollideStaticFluidBackwardEuler3();
     void CollideForwardEuler();
     void CollideBackwardEuler();
 

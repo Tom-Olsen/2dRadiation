@@ -361,7 +361,7 @@ void Stencil::PopulateLookUpTable()
     double *I = new double[nDir];
     double sigma = 0;
     double currentF = 0;
-    int refinement = 1;
+    double refinement = 0.5;
 
     while (true)
     {
@@ -416,7 +416,7 @@ void Stencil::PopulateLookUpTable()
             sigma -= pow(10, -refinement);
             refinement++;
             sigma += pow(10, -refinement);
-            if (refinement == 8)
+            if (refinement >= 8)
                 break;
         }
         else

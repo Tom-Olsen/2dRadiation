@@ -122,6 +122,8 @@ void Radiation::LoadInitialData()
         kappa1[ij] = initialKappa1[ij];
         kappaA[ij] = initialKappaA[ij];
         eta[ij] = initialEta[ij];
+        double sigma = stencil.fluxToSigmaTable.Evaluate(relativeF_IF);
+        double normalization = stencil.fluxToNormalizationTable.Evaluate(relativeF_IF);
 
         if (config.initialDataType == InitialDataType::Moments)
         {
@@ -131,7 +133,7 @@ void Radiation::LoadInitialData()
             {
                 rotationAngle[ij] = (isAdaptiveStreaming) ? initialFluxAngle_IF[ij] : 0;
                 for (size_t d = 0; d < stencil.nDir; d++)
-                    I[Index(ij, d)] = initialE_IF * exp(stencil.fluxToSigmaTable.Evaluate(relativeF_IF) * Tensor2::Dot(dirInitialF, stencil.C(d)) - stencil.fluxToNormalizationTable.Evaluate(relativeF_IF));
+                    I[Index(ij, d)] = initialE_IF * exp(sigma * Tensor2::Dot(dirInitialF, stencil.C(d)) - normalization);
             }
         }
         else if (config.initialDataType == InitialDataType::Intensities)
@@ -553,7 +555,7 @@ void Radiation::CollideStaticFluidForwardEuler()
                 double cDotF = dir[1] * Fx[ij] + dir[2] * Fy[ij];
 
                 // double Gamma = eta[ij] + kappa0[ij] * E[ij] + 3.0 * kappa1[ij] * cDotF - I[index] * (kappaA[ij] + kappa0[ij]);
-                double Gamma = kappa0[ij] * (E[ij] - I[index]); // simplified with eta=kappa0=kappaA=0, alpha=1
+                double Gamma = kappa0[ij] * (E[ij] - I[index]); // simplified with eta=kappa1=kappaA=0, alpha=1
                 // I[index] = std::max(I[index] + alpha * grid.dt * Gamma, 0.0);
                 I[index] = I[index] + alpha * grid.dt * Gamma;
             }
@@ -630,10 +632,8 @@ void Radiation::CollideStaticFluidBackwardEuler()
 }
 void Radiation::CollideStaticFluidBackwardEuler2()
 {
+    // simplified version with eta = kappa1 = kappaA = 0
     PROFILE_FUNCTION();
-
-    // int highestIteration = 0;
-    // std::mutex mutex;
     PARALLEL_FOR(2)
     for (size_t j = HALO; j < grid.ny - HALO; j++)
         for (size_t i = HALO; i < grid.nx - HALO; i++)
@@ -643,117 +643,8 @@ void Radiation::CollideStaticFluidBackwardEuler2()
             size_t ij = grid.Index(i, j);
 
             double alpha = metric.GetAlpha(ij);
-            double a = 1.0 + alpha * grid.dt * (kappaA[ij] + kappa0[ij]);
-            double b = 1.0 + alpha * grid.dt * kappaA[ij];
+            double guessGammaLinear = 1.0 + alpha * grid.dt * kappa0[ij];
 
-            // if (i == 75 && j == 75)
-            //{
-            //     std::cout << std::endl;
-            //     // std::cout << "Before:" << std::endl;
-            //     // std::cout << "x,y,z,I:" << std::endl;
-            //     // std::cout << "0, 0, 0, 0" << std::endl;
-            //     // for (size_t d = 0; d < stencil.nDir; d++)
-            //     //     std::cout << stencil.Cx(d) * I[Index(ij, d)] << ", " << stencil.Cy(d) * I[Index(ij, d)] << ", " << 0 << ", " << I[Index(ij, d)] << std::endl;
-            //     // std::cout << std::endl;
-            //
-            //    PrintDouble(E[ij], "E");
-            //    Tensor2(Fx[ij], Fy[ij]).Print("F");
-            //    std::cout << std::endl;
-            //}
-
-            int cycles = 0;
-            double diff = 1;
-            while (abs(diff) > LAMBDA_ITTERATION_TOLERENCE && cycles < MAX_LAMBDA_ITERATIONS)
-            {
-                cycles++;
-                double guessFx = Fx[ij];
-                double guessFy = Fy[ij];
-                double guessPxx = Pxx[ij];
-                double guessPxy = Pxy[ij];
-                double guessPyy = Pyy[ij];
-
-                Fx[ij] = 0.0;
-                Fy[ij] = 0.0;
-                Pxx[ij] = 0.0;
-                Pxy[ij] = 0.0;
-                Pyy[ij] = 0.0;
-                for (size_t d = 0; d < stencil.nDir; d++)
-                {
-                    Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
-                    size_t index = Index(ij, d);
-                    double cDotGuessF = dir[1] * guessFx + dir[2] * guessFy;
-
-                    Inew[index] = 0;
-                    for (size_t k = 0; k < stencil.nDir; k++)
-                    {
-                        double A = grid.dt * kappa0[ij] * stencil.W(k) + (d == k) * b;
-                        double B = I[Index(ij, k)] + grid.dt * (eta[ij] + 3.0 * kappa1[ij] * cDotGuessF);
-                        Inew[index] += A * B;
-                    }
-                    Inew[index] /= a * b;
-
-                    double c = stencil.W(d) * Inew[index];
-                    Fx[ij] += c * dir[1];
-                    Fy[ij] += c * dir[2];
-                    Pxx[ij] += c * dir[1] * dir[1];
-                    Pxy[ij] += c * dir[1] * dir[2];
-                    Pyy[ij] += c * dir[2] * dir[2];
-                }
-                // if (i == 75 && j == 75)
-                //{
-                //     PrintDouble(E[ij], "E");
-                //     Tensor2(Fx[ij], Fy[ij]).Print("F");
-                // }
-                double diffFx = IntegerPow<2>((guessFx - Fx[ij]) / Fx[ij]);
-                double diffFy = IntegerPow<2>((guessFy - Fy[ij]) / Fy[ij]);
-                double diffPxx = IntegerPow<2>((guessPxx - Pxx[ij]) / Pxx[ij]);
-                double diffPxy = IntegerPow<2>((guessPxy - Pxy[ij]) / Pxy[ij]);
-                double diffPyy = IntegerPow<2>((guessPyy - Pyy[ij]) / Pyy[ij]);
-                diff = sqrt(diffFx + diffFy + diffPxx + diffPxy + diffPyy);
-            }
-            // if (i == 75 && j == 75)
-            //{
-            //     // std::cout << "After:" << std::endl;
-            //     // std::cout << "x,y,z,I:" << std::endl;
-            //     // std::cout << "0, 0, 0, 0" << std::endl;
-            //     // for (size_t d = 0; d < stencil.nDir; d++)
-            //     //     std::cout << stencil.Cx(d) * Inew[Index(ij, d)] << ", " << stencil.Cy(d) * Inew[Index(ij, d)] << ", " << 0 << ", " << Inew[Index(ij, d)] << std::endl;
-            //     ExitOnError();
-            // }
-            //{
-            //      std::lock_guard<std::mutex> lock(mutex);
-            //      highestIteration = std::max(highestIteration, cycles);
-            // }
-        }
-    // std::cout << " highestIteration = " << highestIteration << std::endl;
-    std::swap(I, Inew);
-}
-void Radiation::CollideStaticFluidBackwardEuler3()
-{
-    PROFILE_FUNCTION();
-
-    PARALLEL_FOR(2)
-    for (size_t j = HALO; j < grid.ny - HALO; j++)
-        for (size_t i = HALO; i < grid.nx - HALO; i++)
-        {
-            if (metric.InsideBH(grid.xy(i, j)))
-                continue;
-            size_t ij = grid.Index(i, j);
-
-            double alpha = metric.GetAlpha(ij);
-            double guessGammaLinear = 1.0 + alpha * grid.dt * (kappaA[ij] + kappa0[ij]);
-
-            // if (i == 75 && j == 75)
-            //{
-            //     std::cout << std::endl;
-            //     std::cout << "Before:" << std::endl;
-            //     std::cout << "x,y,z,I:" << std::endl;
-            //     std::cout << "0, 0, 0, 0" << std::endl;
-            //     for (size_t d = 0; d < stencil.nDir; d++)
-            //         std::cout << stencil.Cx(d) * I[Index(ij, d)] << ", " << stencil.Cy(d) * I[Index(ij, d)] << ", " << 0 << ", " << I[Index(ij, d)] << std::endl;
-            //     std::cout << std::endl;
-            // }
-            double Eold = E[ij];
             int cycles = 0;
             double diff = 1;
             while (abs(diff) > LAMBDA_ITTERATION_TOLERENCE && cycles < MAX_LAMBDA_ITERATIONS)
@@ -765,7 +656,7 @@ void Radiation::CollideStaticFluidBackwardEuler3()
                 double guessPxx = Pxx[ij];
                 double guessPxy = Pxy[ij];
                 double guessPyy = Pyy[ij];
-                double partOfGammaNoneLinear = eta[ij] + kappa0[ij] * guessE;
+                double partOfGammaNoneLinear = alpha * grid.dt * kappa0[ij] * guessE;
 
                 E[ij] = 0.0;
                 Fx[ij] = 0.0;
@@ -777,10 +668,8 @@ void Radiation::CollideStaticFluidBackwardEuler3()
                 {
                     Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
                     size_t index = Index(ij, d);
-                    double cDotGuessF = dir[1] * guessFx + dir[2] * guessFy;
 
-                    double guessGammaNoneLinear = partOfGammaNoneLinear + 3.0 * kappa1[ij] * cDotGuessF;
-                    Inew[index] = (I[index] + alpha * grid.dt * guessGammaNoneLinear) / guessGammaLinear;
+                    Inew[index] = (I[index] + partOfGammaNoneLinear) / guessGammaLinear;
 
                     double c = stencil.W(d) * Inew[index];
                     E[ij] += c;
@@ -798,29 +687,8 @@ void Radiation::CollideStaticFluidBackwardEuler3()
                 double diffPyy = IntegerPow<2>((guessPyy - Pyy[ij]) / Pyy[ij]);
                 diff = sqrt(diffE + diffFx + diffFy + diffPxx + diffPxy + diffPyy);
             }
-            for (size_t d = 0; d < stencil.nDir; d++)
-            {
-                size_t index = Index(ij, d);
-                I[index] *= E[ij] / Eold;
-            }
-            if (i == 75 && j == 75)
-            {
-                PrintDouble(E[ij], "E");
-                // std::cout << "After:" << std::endl;
-                // std::cout << "x,y,z,I:" << std::endl;
-                // std::cout << "0, 0, 0, 0" << std::endl;
-                // for (size_t d = 0; d < stencil.nDir; d++)
-                //     std::cout << stencil.Cx(d) * Inew[Index(ij, d)] << ", " << stencil.Cy(d) * Inew[Index(ij, d)] << ", " << 0 << ", " << Inew[Index(ij, d)] << std::endl;
-                // std::cout << std::endl;
-                // std::cout << "After2:" << std::endl;
-                // std::cout << "x,y,z,I:" << std::endl;
-                // std::cout << "0, 0, 0, 0" << std::endl;
-                // for (size_t d = 0; d < stencil.nDir; d++)
-                //     std::cout << stencil.Cx(d) * I[Index(ij, d)] << ", " << stencil.Cy(d) * I[Index(ij, d)] << ", " << 0 << ", " << I[Index(ij, d)] << std::endl;
-                // ExitOnError();
-            }
         }
-    // std::cout << " highestIteration = " << highestIteration << std::endl;
+    std::swap(I, Inew);
 }
 void Radiation::CollideForwardEuler()
 {
@@ -969,6 +837,8 @@ void Radiation::RunSimulation()
     }
     // --------------------------------------------------------
 
+    // int index = grid.Index(grid.nx / 4, grid.ny / 2);
+    int index = grid.Index(grid.nx / 4, grid.ny / 4);
     // ----------------- Main simulation Loop -----------------
     {
         PROFILE_SCOPE("Total Time");
@@ -976,19 +846,38 @@ void Radiation::RunSimulation()
         double timeSinceLastFrame = 0;
 
         // Save initial data:
-        if (config.writeData)
-        {
-            ComputeMomentsIF();
-            ComputeMomentsLF();
-            grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
-            timeSinceLastFrame = 0;
-        }
+        ComputeMomentsIF();
+        ComputeMomentsLF();
+        grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
+        timeSinceLastFrame = 0;
 
         for (int n = 0; n < logger.timeSteps; n++)
         {
             if (config.printToTerminal)
                 std::cout << "\n"
                           << n << "," << Format(currentTime, 4) << "," << std::flush;
+
+            // Update stuff:
+            if (config.updateFourierHarmonics)
+                UpdateFourierCoefficients();
+            if (config.keepSourceNodesActive)
+                LoadInitialData();
+
+            // Collide:
+            ComputeMomentsIF();
+            // CollideStaticFluidForwardEuler();
+            CollideStaticFluidBackwardEuler2();
+            // CollideForwardEuler();
+            // CollideBackwardEuler();
+
+            // Save data:
+            if (config.writeData && timeSinceLastFrame >= config.writePeriod - 1e-8)
+            {
+                ComputeMomentsIF();
+                ComputeMomentsLF();
+                grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
+                timeSinceLastFrame = 0;
+            }
 
             // Stream:
             switch (config.streamingType)
@@ -1009,41 +898,8 @@ void Radiation::RunSimulation()
                 break;
             }
 
-            // Collide:
-            ComputeMomentsIF();
-            // CollideStaticFluidForwardEuler();
-            CollideStaticFluidBackwardEuler();
-            // CollideStaticFluidBackwardEuler2();
-            // CollideStaticFluidBackwardEuler3();
-            // CollideForwardEuler();
-            // CollideBackwardEuler();
-
             currentTime += grid.dt;
             timeSinceLastFrame += grid.dt;
-
-            // Save data:
-            if (config.writeData && timeSinceLastFrame >= config.writePeriod)
-            {
-                ComputeMomentsIF();
-                ComputeMomentsLF();
-                grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
-                timeSinceLastFrame = 0;
-            }
-
-            // Update other stuff:
-            if (config.updateFourierHarmonics)
-                UpdateFourierCoefficients();
-            if (config.keepSourceNodesActive)
-                LoadInitialData();
-        }
-
-        // Save final data:
-        if (config.writeData)
-        {
-            ComputeMomentsIF();
-            ComputeMomentsLF();
-            grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
-            timeSinceLastFrame = 0;
         }
     }
     // --------------------------------------------------------
@@ -1053,9 +909,7 @@ void Radiation::RunSimulation()
     // ---------------------- Termination ---------------------
     std::vector<std::string> names = session.GetAllFunctionNames();
     if (config.printToTerminal)
-    {
         std::cout << std::endl;
-    }
     for (int i = 0; i < names.size(); i++)
     {
         if (config.printToTerminal)
