@@ -309,6 +309,38 @@ void UnitConversion()
     cout << "1 cgs flux density in code units: " << fluxDensityCgsToCode << endl;
 }
 
+void LorentzBoostToFluidFrame()
+{
+    Tensor2 uFluid(0.5, 0.5);
+
+    double betaSq = Tensor2::Dot(uFluid, uFluid);
+    double gamma = 1.0 / sqrt(1.0 - betaSq);
+    Tensor3x3 boost(gamma, -gamma * uFluid[1], -gamma * uFluid[2],
+                    -gamma * uFluid[1], 1 + (gamma - 1) * uFluid[1] * uFluid[1] / betaSq, (gamma - 1) * uFluid[1] * uFluid[2] / betaSq,
+                    -gamma * uFluid[2], (gamma - 1) * uFluid[1] * uFluid[2] / betaSq, 1 + (gamma - 1) * uFluid[2] * uFluid[2] / betaSq);
+
+    Tensor3x3 boostInv = boost.Invert();
+
+    double E = 1;
+    double Fx = 0.5;
+    double Fy = 0.5;
+    double Pxx = 0.25;
+    double Pxy = 0.125;
+    double Pyy = 0.25;
+    Tensor3x3 T_LF(E, Fx, Fy,
+                   Fx, Pxx, Pxy,
+                   Fy, Pxy, Pyy);
+    Tensor3x3 T_FF(0);
+    for (int i = 0; i < 3; i++)
+        for (int j = 0; j < 3; j++)
+            for (int I = 0; I < 3; I++)
+                for (int J = 0; J < 3; J++)
+                    T_FF[{I, J}] += T_LF[{i, j}] * boost[{I, i}] * boost[{J, j}];
+
+    T_LF.Print("T_LF");
+    T_FF.Print("T_FF");
+}
+
 int main()
 {
     // SphereWaveShadowRegion();
@@ -316,5 +348,6 @@ int main()
     // DistributionNormalization();
     // GrammSchmidt();
     // LambdaIteration();
-    UnitConversion();
+    // UnitConversion();
+    // LorentzBoostToFluidFrame();
 }

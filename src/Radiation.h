@@ -61,6 +61,8 @@ public:
     RealBuffer kappa1;
     RealBuffer kappaA;
     RealBuffer eta;
+    RealBuffer ux;
+    RealBuffer uy;
     RealBuffer I;
     RealBuffer Inew;
     RealBuffer coefficientsS;
@@ -100,9 +102,9 @@ public:
 
     void CollideStaticFluidForwardEuler();
     void CollideStaticFluidBackwardEuler();
-    void CollideStaticFluidBackwardEuler2();
     void CollideForwardEuler();
     void CollideBackwardEuler();
+    void CollideBackwardEulerTest();
 
     void RunSimulation();
 };

@@ -364,14 +364,11 @@ void Diffusion(Stencil stencil, StreamingType streamingType, double kappaS, doub
     double kappa0 = kappaS / (1.0 - lambda / 9.0);
     double kappa1 = kappa0 * lambda / 3.0;
     double PE = kappa0 * grid.dx;
-    double D = 1.0 / (2.0 * kappa0) * (1.0 + 0.65 * PE); // Me
-    // double D = 1.0 / (2.0 * kappa0) * (1.0 - 0.98 * PE) + grid.dx * grid.dx / grid.dt * 0.65; // Lukas
-    // double D = 1.0 / (2.0 * kappa0); // analytical diffusion
+    double D = 1.0 / (2.0 * kappa0) * (1.0 + 0.65 * PE);
 
     // Config:
     double t0 = 1;
-    std::string name;
-    name = "Diffusion 2d/" + StreamingName(streamingType) + " " + stencil.name + " " + Format(cfl, 2, true) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny " + std::to_string((int)kappa0) + "kappa0 " + std::to_string((int)kappa1) + "kappa1 " + Format(PE, 1, true) + "PE";
+    std::string name = "Diffusion 2d/" + StreamingName(streamingType) + " " + stencil.name + " " + Format(cfl, 2, true) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny " + std::to_string((int)kappa0) + "kappa0 " + std::to_string((int)kappa1) + "kappa1 " + Format(PE, 1, true) + "PE";
     if (test)
         name = "Diffusion 2d/" + StreamingName(streamingType) + " " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny " + Format(PE, 1, true) + "PE";
     Config config =
@@ -404,23 +401,25 @@ void Diffusion(Stencil stencil, StreamingType streamingType, double kappaS, doub
             radiation.initialKappaA[ij] = 0;
             radiation.initialEta[ij] = 0;
             radiation.isInitialGridPoint[ij] = true;
+            radiation.ux[ij] = 0.0;
+            radiation.uy[ij] = 0.0;
 
             double E = 1.0 / t0 * exp(-r * r / (4.0 * D * t0));
             radiation.initialE_LF[ij] = E;
-            radiation.initialFx_LF[ij] = (x * E) / (2.0 * t0);
-            radiation.initialFy_LF[ij] = (y * E) / (2.0 * t0);
+            radiation.initialFx_LF[ij] = (x * E) / (2.0 * t0 * (1.0 + 0.65 * PE));
+            radiation.initialFy_LF[ij] = (y * E) / (2.0 * t0 * (1.0 + 0.65 * PE));
         }
 
     radiation.RunSimulation();
 }
 
-void Diffusion1D(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl)
+void MovingDiffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl, bool test = false)
 {
     // Create Radiation object:
-    size_t nx = 201;
-    size_t ny = 201;
-    Coord start(-0.5, -0.5);
-    Coord end(0.5, 0.5);
+    size_t nx = 601;
+    size_t ny = 51;
+    Coord start(-3.0, -0.5);
+    Coord end(3.0, 0.5);
     Grid grid(nx, ny, start, end);
     grid.SetCFL(cfl);
     Minkowski metric(grid, 1.0, 0.0);
@@ -431,19 +430,18 @@ void Diffusion1D(Stencil stencil, StreamingType streamingType, double kappaS, do
     double kappa0 = kappaS / (1.0 - lambda / 9.0);
     double kappa1 = kappa0 * lambda / 3.0;
     double PE = kappa0 * grid.dx;
-    double D = 1.0 / (kappa0) * (1.0 + 0.0 * PE); // Me
-    // double D = 1.0 / (kappa0) * (1.0 - 0.98 * PE) + grid.dx * grid.dx / grid.dt * 0.65; // Lukas
-    // double D = 1.0 / (kappa0); // analytical diffusion
 
     // Config:
-    double t0 = 1;
+    double t0 = 0;
+    std::string name = "MovingDiffusion 2d/" + StreamingName(streamingType) + " " + stencil.name + " " + Format(cfl, 2, true) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny " + std::to_string((int)kappa0) + "kappa0 " + std::to_string((int)kappa1) + "kappa1 " + Format(PE, 1, true) + "PE";
+    if (test)
+        name = "MovingDiffusion 2d/" + StreamingName(streamingType) + " " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny";
     Config config =
         {
-            .name = "Diffusion 1d/" + StreamingName(streamingType) + " " + stencil.name + " " + Format(cfl, 2, true) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny " + Format(PE, 1, true) + "PE",
-            // .name = "Diffusion 1d/" + StreamingName(streamingType) + " " + stencil.name + " " + Format(cfl, 2, true) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny " + std::to_string((int)kappa0) + "kappa0 " + std::to_string((int)kappa1) + "kappa1 " + Format(PE, 1, true) + "PE",
+            .name = name,
             .t0 = t0,
-            .simTime = 3,
-            .writePeriod = 1,
+            .simTime = 2.1,
+            .writePeriod = 1.0,
             .updateFourierHarmonics = false,
             .keepSourceNodesActive = false,
             .writeData = true,
@@ -462,15 +460,18 @@ void Diffusion1D(Stencil stencil, StreamingType streamingType, double kappaS, do
             Coord xy = grid.xy(i, j);
             double x = xy[1];
             double y = xy[2];
+            double r = xy.EuklNorm();
             radiation.initialKappa0[ij] = kappa0;
             radiation.initialKappa1[ij] = kappa1;
             radiation.initialKappaA[ij] = 0;
             radiation.initialEta[ij] = 0;
             radiation.isInitialGridPoint[ij] = true;
+            radiation.ux[ij] = 0.5;
+            radiation.uy[ij] = 0.0;
 
-            double E = 1.0 / sqrt(t0) * exp(-x * x / (4.0 * D * t0));
+            double E = exp(-9 * x * x);
             radiation.initialE_LF[ij] = E;
-            radiation.initialFx_LF[ij] = (abs(x) * E) / (2.0 * t0);
+            radiation.initialFx_LF[ij] = 0;
             radiation.initialFy_LF[ij] = 0;
         }
 
@@ -530,8 +531,6 @@ void TestBeam(Stencil stencil, StreamingType streamingType, double cfl, Tensor2 
         }
     radiation.RunSimulation();
 }
-// Note:
-// -TE changed from 1e-6 to 1e-4
 
 // TODO:
 // -fix kerr metric initial direction?
@@ -585,7 +584,8 @@ int main(int argc, char *argv[])
     double lambda = 0;
     double cfl = 0.25;
     if (n == 0)
-        Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 100.0, lambda, 0.25, true);
+        // Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 100.0, lambda, 0.25, true);
+        MovingDiffusion(Stencil(20, 0), StreamingType::FlatFixed, 10000.0, lambda, 0.25, true);
     // if (n == 0)
     // Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 100.0, lambda, cfl);
     // if (n == 1)
