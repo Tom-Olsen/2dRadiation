@@ -471,7 +471,7 @@ void MovingDiffusion(Stencil stencil, StreamingType streamingType, double kappaS
 
             double E = exp(-9 * x * x);
             radiation.initialE_LF[ij] = E;
-            radiation.initialFx_LF[ij] = 0;
+            radiation.initialFx_LF[ij] = 0.655 * E;
             radiation.initialFy_LF[ij] = 0;
         }
 

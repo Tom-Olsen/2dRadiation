@@ -173,7 +173,7 @@ void StencilAnalysis()
 
 int main()
 {
-    // UnitQuadrature(Stencil(20, 5));
+    UnitQuadrature(Stencil(20, 5));
     // Quadrature(Stencil(5,0));
     // Interpolation(Stencil(9,5));
     // Interpolation(Stencil(15,5));
@@ -184,7 +184,7 @@ int main()
     // Stencil(50,10).WriteToCsv();
     // Stencil(9,5).interpolationGrid.Print();
 
-    StencilAnalysis();
+    // StencilAnalysis();
 
     // Stencil s(50, 0);
     // double sum = 0;

@@ -535,31 +535,7 @@ void Radiation::StreamCurvedAdaptive()
     std::swap(rotationAngle, rotationAngleNew);
 }
 
-void Radiation::CollideStaticFluidForwardEuler()
-{
-    PROFILE_FUNCTION();
-    PARALLEL_FOR(2)
-    for (size_t j = HALO; j < grid.ny - HALO; j++)
-        for (size_t i = HALO; i < grid.nx - HALO; i++)
-        {
-            if (metric.InsideBH(grid.xy(i, j)))
-                continue;
-            size_t ij = grid.Index(i, j);
-
-            double alpha = metric.GetAlpha(ij);
-
-            for (size_t d = 0; d < stencil.nDir; d++)
-            {
-                Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
-                size_t index = Index(ij, d);
-                double cDotF = dir[1] * Fx[ij] + dir[2] * Fy[ij];
-
-                double Gamma = eta[ij] + kappa0[ij] * E[ij] + 3.0 * kappa1[ij] * cDotF - I[index] * (kappaA[ij] + kappa0[ij]);
-                I[index] = I[index] + alpha * grid.dt * Gamma;
-            }
-        }
-}
-void Radiation::CollideStaticFluidBackwardEuler()
+void Radiation::Collide()
 {
     PROFILE_FUNCTION();
 
@@ -574,11 +550,12 @@ void Radiation::CollideStaticFluidBackwardEuler()
             size_t ij = grid.Index(i, j);
 
             double alpha = metric.GetAlpha(ij);
-            double guessGammaLinear = 1.0 + alpha * grid.dt * (kappaA[ij] + kappa0[ij]);
+            double uu = ux[ij] * ux[ij] + uy[ij] * uy[ij];
+            double lorentz = 1.0 / sqrt(1.0 - uu);
 
             int cycles = 0;
             double diff = 1;
-            while (abs(diff) > LAMBDA_ITTERATION_TOLERENCE && cycles < MAX_LAMBDA_ITERATIONS)
+            while (abs(diff) > LAMBDA_ITTERATION_TOLERENCE && (cycles < MAX_LAMBDA_ITERATIONS))
             {
                 cycles++;
                 double guessE = E[ij];
@@ -587,7 +564,10 @@ void Radiation::CollideStaticFluidBackwardEuler()
                 double guessPxx = Pxx[ij];
                 double guessPxy = Pxy[ij];
                 double guessPyy = Pyy[ij];
-                double partOfGammaNoneLinear = eta[ij] + kappa0[ij] * guessE;
+
+                double uF = ux[ij] * guessFx + uy[ij] * guessFy;                                                         // u_i F^i
+                double uuP = ux[ij] * ux[ij] * guessPxx + uy[ij] * uy[ij] * guessPyy + 2.0 * ux[ij] * uy[ij] * guessPxy; // u_i u_j P^ij
+                double guessFluidE = lorentz * lorentz * (guessE - 2.0 * uF + uuP);
 
                 E[ij] = 0.0;
                 Fx[ij] = 0.0;
@@ -599,10 +579,9 @@ void Radiation::CollideStaticFluidBackwardEuler()
                 {
                     Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
                     size_t index = Index(ij, d);
-                    double cDotGuessF = dir[1] * guessFx + dir[2] * guessFy;
-
-                    double guessGammaNoneLinear = partOfGammaNoneLinear + 3.0 * kappa1[ij] * cDotGuessF;
-                    Inew[index] = (I[index] + alpha * grid.dt * guessGammaNoneLinear) / guessGammaLinear;
+                    double uDir = ux[ij] * dir[1] + uy[ij] * dir[2];
+                    double A = lorentz * (1.0 - uDir);
+                    Inew[index] = (I[index] + alpha * grid.dt * kappa0[ij] * guessFluidE / (A * A)) / (1.0 + alpha * grid.dt * kappa0[ij] * A);
 
                     double c = stencil.W(d) * Inew[index];
                     E[ij] += c;
@@ -612,6 +591,7 @@ void Radiation::CollideStaticFluidBackwardEuler()
                     Pxy[ij] += c * dir[1] * dir[2];
                     Pyy[ij] += c * dir[2] * dir[2];
                 }
+
                 double diffE = IntegerPow<2>((guessE - E[ij]) / E[ij]);
                 double diffFx = IntegerPow<2>((guessFx - Fx[ij]) / Fx[ij]);
                 double diffFy = IntegerPow<2>((guessFy - Fy[ij]) / Fy[ij]);
@@ -620,222 +600,11 @@ void Radiation::CollideStaticFluidBackwardEuler()
                 double diffPyy = IntegerPow<2>((guessPyy - Pyy[ij]) / Pyy[ij]);
                 diff = sqrt(diffE + diffFx + diffFy + diffPxx + diffPxy + diffPyy);
             }
-            //{
-            //     std::lock_guard<std::mutex> lock(mutex);
-            //     highestIteration = std::max(highestIteration, cycles);
+            // {
+            //    std::lock_guard<std::mutex> lock(mutex);
+            //    highestIteration = std::max(highestIteration, cycles);
             // }
         }
-    // std::cout << " highestIteration = " << highestIteration << std::endl;
-    std::swap(I, Inew);
-}
-void Radiation::CollideForwardEuler()
-{
-    PROFILE_FUNCTION();
-
-    // PARALLEL_FOR(2)
-    for (size_t j = HALO; j < grid.ny - HALO; j++)
-        for (size_t i = HALO; i < grid.nx - HALO; i++)
-        {
-            if (metric.InsideBH(grid.xy(i, j)))
-                continue;
-            size_t ij = grid.Index(i, j);
-
-            double alpha = metric.GetAlpha(ij);
-            double W = 1.0 / sqrt(1.0 - Norm2(Tensor2(ux[ij], uy[ij]), metric.GetGamma_ll(ij)));                     // Lorentz factor
-            double uDotF = ux[ij] * Fx[ij] + uy[ij] * Fy[ij];                                                        // u_i F^i
-            double uuDotP = ux[ij] * ux[ij] * Pxx[ij] + uy[ij] * uy[ij] * Pyy[ij] + 2.0 * ux[ij] * uy[ij] * Pxy[ij]; // u_i u_j P^ij
-            double uDotPx = ux[ij] * Pxx[ij] + uy[ij] * Pxy[ij];                                                     // u_j P^ij, i=1
-            double uDotPy = ux[ij] * Pxy[ij] + uy[ij] * Pyy[ij];                                                     // u_j P^ij, i=2
-            double fluidE = W * W * (E[ij] - 2.0 * uDotF + uuDotP);
-            double fluidFx = W * W * W * (2.0 * uDotF - E[ij] - uuDotP) * ux[ij] + W * (Fx[ij] - uDotPx);
-            double fluidFy = W * W * W * (2.0 * uDotF - E[ij] - uuDotP) * uy[ij] + W * (Fy[ij] - uDotPy);
-
-            for (size_t d = 0; d < stencil.nDir; d++)
-            {
-                Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
-                size_t index = Index(ij, d);
-                double A = W * (1.0 - (dir[1] * ux[ij] + dir[2] * uy[ij]));
-                double cDotFluidF = dir[1] * fluidFx + dir[2] * fluidFy;
-
-                double Gamma = (eta[ij] + kappa0[ij] * fluidE + 3.0 * kappa1[ij] * cDotFluidF) / (A * A * A) - A * I[index] * (kappaA[ij] + kappa0[ij]);
-                I[index] = I[index] + alpha * grid.dt * Gamma;
-            }
-        }
-}
-void Radiation::CollideBackwardEuler()
-{
-    PROFILE_FUNCTION();
-
-    int highestIteration = 0;
-    // std::mutex mutex;
-    PARALLEL_FOR(2)
-    for (size_t j = HALO; j < grid.ny - HALO; j++)
-        for (size_t i = HALO; i < grid.nx - HALO; i++)
-        {
-            if (metric.InsideBH(grid.xy(i, j)))
-                continue;
-            size_t ij = grid.Index(i, j);
-
-            double alpha = metric.GetAlpha(ij);
-            double W = 1.0 / sqrt(1.0 - Norm2(Tensor2(ux[ij], uy[ij]), metric.GetGamma_ll(ij))); // Lorentz factor
-
-            int cycles = 0;
-            double diff = 1;
-            while (abs(diff) > LAMBDA_ITTERATION_TOLERENCE && (cycles < MAX_LAMBDA_ITERATIONS))
-            {
-                cycles++;
-                double guessE = E[ij];
-                double guessFx = Fx[ij];
-                double guessFy = Fy[ij];
-                double guessPxx = Pxx[ij];
-                double guessPxy = Pxy[ij];
-                double guessPyy = Pyy[ij];
-
-                double uDotF = ux[ij] * guessFx + uy[ij] * guessFy;                                                         // u_i F^i
-                double uuDotP = ux[ij] * ux[ij] * guessPxx + uy[ij] * uy[ij] * guessPyy + 2.0 * ux[ij] * uy[ij] * guessPxy; // u_i u_j P^ij
-                double uDotPx = ux[ij] * guessPxx + uy[ij] * guessPxy;                                                      // u_j P^ij, i=1
-                double uDotPy = ux[ij] * guessPxy + uy[ij] * guessPyy;                                                      // u_j P^ij, i=2
-                double guessFluidE = W * W * (guessE - 2.0 * uDotF + uuDotP);
-                double guessFluidFx = W * W * W * (2.0 * uDotF - guessE - uuDotP) * ux[ij] + W * (guessFx - uDotPx);
-                double guessFluidFy = W * W * W * (2.0 * uDotF - guessE - uuDotP) * uy[ij] + W * (guessFy - uDotPy);
-                double partOfGammaNoneLinear = eta[ij] + kappa0[ij] * guessFluidE;
-
-                E[ij] = 0.0;
-                Fx[ij] = 0.0;
-                Fy[ij] = 0.0;
-                Pxx[ij] = 0.0;
-                Pxy[ij] = 0.0;
-                Pyy[ij] = 0.0;
-                for (size_t d = 0; d < stencil.nDir; d++)
-                {
-                    Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
-                    size_t index = Index(ij, d);
-                    double A = W * (1.0 - (dir[1] * ux[ij] + dir[2] * uy[ij]));
-                    double cDotGuessFluidF = dir[1] * guessFluidFx + dir[2] * guessFluidFy;
-
-                    double guessGammaNoneLinear = (partOfGammaNoneLinear + 3.0 * kappa1[ij] * cDotGuessFluidF) / (A * A * A);
-                    Inew[index] = (I[index] + alpha * grid.dt * guessGammaNoneLinear) / (1.0 + alpha * grid.dt * A * (kappaA[ij] + kappa0[ij]));
-
-                    double c = stencil.W(d) * Inew[index];
-                    E[ij] += c;
-                    Fx[ij] += c * dir[1];
-                    Fy[ij] += c * dir[2];
-                    Pxx[ij] += c * dir[1] * dir[1];
-                    Pxy[ij] += c * dir[1] * dir[2];
-                    Pyy[ij] += c * dir[2] * dir[2];
-                }
-                double diffE = IntegerPow<2>((guessE - E[ij]) / E[ij]);
-                double diffFx = IntegerPow<2>((guessFx - Fx[ij]) / Fx[ij]);
-                double diffFy = IntegerPow<2>((guessFy - Fy[ij]) / Fy[ij]);
-                double diffPxx = IntegerPow<2>((guessPxx - Pxx[ij]) / Pxx[ij]);
-                double diffPxy = IntegerPow<2>((guessPxy - Pxy[ij]) / Pxy[ij]);
-                double diffPyy = IntegerPow<2>((guessPyy - Pyy[ij]) / Pyy[ij]);
-                diff = sqrt(diffE + diffFx + diffFy + diffPxx + diffPxy + diffPyy);
-            }
-            //{
-            //    std::lock_guard<std::mutex> lock(mutex);
-            //    highestIteration = std::max(highestIteration, cycles);
-            //}
-        }
-    // std::cout << " highestIteration = " << highestIteration << std::endl;
-    std::swap(I, Inew);
-}
-void Radiation::CollideBackwardEulerTest()
-{
-    PROFILE_FUNCTION();
-
-    int highestIteration = 0;
-    // std::mutex mutex;
-    // PARALLEL_FOR(2)
-    for (size_t j = HALO; j < grid.ny - HALO; j++)
-        for (size_t i = HALO; i < grid.nx - HALO; i++)
-        {
-            if (metric.InsideBH(grid.xy(i, j)))
-                continue;
-            size_t ij = grid.Index(i, j);
-
-            double alpha = metric.GetAlpha(ij);
-            double betaSq = ux[ij] * ux[ij] + uy[ij] * uy[ij];
-            double lorentz = 1.0 / sqrt(1.0 - betaSq);
-
-            int cycles = 0;
-            double diff = 1;
-            while (abs(diff) > LAMBDA_ITTERATION_TOLERENCE && (cycles < MAX_LAMBDA_ITERATIONS))
-            {
-                cycles++;
-                double guessE = E[ij];
-                double guessFx = Fx[ij];
-                double guessFy = Fy[ij];
-                double guessPxx = Pxx[ij];
-                double guessPxy = Pxy[ij];
-                double guessPyy = Pyy[ij];
-
-                double uDotF = ux[ij] * guessFx + uy[ij] * guessFy;                                                         // u_i F^i
-                double uuDotP = ux[ij] * ux[ij] * guessPxx + uy[ij] * uy[ij] * guessPyy + 2.0 * ux[ij] * uy[ij] * guessPxy; // u_i u_j P^ij
-                double guessFluidE = lorentz * lorentz * (guessE - 2.0 * uDotF + uuDotP);
-
-                E[ij] = 0.0;
-                Fx[ij] = 0.0;
-                Fy[ij] = 0.0;
-                Pxx[ij] = 0.0;
-                Pxy[ij] = 0.0;
-                Pyy[ij] = 0.0;
-                for (size_t d = 0; d < stencil.nDir; d++)
-                {
-                    Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
-                    size_t index = Index(ij, d);
-                    double uDotDir = ux[ij] * dir[1] + uy[ij] * dir[2];
-                    double A = lorentz * (1.0 - uDotDir);
-
-                    // Moves at correct speed in correct direction, but can't derive it:
-                    // Inew[index] = (I[index] + alpha * grid.dt * A * A * kappa0[ij] * guessE) / (1.0 + alpha * grid.dt * A * A * kappa0[ij]);
-                    // Tests:
-                    // Inew[index] = (I[index] + alpha * grid.dt * kappa0[ij] * guessFluidE / (A * A * A * A)) / (1.0 + alpha * grid.dt * kappa0[ij]);
-                    // Inew[index] = (I[index] + alpha * grid.dt * kappa0[ij] * guessFluidE / A) / (1.0 + alpha * grid.dt * A * A * A * kappa0[ij]);
-                    // Inew[index] = (I[index] + alpha * grid.dt * kappa0[ij] * guessFluidE / (A * A * A)) / (1.0 + alpha * grid.dt * kappa0[ij] * A);
-                    // Inew[index] = (I[index] + alpha * grid.dt * kappa0[ij] * guessFluidE / (A * A * A)) / (1.0 + alpha * grid.dt * kappa0[ij]);
-                    Inew[index] = (I[index] + alpha * grid.dt * kappa0[ij] * guessE / (A * A)) / (1.0 + alpha * grid.dt * kappa0[ij] * A * A);
-
-                    // Moves at half speed in the wrong direction:
-                    // Inew[index] = (I[index] + alpha * grid.dt * kappa0[ij] * guessE / A) / (1.0 + alpha * grid.dt * kappa0[ij] / A);
-
-                    double c = stencil.W(d) * Inew[index];
-                    E[ij] += c;
-                    Fx[ij] += c * dir[1];
-                    Fy[ij] += c * dir[2];
-                    Pxx[ij] += c * dir[1] * dir[1];
-                    Pxy[ij] += c * dir[1] * dir[2];
-                    Pyy[ij] += c * dir[2] * dir[2];
-                }
-
-                if (guessE > 0.5)
-                {
-                    PrintDouble(guessE, "E before");
-                    PrintDouble(guessE, "E after ");
-                    PrintDouble(uDotF, "uDotF");
-                    PrintDouble(uuDotP, "uuDotP");
-                    PrintDouble(betaSq, "betaSq");
-                    PrintDouble(lorentz, "lorentz");
-                    PrintDouble(guessFluidE, "guessFluidE");
-                    for (int k = 0; k < stencil.nDir; k++)
-                        std::cout << "Iold[" << k << "] = " << I[k] << "\t"
-                                  << "Inew[" << k << "] = " << Inew[k] << "\n";
-                    ExitOnError();
-                }
-                double diffE = IntegerPow<2>((guessE - E[ij]) / E[ij]);
-                double diffFx = IntegerPow<2>((guessFx - Fx[ij]) / Fx[ij]);
-                double diffFy = IntegerPow<2>((guessFy - Fy[ij]) / Fy[ij]);
-                double diffPxx = IntegerPow<2>((guessPxx - Pxx[ij]) / Pxx[ij]);
-                double diffPxy = IntegerPow<2>((guessPxy - Pxy[ij]) / Pxy[ij]);
-                double diffPyy = IntegerPow<2>((guessPyy - Pyy[ij]) / Pyy[ij]);
-                diff = sqrt(diffE + diffFx + diffFy + diffPxx + diffPxy + diffPyy);
-            }
-            //{
-            //    std::lock_guard<std::mutex> lock(mutex);
-            //    highestIteration = std::max(highestIteration, cycles);
-            //}
-        }
-    // std::cout << " highestIteration = " << highestIteration << std::endl;
     std::swap(I, Inew);
 }
 
@@ -870,8 +639,6 @@ void Radiation::RunSimulation()
     }
     // --------------------------------------------------------
 
-    // int index = grid.Index(grid.nx / 4, grid.ny / 2);
-    int index = grid.Index(grid.nx / 4, grid.ny / 4);
     // ----------------- Main simulation Loop -----------------
     {
         PROFILE_SCOPE("Total Time");
@@ -898,11 +665,7 @@ void Radiation::RunSimulation()
 
             // Collide:
             ComputeMomentsIF();
-            // CollideStaticFluidForwardEuler();
-            // CollideStaticFluidBackwardEuler();
-            // CollideForwardEuler();
-            // CollideBackwardEuler();
-            CollideBackwardEulerTest();
+            Collide();
 
             // Save data:
             if (config.writeData && timeSinceLastFrame >= config.writePeriod - 1e-8)

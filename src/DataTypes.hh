@@ -113,6 +113,18 @@ inline std::ostream &operator<<(std::ostream &os, const Coord &x)
     os << "(" << x[1] << "," << x[2] << ")";
     return os;
 }
+inline Coord operator*(const double &scalar, const Coord &coord)
+{
+    return Coord(scalar * coord[1], scalar * coord[2]);
+}
+inline Coord operator*(const Coord &coord, const double &scalar)
+{
+    return Coord(scalar * coord[1], scalar * coord[2]);
+}
+inline Coord operator/(const Coord &coord, const double &scalar)
+{
+    return Coord(coord[1] / scalar, coord[2] / scalar);
+}
 
 struct Tensor2
 {
@@ -157,6 +169,16 @@ public:
         return (phi < 0) ? phi + 2.0 * M_PI : phi;
     }
 
+    // Operator overloading:
+    Tensor2 operator+(const Tensor2 &other) const
+    {
+        return Tensor2((*this)[1] + other[1], (*this)[2] + other[2]);
+    }
+    Tensor2 operator-(const Tensor2 &other) const
+    {
+        return Tensor2((*this)[1] - other[1], (*this)[2] - other[2]);
+    }
+
     // Basic Math:
     static double Dot(const Tensor2 &a, const Tensor2 &b)
     {
@@ -182,6 +204,18 @@ inline std::ostream &operator<<(std::ostream &os, const Tensor2 &v)
 {
     os << "(" << v[1] << "," << v[2] << ")";
     return os;
+}
+inline Tensor2 operator*(const double &scalar, const Tensor2 &tensor)
+{
+    return Tensor2(scalar * tensor[1], scalar * tensor[2]);
+}
+inline Tensor2 operator*(const Tensor2 &tensor, const double &scalar)
+{
+    return Tensor2(scalar * tensor[1], scalar * tensor[2]);
+}
+inline Tensor2 operator/(const Tensor2 &tensor, const double &scalar)
+{
+    return Tensor2(tensor[1] / scalar, tensor[2] / scalar);
 }
 
 struct Tensor3
@@ -213,14 +247,6 @@ public:
     }
 
     // Operator overloading:
-    Tensor3 operator/(double scalar) const
-    {
-        return Tensor3(data[0] / scalar, data[1] / scalar, data[2] / scalar);
-    }
-    Tensor3 operator*(double scalar) const
-    {
-        return Tensor3(data[0] * scalar, data[1] * scalar, data[2] * scalar);
-    }
     Tensor3 operator+(const Tensor3 &other) const
     {
         return Tensor3((*this)[0] + other[0], (*this)[1] + other[1], (*this)[2] + other[2]);
@@ -246,6 +272,18 @@ inline std::ostream &operator<<(std::ostream &os, const Tensor3 &v)
 {
     os << "(" << v[0] << "," << v[1] << "," << v[2] << ")";
     return os;
+}
+inline Tensor3 operator*(const double &scalar, const Tensor3 &tensor)
+{
+    return Tensor3(scalar * tensor[1], scalar * tensor[2], scalar * tensor[3]);
+}
+inline Tensor3 operator*(const Tensor3 &tensor, const double &scalar)
+{
+    return Tensor3(scalar * tensor[1], scalar * tensor[2], scalar * tensor[3]);
+}
+inline Tensor3 operator/(const Tensor3 &tensor, const double &scalar)
+{
+    return Tensor3(tensor[1] / scalar, tensor[2] / scalar, tensor[3] / scalar);
 }
 
 struct Tensor2x2

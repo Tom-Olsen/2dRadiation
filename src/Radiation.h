@@ -25,7 +25,7 @@ public:
     Config config;
     Logger logger;
 
-    // Set from the outside:
+    // Initial data is set from the outside (in code units):
     bool *isInitialGridPoint;
     RealBuffer initialE_LF;
     RealBuffer initialFx_LF;
@@ -37,19 +37,24 @@ public:
     RealBuffer initialKappa1;
     RealBuffer initialKappaA;
     RealBuffer initialEta;
+
+    // remove these two? also the initialFluxAngle_IF is currently used when initialising the data with the moments. this seems wrong.
     RealBuffer initialI;
     RealBuffer initialFluxAngle_IF;
-    // kappa* and eta must be givne in CGS units
-    // and will be converted to code units in the LoadInitialData() method.
 
+    // Rotation angle of stencils:
     RealBuffer rotationAngle;
     RealBuffer rotationAngleNew;
+
+    // Inertial frame momenta:
     RealBuffer E;
     RealBuffer Fx;
     RealBuffer Fy;
     RealBuffer Pxx;
     RealBuffer Pxy;
     RealBuffer Pyy;
+
+    // Lab frame momenta:
     RealBuffer E_LF;
     RealBuffer Fx_LF;
     RealBuffer Fy_LF;
@@ -57,14 +62,20 @@ public:
     RealBuffer Pxx_LF;
     RealBuffer Pxy_LF;
     RealBuffer Pyy_LF;
+
+    // Fluid properties:
     RealBuffer kappa0;
     RealBuffer kappa1;
     RealBuffer kappaA;
     RealBuffer eta;
     RealBuffer ux;
     RealBuffer uy;
+
+    // Population intensities:
     RealBuffer I;
     RealBuffer Inew;
+
+    // Fourier coefficients for geodesic streaming:
     RealBuffer coefficientsS;
     RealBuffer coefficientsX;
     RealBuffer coefficientsY;
@@ -100,11 +111,7 @@ public:
     void StreamCurvedFixed();
     void StreamCurvedAdaptive();
 
-    void CollideStaticFluidForwardEuler();
-    void CollideStaticFluidBackwardEuler();
-    void CollideForwardEuler();
-    void CollideBackwardEuler();
-    void CollideBackwardEulerTest();
+    void Collide();
 
     void RunSimulation();
 };
