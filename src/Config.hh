@@ -8,7 +8,8 @@ enum StreamingType
     FlatFixed,
     FlatAdaptive,
     CurvedFixed,
-    CurvedAdaptive
+    CurvedAdaptive,
+    GeodesicFixed
 };
 inline std::string StreamingName(int n)
 {
@@ -26,6 +27,9 @@ inline std::string StreamingName(int n)
         break;
     case 3:
         name = "CurvedAdaptive";
+        break;
+    case 4:
+        name = "GeodesicFixed";
         break;
     default:
         ExitOnError("Invalid StreamingType");

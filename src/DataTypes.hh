@@ -700,5 +700,11 @@ struct LookUpTable
 
         fileOut.close();
     }
+
+    void Print()
+    {
+        PrintList(inputs, "inputs");
+        PrintList(outputs, "outputs");
+    }
 };
 #endif //__INCLUDE_GUARD_DataTypes_hh__

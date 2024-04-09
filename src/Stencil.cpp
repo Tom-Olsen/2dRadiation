@@ -174,8 +174,11 @@ void InterpolationGrid::Print() const
 // -------------------------------------------------
 
 // -------------------- Stencil --------------------
-Stencil::Stencil(size_t nOrder, int nGhost)
+Stencil::Stencil(size_t nOrder, int nGhost, bool isStreamingStencil)
 {
+    if (!isStreamingStencil && nGhost > 0)
+        ExitOnError("Stencil with nGhost>0 is only allowed for streaming stencils.");
+
     name = "Stencil" + std::to_string(nOrder) + "." + std::to_string(nGhost);
     this->nDir = nOrder + nGhost;
     this->nGhost = nGhost;
@@ -196,7 +199,7 @@ Stencil::Stencil(size_t nOrder, int nGhost)
         cy[d] = MySin(phi[d]);
     }
 
-    if (nGhost > 0)
+    if (nGhost > 0 && isStreamingStencil)
     {
         if (nOrder % 2 != 0)
             ExitOnError("Stencil odd nOrder not allowed when using nGhost>0.");
@@ -276,11 +279,21 @@ Stencil::Stencil(size_t nOrder, int nGhost)
         }
     }
 
-    SortDirections();
-    interpolationGrid = InterpolationGrid(10 * nOrder, *this);
-    PopulateLookUpTable();
-    sigmaMax = fluxToSigmaTable.outputs[fluxToSigmaTable.size - 1];
-    relativeFluxMax = fluxToSigmaTable.inputs[fluxToSigmaTable.size - 1];
+    if (isStreamingStencil)
+    {
+        SortDirections();
+        interpolationGrid = InterpolationGrid(10 * nOrder, *this);
+        PopulateLookUpTable();
+        sigmaMax = fluxToSigmaTable.outputs[fluxToSigmaTable.size - 1];
+        relativeFluxMax = fluxToSigmaTable.inputs[fluxToSigmaTable.size - 1];
+    }
+    else
+    {
+        // Everythong not needed, just small init to avoid segfault
+        interpolationGrid = InterpolationGrid(3, *this);
+        sigmaMax = 0;
+        relativeFluxMax = 0;
+    }
 }
 
 void Stencil::SortDirections()
@@ -361,7 +374,12 @@ void Stencil::PopulateLookUpTable()
     double *I = new double[nDir];
     double sigma = 0;
     double currentF = 0;
-    double refinement = 0.5;
+    double refinement = 1;
+    // refinement controles stepsize:
+    // -1.0 = 10^+1.0 = 10.0
+    //  0.5 = 10^-0.5 =  0.316
+    //  1.0 = 10^-1.0 =  0.1
+    //  2.0 = 10^-2.0 =  0.01
 
     while (true)
     {

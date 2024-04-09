@@ -61,6 +61,19 @@ Tensor2 TransformLFtoIF(const Tensor2 &vector, const Tensor3x3 &tetradInverse)
                    tetradInverse[{2, 1}] * vector[1] + tetradInverse[{2, 2}] * vector[2]);
 }
 
+Tensor3 TransformIFtoLF(const Tensor3 &vector, const Tensor3x3 &tetrad)
+{
+    return Tensor3(tetrad[{0, 0}] * vector[0] + tetrad[{0, 1}] * vector[1] + tetrad[{0, 2}] * vector[2],
+                   tetrad[{1, 0}] * vector[0] + tetrad[{1, 1}] * vector[1] + tetrad[{1, 2}] * vector[2],
+                   tetrad[{2, 0}] * vector[0] + tetrad[{2, 1}] * vector[1] + tetrad[{2, 2}] * vector[2]);
+}
+Tensor3 TransformLFtoIF(const Tensor3 &vector, const Tensor3x3 &tetradInverse)
+{
+    return Tensor3(tetradInverse[{0, 0}] * vector[0] + tetradInverse[{0, 1}] * vector[1] + tetradInverse[{0, 2}] * vector[2],
+                   tetradInverse[{1, 0}] * vector[0] + tetradInverse[{1, 1}] * vector[1] + tetradInverse[{1, 2}] * vector[2],
+                   tetradInverse[{2, 0}] * vector[0] + tetradInverse[{2, 1}] * vector[1] + tetradInverse[{2, 2}] * vector[2]);
+}
+
 Tensor3x3 TransformIFtoLF(const Tensor3x3 &tensor, const Tensor3x3 &tetrad)
 {
     Tensor3x3 result(0.0);

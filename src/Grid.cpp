@@ -39,13 +39,29 @@ size_t Grid::Index(size_t i, size_t j)
 {
     return i + j * nx;
 }
+double Grid::x(size_t i)
+{
+    return startx + i * dx;
+}
+double Grid::y(size_t j)
+{
+    return starty + j * dy;
+}
+double Grid::x(double i)
+{
+    return startx + i * dx;
+}
+double Grid::y(double j)
+{
+    return starty + j * dy;
+}
 Coord Grid::xy(size_t i, size_t j)
 {
-    return Coord(startx + i * dx, starty + j * dy);
+    return Coord(x(i), y(j));
 }
 Coord Grid::xy(double i, double j)
 {
-    return Coord(startx + i * dx, starty + j * dy);
+    return Coord(x(i), y(j));
 }
 Coord Grid::xy(size_t ij)
 {

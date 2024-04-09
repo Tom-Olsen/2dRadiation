@@ -15,7 +15,6 @@ private:
     static constexpr double MIN_ENERGY_DENSITY = 1e-16;
     static constexpr double LAMBDA_ITTERATION_TOLERENCE = 1e-6;
     static constexpr int MAX_LAMBDA_ITERATIONS = 100;
-    static constexpr double MAX_INTERPOLATION_ERROR = 0.01; // 1%
 
 public:
     Grid &grid;
@@ -27,26 +26,22 @@ public:
 
     // Initial data is set from the outside (in code units):
     bool *isInitialGridPoint;
+    // config.initialDataType = InitialDataType::Intensities
+    RealBuffer initialI;
+    RealBuffer initialFluxAngle_IF;
+    // config.initialDataType = InitialDataType::Moments
     RealBuffer initialE_LF;
     RealBuffer initialFx_LF;
     RealBuffer initialFy_LF;
     RealBuffer initialPxx_LF;
     RealBuffer initialPxy_LF;
     RealBuffer initialPyy_LF;
-    RealBuffer initialKappa0;
-    RealBuffer initialKappa1;
-    RealBuffer initialKappaA;
-    RealBuffer initialEta;
-
-    // remove these two? also the initialFluxAngle_IF is currently used when initialising the data with the moments. this seems wrong.
-    RealBuffer initialI;
-    RealBuffer initialFluxAngle_IF;
 
     // Rotation angle of stencils:
     RealBuffer rotationAngle;
     RealBuffer rotationAngleNew;
 
-    // Inertial frame momenta:
+    // Inertial frame moments:
     RealBuffer E;
     RealBuffer Fx;
     RealBuffer Fy;
@@ -54,14 +49,14 @@ public:
     RealBuffer Pxy;
     RealBuffer Pyy;
 
-    // Lab frame momenta:
+    // Lab frame moments:
     RealBuffer E_LF;
     RealBuffer Fx_LF;
     RealBuffer Fy_LF;
-    RealBuffer F_LF;
     RealBuffer Pxx_LF;
     RealBuffer Pxy_LF;
     RealBuffer Pyy_LF;
+    RealBuffer F_LF; // only for saving
 
     // Fluid properties:
     RealBuffer kappa0;
@@ -98,8 +93,6 @@ public:
     Tensor2 AverageF(size_t i, size_t j);
 
     Tensor3 InitialDataLFtoIF(size_t ij);
-    double SigmaMax();
-    double FluxMax();
     void LoadInitialData();
     void UpdateFourierCoefficients();
     void ComputeMomentsIF();
@@ -110,6 +103,7 @@ public:
     void StreamFlatAdaptive();
     void StreamCurvedFixed();
     void StreamCurvedAdaptive();
+    void StreamGeodesicFixed();
 
     void Collide();
 

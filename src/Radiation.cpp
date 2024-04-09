@@ -10,10 +10,6 @@ Radiation::Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil
     initialPxx_LF.resize(grid.nxy);
     initialPxy_LF.resize(grid.nxy);
     initialPyy_LF.resize(grid.nxy);
-    initialKappa0.resize(grid.nxy);
-    initialKappa1.resize(grid.nxy);
-    initialKappaA.resize(grid.nxy);
-    initialEta.resize(grid.nxy);
     initialI.resize(grid.nxy * stencil.nDir);
     initialFluxAngle_IF.resize(grid.nxy);
 
@@ -28,10 +24,10 @@ Radiation::Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil
     E_LF.resize(grid.nxy);
     Fx_LF.resize(grid.nxy);
     Fy_LF.resize(grid.nxy);
-    F_LF.resize(grid.nxy);
     Pxx_LF.resize(grid.nxy);
     Pxy_LF.resize(grid.nxy);
     Pyy_LF.resize(grid.nxy);
+    F_LF.resize(grid.nxy);
     kappa0.resize(grid.nxy);
     kappa1.resize(grid.nxy);
     kappaA.resize(grid.nxy);
@@ -46,10 +42,35 @@ Radiation::Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil
     coefficientsCx.resize(grid.nxy * streamingStencil.nCoefficients);
     coefficientsCy.resize(grid.nxy * streamingStencil.nCoefficients);
 
-    // Initialize all Quaternions to identity:
+    // Initialize all rotations to identity:
     PARALLEL_FOR(1)
     for (size_t ij = 0; ij < grid.nxy; ij++)
         rotationAngle[ij] = rotationAngleNew[ij] = 0.0;
+
+    // Initialize all Fourier Coefficinets to identity:
+    PARALLEL_FOR(1)
+    for (size_t ij = 0; ij < grid.nxy; ij++)
+    {
+            double dataS[streamingStencil.nDir];
+            double dataX[streamingStencil.nDir];
+            double dataY[streamingStencil.nDir];
+            double dataCx[streamingStencil.nDir];
+            double dataCy[streamingStencil.nDir];
+            for (size_t d = 0; d < streamingStencil.nDir; d++)
+            {
+                Coord xy = grid.xy(ij);
+                dataS[d] = 1.0;
+                dataX[d] = xy[1];
+                dataY[d] = xy[2];
+                dataCx[d] = stencil.Cx(d);
+                dataCy[d] = stencil.Cy(d);
+            }
+            Fourier::GetCoefficients(streamingStencil, dataS, &coefficientsS[HarmonicIndex(0, ij)]);
+            Fourier::GetCoefficients(streamingStencil, dataX, &coefficientsX[HarmonicIndex(0, ij)]);
+            Fourier::GetCoefficients(streamingStencil, dataY, &coefficientsY[HarmonicIndex(0, ij)]);
+            Fourier::GetCoefficients(streamingStencil, dataCx, &coefficientsCx[HarmonicIndex(0, ij)]);
+            Fourier::GetCoefficients(streamingStencil, dataCy, &coefficientsCy[HarmonicIndex(0, ij)]);
+    }
 }
 Radiation::~Radiation()
 {
@@ -120,10 +141,6 @@ void Radiation::LoadInitialData()
         if (initialF_IF < MIN_FLUX_NORM)
             dirInitialF = Tensor2(1, 0);
 
-        kappa0[ij] = initialKappa0[ij];
-        kappa1[ij] = initialKappa1[ij];
-        kappaA[ij] = initialKappaA[ij];
-        eta[ij] = initialEta[ij];
         double sigma = stencil.fluxToSigmaTable.Evaluate(relativeF_IF);
         double normalization = stencil.fluxToNormalizationTable.Evaluate(relativeF_IF);
 
@@ -131,21 +148,15 @@ void Radiation::LoadInitialData()
         {
             // Von Mises distribution:
             // https://en.wikipedia.org/wiki/Von_Mises_distribution
-            if (isInitialGridPoint[ij])
-            {
-                rotationAngle[ij] = (isAdaptiveStreaming) ? initialFluxAngle_IF[ij] : 0;
-                for (size_t d = 0; d < stencil.nDir; d++)
-                    I[Index(ij, d)] = initialE_IF * exp(sigma * Tensor2::Dot(dirInitialF, stencil.C(d)) - normalization);
-            }
+            rotationAngle[ij] = (isAdaptiveStreaming) ? fmod(MyAtan2(initialFy_IF, initialFx_IF) + 2.0 * M_PI, 2.0 * M_PI) : 0;
+            for (size_t d = 0; d < stencil.nDir; d++)
+                I[Index(ij, d)] = initialE_IF * exp(sigma * Tensor2::Dot(dirInitialF, stencil.C(d)) - normalization);
         }
         else if (config.initialDataType == InitialDataType::Intensities)
         {
-            if (isInitialGridPoint[ij])
-            {
-                rotationAngle[ij] = (isAdaptiveStreaming) ? initialFluxAngle_IF[ij] : 0;
-                for (size_t d = 0; d < stencil.nDir; d++)
-                    I[Index(ij, d)] = initialE_LF[ij] * initialI[Index(ij, d)];
-            }
+            rotationAngle[ij] = (isAdaptiveStreaming) ? initialFluxAngle_IF[ij] : 0;
+            for (size_t d = 0; d < stencil.nDir; d++)
+                I[Index(ij, d)] = initialI[Index(ij, d)];
         }
     }
 }
@@ -175,7 +186,7 @@ void Radiation::UpdateFourierCoefficients()
                 Tensor3 uIF(alpha, c[1] * alpha, c[2] * alpha);
                 Tensor2 vLF = Vec2ObservedByEulObs<IF, LF>(uIF, xy, metric);
 
-                // Solve geodesic equation backwards:
+                // Solve geodesic equation backward:
                 if (!metric.InsideBH(xy))
                     s *= RK45_GeodesicEquation<-1>(grid.dt, xy, vLF, metric);
                 else // inside BH tetrad destroys the velocity stencil. Thus set it to 0.
@@ -184,7 +195,7 @@ void Radiation::UpdateFourierCoefficients()
                 Tensor2 vIF = TransformLFtoIF(vLF, metric.GetTetradInverse(xy));
 
                 // Final data points for fourier expansion:
-                dataS[d] = 1.0 / s;
+                dataS[d] = 1.0 / s; // due to backward integration s must be inverted.
                 dataX[d] = xy[1];
                 dataY[d] = xy[2];
                 dataCx[d] = vIF[1];
@@ -219,6 +230,7 @@ void Radiation::ComputeMomentsIF()
             Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
             size_t index = Index(ij, d);
             double c = stencil.W(d) * I[index];
+
             E[ij] += c;
             Fx[ij] += c * dir[1];
             Fy[ij] += c * dir[2];
@@ -257,7 +269,7 @@ void Radiation::ComputeMomentsLF()
             Pxx_LF[ij] = EnergyMomentumTensorLF[{1, 1}];
             Pxy_LF[ij] = EnergyMomentumTensorLF[{1, 2}];
             Pyy_LF[ij] = EnergyMomentumTensorLF[{2, 2}];
-            F_LF[ij] = sqrt(Fx_LF[ij] * Fx_LF[ij] + Fy_LF[ij] * Fy_LF[ij]);
+            F_LF[ij] = sqrt(abs(Norm2(Tensor2(Fx_LF[ij], Fy_LF[ij]), metric.GetGamma_ll(ij))));
         }
 }
 
@@ -347,7 +359,6 @@ void Radiation::StreamFlatFixed()
         {
             // Index of lattice point ij:
             size_t ij = grid.Index(i, j);
-
             for (size_t d = 0; d < stencil.nDir; d++)
             {
                 // Index of population d at lattice point ij:
@@ -462,13 +473,13 @@ void Radiation::StreamCurvedFixed()
 
                 // Intensity interpolation:
                 double alpha = metric.GetAlpha(ij);
-                double intensityAt_i0j0 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i0, j0))) * IntensityAt(grid.Index(i0, j0), vTempIF);
-                double intensityAt_i0j1 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i0, j1))) * IntensityAt(grid.Index(i0, j1), vTempIF);
-                double intensityAt_i1j0 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i1, j0))) * IntensityAt(grid.Index(i1, j0), vTempIF);
-                double intensityAt_i1j1 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i1, j1))) * IntensityAt(grid.Index(i1, j1), vTempIF);
+                double intensityAt_i0j0 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i0, j0))) * IntensityAt(grid.Index(i0, j0), vTempIF);
+                double intensityAt_i0j1 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i0, j1))) * IntensityAt(grid.Index(i0, j1), vTempIF);
+                double intensityAt_i1j0 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i1, j0))) * IntensityAt(grid.Index(i1, j0), vTempIF);
+                double intensityAt_i1j1 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i1, j1))) * IntensityAt(grid.Index(i1, j1), vTempIF);
 
                 // Interpolate intensity from neighbouring 4 lattice points to temporary point:
-                Inew[index] = IntegerPow<4>(s) * BilinearInterpolation(iTemp - i0, jTemp - j0, intensityAt_i0j0, intensityAt_i0j1, intensityAt_i1j0, intensityAt_i1j1);
+                Inew[index] = IntegerPow<3>(s) * BilinearInterpolation(iTemp - i0, jTemp - j0, intensityAt_i0j0, intensityAt_i0j1, intensityAt_i1j0, intensityAt_i1j1);
             }
         }
     std::swap(I, Inew);
@@ -522,17 +533,81 @@ void Radiation::StreamCurvedAdaptive()
 
                 // Intensity interpolation:
                 double alpha = metric.GetAlpha(ij);
-                double intensityAt_i0j0 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i0, j0))) * IntensityAt(grid.Index(i0, j0), vTempIF);
-                double intensityAt_i0j1 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i0, j1))) * IntensityAt(grid.Index(i0, j1), vTempIF);
-                double intensityAt_i1j0 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i1, j0))) * IntensityAt(grid.Index(i1, j0), vTempIF);
-                double intensityAt_i1j1 = IntegerPow<4>(alpha / metric.GetAlpha(grid.Index(i1, j1))) * IntensityAt(grid.Index(i1, j1), vTempIF);
+                double intensityAt_i0j0 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i0, j0))) * IntensityAt(grid.Index(i0, j0), vTempIF);
+                double intensityAt_i0j1 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i0, j1))) * IntensityAt(grid.Index(i0, j1), vTempIF);
+                double intensityAt_i1j0 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i1, j0))) * IntensityAt(grid.Index(i1, j0), vTempIF);
+                double intensityAt_i1j1 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i1, j1))) * IntensityAt(grid.Index(i1, j1), vTempIF);
 
                 // Interpolate intensity from neighbouring 4 lattice points to temporary point:
-                Inew[index] = IntegerPow<4>(s) * BilinearInterpolation(iTemp - i0, jTemp - j0, intensityAt_i0j0, intensityAt_i0j1, intensityAt_i1j0, intensityAt_i1j1);
+                Inew[index] = IntegerPow<3>(s) * BilinearInterpolation(iTemp - i0, jTemp - j0, intensityAt_i0j0, intensityAt_i0j1, intensityAt_i1j0, intensityAt_i1j1);
             }
         }
     std::swap(I, Inew);
     std::swap(rotationAngle, rotationAngleNew);
+}
+void Radiation::StreamGeodesicFixed()
+{
+    // Never use this, it is only a performance test for the paper.
+    PROFILE_FUNCTION();
+    PARALLEL_FOR(2)
+    for (size_t j = HALO; j < grid.ny - HALO; j++)
+        for (size_t i = HALO; i < grid.nx - HALO; i++)
+        {
+            // Index of lattice point ij:
+            size_t ij = grid.Index(i, j);
+
+            // Skip LPs which are inside BH:
+            if (metric.InsideBH(grid.xy(i, j)))
+            {
+                for (size_t d = 0; d < stencil.nDir; d++)
+                    Inew[Index(ij, d)] = 0;
+                continue;
+            }
+
+            Coord xy0 = grid.xy(i, j);
+            double alpha = metric.GetAlpha(ij);
+            for (size_t d = 0; d < stencil.nDir; d++)
+            {
+                // Index of population d at lattice point ij:
+                size_t index = Index(ij, d);
+
+                // Get quantities at emission point:
+                double s = 1;
+                Coord xyTemp = xy0;
+                Tensor2 c = streamingStencil.C(d);
+                Tensor3 uIF(alpha, c[1] * alpha, c[2] * alpha);
+                Tensor2 vLF = Vec2ObservedByEulObs<IF, LF>(uIF, xyTemp, metric);
+
+                s /= RK45_GeodesicEquation<-1>(grid.dt, xyTemp, vLF, metric);
+                Tensor2 vTempIF = TransformLFtoIF(vLF, metric.GetTetradInverse(xyTemp));
+
+                // Skip temporary Grid Points inside BH:
+                if (metric.InsideBH(xyTemp))
+                {
+                    Inew[index] = 0;
+                    continue;
+                }
+
+                // Get 4 nearest Grid Points:
+                double iTemp = grid.i(xyTemp[1]);
+                double jTemp = grid.j(xyTemp[2]);
+                size_t i0 = std::floor(iTemp);
+                size_t i1 = i0 + 1;
+                size_t j0 = std::floor(jTemp);
+                size_t j1 = j0 + 1;
+
+                // Intensity interpolation:
+                double alpha = metric.GetAlpha(ij);
+                double intensityAt_i0j0 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i0, j0))) * IntensityAt(grid.Index(i0, j0), vTempIF);
+                double intensityAt_i0j1 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i0, j1))) * IntensityAt(grid.Index(i0, j1), vTempIF);
+                double intensityAt_i1j0 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i1, j0))) * IntensityAt(grid.Index(i1, j0), vTempIF);
+                double intensityAt_i1j1 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i1, j1))) * IntensityAt(grid.Index(i1, j1), vTempIF);
+
+                // Interpolate intensity from neighbouring 4 lattice points to temporary point:
+                Inew[index] = s * s * s * BilinearInterpolation(iTemp - i0, jTemp - j0, intensityAt_i0j0, intensityAt_i0j1, intensityAt_i1j0, intensityAt_i1j1);
+            }
+        }
+    std::swap(I, Inew);
 }
 
 void Radiation::Collide()
@@ -565,9 +640,13 @@ void Radiation::Collide()
                 double guessPxy = Pxy[ij];
                 double guessPyy = Pyy[ij];
 
-                double uF = ux[ij] * guessFx + uy[ij] * guessFy;                                                         // u_i F^i
-                double uuP = ux[ij] * ux[ij] * guessPxx + uy[ij] * uy[ij] * guessPyy + 2.0 * ux[ij] * uy[ij] * guessPxy; // u_i u_j P^ij
+                double uF = ux[ij] * guessFx + uy[ij] * guessFy;    // u_i F^i
+                double uxP = ux[ij] * guessPxx + uy[ij] * guessPxy; // x component of u_i P^ij
+                double uyP = ux[ij] * guessPxy + uy[ij] * guessPyy; // y component of u_i P^ij
+                double uuP = ux[ij] * uxP + uy[ij] * uyP; // u_i u_j P^ij
                 double guessFluidE = lorentz * lorentz * (guessE - 2.0 * uF + uuP);
+                double guessFluidFx = lorentz * lorentz * (guessFluidFx - lorentz * guessE * ux[ij] - uxP + ux[ij] * lorentz / (1.0 + lorentz) * ((2.0 * lorentz + 1.0) * uF - lorentz * uuP));
+                double guessFluidFy = lorentz * lorentz * (guessFluidFy - lorentz * guessE * uy[ij] - uyP + uy[ij] * lorentz / (1.0 + lorentz) * ((2.0 * lorentz + 1.0) * uF - lorentz * uuP));
 
                 E[ij] = 0.0;
                 Fx[ij] = 0.0;
@@ -577,19 +656,22 @@ void Radiation::Collide()
                 Pyy[ij] = 0.0;
                 for (size_t d = 0; d < stencil.nDir; d++)
                 {
-                    Tensor2 dir = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
+                    Tensor2 nIF = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
                     size_t index = Index(ij, d);
-                    double uDir = ux[ij] * dir[1] + uy[ij] * dir[2];
-                    double A = lorentz * (1.0 - uDir);
-                    Inew[index] = (I[index] + alpha * grid.dt * kappa0[ij] * guessFluidE / (A * A)) / (1.0 + alpha * grid.dt * kappa0[ij] * A);
+                    double un = ux[ij] * nIF[1] + uy[ij] * nIF[2];  // u must be in IF for this to work?
+                    double A = lorentz * (1.0 - un);
+                    double nF = nIF[1] * guessFx + nIF[2] * guessFy;
+
+                    double M = kappa0[ij] * guessFluidE + 3.0 * kappa1[ij] * nF;
+                    Inew[index] = (I[index] + alpha * grid.dt * (eta[ij] + M) / (A * A)) / (1.0 + alpha * grid.dt * (kappaA[ij] + kappa0[ij]) * A);
 
                     double c = stencil.W(d) * Inew[index];
                     E[ij] += c;
-                    Fx[ij] += c * dir[1];
-                    Fy[ij] += c * dir[2];
-                    Pxx[ij] += c * dir[1] * dir[1];
-                    Pxy[ij] += c * dir[1] * dir[2];
-                    Pyy[ij] += c * dir[2] * dir[2];
+                    Fx[ij] += c * nIF[1];
+                    Fy[ij] += c * nIF[2];
+                    Pxx[ij] += c * nIF[1] * nIF[1];
+                    Pxy[ij] += c * nIF[1] * nIF[2];
+                    Pyy[ij] += c * nIF[2] * nIF[2];
                 }
 
                 double diffE = IntegerPow<2>((guessE - E[ij]) / E[ij]);
@@ -646,16 +728,18 @@ void Radiation::RunSimulation()
         double timeSinceLastFrame = 0;
 
         // Save initial data:
-        ComputeMomentsIF();
-        ComputeMomentsLF();
-        grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
-        timeSinceLastFrame = 0;
+        if (config.writeData)
+        {
+            ComputeMomentsIF();
+            ComputeMomentsLF();
+            grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
+            timeSinceLastFrame = 0;
+        }
 
         for (int n = 0; n < logger.timeSteps; n++)
         {
             if (config.printToTerminal)
-                std::cout << "\n"
-                          << n << "," << Format(currentTime, 4) << "," << std::flush;
+                std::cout << "\n" << n << "," << Format(currentTime, 4) << "," << std::flush;
 
             // Update stuff:
             if (config.updateFourierHarmonics)
@@ -666,15 +750,6 @@ void Radiation::RunSimulation()
             // Collide:
             ComputeMomentsIF();
             Collide();
-
-            // Save data:
-            if (config.writeData && timeSinceLastFrame >= config.writePeriod - 1e-8)
-            {
-                ComputeMomentsIF();
-                ComputeMomentsLF();
-                grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
-                timeSinceLastFrame = 0;
-            }
 
             // Stream:
             switch (config.streamingType)
@@ -693,10 +768,32 @@ void Radiation::RunSimulation()
                 UpdateRotationMatrizes();
                 StreamCurvedAdaptive();
                 break;
+            case (StreamingType::GeodesicFixed):
+                UpdateRotationMatrizes();
+                StreamGeodesicFixed();
+                break;
+            }
+
+            // Save data:
+            if (config.writeData && timeSinceLastFrame >= config.writePeriod - 1e-8)
+            {
+                ComputeMomentsIF();
+                ComputeMomentsLF();
+                grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
+                timeSinceLastFrame = 0;
             }
 
             currentTime += grid.dt;
             timeSinceLastFrame += grid.dt;
+        }
+
+        // Save final data:
+        if (config.writeData && timeSinceLastFrame != grid.dt)
+        {
+            ComputeMomentsIF();
+            ComputeMomentsLF();
+            grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
+            timeSinceLastFrame = 0;
         }
     }
     // --------------------------------------------------------

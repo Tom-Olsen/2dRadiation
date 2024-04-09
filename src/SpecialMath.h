@@ -14,6 +14,9 @@ Tensor3 NullNormalize(const Tensor3 &vector, const Tensor3x3 &g_ll);
 Tensor2 TransformIFtoLF(const Tensor2 &vector, const Tensor3x3 &tetrad);
 Tensor2 TransformLFtoIF(const Tensor2 &vector, const Tensor3x3 &tetradInverse);
 
+Tensor3 TransformIFtoLF(const Tensor3 &vector, const Tensor3x3 &tetrad);
+Tensor3 TransformLFtoIF(const Tensor3 &vector, const Tensor3x3 &tetradInverse);
+
 Tensor3x3 TransformIFtoLF(const Tensor3x3 &tensor, const Tensor3x3 &tetrad);
 Tensor3x3 TransformLFtoIF(const Tensor3x3 &tensor, const Tensor3x3 &tetradInverse);
 

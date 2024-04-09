@@ -341,6 +341,48 @@ void LorentzBoostToFluidFrame()
     T_FF.Print("T_FF");
 }
 
+void VelocityTransformation()
+{
+    // Partial test, can be deleted
+    size_t nx, ny;
+    nx = ny = 101;
+    Coord start(2, 2);
+    Coord end(3, 3);
+    Grid grid(nx, ny, start, end);
+    KerrSchild metric(grid, 1.0, 0.5);
+
+    Coord xy(2.2, 2.8);
+    Tensor3x3 tetrad = metric.GetTetrad(xy);
+    Tensor3x3 tetradInv = metric.GetTetradInverse(xy);
+    Tensor3x3 g_ll = metric.GetMetric_ll(xy);
+    Tensor2x2 gamma_ll = metric.GetGamma_ll(xy);
+
+    Tensor3 NLF = metric.uEulObs(xy);
+    Tensor3 NIF = TransformLFtoIF(NLF, tetradInv);
+    Tensor2 nIF(NIF[1], NIF[2]);
+    Tensor2 nLF = TransformIFtoLF(nIF, tetrad);
+
+    NLF.Print("NLF");
+    NIF.Print("NIF");
+    nIF.Print("nIF");
+    nLF.Print("nLF");
+
+    Tensor3 ULF = metric.uEulObs(Coord(2.5, 2.5));
+    Tensor3 UIF = TransformLFtoIF(ULF, tetradInv);
+    Tensor2 uIF(UIF[1], UIF[2]);
+    Tensor2 uLF = TransformIFtoLF(uIF, tetrad);
+
+    ULF.Print("ULF");
+    UIF.Print("UIF");
+    uIF.Print("uIF");
+    uLF.Print("uLF");
+
+    PrintDouble(Norm2(ULF, g_ll), "|ULF|²");
+    PrintDouble(Norm2(UIF, metric.GetMinkowskiMetric_ll(xy)), "|UIF|²");
+    PrintDouble(Norm2(uIF, metric.GetMinkowskiGamma_ll(xy)), "|uIF|²");
+    PrintDouble(Norm2(uLF, gamma_ll), "|uLF|²");
+}
+
 int main()
 {
     // SphereWaveShadowRegion();
@@ -350,4 +392,14 @@ int main()
     // LambdaIteration();
     // UnitConversion();
     // LorentzBoostToFluidFrame();
+    // VelocityTransformation();
+
+    for(int i = 0; i < 16; i++)
+    {
+        double phi = i * 2.0 * M_PI / 16;
+        double x = MyCos(phi);
+        double y = MySin(phi);
+        
+        cout << phi << ", " << fmod(MyAtan2(y, x) + 2.0 * M_PI, 2.0 * M_PI) << endl;
+    }
 }

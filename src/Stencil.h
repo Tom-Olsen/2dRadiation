@@ -75,7 +75,7 @@ private:
 
 public:
     // Constructor:
-    Stencil(size_t nOrder, int nGhost = 0);
+    Stencil(size_t nOrder, int nGhost = 0, bool isStreamingStencil = true);
     // Getters:
     double W(size_t d) const;
     double Phi(size_t d) const;
