@@ -411,7 +411,7 @@ void Diffusion(Stencil stencil, StreamingType streamingType, double kappaS, doub
     // double lambda = 0.0;  // = 3kappa1 / kappa0
     double kappa0 = kappaS / (1.0 - lambda / 9.0);
     double kappa1 = kappa0 * lambda / 3.0;
-    double correctionFactor = 0.5;
+    double correctionFactor = 0.65;
     double PE = kappa0 * grid.dx;
     double D = 1.0 / (2.0 * kappa0) * (1.0 + correctionFactor * PE);
 
@@ -422,8 +422,8 @@ void Diffusion(Stencil stencil, StreamingType streamingType, double kappaS, doub
         {
             .name = name,
             .t0 = t0,
-            .simTime = 0.5,
-            .writePeriod = 0.25,
+            .simTime = 2.0,
+            .writePeriod = 1.0,
             .updateFourierHarmonics = false,
             .keepSourceNodesActive = false,
             .writeData = true,
@@ -667,12 +667,9 @@ void DiffusionAnalysis(int n)
 {
     // Diffusion:
     double lambda = 0;
-    double cfl = 0.1;   // low cfl needed to reproduce correct flux density. With higher cfl (e.g 0.25) only energy density is reproduced correctly.
+    double cfl = 0.5;
     if (n == 0) Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 100.0, lambda, cfl);
-    if (n == 1) Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 1000.0, lambda, cfl);
-    if (n == 2) Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 10000.0, lambda, cfl);
-    if (n == 3) Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 100000.0, lambda, cfl);
-    if (n == 4) Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 1000000.0, lambda, cfl);
+    if (n == 1) Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 100000.0, lambda, cfl);
     
     // if (n == 0) MovingDiffusion(Stencil(20, 0), StreamingType::FlatFixed, 10000.0, lambda, cfl);
 }
@@ -683,75 +680,7 @@ int main(int argc, char *argv[])
     int n = 1;
     if (argc > 1)
         n = atoi(argv[1]);
-
-    // Straight Beam:
-    // if (n == 0)
-    // StraightBeam(Stencil(200, 0), StreamingType::FlatFixed, 0.75, Tensor2(1, 0));
-    // if (n == 1)
-    // StraightBeam(Stencil(110, 0), StreamingType::FlatAdaptive, 0.75, Tensor2(1, 0));
-    // if (n == 2)
-    // StraightBeam(Stencil(100, 10), StreamingType::FlatAdaptive, 0.75, Tensor2(1, 0));
-
-    // Straight Beam Shadow:
-    // if (n == 0)
-    //     StraightBeamShadow(Stencil(200, 0), StreamingType::FlatFixed, 0.75);
-    // if (n == 1)
-    //     StraightBeamShadow(Stencil(100, 10), StreamingType::FlatAdaptive, 0.75);
-    // if (n == 2)
-    //     StraightBeamShadow(Stencil(110, 0), StreamingType::FlatAdaptive, 0.75);
-
-    // Sphere Wave
-    // if(n==1) SphereWave(Stencil(60,0), StreamingType::FlatFixed   , 0, 0.75);
-    // if(n==2) SphereWave(Stencil(20,5), StreamingType::FlatAdaptive, 0, 0.75);
-    // if(n==3) SphereWave(Stencil(25,0), StreamingType::FlatAdaptive, 0, 0.75);
-
-    // Sphere Wave Shadow
-    // if(n==2) SphereWaveShadow(Stencil(200, 0), StreamingType::FlatFixed   ,  10, 0.75);
-    // if(n==2) SphereWaveShadow(Stencil(110, 0), StreamingType::FlatAdaptive,  10, 0.75);
-    // if(n==2) SphereWaveShadow(Stencil(100,10), StreamingType::FlatAdaptive,  10, 0.75);
-
-    // Curved Beam:
-    // if (n == 3)
-    //     CurvedBeam(Stencil(200, 0), StreamingType::CurvedFixed, 0.75);
-    // if (n == 4)
-    //     CurvedBeam(Stencil(110, 0), StreamingType::CurvedAdaptive, 0.75);
-    // if (n == 5)
-    //     CurvedBeam(Stencil(100, 10), StreamingType::CurvedAdaptive, 0.75);
-    // CurvedBeam(Stencil(200, 0), StreamingType::CurvedAdaptive, 0.75);
-
-    // Diffusion:
-    // double lambda = 0;
-    // double cfl = 0.25;
-    // if (n == 0)
-        // Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 100.0, lambda, 0.25);
-        // MovingDiffusion(Stencil(20, 0), StreamingType::FlatFixed, 10000.0, lambda, 0.25);
-    // if (n == 0)
-    // Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 100.0, lambda, cfl);
-    // if (n == 1)
-    // Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 500.0, lambda, cfl);
-    // if (n == 2)
-    // Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 1000.0, lambda, cfl);
-    // if (n == 3)
-    // Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 10000.0, lambda, cfl);
-    // if (n == 4)
-    // Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 100000.0, lambda, cfl);
-    // if (n == 5)
-    // Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 1000000.0, lambda, cfl);
-
-    // if (n == 0)
-    // Diffusion1D(Stencil(20, 0), StreamingType::FlatFixed, 100.0, lambda, cfl);
-
-    // Testing:
-    // CflTestCurvedBeam(n);
-    // CflTestDiffusion(n);
-    // if (n == 0)
-    //    TestBeam(Stencil(200), StreamingType::FlatFixed, 0.75, Tensor2(1, 1));
-    // if (n == 1)
-    //    TestBeam(Stencil(110), StreamingType::FlatAdaptive, 0.75, Tensor2(1, 1));
-    // if (n == 2)
-    //    TestBeam(Stencil(100, 10), StreamingType::FlatAdaptive, 0.75, Tensor2(1, 1));
-
-
+        
     // Paper:
     // StreamingTypePerformanceAnalysis(n);
     // SphereWaveAnalysis(n); // not used in paper, I use 3D version instead.

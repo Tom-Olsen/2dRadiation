@@ -747,10 +747,6 @@ void Radiation::RunSimulation()
             if (config.keepSourceNodesActive)
                 LoadInitialData();
 
-            // Collide:
-            ComputeMomentsIF();
-            Collide();
-
             // Stream:
             switch (config.streamingType)
             {
@@ -774,6 +770,13 @@ void Radiation::RunSimulation()
                 break;
             }
 
+            // Collide:
+            ComputeMomentsIF();
+            Collide();
+
+            currentTime += grid.dt;
+            timeSinceLastFrame += grid.dt;
+
             // Save data:
             if (config.writeData && timeSinceLastFrame >= config.writePeriod - 1e-8)
             {
@@ -782,13 +785,10 @@ void Radiation::RunSimulation()
                 grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
                 timeSinceLastFrame = 0;
             }
-
-            currentTime += grid.dt;
-            timeSinceLastFrame += grid.dt;
         }
 
         // Save final data:
-        if (config.writeData && timeSinceLastFrame != grid.dt)
+        if (config.writeData && timeSinceLastFrame != 0)
         {
             ComputeMomentsIF();
             ComputeMomentsLF();
