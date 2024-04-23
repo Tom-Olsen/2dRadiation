@@ -20,6 +20,8 @@ Tensor3 TransformLFtoIF(const Tensor3 &vector, const Tensor3x3 &tetradInverse);
 Tensor3x3 TransformIFtoLF(const Tensor3x3 &tensor, const Tensor3x3 &tetrad);
 Tensor3x3 TransformLFtoIF(const Tensor3x3 &tensor, const Tensor3x3 &tetradInverse);
 
+Tensor3x3 BoostMatrix(const Tensor2 & u);
+
 template <class FrameIn, class FrameOut>
 Tensor2 Vec2ObservedByEulObs(const Tensor3 &u, const Coord &xy, Metric &metric);
 #endif //__INCLUDE_GUARD_AdvancedMath_h__

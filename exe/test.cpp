@@ -318,7 +318,6 @@ void LorentzBoostToFluidFrame()
     Tensor3x3 boost(gamma, -gamma * uFluid[1], -gamma * uFluid[2],
                     -gamma * uFluid[1], 1 + (gamma - 1) * uFluid[1] * uFluid[1] / betaSq, (gamma - 1) * uFluid[1] * uFluid[2] / betaSq,
                     -gamma * uFluid[2], (gamma - 1) * uFluid[1] * uFluid[2] / betaSq, 1 + (gamma - 1) * uFluid[2] * uFluid[2] / betaSq);
-
     Tensor3x3 boostInv = boost.Invert();
 
     double E = 1;
@@ -391,15 +390,15 @@ int main()
     // GrammSchmidt();
     // LambdaIteration();
     // UnitConversion();
-    // LorentzBoostToFluidFrame();
+    LorentzBoostToFluidFrame();
     // VelocityTransformation();
 
-    for(int i = 0; i < 16; i++)
-    {
-        double phi = i * 2.0 * M_PI / 16;
-        double x = MyCos(phi);
-        double y = MySin(phi);
-        
-        cout << phi << ", " << fmod(MyAtan2(y, x) + 2.0 * M_PI, 2.0 * M_PI) << endl;
-    }
+    // for(int i = 0; i < 16; i++)
+    // {
+        // double phi = i * 2.0 * M_PI / 16;
+        // double x = MyCos(phi);
+        // double y = MySin(phi);
+        // 
+        // cout << phi << ", " << fmod(MyAtan2(y, x) + 2.0 * M_PI, 2.0 * M_PI) << endl;
+    // }
 }

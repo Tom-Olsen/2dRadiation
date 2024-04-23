@@ -45,14 +45,16 @@ enum InitialDataType
 struct Config
 {
     std::string name;
-    double t0;
-    double simTime;
-    double writePeriod;
-    bool updateFourierHarmonics;
-    bool keepSourceNodesActive;
-    bool writeData;
-    bool printToTerminal;
-    StreamingType streamingType;
-    InitialDataType initialDataType;
+    double t0 = 0;
+    double simTime = 1;
+    double writePeriod = 1;
+    bool updateFourierHarmonics = false;
+    bool keepSourceNodesActive = false;
+    bool writeData = true;
+    bool printSetup = true;
+    bool printProgress = true;
+    bool printResults = true;
+    StreamingType streamingType = StreamingType::FlatFixed;
+    InitialDataType initialDataType = InitialDataType::Moments;
 };
 #endif //__INCLUDE_GUARD_Config_hh__

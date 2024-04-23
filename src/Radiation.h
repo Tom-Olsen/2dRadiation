@@ -13,7 +13,7 @@ private:
     static constexpr int HALO = 1;
     static constexpr double MIN_FLUX_NORM = 1e-16;
     static constexpr double MIN_ENERGY_DENSITY = 1e-16;
-    static constexpr double LAMBDA_ITTERATION_TOLERENCE = 1e-6;
+    static constexpr double LAMBDA_ITTERATION_TOLERENCE = 1e-5;
     static constexpr int MAX_LAMBDA_ITERATIONS = 100;
 
 public:
@@ -76,6 +76,11 @@ public:
     RealBuffer coefficientsY;
     RealBuffer coefficientsCx;
     RealBuffer coefficientsCy;
+
+    // Testing:
+    IntBuffer itterationCount;
+    int maxItterationCount = 0;
+    double averageItterationCount = 0;
 
     Radiation() = delete;
     Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil, Config config);

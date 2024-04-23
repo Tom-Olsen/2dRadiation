@@ -95,6 +95,23 @@ Tensor3x3 TransformLFtoIF(const Tensor3x3 &tensor, const Tensor3x3 &tetradInvers
     return result;
 }
 
+
+
+
+Tensor3x3 BoostMatrix(const Tensor2 & u)
+{
+    double betaSq = Tensor2::Dot(u, u);
+    double gamma = 1.0 / sqrt(1.0 - betaSq);
+    if (betaSq < 1e-10)
+        return Tensor3x3(1, 0, 0, 0, 1, 0, 0, 0, 1);
+    return Tensor3x3(gamma, -gamma * u[1], -gamma * u[2],
+                    -gamma * u[1], 1 + (gamma - 1) * u[1] * u[1] / betaSq, (gamma - 1) * u[1] * u[2] / betaSq,
+                    -gamma * u[2], (gamma - 1) * u[1] * u[2] / betaSq, 1 + (gamma - 1) * u[2] * u[2] / betaSq);
+}
+
+
+
+
 template <class FrameIn, class FrameOut>
 Tensor2 Vec2ObservedByEulObs(const Tensor3 &u, const Coord &xy, Metric &metric)
 {

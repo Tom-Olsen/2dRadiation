@@ -41,11 +41,15 @@ Radiation::Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil
     coefficientsY.resize(grid.nxy * streamingStencil.nCoefficients);
     coefficientsCx.resize(grid.nxy * streamingStencil.nCoefficients);
     coefficientsCy.resize(grid.nxy * streamingStencil.nCoefficients);
+    itterationCount.resize(grid.nxy);
 
     // Initialize all rotations to identity:
     PARALLEL_FOR(1)
     for (size_t ij = 0; ij < grid.nxy; ij++)
+    {
         rotationAngle[ij] = rotationAngleNew[ij] = 0.0;
+        itterationCount[ij] = 0;
+    }
 
     // Initialize all Fourier Coefficinets to identity:
     PARALLEL_FOR(1)
@@ -148,7 +152,8 @@ void Radiation::LoadInitialData()
         {
             // Von Mises distribution:
             // https://en.wikipedia.org/wiki/Von_Mises_distribution
-            rotationAngle[ij] = (isAdaptiveStreaming) ? fmod(MyAtan2(initialFy_IF, initialFx_IF) + 2.0 * M_PI, 2.0 * M_PI) : 0;
+            if (!(initialF_IF < MIN_FLUX_NORM))
+                rotationAngle[ij] = (isAdaptiveStreaming) ? fmod(MyAtan2(initialFy_IF, initialFx_IF) + 2.0 * M_PI, 2.0 * M_PI) : 0;
             for (size_t d = 0; d < stencil.nDir; d++)
                 I[Index(ij, d)] = initialE_IF * exp(sigma * Tensor2::Dot(dirInitialF, stencil.C(d)) - normalization);
         }
@@ -613,9 +618,6 @@ void Radiation::StreamGeodesicFixed()
 void Radiation::Collide()
 {
     PROFILE_FUNCTION();
-
-    // int highestIteration = 0;
-    // std::mutex mutex;
     PARALLEL_FOR(2)
     for (size_t j = HALO; j < grid.ny - HALO; j++)
         for (size_t i = HALO; i < grid.nx - HALO; i++)
@@ -682,11 +684,19 @@ void Radiation::Collide()
                 double diffPyy = IntegerPow<2>((guessPyy - Pyy[ij]) / Pyy[ij]);
                 diff = sqrt(diffE + diffFx + diffFy + diffPxx + diffPxy + diffPyy);
             }
-            // {
-            //    std::lock_guard<std::mutex> lock(mutex);
-            //    highestIteration = std::max(highestIteration, cycles);
-            // }
+            itterationCount[ij] = cycles;
         }
+
+    int maxItteration = 0;
+    for(int ij = 0; ij < grid.nxy; ij++)
+    {
+        maxItteration = std::max(maxItteration, itterationCount[ij]);
+        averageItterationCount += itterationCount[ij];
+        itterationCount[ij] = 0;
+    }
+    maxItterationCount = std::max(maxItterationCount, maxItteration);
+    //PrintDouble(maxItteration, " maxItteration");
+
     std::swap(I, Inew);
 }
 
@@ -705,7 +715,7 @@ void Radiation::RunSimulation()
     logger.SetValues(config.name, config.simTime);
 
     // Initial data output:
-    if (config.printToTerminal)
+    if (config.printSetup)
     {
         std::cout << " nx           = " << grid.nx << "\n";
         std::cout << " ny           = " << grid.ny << "\n";
@@ -738,7 +748,7 @@ void Radiation::RunSimulation()
 
         for (int n = 0; n < logger.timeSteps; n++)
         {
-            if (config.printToTerminal)
+            if (config.printProgress)
                 std::cout << "\n" << n << "," << Format(currentTime, 4) << "," << std::flush;
 
             // Update stuff:
@@ -801,14 +811,32 @@ void Radiation::RunSimulation()
     session.End();
 
     // ---------------------- Termination ---------------------
+    logger.maxItterationCount = maxItterationCount;
+    averageItterationCount /= (logger.timeSteps * (grid.nx - 2) * (grid.ny - 2));
+    logger.averageItterationCount = averageItterationCount;
     std::vector<std::string> names = session.GetAllFunctionNames();
-    if (config.printToTerminal)
+    if (config.printResults)
         std::cout << std::endl;
+        
+    if (config.printResults)
+    {
+        std::cout << "Max Lambda Itteration Count     = " << maxItterationCount << std::endl;
+        std::cout << "Average Lambda Itteration Count = " << averageItterationCount << std::endl;
+    }
+
+    double totalTime;
+    double writingTime;
     for (int i = 0; i < names.size(); i++)
     {
-        if (config.printToTerminal)
+        if (config.printResults)
             session.PrintFunctionDuration(names[i]);
+        if (names[i] == "Total Time")
+            totalTime = session.GetTotalTime(names[i]);
+        if (names[i] == "void Grid::WriteFrametoCsv(float, const RealBuffer&, const RealBuffer&, const RealBuffer&, const RealBuffer&, std::string, std::string)")
+            writingTime = session.GetTotalTime(names[i]);
         logger.AddTimeMeasurement(names[i], session.GetTotalTime(names[i]));
     }
+    if (config.printResults)
+        std::cout << "Computation Time: " << totalTime - writingTime << "s" << std::endl;
     // --------------------------------------------------------
 }

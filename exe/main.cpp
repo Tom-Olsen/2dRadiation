@@ -2,15 +2,19 @@
 #include "../src/Radiation.h"
 using namespace std;
 
-void StraightBeam(Stencil stencil, StreamingType streamingType, double cfl)
+#define PRINT_SETUP false
+#define PRINT_PROGRESS false
+#define PRINT_RESULTS true
+
+void SphereWave(Stencil stencil, StreamingType streamingType, double cfl)
 {
     // Create Radiation object:
-    size_t nx = 900 + 1 + 2;
+    size_t nx = 300 + 1 + 2;
     size_t ny = 300 + 1 + 2;
-    double dx = 3.0 / (nx - 1.0 - 2.0);
-    double dy = 1.0 / (ny - 1.0 - 2.0);
-    Coord start(0 - dx, -0.5 - dy);
-    Coord end(3 + dx, 0.5 + dy);
+    double dx = 2.0 / (nx - 1.0 - 2.0);
+    double dy = 2.0 / (ny - 1.0 - 2.0);
+    Coord start(-1 - dx, -1 - dy);
+    Coord end(1 + dx, 1 + dy);
     Grid grid(nx, ny, start, end);
     grid.SetCFL(cfl);
     Minkowski metric(grid, 1.0, 0.0);
@@ -19,16 +23,18 @@ void StraightBeam(Stencil stencil, StreamingType streamingType, double cfl)
     // Config:
     Config config =
         {
-            .name = "Straight Beam 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(cfl, 2) + "cfl",
+            .name = "Sphere Wave 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(cfl, 2) + "cfl",
             .t0 = 0,
-            .simTime = 2.8,
-            .writePeriod = 3, // write first and last frame only.
+            .simTime = 0.7,
+            .writePeriod = 1.0, // write first and last frame only.
             .updateFourierHarmonics = false,
-            .keepSourceNodesActive = true,
+            .keepSourceNodesActive = false,
             .writeData = true,
-            .printToTerminal = true,
+            .printSetup = PRINT_SETUP,
+            .printProgress = PRINT_PROGRESS,
+            .printResults = PRINT_RESULTS,
             .streamingType = streamingType,
-            .initialDataType = InitialDataType::Moments,
+            .initialDataType = InitialDataType::Intensities,
         };
 
     // Radiation:
@@ -40,20 +46,124 @@ void StraightBeam(Stencil stencil, StreamingType streamingType, double cfl)
         {
             size_t ij = grid.Index(i, j);
             Coord xy = grid.xy(i, j);
-            double y = xy[2];
+            double r = xy.EuklNorm();
+            // Fluid:
             radiation.kappa0[ij] = 0;
             radiation.kappa1[ij] = 0;
             radiation.kappaA[ij] = 0;
             radiation.eta[ij] = 0;
-            if (-0.25 < y && y < 0.25 && i <= 1)
+            radiation.ux[ij] = 0;
+            radiation.uy[ij] = 0;
+            if (r < 0.1)
             {
                 radiation.isInitialGridPoint[ij] = true;
+                // Initial data given by moments:
                 radiation.initialE_LF[ij] = 1;
-                radiation.initialFx_LF[ij] = 1;
-                radiation.initialFy_LF[ij] = 0;
+                radiation.initialFx_LF[ij] = (r > 1e-6) ? xy[1] / r : 0;
+                radiation.initialFy_LF[ij] = (r > 1e-6) ? xy[2] / r : 0;
+                // Initial data given by intensities:
+                for(int d=0; d<stencil.nDir; d++)
+                    radiation.initialI[radiation.Index(ij, d)] = 1;
+                radiation.initialFluxAngle_IF[ij] = 0;
             }
         }
     radiation.RunSimulation();
+}
+void SphereWaveAnalysis(int n)
+{
+    double cfl = 0.9;
+    if(n==0) SphereWave(Stencil(20, 0), StreamingType::FlatFixed   , cfl);
+    if(n==1) SphereWave(Stencil(20, 0), StreamingType::FlatAdaptive, cfl);
+    if(n==2) SphereWave(Stencil(16, 4), StreamingType::FlatAdaptive, cfl);
+     
+    if(n==0) SphereWave(Stencil(50, 0), StreamingType::FlatFixed   , cfl);
+    if(n==1) SphereWave(Stencil(50, 0), StreamingType::FlatAdaptive, cfl);
+    if(n==2) SphereWave(Stencil(40,10), StreamingType::FlatAdaptive, cfl);
+     
+    if(n==0) SphereWave(Stencil(100,  0), StreamingType::FlatFixed   , cfl);
+    if(n==1) SphereWave(Stencil(100,  0), StreamingType::FlatAdaptive, cfl);
+    if(n==2) SphereWave(Stencil( 80, 20), StreamingType::FlatAdaptive, cfl);
+     
+    if(n==0) SphereWave(Stencil(200, 0), StreamingType::FlatFixed   , cfl);
+    if(n==1) SphereWave(Stencil(200, 0), StreamingType::FlatAdaptive, cfl);
+    if(n==2) SphereWave(Stencil(160,40), StreamingType::FlatAdaptive, cfl);
+}
+
+void SphereWaveShadow(Stencil stencil, StreamingType streamingType, double cfl)
+{
+    // Create Radiation object:
+    size_t nx = 300 + 1 + 2;
+    size_t ny = 300 + 1 + 2;
+    double dx = 2.0 / (nx - 1.0 - 2.0);
+    double dy = 2.0 / (ny - 1.0 - 2.0);
+    Coord start(-0.25 - dx, -0.25 - dy);
+    Coord end(1.75 + dx, 1.75 + dy);
+    Grid grid(nx, ny, start, end);
+    grid.SetCFL(cfl);
+    Minkowski metric(grid, 1.0, 0.0);
+    Stencil streamingStencil(5, 0, false);
+
+    // Config:
+    Config config =
+        {
+            .name = "Sphere Wave Shadow 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(cfl, 2) + "cfl",
+            .t0 = 0,
+            .simTime = 1.5,
+            .writePeriod = 2, // write first and last frame only.
+            .updateFourierHarmonics = false,
+            .keepSourceNodesActive = true,
+            .writeData = true,
+            .printSetup = PRINT_SETUP,
+            .printProgress = PRINT_PROGRESS,
+            .printResults = PRINT_RESULTS,
+            .streamingType = streamingType,
+            .initialDataType = InitialDataType::Intensities,
+        };
+
+    // Radiation:
+    Radiation radiation(metric, stencil, streamingStencil, config);
+
+    // Initial Data:
+    Coord center(0.75, 0.75);
+    double sourceRadius = 0.10;
+    double shadowRadius = 0.25;
+    for (size_t j = 0; j < grid.ny; j++)
+        for (size_t i = 0; i < grid.nx; i++)
+        {
+            size_t ij = grid.Index(i, j);
+            Coord xy = grid.xy(i, j);
+            double r = xy.EuklNorm();
+            radiation.kappa0[ij] = 0;
+            radiation.kappa1[ij] = 0;
+            radiation.kappaA[ij] = 0;
+            radiation.eta[ij] = 0;
+            if (r < sourceRadius)
+            {
+                radiation.isInitialGridPoint[ij] = true;
+                // Initial data given by moments:
+                radiation.initialE_LF[ij] = 1;
+                radiation.initialFx_LF[ij] = (r > 1e-6) ? xy[1] / r : 0;
+                radiation.initialFy_LF[ij] = (r > 1e-6) ? xy[2] / r : 0;
+                // Initial data given by intensities:
+                for(int d=0; d<stencil.nDir; d++)
+                    radiation.initialI[radiation.Index(ij, d)] = 1;
+                radiation.initialFluxAngle_IF[ij] = 0;
+            }
+            double dist = (center - xy).EuklNorm();
+            if (dist <= shadowRadius)
+                radiation.kappaA[ij] = 1e10;
+        }
+    radiation.RunSimulation();
+}
+void SphereWaveShadowAnalysis(int n)
+{
+    double cfl = 0.9;
+    if (n == 0) SphereWaveShadow(Stencil(100,  0), StreamingType::FlatFixed, cfl);
+    if (n == 1) SphereWaveShadow(Stencil(200,  0), StreamingType::FlatFixed, cfl);
+    if (n == 2) SphereWaveShadow(Stencil(100,  0), StreamingType::FlatAdaptive, cfl);
+    if (n == 3) SphereWaveShadow(Stencil( 80, 20), StreamingType::FlatAdaptive, cfl);
+    if (n == 4) SphereWaveShadow(Stencil(200,  0), StreamingType::FlatAdaptive, cfl);
+    if (n == 5) SphereWaveShadow(Stencil(160, 40), StreamingType::FlatAdaptive, cfl);
 }
 
 void BeamCrossing(Stencil stencil, StreamingType streamingType, double cfl)
@@ -84,7 +194,9 @@ void BeamCrossing(Stencil stencil, StreamingType streamingType, double cfl)
             .updateFourierHarmonics = false,
             .keepSourceNodesActive = true,
             .writeData = true,
-            .printToTerminal = true,
+            .printSetup = PRINT_SETUP,
+            .printProgress = PRINT_PROGRESS,
+            .printResults = PRINT_RESULTS,
             .streamingType = streamingType,
             .initialDataType = initialDataType,
         };
@@ -153,151 +265,52 @@ void BeamCrossing(Stencil stencil, StreamingType streamingType, double cfl)
         }
     radiation.RunSimulation();
 }
-
-void StraightBeamShadow(Stencil stencil, StreamingType streamingType, double cfl)
+void BeamCrossingAnalysis(int n)
 {
-    // Create Radiation object:
-    size_t nx = 900 + 1 + 2;
-    size_t ny = 300 + 1 + 2;
-    double dx = 3.0 / (nx - 1.0 - 2.0);
-    double dy = 1.0 / (ny - 1.0 - 2.0);
-    Coord start(0 - dx, -0.5 - dy);
-    Coord end(3 + dx, 0.5 + dy);
-    Grid grid(nx, ny, start, end);
-    grid.SetCFL(cfl);
-    Minkowski metric(grid, 1.0, 0.0);
-    Stencil streamingStencil(5, 0, false);
-
-    // Config:
-    Config config =
-        {
-            .name = "Straight Beam Shadow 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(cfl, 2) + "cfl",
-            .t0 = 0,
-            .simTime = 2.8,
-            .writePeriod = 3, // write first and last frame only.
-            .updateFourierHarmonics = false,
-            .keepSourceNodesActive = true,
-            .writeData = true,
-            .printToTerminal = true,
-            .streamingType = streamingType,
-            .initialDataType = InitialDataType::Moments,
-        };
-
-    // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
-
-    // Initial Data:
-    Coord center(1.0 / 3.0, 0.0);
-    double radius = 0.125;
-    for (size_t j = 0; j < grid.ny; j++)
-        for (size_t i = 0; i < grid.nx; i++)
-        {
-            size_t ij = grid.Index(i, j);
-            Coord xy = grid.xy(i, j);
-            double y = xy[2];
-            radiation.kappa0[ij] = 0;
-            radiation.kappa1[ij] = 0;
-            radiation.kappaA[ij] = 0;
-            radiation.eta[ij] = 0;
-            if (-0.25 < y && y < 0.25 && i <= 1)
-            {
-                radiation.isInitialGridPoint[ij] = true;
-                radiation.initialE_LF[ij] = 1;
-                radiation.initialFx_LF[ij] = 1;
-                radiation.initialFy_LF[ij] = 0;
-            }
-            double dist = (center - xy).EuklNorm();
-            if (dist <= radius)
-                radiation.kappaA[ij] = 1e10;
-        }
-    radiation.RunSimulation();
+    double cfl = 0.9;
+    if(n == 0) BeamCrossing(Stencil(200,  0), StreamingType::FlatFixed   , cfl);
+    if(n == 1) BeamCrossing(Stencil(100,  0), StreamingType::FlatAdaptive, cfl);
+    if(n == 2) BeamCrossing(Stencil( 80, 20), StreamingType::FlatAdaptive, cfl);
+    if(n == 1) BeamCrossing(Stencil(200,  0), StreamingType::FlatAdaptive, cfl);
+    if(n == 2) BeamCrossing(Stencil(160, 40), StreamingType::FlatAdaptive, cfl);
 }
 
-void SphereWave(Stencil stencil, StreamingType streamingType, double cfl)
+void Diffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl, double correctionFactor)
 {
     // Create Radiation object:
-    size_t nx = 300 + 1 + 2;
-    size_t ny = 300 + 1 + 2;
-    double dx = 2.0 / (nx - 1.0 - 2.0);
-    double dy = 2.0 / (ny - 1.0 - 2.0);
-    Coord start(-1 - dx, -1 - dy);
-    Coord end(1 + dx, 1 + dy);
+    size_t nx = 200 + 1 + 2;
+    size_t ny = 200 + 1 + 2;
+    double dx = 1.0 / (nx - 1.0 - 2.0);
+    double dy = 1.0 / (ny - 1.0 - 2.0);
+    Coord start(-0.5 - dx, -0.5 - dy);
+    Coord end(0.5 + dx, 0.5 + dy);
     Grid grid(nx, ny, start, end);
     grid.SetCFL(cfl);
     Minkowski metric(grid, 1.0, 0.0);
     Stencil streamingStencil(5, 0, false);
 
+    // Initial Data:
+    // double lambda = 0.0;  // = 3kappa1 / kappa0
+    double kappa0 = kappaS / (1.0 - lambda / 9.0);
+    double kappa1 = kappa0 * lambda / 3.0;
+    double PE = kappa0 * grid.dx;
+    double D = 1.0 / (2.0 * kappa0) * (1.0 + correctionFactor * PE);
+
     // Config:
+    double t0 = 1;
+    std::string name = "Diffusion 2d/" + StreamingName(streamingType) + " " + stencil.name + " " + Format(cfl, 2, true) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny " + std::to_string((int)kappa0) + "kappa0 " + std::to_string((int)kappa1) + "kappa1 " + Format(PE, 1, true) + "PE " + Format(correctionFactor, 3);
     Config config =
         {
-            .name = "Sphere Wave 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(cfl, 2) + "cfl",
-            .t0 = 0,
-            .simTime = 0.7,
-            .writePeriod = 1.0, // write first and last frame only.
+            .name = name,
+            .t0 = t0,
+            .simTime = 2.0,
+            .writePeriod = 1.0,
             .updateFourierHarmonics = false,
             .keepSourceNodesActive = false,
             .writeData = true,
-            .printToTerminal = true,
-            .streamingType = streamingType,
-            .initialDataType = InitialDataType::Intensities,
-        };
-
-    // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
-
-    // Initial Data:
-    for (size_t j = 0; j < grid.ny; j++)
-        for (size_t i = 0; i < grid.nx; i++)
-        {
-            size_t ij = grid.Index(i, j);
-            Coord xy = grid.xy(i, j);
-            double r = xy.EuklNorm();
-            // Fluid:
-            radiation.kappa0[ij] = 0;
-            radiation.kappa1[ij] = 0;
-            radiation.kappaA[ij] = 0;
-            radiation.eta[ij] = 0;
-            radiation.ux[ij] = 0;
-            radiation.uy[ij] = 0;
-            if (r < 0.1)
-            {
-                radiation.isInitialGridPoint[ij] = true;
-                // Initial data given by moments:
-                radiation.initialE_LF[ij] = 1;
-                radiation.initialFx_LF[ij] = (r > 1e-6) ? xy[1] / r : 0;
-                radiation.initialFy_LF[ij] = (r > 1e-6) ? xy[2] / r : 0;
-                // Initial data given by intensities:
-                for(int d=0; d<stencil.nDir; d++)
-                    radiation.initialI[radiation.Index(ij, d)] = 1;
-                radiation.initialFluxAngle_IF[ij] = 0;
-            }
-        }
-    radiation.RunSimulation();
-}
-
-void SphereWaveShadow(Stencil stencil, StreamingType streamingType, double cfl)
-{
-    // Create Radiation object:
-    size_t nx, ny;
-    nx = ny = 300;
-    Coord start(-0.5, -0.5);
-    Coord end(2, 2);
-    Grid grid(nx, ny, start, end);
-    grid.SetCFL(cfl);
-    Minkowski metric(grid, 1.0, 0.0);
-    Stencil streamingStencil(5, 0, false);
-
-    // Config:
-    Config config =
-        {
-            .name = "Sphere Wave Shadow 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(cfl, 2) + "cfl",
-            .t0 = 0,
-            .simTime = 1.55,
-            .writePeriod = 2, // write first and last frame only.
-            .updateFourierHarmonics = false,
-            .keepSourceNodesActive = true,
-            .writeData = true,
-            .printToTerminal = true,
+            .printSetup = PRINT_SETUP,
+            .printProgress = PRINT_PROGRESS,
+            .printResults = PRINT_RESULTS,
             .streamingType = streamingType,
             .initialDataType = InitialDataType::Moments,
         };
@@ -305,32 +318,144 @@ void SphereWaveShadow(Stencil stencil, StreamingType streamingType, double cfl)
     // Radiation:
     Radiation radiation(metric, stencil, streamingStencil, config);
 
+    for (size_t j = 0; j < grid.ny; j++)
+        for (size_t i = 0; i < grid.nx; i++)
+        {
+            size_t ij = grid.Index(i, j);
+            Coord xy = grid.xy(i, j);
+            double x = xy[1];
+            double y = xy[2];
+            double r = xy.EuklNorm();
+            radiation.kappa0[ij] = kappa0;
+            radiation.kappa1[ij] = kappa1;
+            radiation.kappaA[ij] = 0;
+            radiation.eta[ij] = 0;
+            radiation.isInitialGridPoint[ij] = true;
+            radiation.ux[ij] = 0.0;
+            radiation.uy[ij] = 0.0;
+
+            double E = 1.0 / t0 * exp(-r * r / (4.0 * D * t0));
+            radiation.initialE_LF[ij] = E;
+            radiation.initialFx_LF[ij] = (x * E) / (2.0 * t0 * (1.0 + correctionFactor * PE));
+            radiation.initialFy_LF[ij] = (y * E) / (2.0 * t0 * (1.0 + correctionFactor * PE));
+        }
+
+    radiation.RunSimulation();
+}
+void DiffusionAnalysis(int n)
+{
+    // Diffusion:
+    double lambda = 0;
+    double correctionFactor = 0.64;
+    double cfl = 0.9;
+    if (n == 0) Diffusion(Stencil(40, 0), StreamingType::FlatFixed   , 100.0, lambda, cfl, correctionFactor);
+    if (n == 1) Diffusion(Stencil(40, 0), StreamingType::FlatFixed   , 100000.0, lambda, cfl, correctionFactor);
+    if (n == 2) Diffusion(Stencil(32, 8), StreamingType::FlatAdaptive, 100.0, lambda, cfl, correctionFactor);
+    if (n == 3) Diffusion(Stencil(32, 8), StreamingType::FlatAdaptive, 100000.0, lambda, cfl, correctionFactor);
+}
+
+void MovingDiffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl, double correctionFactor, double ux)
+{
+    // Create Radiation object:
+    size_t nx = 300 + 1 + 2;
+    size_t ny = 100 + 1 + 2;
+    double dx = 3.0 / (nx - 1.0 - 2.0);
+    double dy = 1.0 / (ny - 1.0 - 2.0);
+    Coord start(-1.0 - dx, -0.5 - dy);
+    Coord end(2.0 + dx, 0.5 + dy);
+    Grid grid(nx, ny, start, end);
+    grid.SetCFL(cfl);
+    Minkowski metric(grid, 1.0, 0.0);
+    Stencil streamingStencil(5, 0, false);
+
     // Initial Data:
-    Coord center(0.75, 0.75);
-    double sourceRadius = 0.25;
-    double shadowRadius = 0.25;
+    // double lambda = 0.0;  // = 3kappa1 / kappa0
+    double kappa0 = kappaS / (1.0 - lambda / 9.0);
+    double kappa1 = kappa0 * lambda / 3.0;
+    double PE = kappa0 * grid.dx;
+    double D = 1.0 / (2.0 * kappa0) * (1.0 + correctionFactor * PE);
+
+    // Account for time dilation:
+    // We use t=1,2,3 when looking at the system from the lab frame (fluid is moving light gets dragged by the fluid)
+    // We use t=(1,2,3)/gamma(ux) when looking at the system from the fluid frame (fluid is at rest)
+    double simTime = 2.0;
+    if (ux == 0)
+    {
+        double gamma = 1.0 / sqrt(1.0 - 0.5 * 0.5);
+        simTime = simTime / gamma;
+    }
+
+    // Config:
+    double t0 = 1;
+    std::string name = "Moving Diffusion 2d/" + StreamingName(streamingType) + " " + stencil.name + " " + Format(cfl, 2, true) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny " + std::to_string((int)kappa0) + "kappa0 " + std::to_string((int)kappa1) + "kappa1 " + Format(PE, 1, true) + "PE " + Format(ux, 3) + "ux";
+    Config config =
+        {
+            .name = name,
+            .t0 = t0,
+            .simTime = simTime,
+            .writePeriod = simTime / 2.0,
+            .updateFourierHarmonics = false,
+            .keepSourceNodesActive = false,
+            .writeData = true,
+            .printSetup = PRINT_SETUP,
+            .printProgress = PRINT_PROGRESS,
+            .printResults = PRINT_RESULTS,
+            .streamingType = streamingType,
+            .initialDataType = InitialDataType::Moments,
+        };
+
+    // Radiation:
+    Radiation radiation(metric, stencil, streamingStencil, config);
+
     for (size_t j = 0; j < grid.ny; j++)
         for (size_t i = 0; i < grid.nx; i++)
         {
             size_t ij = grid.Index(i, j);
             Coord xy = grid.xy(i, j);
             double r = xy.EuklNorm();
-            radiation.kappa0[ij] = 0;
-            radiation.kappa1[ij] = 0;
+            double x = xy[1];
+            double y = xy[2];
+            radiation.kappa0[ij] = kappa0;
+            radiation.kappa1[ij] = kappa1;
             radiation.kappaA[ij] = 0;
             radiation.eta[ij] = 0;
-            if (r < sourceRadius)
-            {
-                radiation.isInitialGridPoint[ij] = true;
-                radiation.initialE_LF[ij] = 1;
-                radiation.initialFx_LF[ij] = xy[1] / r;
-                radiation.initialFy_LF[ij] = xy[2] / r;
-            }
-            double dist = (center - xy).EuklNorm();
-            if (dist <= shadowRadius)
-                radiation.kappaA[ij] = 1e10;
+            radiation.isInitialGridPoint[ij] = true;
+            radiation.ux[ij] = ux;
+            radiation.uy[ij] = 0.0;
+
+            // Fluid Frame Moments:
+            double E = 1.0 / t0 * exp(-r * r / (4.0 * D * t0));
+            double Fx = (x * E) / (2.0 * t0 * (1.0 + correctionFactor * PE));
+            double Fy = (y * E) / (2.0 * t0 * (1.0 + correctionFactor * PE));
+
+            // Lab Frame Moments:
+            Tensor3x3 boost = BoostMatrix(Tensor2(-ux, 0));
+            Tensor3x3 Tff = Tensor3x3(E, Fx, Fy, Fx, 0, 0, Fy, 0, 0);
+            Tensor3x3 Tlf(0);
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 3; j++)
+                    for (int I = 0; I < 3; I++)
+                        for (int J = 0; J < 3; J++)
+                            Tlf[{i, j}] += Tff[{I, J}] * boost[{i, I}] * boost[{j, J}];
+
+            // Use FF E for both so that the scaling is the same
+            radiation.initialE_LF[ij] = E;//Tlf[{0, 0}];
+            radiation.initialFx_LF[ij] = Tlf[{1, 0}];
+            radiation.initialFy_LF[ij] = Tlf[{2, 0}];
         }
+        
     radiation.RunSimulation();
+}
+void MovingDiffusionAnalysis(int n)
+{
+    double lambda = 0;
+    double cfl = 0.9;
+    double correctionFactor = 0.64;
+
+    if (n == 0) MovingDiffusion(Stencil(40, 0), StreamingType::FlatFixed   , 1000.0, lambda, cfl, correctionFactor, 0.0);
+    if (n == 1) MovingDiffusion(Stencil(40, 0), StreamingType::FlatFixed   , 1000.0, lambda, cfl, correctionFactor, 0.5);
+    if (n == 2) MovingDiffusion(Stencil(32, 8), StreamingType::FlatAdaptive, 1000.0, lambda, cfl, correctionFactor, 0.0);
+    if (n == 3) MovingDiffusion(Stencil(32, 8), StreamingType::FlatAdaptive, 1000.0, lambda, cfl, correctionFactor, 0.5);
 }
 
 void CurvedBeam(Stencil stencil, StreamingType streamingType, double cfl, int nF = 5, bool updateFourierHarmonics = false)
@@ -358,7 +483,9 @@ void CurvedBeam(Stencil stencil, StreamingType streamingType, double cfl, int nF
             .updateFourierHarmonics = updateFourierHarmonics,
             .keepSourceNodesActive = true,
             .writeData = true,
-            .printToTerminal = true,
+            .printSetup = PRINT_SETUP,
+            .printProgress = PRINT_PROGRESS,
+            .printResults = PRINT_RESULTS,
             .streamingType = streamingType,
             .initialDataType = InitialDataType::Moments,
         };
@@ -392,230 +519,21 @@ void CurvedBeam(Stencil stencil, StreamingType streamingType, double cfl, int nF
         }
     radiation.RunSimulation();
 }
-
-void Diffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl)
+void CurvedBeamAnalysis(int n)
 {
-    // Create Radiation object:
-    size_t nx, ny;
-    nx = ny = 200 + 1 + 2;
-    double dx = 1.0 / (nx - 1.0 - 2.0);
-    double dy = 1.0 / (ny - 1.0 - 2.0);
-    Coord start(-0.5 - dx, -0.5 - dy);
-    Coord end(0.5 + dx, 0.5 + dy);
-    Grid grid(nx, ny, start, end);
-    grid.SetCFL(cfl);
-    Minkowski metric(grid, 1.0, 0.0);
-    Stencil streamingStencil(5, 0, false);
+    double cfl = 0.9;
+    if (n == 0) CurvedBeam(Stencil( 50,  0), StreamingType::CurvedFixed  , cfl, 5);
+    if (n == 1) CurvedBeam(Stencil(100,  0), StreamingType::CurvedFixed  , cfl, 5);
+    if (n == 2) CurvedBeam(Stencil(200,  0), StreamingType::CurvedFixed  , cfl, 5);
 
-    // Initial Data:
-    // double lambda = 0.0;  // = 3kappa1 / kappa0
-    double kappa0 = kappaS / (1.0 - lambda / 9.0);
-    double kappa1 = kappa0 * lambda / 3.0;
-    double correctionFactor = 0.65;
-    double PE = kappa0 * grid.dx;
-    double D = 1.0 / (2.0 * kappa0) * (1.0 + correctionFactor * PE);
-
-    // Config:
-    double t0 = 1;
-    std::string name = "Diffusion 2d/" + StreamingName(streamingType) + " " + stencil.name + " " + Format(cfl, 2, true) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny " + std::to_string((int)kappa0) + "kappa0 " + std::to_string((int)kappa1) + "kappa1 " + Format(PE, 1, true) + "PE";
-    Config config =
-        {
-            .name = name,
-            .t0 = t0,
-            .simTime = 2.0,
-            .writePeriod = 1.0,
-            .updateFourierHarmonics = false,
-            .keepSourceNodesActive = false,
-            .writeData = true,
-            .printToTerminal = true,
-            .streamingType = streamingType,
-            .initialDataType = InitialDataType::Moments,
-        };
-
-    // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
-
-    for (size_t j = 0; j < grid.ny; j++)
-        for (size_t i = 0; i < grid.nx; i++)
-        {
-            size_t ij = grid.Index(i, j);
-            Coord xy = grid.xy(i, j);
-            double x = xy[1];
-            double y = xy[2];
-            double r = xy.EuklNorm();
-            radiation.kappa0[ij] = kappa0;
-            radiation.kappa1[ij] = kappa1;
-            radiation.kappaA[ij] = 0;
-            radiation.eta[ij] = 0;
-            radiation.isInitialGridPoint[ij] = true;
-            radiation.ux[ij] = 0.0;
-            radiation.uy[ij] = 0.0;
-
-            double E = 1.0 / t0 * exp(-r * r / (4.0 * D * t0));
-            radiation.initialE_LF[ij] = E;
-            // radiation.initialFx_LF[ij] = (x * E) / (2.0 * t0);
-            // radiation.initialFy_LF[ij] = (y * E) / (2.0 * t0);
-            radiation.initialFx_LF[ij] = (x * E) / (2.0 * t0 * (1.0 + correctionFactor * PE));
-            radiation.initialFy_LF[ij] = (y * E) / (2.0 * t0 * (1.0 + correctionFactor * PE));
-        }
-
-    radiation.RunSimulation();
+    if (n == 0) CurvedBeam(Stencil( 50,  0), StreamingType::CurvedAdaptive, cfl, 5);
+    if (n == 1) CurvedBeam(Stencil( 40, 10), StreamingType::CurvedAdaptive, cfl, 5);
+    if (n == 2) CurvedBeam(Stencil(100,  0), StreamingType::CurvedAdaptive, cfl, 5);
+    if (n == 0) CurvedBeam(Stencil( 80, 20), StreamingType::CurvedAdaptive, cfl, 5);
+    if (n == 1) CurvedBeam(Stencil(200,  0), StreamingType::CurvedAdaptive, cfl, 5);
+    if (n == 2) CurvedBeam(Stencil(160, 40), StreamingType::CurvedAdaptive, cfl, 5);
 }
 
-void MovingDiffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl)
-{
-    // Create Radiation object:
-    size_t nx = 601;
-    size_t ny = 51;
-    Coord start(-3.0, -0.5);
-    Coord end(3.0, 0.5);
-    Grid grid(nx, ny, start, end);
-    grid.SetCFL(cfl);
-    Minkowski metric(grid, 1.0, 0.0);
-    Stencil streamingStencil(5, 0, false);
-
-    // Initial Data:
-    // double lambda = 0.0;  // = 3kappa1 / kappa0
-    double kappa0 = kappaS / (1.0 - lambda / 9.0);
-    double kappa1 = kappa0 * lambda / 3.0;
-    double PE = kappa0 * grid.dx;
-
-    // Config:
-    double t0 = 0;
-    std::string name = "MovingDiffusion 2d/" + StreamingName(streamingType) + " " + stencil.name + " " + Format(cfl, 2, true) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny " + std::to_string((int)kappa0) + "kappa0 " + std::to_string((int)kappa1) + "kappa1 " + Format(PE, 1, true) + "PE";
-    Config config =
-        {
-            .name = name,
-            .t0 = t0,
-            .simTime = 2.0,
-            .writePeriod = 1.0,
-            .updateFourierHarmonics = false,
-            .keepSourceNodesActive = false,
-            .writeData = true,
-            .printToTerminal = true,
-            .streamingType = streamingType,
-            .initialDataType = InitialDataType::Moments,
-        };
-
-    // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
-
-    for (size_t j = 0; j < grid.ny; j++)
-        for (size_t i = 0; i < grid.nx; i++)
-        {
-            size_t ij = grid.Index(i, j);
-            Coord xy = grid.xy(i, j);
-            double x = xy[1];
-            double y = xy[2];
-            double r = xy.EuklNorm();
-            radiation.kappa0[ij] = kappa0;
-            radiation.kappa1[ij] = kappa1;
-            radiation.kappaA[ij] = 0;
-            radiation.eta[ij] = 0;
-            radiation.isInitialGridPoint[ij] = true;
-            radiation.ux[ij] = 0.5;
-            radiation.uy[ij] = 0.0;
-
-            double E = exp(-9 * x * x);
-            radiation.initialE_LF[ij] = E;
-            radiation.initialFx_LF[ij] = 0.655 * E;
-            radiation.initialFy_LF[ij] = 0;
-        }
-
-    radiation.RunSimulation();
-}
-
-void TestBeam(Stencil stencil, StreamingType streamingType, double cfl, Tensor2 F)
-{
-    // Create Radiation object:
-    size_t nx = 200 + 1 + 2;
-    size_t ny = 200 + 1 + 2;
-    double dx = 1.0 / (nx - 1.0 - 2.0);
-    double dy = 1.0 / (ny - 1.0 - 2.0);
-    Coord start(-1 - dx, -1 - dy);
-    Coord end(1 + dx, 1 + dy);
-    Grid grid(nx, ny, start, end);
-    grid.SetCFL(cfl);
-    Minkowski metric(grid, 1.0, 0.0);
-    Stencil streamingStencil(5, 0, false);
-
-    // Config:
-    Config config =
-        {
-            .name = "Test Beam 2d/" + StreamingName(streamingType) + " " + stencil.name + "(" + Format(F[1], 1) + "," + Format(F[2], 1) + ")F" + Format(cfl, 2) + "cfl",
-            .t0 = 0,
-            .simTime = 2.8,
-            .writePeriod = 3, // write first and last frame only.
-            .updateFourierHarmonics = false,
-            .keepSourceNodesActive = true,
-            .writeData = true,
-            .printToTerminal = true,
-            .streamingType = streamingType,
-            .initialDataType = InitialDataType::Moments,
-        };
-
-    // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
-
-    // Initial Data:
-    for (size_t j = 0; j < grid.ny; j++)
-        for (size_t i = 0; i < grid.nx; i++)
-        {
-            size_t ij = grid.Index(i, j);
-            Coord xy = grid.xy(i, j);
-            double r = xy.EuklNorm();
-            radiation.kappa0[ij] = 0;
-            radiation.kappa1[ij] = 0;
-            radiation.kappaA[ij] = 0;
-            radiation.eta[ij] = 0;
-            if (r < 0.2)
-            {
-                radiation.isInitialGridPoint[ij] = true;
-                radiation.initialE_LF[ij] = 1;
-                radiation.initialFx_LF[ij] = F[1];
-                radiation.initialFy_LF[ij] = F[2];
-            }
-        }
-    radiation.RunSimulation();
-}
-
-
-void CflTestCurvedBeam(int n)
-{
-    if (n == 0)
-        CurvedBeam(Stencil(200, 0), StreamingType::CurvedFixed, 1.00, 5, false);
-    if (n == 1)
-        CurvedBeam(Stencil(200, 0), StreamingType::CurvedFixed, 0.75, 5, false);
-    if (n == 2)
-        CurvedBeam(Stencil(200, 0), StreamingType::CurvedFixed, 0.50, 5, false);
-    if (n == 3)
-        CurvedBeam(Stencil(200, 0), StreamingType::CurvedAdaptive, 1.00, 5, false);
-    if (n == 4)
-        CurvedBeam(Stencil(200, 0), StreamingType::CurvedAdaptive, 0.75, 5, false);
-    if (n == 5)
-        CurvedBeam(Stencil(200, 0), StreamingType::CurvedAdaptive, 0.50, 5, false);
-}
-void CflTestDiffusion(int n)
-{
-    double lambda = 0;
-    double kappaS = 10000;
-    if (n == 0)
-        MovingDiffusion(Stencil(20, 0), StreamingType::FlatFixed, kappaS, lambda, 1.00);
-    if (n == 1)
-        MovingDiffusion(Stencil(20, 0), StreamingType::FlatFixed, kappaS, lambda, 0.75);
-    if (n == 2)
-        MovingDiffusion(Stencil(20, 0), StreamingType::FlatFixed, kappaS, lambda, 0.50);
-    if (n == 3)
-        MovingDiffusion(Stencil(20, 0), StreamingType::FlatAdaptive, kappaS, lambda, 1.00);
-    if (n == 4)
-        MovingDiffusion(Stencil(20, 0), StreamingType::FlatAdaptive, kappaS, lambda, 0.75);
-    if (n == 5)
-        MovingDiffusion(Stencil(20, 0), StreamingType::FlatAdaptive, kappaS, lambda, 0.50);
-}
-
-
-
-// Paper Analysises:
 void StreamingTypePerformanceAnalysis(int n)
 {
     if (n == 0)
@@ -639,39 +557,91 @@ void StreamingTypePerformanceAnalysis(int n)
     if (n == 9)
         CurvedBeam(Stencil(200, 0), StreamingType::GeodesicFixed, 0.75, 5, false);
 }
-void SphereWaveAnalysis(int n)
+void MetricDataForLukasCurvedBeam()
 {
-    if(n==0) SphereWave(Stencil(20,0), StreamingType::FlatFixed   , 0.75);
-    if(n==1) SphereWave(Stencil(20,0), StreamingType::FlatAdaptive, 0.75);
-    if(n==2) SphereWave(Stencil(16,4), StreamingType::FlatAdaptive, 0.75);
+    // Needed for plots of Lukas M1 curved beam data:
+    // Fx = alphas * Fx_data - Bx * E_data
+    // Fy = alphas * Fy_data - By * E_data
+    size_t nx = 200;
+    size_t ny = 200;
+    Coord start(-0.1, -1.0);
+    Coord end(5.9695, 4.97);
+    Grid grid(nx, ny, start, end);
+    KerrSchild metric(grid, 1.0, 0.0);
     
-    if(n==0) SphereWave(Stencil(30,0), StreamingType::FlatFixed   , 0.75);
-    if(n==1) SphereWave(Stencil(30,0), StreamingType::FlatAdaptive, 0.75);
-    if(n==2) SphereWave(Stencil(24,6), StreamingType::FlatAdaptive, 0.75);
-    
-    if(n==0) SphereWave(Stencil(40,0), StreamingType::FlatFixed   , 0.75);
-    if(n==1) SphereWave(Stencil(40,0), StreamingType::FlatAdaptive, 0.75);
-    if(n==2) SphereWave(Stencil(32,8), StreamingType::FlatAdaptive, 0.75);
-    
-    if(n==0) SphereWave(Stencil(50,0), StreamingType::FlatFixed   , 0.75);
-    if(n==1) SphereWave(Stencil(50,0), StreamingType::FlatAdaptive, 0.75);
-    if(n==2) SphereWave(Stencil(40,10), StreamingType::FlatAdaptive, 0.75);
+    std::ofstream alphaOut("../output/alpha.txt");
+    std::ofstream betaxOut("../output/betaX.txt");
+    std::ofstream betayOut("../output/betaY.txt");
+
+    for(size_t j = 0; j < grid.ny; j++)
+    {
+        size_t ij = grid.Index(0, j);
+        alphaOut << metric.alpha[ij];
+        betaxOut << metric.beta1_u[ij];
+        betayOut << metric.beta2_u[ij];
+
+        for(size_t i = 1; i < grid.nx; i++)
+        {
+            ij = grid.Index(i, j);
+            alphaOut << " " << metric.alpha[ij];
+            betaxOut << " " << metric.beta1_u[ij];
+            betayOut << " " << metric.beta2_u[ij];
+        }
+        alphaOut << std::endl;
+        betaxOut << std::endl;
+        betayOut << std::endl;
+    }
+
+    alphaOut.close();
+    betaxOut.close();
+    betayOut.close();
 }
-void BeamCrossingAnalysis(int n)
+void PerformanceAnalysis(int n)
 {
-    if(n == 0) BeamCrossing(Stencil(200 ,0), StreamingType::FlatFixed   , 0.95);
-    if(n == 1) BeamCrossing(Stencil(140, 0), StreamingType::FlatAdaptive, 0.95);
-    if(n == 2) BeamCrossing(Stencil(100,40), StreamingType::FlatAdaptive, 0.95);
-}
-void DiffusionAnalysis(int n)
-{
-    // Diffusion:
     double lambda = 0;
-    double cfl = 0.5;
-    if (n == 0) Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 100.0, lambda, cfl);
-    if (n == 1) Diffusion(Stencil(20, 0), StreamingType::FlatFixed, 100000.0, lambda, cfl);
-    
-    // if (n == 0) MovingDiffusion(Stencil(20, 0), StreamingType::FlatFixed, 10000.0, lambda, cfl);
+    double cfl = 0.9;
+    double correctionFactor = 0.64;
+    int N = 100;
+
+
+    if (n == 0)
+    {
+        std::cout << "Sphere Wave Fixed" << std::endl << std::endl;
+        for (int i = 0; i < N; i++)
+            SphereWave(Stencil(200, 0), StreamingType::FlatFixed   , cfl);
+    }
+    if (n == 1)
+    {
+        std::cout << "Sphere Wave Adaptive" << std::endl << std::endl;
+        for (int i = 0; i < N; i++)
+            SphereWave(Stencil(160, 40), StreamingType::FlatAdaptive, cfl);
+    }
+
+    if (n == 2)
+    {
+        std::cout << "Moving Diffusion Fixed" << std::endl << std::endl;
+        for (int i = 0; i < N; i++)
+            MovingDiffusion(Stencil(200, 0), StreamingType::FlatFixed, 1000.0, lambda, cfl, correctionFactor, 0.5);
+    }
+    if (n == 3)
+    {
+        std::cout << "Moving Diffusion Adaptive" << std::endl << std::endl;
+        for (int i = 0; i < N; i++)
+            MovingDiffusion(Stencil(160, 40), StreamingType::FlatAdaptive, 1000.0, lambda, cfl, correctionFactor, 0.5);
+    }
+
+    if (n == 4)
+    {
+        std::cout << "Curved Beam Fixed" << std::endl << std::endl;
+        for (int i = 0; i < N; i++)
+            CurvedBeam(Stencil(200, 0), StreamingType::CurvedFixed, cfl, 5);
+    }
+    if (n == 5)
+    {
+        std::cout << "Curved Beam Adaptive" << std::endl << std::endl;
+        for (int i = 0; i < N; i++)
+            CurvedBeam(Stencil(160, 40), StreamingType::CurvedAdaptive, cfl, 5);
+    }
 }
 
 
@@ -682,8 +652,13 @@ int main(int argc, char *argv[])
         n = atoi(argv[1]);
         
     // Paper:
-    // StreamingTypePerformanceAnalysis(n);
-    // SphereWaveAnalysis(n); // not used in paper, I use 3D version instead.
+    // SphereWaveAnalysis(n);
+    // SphereWaveShadowAnalysis(n);
     // BeamCrossingAnalysis(n);
-    DiffusionAnalysis(n);
+    // DiffusionAnalysis(n);
+    // MovingDiffusionAnalysis(n);
+    // CurvedBeamAnalysis(n);
+    // MetricDataForLukasCurvedBeam();
+    // StreamingTypePerformanceAnalysis(n);
+    PerformanceAnalysis(n);
 }
