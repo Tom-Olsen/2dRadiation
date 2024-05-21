@@ -1,12 +1,12 @@
 import statistics
 
 # Open the file
-file0 = 'slurm-516331.out' # Sphere Wave Fixed
-file1 = 'slurm-516332.out' # Sphere Wave Adaptive
-file2 = 'slurm-516333.out' # Moving Diffusion Fixed
-file3 = 'slurm-516334.out' # Moving Diffusion Adaptive
-file4 = 'slurm-516335.out' # Curved Beam Fixed
-file5 = 'slurm-516336.out' # Curved Beam Adaptive
+file0 = 'SphereWaveFixed.out'
+file1 = 'SphereWaveAdaptive.out'
+file2 = 'MovingDiffusionFixed.out'
+file3 = 'MovingDiffusionAdaptive.out'
+file4 = 'CurvedBeamFixed.out'
+file5 = 'CurvedBeamAdaptive.out'
 
 with open(file5, 'r') as file:
     moments = []

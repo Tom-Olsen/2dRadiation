@@ -15,6 +15,7 @@ Radiation::Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil
 
     rotationAngle.resize(grid.nxy);
     rotationAngleNew.resize(grid.nxy);
+
     E.resize(grid.nxy);
     Fx.resize(grid.nxy);
     Fy.resize(grid.nxy);
@@ -28,19 +29,23 @@ Radiation::Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil
     Pxy_LF.resize(grid.nxy);
     Pyy_LF.resize(grid.nxy);
     F_LF.resize(grid.nxy);
+
     kappa0.resize(grid.nxy);
     kappa1.resize(grid.nxy);
     kappaA.resize(grid.nxy);
     eta.resize(grid.nxy);
     ux.resize(grid.nxy);
     uy.resize(grid.nxy);
+
     I.resize(grid.nxy * stencil.nDir);
     Inew.resize(grid.nxy * stencil.nDir);
+
     coefficientsS.resize(grid.nxy * streamingStencil.nCoefficients);
     coefficientsX.resize(grid.nxy * streamingStencil.nCoefficients);
     coefficientsY.resize(grid.nxy * streamingStencil.nCoefficients);
     coefficientsCx.resize(grid.nxy * streamingStencil.nCoefficients);
     coefficientsCy.resize(grid.nxy * streamingStencil.nCoefficients);
+
     itterationCount.resize(grid.nxy);
 
     // Initialize all rotations to identity:
@@ -401,6 +406,7 @@ void Radiation::StreamFlatAdaptive()
             size_t ij = grid.Index(i, j);
             for (size_t d = 0; d < stencil.nDir; d++)
             {
+                
                 // Index of population d at lattice point ij:
                 size_t index = Index(ij, d);
 
@@ -419,7 +425,6 @@ void Radiation::StreamFlatAdaptive()
                 size_t i1 = i0 + 1;
                 size_t j0 = std::floor(jTemp);
                 size_t j1 = j0 + 1;
-
                 double intensityAt_i0j0 = IntensityAt(grid.Index(i0, j0), direction);
                 double intensityAt_i0j1 = IntensityAt(grid.Index(i0, j1), direction);
                 double intensityAt_i1j0 = IntensityAt(grid.Index(i1, j0), direction);
@@ -695,7 +700,6 @@ void Radiation::Collide()
         itterationCount[ij] = 0;
     }
     maxItterationCount = std::max(maxItterationCount, maxItteration);
-    //PrintDouble(maxItteration, " maxItteration");
 
     std::swap(I, Inew);
 }
@@ -738,7 +742,7 @@ void Radiation::RunSimulation()
         double timeSinceLastFrame = 0;
 
         // Save initial data:
-        if (config.writeData)
+        if (config.writeData && config.saveInitialData)
         {
             ComputeMomentsIF();
             ComputeMomentsLF();
@@ -811,19 +815,19 @@ void Radiation::RunSimulation()
     session.End();
 
     // ---------------------- Termination ---------------------
-    logger.maxItterationCount = maxItterationCount;
-    averageItterationCount /= (logger.timeSteps * (grid.nx - 2) * (grid.ny - 2));
-    logger.averageItterationCount = averageItterationCount;
-    std::vector<std::string> names = session.GetAllFunctionNames();
     if (config.printResults)
         std::cout << std::endl;
         
+    logger.maxItterationCount = maxItterationCount;
+    averageItterationCount /= (logger.timeSteps * (grid.nx - 2) * (grid.ny - 2));
+    logger.averageItterationCount = averageItterationCount;
     if (config.printResults)
     {
         std::cout << "Max Lambda Itteration Count     = " << maxItterationCount << std::endl;
         std::cout << "Average Lambda Itteration Count = " << averageItterationCount << std::endl;
     }
 
+    std::vector<std::string> names = session.GetAllFunctionNames();
     double totalTime;
     double writingTime;
     for (int i = 0; i < names.size(); i++)

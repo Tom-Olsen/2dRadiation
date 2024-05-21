@@ -54,6 +54,7 @@ struct Config
     bool printSetup = true;
     bool printProgress = true;
     bool printResults = true;
+    bool saveInitialData = true;
     StreamingType streamingType = StreamingType::FlatFixed;
     InitialDataType initialDataType = InitialDataType::Moments;
 };

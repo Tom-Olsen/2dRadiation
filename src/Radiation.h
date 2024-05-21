@@ -13,7 +13,7 @@ private:
     static constexpr int HALO = 1;
     static constexpr double MIN_FLUX_NORM = 1e-16;
     static constexpr double MIN_ENERGY_DENSITY = 1e-16;
-    static constexpr double LAMBDA_ITTERATION_TOLERENCE = 1e-5;
+    static constexpr double LAMBDA_ITTERATION_TOLERENCE = 1e-4; // 0.01% error
     static constexpr int MAX_LAMBDA_ITERATIONS = 100;
 
 public:
