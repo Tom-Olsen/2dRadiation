@@ -179,10 +179,10 @@ int main()
     // Interpolation(Stencil(15,5));
     // Interpolation(Stencil(30,10));
 
-    // Stencil(20, 5).interpolationGrid.Print();
-    // Stencil(100, 0).Print();
+    // Stencil(20, 5).interpolationGrid.PrintAll();
+    // Stencil(100, 0).PrintAll();
     // Stencil(50,10).WriteToCsv();
-    // Stencil(9,5).interpolationGrid.Print();
+    // Stencil(9,5).interpolationGrid.PrintAll();
 
     // StencilAnalysis();
 

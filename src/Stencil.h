@@ -75,7 +75,7 @@ private:
 
 public:
     // Constructor:
-    Stencil(size_t nOrder, int nGhost = 0, bool isStreamingStencil = true);
+    Stencil(size_t nOrder, int nGhost = 0, bool isIntensityStencil = true);
     // Getters:
     double W(size_t d) const;
     double Phi(size_t d) const;
@@ -86,6 +86,7 @@ public:
 public:
     // Debugging:
     void Print() const;
+    void PrintAll() const;
     void WriteToCsv() const;
 };
 #endif //__INCLUDE_GUARD_Stencil_h__

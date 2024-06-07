@@ -23,6 +23,7 @@ public:
     Stencil &streamingStencil;
     Config config;
     Logger logger;
+    double sigmaOverwrite = -1;
 
     // Initial data is set from the outside (in code units):
     bool *isInitialGridPoint;
@@ -99,6 +100,7 @@ public:
 
     Tensor3 InitialDataLFtoIF(size_t ij);
     void LoadInitialData();
+    double NormalizationOverwrite();
     void UpdateFourierCoefficients();
     void ComputeMomentsIF();
     void ComputeMomentsLF();

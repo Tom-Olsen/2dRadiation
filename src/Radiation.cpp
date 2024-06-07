@@ -130,6 +130,11 @@ void Radiation::LoadInitialData()
     PROFILE_FUNCTION();
     bool isAdaptiveStreaming = (config.streamingType == StreamingType::FlatAdaptive || config.streamingType == StreamingType::CurvedAdaptive);
 
+
+    double normalizationOverwrite;
+    if (0 <= sigmaOverwrite)
+        normalizationOverwrite = NormalizationOverwrite();
+
     PARALLEL_FOR(1)
     for (size_t ij = 0; ij < grid.nxy; ij++)
     {
@@ -152,6 +157,11 @@ void Radiation::LoadInitialData()
 
         double sigma = stencil.fluxToSigmaTable.Evaluate(relativeF_IF);
         double normalization = stencil.fluxToNormalizationTable.Evaluate(relativeF_IF);
+        if (0 <= sigmaOverwrite)
+        {
+            sigma = sigmaOverwrite;
+            normalization = normalizationOverwrite;
+        }
 
         if (config.initialDataType == InitialDataType::Moments)
         {
@@ -169,6 +179,13 @@ void Radiation::LoadInitialData()
                 I[Index(ij, d)] = initialI[Index(ij, d)];
         }
     }
+}
+double Radiation::NormalizationOverwrite()
+{
+    double normalization = 0;
+    for (int d = 0; d < stencil.nDir; d++)
+        normalization += stencil.W(d) * exp(sigmaOverwrite * Tensor2::Dot(Tensor2(1, 0), stencil.C(d)));
+    return log(normalization);
 }
 
 void Radiation::UpdateFourierCoefficients()
@@ -406,7 +423,6 @@ void Radiation::StreamFlatAdaptive()
             size_t ij = grid.Index(i, j);
             for (size_t d = 0; d < stencil.nDir; d++)
             {
-                
                 // Index of population d at lattice point ij:
                 size_t index = Index(ij, d);
 
@@ -630,9 +646,12 @@ void Radiation::Collide()
             if (metric.InsideBH(grid.xy(i, j)))
                 continue;
             size_t ij = grid.Index(i, j);
+            
+            Tensor2 uLF(ux[ij], uy[ij]);
+            Tensor2 uIF = TransformLFtoIF(uLF, metric.GetTetrad(ij));
 
             double alpha = metric.GetAlpha(ij);
-            double uu = ux[ij] * ux[ij] + uy[ij] * uy[ij];
+            double uu = uIF[1] * uIF[1] + uIF[2] * uIF[2];
             double lorentz = 1.0 / sqrt(1.0 - uu);
 
             int cycles = 0;
@@ -640,20 +659,21 @@ void Radiation::Collide()
             while (abs(diff) > LAMBDA_ITTERATION_TOLERENCE && (cycles < MAX_LAMBDA_ITERATIONS))
             {
                 cycles++;
-                double guessE = E[ij];
-                double guessFx = Fx[ij];
-                double guessFy = Fy[ij];
-                double guessPxx = Pxx[ij];
-                double guessPxy = Pxy[ij];
-                double guessPyy = Pyy[ij];
+                // Note that all (previous) moments are in the IF.
+                double prevE = E[ij];
+                double prevFx = Fx[ij];
+                double prevFy = Fy[ij];
+                double prevPxx = Pxx[ij];
+                double prevPxy = Pxy[ij];
+                double prevPyy = Pyy[ij];
 
-                double uF = ux[ij] * guessFx + uy[ij] * guessFy;    // u_i F^i
-                double uxP = ux[ij] * guessPxx + uy[ij] * guessPxy; // x component of u_i P^ij
-                double uyP = ux[ij] * guessPxy + uy[ij] * guessPyy; // y component of u_i P^ij
-                double uuP = ux[ij] * uxP + uy[ij] * uyP; // u_i u_j P^ij
-                double guessFluidE = lorentz * lorentz * (guessE - 2.0 * uF + uuP);
-                double guessFluidFx = lorentz * lorentz * (guessFluidFx - lorentz * guessE * ux[ij] - uxP + ux[ij] * lorentz / (1.0 + lorentz) * ((2.0 * lorentz + 1.0) * uF - lorentz * uuP));
-                double guessFluidFy = lorentz * lorentz * (guessFluidFy - lorentz * guessE * uy[ij] - uyP + uy[ij] * lorentz / (1.0 + lorentz) * ((2.0 * lorentz + 1.0) * uF - lorentz * uuP));
+                double uF  = uIF[1] *  prevFx + uIF[2] *  prevFy; // u_i F^i
+                double uxP = uIF[1] * prevPxx + uIF[2] * prevPxy; // x component of u_i P^ij
+                double uyP = uIF[1] * prevPxy + uIF[2] * prevPyy; // y component of u_i P^ij
+                double uuP = uIF[1] * uxP + uIF[2] * uyP; // u_i u_j P^ij
+                double prevFluidE  = lorentz * lorentz * (prevE - 2.0 * uF + uuP);
+                double prevFluidFx = lorentz * lorentz * (prevFx - lorentz * prevE * uIF[1] - uxP + uIF[1] * lorentz / (1.0 + lorentz) * ((2.0 * lorentz + 1.0) * uF - lorentz * uuP));
+                double prevFluidFy = lorentz * lorentz * (prevFy - lorentz * prevE * uIF[2] - uyP + uIF[2] * lorentz / (1.0 + lorentz) * ((2.0 * lorentz + 1.0) * uF - lorentz * uuP));
 
                 E[ij] = 0.0;
                 Fx[ij] = 0.0;
@@ -663,15 +683,24 @@ void Radiation::Collide()
                 Pyy[ij] = 0.0;
                 for (size_t d = 0; d < stencil.nDir; d++)
                 {
-                    Tensor2 nIF = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
                     size_t index = Index(ij, d);
-                    double un = ux[ij] * nIF[1] + uy[ij] * nIF[2];  // u must be in IF for this to work?
-                    double A = lorentz * (1.0 - un);
-                    double nF = nIF[1] * guessFx + nIF[2] * guessFy;
 
-                    double M = kappa0[ij] * guessFluidE + 3.0 * kappa1[ij] * nF;
+                    // Doppler factor:
+                    Tensor2 nIF = RotationMatrix(rotationAngle[ij]) * stencil.C(d);
+                    double un = uIF[1] * nIF[1] + uIF[2] * nIF[2];
+                    double A = lorentz * (1.0 - un);
+
+                    // nFF contracted with fluxFF:
+                    Tensor2 nFF = (nIF - (1 - (lorentz * un) / (lorentz + 1)) * lorentz * uIF) / A;
+                    double nF = nFF[1] * prevFluidFx + nFF[2] * prevFluidFy;
+
+                    // Moment collision term:
+                    double M = kappa0[ij] * prevFluidE + 3.0 * kappa1[ij] * nF;
+
+                    // Collision:
                     Inew[index] = (I[index] + alpha * grid.dt * (eta[ij] + M) / (A * A)) / (1.0 + alpha * grid.dt * (kappaA[ij] + kappa0[ij]) * A);
 
+                    // Compute new moments:
                     double c = stencil.W(d) * Inew[index];
                     E[ij] += c;
                     Fx[ij] += c * nIF[1];
@@ -681,12 +710,12 @@ void Radiation::Collide()
                     Pyy[ij] += c * nIF[2] * nIF[2];
                 }
 
-                double diffE = IntegerPow<2>((guessE - E[ij]) / E[ij]);
-                double diffFx = IntegerPow<2>((guessFx - Fx[ij]) / Fx[ij]);
-                double diffFy = IntegerPow<2>((guessFy - Fy[ij]) / Fy[ij]);
-                double diffPxx = IntegerPow<2>((guessPxx - Pxx[ij]) / Pxx[ij]);
-                double diffPxy = IntegerPow<2>((guessPxy - Pxy[ij]) / Pxy[ij]);
-                double diffPyy = IntegerPow<2>((guessPyy - Pyy[ij]) / Pyy[ij]);
+                double diffE = IntegerPow<2>((prevE - E[ij]) / E[ij]);
+                double diffFx = IntegerPow<2>((prevFx - Fx[ij]) / Fx[ij]);
+                double diffFy = IntegerPow<2>((prevFy - Fy[ij]) / Fy[ij]);
+                double diffPxx = IntegerPow<2>((prevPxx - Pxx[ij]) / Pxx[ij]);
+                double diffPxy = IntegerPow<2>((prevPxy - Pxy[ij]) / Pxy[ij]);
+                double diffPyy = IntegerPow<2>((prevPyy - Pyy[ij]) / Pyy[ij]);
                 diff = sqrt(diffE + diffFx + diffFy + diffPxx + diffPxy + diffPyy);
             }
             itterationCount[ij] = cycles;
@@ -749,7 +778,6 @@ void Radiation::RunSimulation()
             grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
             timeSinceLastFrame = 0;
         }
-
         for (int n = 0; n < logger.timeSteps; n++)
         {
             if (config.printProgress)
@@ -760,7 +788,6 @@ void Radiation::RunSimulation()
                 UpdateFourierCoefficients();
             if (config.keepSourceNodesActive)
                 LoadInitialData();
-
             // Stream:
             switch (config.streamingType)
             {
@@ -841,6 +868,11 @@ void Radiation::RunSimulation()
         logger.AddTimeMeasurement(names[i], session.GetTotalTime(names[i]));
     }
     if (config.printResults)
+    {
         std::cout << "Computation Time: " << totalTime - writingTime << "s" << std::endl;
+        std::cout << "Benchmark: " << grid.nxy * timeSteps / (1e6 * (totalTime - writingTime)) << "MLUPS" << std::endl;
+    }
+    if (config.writeData)
+        logger.Write();
     // --------------------------------------------------------
 }

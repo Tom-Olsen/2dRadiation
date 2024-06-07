@@ -2,12 +2,14 @@
 #include "../src/Radiation.h"
 using namespace std;
 
-#define SAVE_ID false
+// Macros:
+#define WRITE_DATA true
 #define PRINT_SETUP true
 #define PRINT_PROGRESS true
 #define PRINT_RESULTS true
+#define SAVE_ID false
 
-void SphereWave(Stencil stencil, StreamingType streamingType, double cfl)
+Logger SphereWave(Stencil stencil, StreamingType streamingType, double cfl)
 {
     // Create Radiation object:
     size_t nx = 300;
@@ -28,7 +30,7 @@ void SphereWave(Stencil stencil, StreamingType streamingType, double cfl)
             .writePeriod = 1.0,
             .updateFourierHarmonics = false,
             .keepSourceNodesActive = false,
-            .writeData = true,
+            .writeData = WRITE_DATA,
             .printSetup = PRINT_SETUP,
             .printProgress = PRINT_PROGRESS,
             .printResults = PRINT_RESULTS,
@@ -65,6 +67,7 @@ void SphereWave(Stencil stencil, StreamingType streamingType, double cfl)
             }
         }
     radiation.RunSimulation();
+    return radiation.logger;
 }
 void SphereWaveAnalysis(int n)
 {
@@ -82,7 +85,7 @@ void SphereWaveAnalysis(int n)
     if(n==0) SphereWave(Stencil(160,40), StreamingType::FlatAdaptive, cfl);
 }
 
-void Shadow(Stencil stencil, StreamingType streamingType, double cfl)
+Logger Shadow(Stencil stencil, StreamingType streamingType, double cfl)
 {
     // Create Radiation object:
     size_t nx = 190;
@@ -103,7 +106,7 @@ void Shadow(Stencil stencil, StreamingType streamingType, double cfl)
             .writePeriod = 2,
             .updateFourierHarmonics = false,
             .keepSourceNodesActive = true,
-            .writeData = true,
+            .writeData = WRITE_DATA,
             .printSetup = PRINT_SETUP,
             .printProgress = PRINT_PROGRESS,
             .printResults = PRINT_RESULTS,
@@ -143,6 +146,7 @@ void Shadow(Stencil stencil, StreamingType streamingType, double cfl)
                 radiation.kappaA[ij] = 1e10;
         }
     radiation.RunSimulation();
+    return radiation.logger;
 }
 void ShadowAnalysis(int n)
 {
@@ -153,7 +157,7 @@ void ShadowAnalysis(int n)
     if (n == 3) Shadow(Stencil(160, 40), StreamingType::FlatAdaptive, cfl);
 }
 
-void Star(Stencil stencil, StreamingType streamingType, double cfl, double kappaA)
+Logger Star(Stencil stencil, StreamingType streamingType, double cfl, double kappaA)
 {
     // Create Radiation object:
     size_t nx = 400;
@@ -174,7 +178,7 @@ void Star(Stencil stencil, StreamingType streamingType, double cfl, double kappa
             .writePeriod = 11,
             .updateFourierHarmonics = false,
             .keepSourceNodesActive = false,
-            .writeData = true,
+            .writeData = WRITE_DATA,
             .printSetup = PRINT_SETUP,
             .printProgress = PRINT_PROGRESS,
             .printResults = PRINT_RESULTS,
@@ -218,6 +222,7 @@ void Star(Stencil stencil, StreamingType streamingType, double cfl, double kappa
             }
         }
     radiation.RunSimulation();
+    return radiation.logger;
 }
 void StarAnalysis(int n)
 {
@@ -236,7 +241,7 @@ void StarAnalysis(int n)
     if (n == 11) Star(Stencil(160, 40), StreamingType::FlatAdaptive, cfl, 1e10);
 }
 
-void BeamCrossing(Stencil stencil, StreamingType streamingType, double cfl)
+Logger BeamCrossing(Stencil stencil, StreamingType streamingType, double cfl)
 {
     // Create Radiation object:
     size_t nx = 200;
@@ -261,7 +266,7 @@ void BeamCrossing(Stencil stencil, StreamingType streamingType, double cfl)
             .writePeriod = 1,
             .updateFourierHarmonics = false,
             .keepSourceNodesActive = true,
-            .writeData = true,
+            .writeData = WRITE_DATA,
             .printSetup = PRINT_SETUP,
             .printProgress = PRINT_PROGRESS,
             .printResults = PRINT_RESULTS,
@@ -332,6 +337,7 @@ void BeamCrossing(Stencil stencil, StreamingType streamingType, double cfl)
             }
         }
     radiation.RunSimulation();
+    return radiation.logger;
 }
 void BeamCrossingAnalysis(int n)
 {
@@ -341,7 +347,7 @@ void BeamCrossingAnalysis(int n)
     if(n == 2) BeamCrossing(Stencil(160, 40), StreamingType::FlatAdaptive, cfl);
 }
 
-void Diffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl, double correctionFactor)
+Logger Diffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl, double correctionFactor)
 {
     // Create Radiation object:
     size_t nx = 200;
@@ -371,7 +377,7 @@ void Diffusion(Stencil stencil, StreamingType streamingType, double kappaS, doub
             .writePeriod = 1.0,
             .updateFourierHarmonics = false,
             .keepSourceNodesActive = false,
-            .writeData = true,
+            .writeData = WRITE_DATA,
             .printSetup = PRINT_SETUP,
             .printProgress = PRINT_PROGRESS,
             .printResults = PRINT_RESULTS,
@@ -406,6 +412,7 @@ void Diffusion(Stencil stencil, StreamingType streamingType, double kappaS, doub
         }
 
     radiation.RunSimulation();
+    return radiation.logger;
 }
 void DiffusionAnalysis(int n)
 {
@@ -418,7 +425,7 @@ void DiffusionAnalysis(int n)
     if (n == 3) Diffusion(Stencil(32, 8), StreamingType::FlatAdaptive, 100000.0, lambda, cfl, correctionFactor);
 }
 
-void MovingDiffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl, double correctionFactor, double ux)
+Logger MovingDiffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl, double correctionFactor, double ux)
 {
     // Create Radiation object:
     size_t nx = 300;
@@ -458,7 +465,7 @@ void MovingDiffusion(Stencil stencil, StreamingType streamingType, double kappaS
             .writePeriod = simTime / 2.0,
             .updateFourierHarmonics = false,
             .keepSourceNodesActive = false,
-            .writeData = true,
+            .writeData = WRITE_DATA,
             .printSetup = PRINT_SETUP,
             .printProgress = PRINT_PROGRESS,
             .printResults = PRINT_RESULTS,
@@ -508,6 +515,7 @@ void MovingDiffusion(Stencil stencil, StreamingType streamingType, double kappaS
         }
         
     radiation.RunSimulation();
+    return radiation.logger;
 }
 void MovingDiffusionAnalysis(int n)
 {
@@ -521,7 +529,7 @@ void MovingDiffusionAnalysis(int n)
     if (n == 3) MovingDiffusion(Stencil(32, 8), StreamingType::FlatAdaptive, 1000.0, lambda, cfl, correctionFactor, 0.5);
 }
 
-void CurvedBeam(Stencil stencil, StreamingType streamingType, double cfl, int nF = 5, bool updateFourierHarmonics = false)
+Logger CurvedBeam(Stencil stencil, StreamingType streamingType, double cfl, int nF = 5, bool updateFourierHarmonics = false)
 {
     size_t nx = 250;
     size_t ny = 200;
@@ -530,20 +538,19 @@ void CurvedBeam(Stencil stencil, StreamingType streamingType, double cfl, int nF
     Grid grid(nx, ny, start, end);
     grid.SetCFL(cfl);
     SchwarzSchild metric(grid, 1.0, 0.0); // needs at least stencil with order 5
-    // KerrSchild metric(grid, 1.0, 0.0);   // initial direction is somehow wrong
     Stencil streamingStencil(nF, 0, false);
     
     // Config:
     string getsUpdated = (updateFourierHarmonics) ? " 1" : "";
     Config config =
         {
-            .name = "Curved Beam 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(cfl, 2) + "cfl " + std::to_string(nF) + "nF" + getsUpdated,
+            .name = "Curved Beam 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(cfl, 2) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny " + std::to_string(nF) + "nF" + getsUpdated,
             .t0 = 0,
-            .simTime = 10.1,
-            .writePeriod = 10,
+            .simTime = 10,
+            .writePeriod = 11,
             .updateFourierHarmonics = updateFourierHarmonics,
             .keepSourceNodesActive = true,
-            .writeData = true,
+            .writeData = WRITE_DATA,
             .printSetup = PRINT_SETUP,
             .printProgress = PRINT_PROGRESS,
             .printResults = PRINT_RESULTS,
@@ -554,6 +561,8 @@ void CurvedBeam(Stencil stencil, StreamingType streamingType, double cfl, int nF
 
     // Radiation:
     Radiation radiation(metric, stencil, streamingStencil, config);
+    // Turn this on to overwrite sigma (needed to create 'wrong' simultion for Appendix).
+    // radiation.sigmaOverwrite = std::min(1.5 * stencil.sigmaMax, 500.0);
 
     // Initial Data:
     PARALLEL_FOR(2)
@@ -580,6 +589,7 @@ void CurvedBeam(Stencil stencil, StreamingType streamingType, double cfl, int nF
             }
         }
     radiation.RunSimulation();
+    return radiation.logger;
 }
 void CurvedBeamAnalysis(int n)
 {
@@ -591,6 +601,90 @@ void CurvedBeamAnalysis(int n)
     if (n == 3) CurvedBeam(Stencil( 40, 10), StreamingType::CurvedAdaptive, cfl, 5);
     if (n == 4) CurvedBeam(Stencil( 80, 20), StreamingType::CurvedAdaptive, cfl, 5);
     if (n == 5) CurvedBeam(Stencil(160, 40), StreamingType::CurvedAdaptive, cfl, 5);
+}
+
+Logger CurvedDiffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl)
+{
+    size_t nx = 400;
+    size_t ny = 400;
+    Coord start(-4, -4);
+    Coord end(4, 4);
+    Grid grid(nx, ny, start, end);
+    grid.SetCFL(cfl);
+    SchwarzSchild metric(grid, 1.0, 0.0); // needs at least stencil with order 5
+    Stencil streamingStencil(5, 0, false);
+    
+    // Initial Data:
+    // double lambda = 0.0;  // = 3kappa1 / kappa0
+    double kappa0 = kappaS / (1.0 - lambda / 9.0);
+    double kappa1 = kappa0 * lambda / 3.0;
+    double PE = kappa0 * grid.dx;
+    double D = 1.0 / (2.0 * kappa0);
+
+    // Config:
+    Config config =
+        {
+            .name = "Curved Diffusion 2d/" + StreamingName(streamingType) + " " + stencil.name + Format(cfl, 2) + "cfl " + std::to_string(nx) + "nx " + std::to_string(ny) + "ny",
+            .t0 = 0,
+            .simTime = 3,
+            .writePeriod = 4,
+            .updateFourierHarmonics = false,
+            .keepSourceNodesActive = false,
+            .writeData = WRITE_DATA,
+            .printSetup = PRINT_SETUP,
+            .printProgress = PRINT_PROGRESS,
+            .printResults = PRINT_RESULTS,
+            .saveInitialData = SAVE_ID,
+            .streamingType = streamingType,
+            .initialDataType = InitialDataType::Moments,
+        };
+
+    // Radiation:
+    Radiation radiation(metric, stencil, streamingStencil, config);
+
+    // Initial Data:
+    PARALLEL_FOR(2)
+    for (size_t j = 0; j < grid.ny; j++)
+        for (size_t i = 0; i < grid.nx; i++)
+        {
+            size_t ij = grid.Index(i, j);
+            Coord xy = grid.xy(i, j);
+            double r = xy.EuklNorm();
+            double x = xy[1];
+            double y = xy[2];
+            radiation.kappa0[ij] = kappa0;
+            radiation.kappa1[ij] = kappa1;
+            radiation.kappaA[ij] = 0;
+            radiation.eta[ij] = 0;
+            radiation.ux[ij] = 0;//-0.5 * x / r;
+            radiation.uy[ij] = 0;//-0.5 * y / r;
+            if (2.2 < r && r < 2.5)
+            {
+                Tensor3 uLF(1, x, y);
+                uLF = NullNormalize(uLF, metric.GetMetric_ll(ij));
+                Tensor2 vLF = Vec2ObservedByEulObs<LF, LF>(uLF, xy, metric);
+
+                radiation.isInitialGridPoint[ij] = true;
+                radiation.initialE_LF[ij] = 1;
+                radiation.initialFx_LF[ij] = 10 * vLF[1];
+                radiation.initialFy_LF[ij] = 10 * vLF[2];
+            }
+        }
+    radiation.RunSimulation();
+    return radiation.logger;
+}
+
+void StencilAnalysis()
+{
+    Stencil( 20, 0).Print();
+    Stencil( 50, 0).Print();
+    Stencil(100, 0).Print();
+    Stencil(200, 0).Print();
+
+    Stencil( 16,  4).Print();
+    Stencil( 40, 10).Print();
+    Stencil( 80, 20).Print();
+    Stencil(160, 40).Print();
 }
 
 void StreamingTypePerformanceAnalysis(int n)
@@ -615,53 +709,6 @@ void StreamingTypePerformanceAnalysis(int n)
         CurvedBeam(Stencil(200, 0), StreamingType::CurvedFixed, 0.75, 9, true);
     if (n == 9)
         CurvedBeam(Stencil(200, 0), StreamingType::GeodesicFixed, 0.75, 5, false);
-}
-void PerformanceAnalysis(int n)
-{
-    double lambda = 0;
-    double cfl = 0.9;
-    double correctionFactor = 0.64;
-    int N = 100;
-
-
-    if (n == 0)
-    {
-        std::cout << "Sphere Wave Fixed" << std::endl << std::endl;
-        for (int i = 0; i < N; i++)
-            SphereWave(Stencil(200, 0), StreamingType::FlatFixed   , cfl);
-    }
-    if (n == 1)
-    {
-        std::cout << "Sphere Wave Adaptive" << std::endl << std::endl;
-        for (int i = 0; i < N; i++)
-            SphereWave(Stencil(160, 40), StreamingType::FlatAdaptive, cfl);
-    }
-
-    if (n == 2)
-    {
-        std::cout << "Moving Diffusion Fixed" << std::endl << std::endl;
-        for (int i = 0; i < N; i++)
-            MovingDiffusion(Stencil(200, 0), StreamingType::FlatFixed, 1000.0, lambda, cfl, correctionFactor, 0.5);
-    }
-    if (n == 3)
-    {
-        std::cout << "Moving Diffusion Adaptive" << std::endl << std::endl;
-        for (int i = 0; i < N; i++)
-            MovingDiffusion(Stencil(160, 40), StreamingType::FlatAdaptive, 1000.0, lambda, cfl, correctionFactor, 0.5);
-    }
-
-    if (n == 4)
-    {
-        std::cout << "Curved Beam Fixed" << std::endl << std::endl;
-        for (int i = 0; i < N; i++)
-            CurvedBeam(Stencil(200, 0), StreamingType::CurvedFixed, cfl, 5);
-    }
-    if (n == 5)
-    {
-        std::cout << "Curved Beam Adaptive" << std::endl << std::endl;
-        for (int i = 0; i < N; i++)
-            CurvedBeam(Stencil(160, 40), StreamingType::CurvedAdaptive, cfl, 5);
-    }
 }
 void MetricDataForLukasCurvedBeam()
 {
@@ -713,13 +760,13 @@ int main(int argc, char *argv[])
     // Paper:
     // SphereWaveAnalysis(n);               // Done
     // ShadowAnalysis(n);                   // Done
-    StarAnalysis(n);
+    // StarAnalysis(n);                     // Done
     // BeamCrossingAnalysis(n);             // Done
     // DiffusionAnalysis(n);                // Done
     // MovingDiffusionAnalysis(n);          // Done
     // CurvedBeamAnalysis(n);               // Done
-    
+    // StencilAnalysis();
+
     // StreamingTypePerformanceAnalysis(n); // Done
-    // PerformanceAnalysis(n);              // Done
     // MetricDataForLukasCurvedBeam();
 }

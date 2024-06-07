@@ -340,7 +340,7 @@ void LorentzBoostToFluidFrame()
     T_FF.Print("T_FF");
 }
 
-void VelocityTransformation()
+void UndefinedTest()
 {
     // Partial test, can be deleted
     size_t nx, ny;
@@ -351,35 +351,13 @@ void VelocityTransformation()
     KerrSchild metric(grid, 1.0, 0.5);
 
     Coord xy(2.2, 2.8);
-    Tensor3x3 tetrad = metric.GetTetrad(xy);
-    Tensor3x3 tetradInv = metric.GetTetradInverse(xy);
-    Tensor3x3 g_ll = metric.GetMetric_ll(xy);
-    Tensor2x2 gamma_ll = metric.GetGamma_ll(xy);
-
-    Tensor3 NLF = metric.uEulObs(xy);
-    Tensor3 NIF = TransformLFtoIF(NLF, tetradInv);
-    Tensor2 nIF(NIF[1], NIF[2]);
-    Tensor2 nLF = TransformIFtoLF(nIF, tetrad);
-
-    NLF.Print("NLF");
-    NIF.Print("NIF");
-    nIF.Print("nIF");
-    nLF.Print("nLF");
-
-    Tensor3 ULF = metric.uEulObs(Coord(2.5, 2.5));
-    Tensor3 UIF = TransformLFtoIF(ULF, tetradInv);
-    Tensor2 uIF(UIF[1], UIF[2]);
-    Tensor2 uLF = TransformIFtoLF(uIF, tetrad);
-
-    ULF.Print("ULF");
-    UIF.Print("UIF");
-    uIF.Print("uIF");
+    Tensor3 uLF(1, 0.1, 0.2);
+    uLF = NullNormalize(uLF, metric.GetMetric_ll(xy));
+    Tensor2 vLF = Vec2ObservedByEulObs<LF, LF>(uLF, xy, metric);
     uLF.Print("uLF");
-
-    PrintDouble(Norm2(ULF, g_ll), "|ULF|²");
-    PrintDouble(Norm2(UIF, metric.GetMinkowskiMetric_ll(xy)), "|UIF|²");
-    PrintDouble(Norm2(uIF, metric.GetMinkowskiGamma_ll(xy)), "|uIF|²");
-    PrintDouble(Norm2(uLF, gamma_ll), "|uLF|²");
+    PrintDouble(Norm2(uLF, metric.GetMetric_ll(xy)), "|uLF|");
+    vLF.Print("vLF");
+    PrintDouble(Norm2(vLF, metric.GetGamma_ll(xy)), "|vLF|");
 }
 
 int main()
@@ -390,8 +368,8 @@ int main()
     // GrammSchmidt();
     // LambdaIteration();
     // UnitConversion();
-    LorentzBoostToFluidFrame();
-    // VelocityTransformation();
+    // LorentzBoostToFluidFrame();
+    UndefinedTest();
 
     // for(int i = 0; i < 16; i++)
     // {

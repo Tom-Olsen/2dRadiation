@@ -174,9 +174,9 @@ void InterpolationGrid::Print() const
 // -------------------------------------------------
 
 // -------------------- Stencil --------------------
-Stencil::Stencil(size_t nOrder, int nGhost, bool isStreamingStencil)
+Stencil::Stencil(size_t nOrder, int nGhost, bool isIntensityStencil)
 {
-    if (!isStreamingStencil && nGhost > 0)
+    if (!isIntensityStencil && nGhost > 0)
         ExitOnError("Stencil with nGhost>0 is only allowed for streaming stencils.");
 
     name = "Stencil" + std::to_string(nOrder) + "." + std::to_string(nGhost);
@@ -199,7 +199,7 @@ Stencil::Stencil(size_t nOrder, int nGhost, bool isStreamingStencil)
         cy[d] = MySin(phi[d]);
     }
 
-    if (nGhost > 0 && isStreamingStencil)
+    if (nGhost > 0 && isIntensityStencil)
     {
         if (nOrder % 2 != 0)
             ExitOnError("Stencil odd nOrder not allowed when using nGhost>0.");
@@ -279,7 +279,7 @@ Stencil::Stencil(size_t nOrder, int nGhost, bool isStreamingStencil)
         }
     }
 
-    if (isStreamingStencil)
+    if (isIntensityStencil)
     {
         SortDirections();
         interpolationGrid = InterpolationGrid(10 * nOrder, *this);
@@ -353,6 +353,14 @@ Tensor2 Stencil::C(size_t d) const
 }
 
 void Stencil::Print() const
+{
+    std::cout << name << ":\n";
+    std::cout << "           nDir: " << nDir << "\n";
+    std::cout << "         nGhost: " << nGhost << "\n";
+    std::cout << "       sigmaMax: " << sigmaMax << "\n";
+    std::cout << "relativeFluxMax: " << relativeFluxMax << "\n";
+}
+void Stencil::PrintAll() const
 {
     std::cout << "        d,\t        w,\t      phi,\t       cx,\t       cy,\n";
     for (size_t d = 0; d < nDir; d++)
