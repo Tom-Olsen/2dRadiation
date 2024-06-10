@@ -1,7 +1,7 @@
 #include "Grid.h"
 
 // Constructors:
-Grid::Grid(size_t nx_, size_t ny_, Coord start_, Coord end_)
+Grid::Grid(size_t nx_, size_t ny_, Coord start_, Coord end_, size_t halox = 1, size_t haloy = 1)
 {
     if (end_[1] < start_[1])
         ExitOnError("Grid x€[a,b] has b<a!");
@@ -11,11 +11,11 @@ Grid::Grid(size_t nx_, size_t ny_, Coord start_, Coord end_)
         ExitOnError("Grid must have at least 2 LP in each Dimension.");
 
     // Add 2 ghost cells and 1 extra cell due to off by one quirk.
-    nx = nx_ + 1 + 2;
-    ny = ny_ + 1 + 2;
+    nx = nx_ + 2 * halox;
+    ny = ny_ + 2 * haloy;
     nxy = nx * ny;
-    dx = (end_[1] - start_[1]) / (nx - 1.0 - 2.0);
-    dy = (end_[2] - start_[2]) / (ny - 1.0 - 2.0);
+    dx = (end_[1] - start_[1]) / (nx - 1.0 - 2.0 * halox);
+    dy = (end_[2] - start_[2]) / (ny - 1.0 - 2.0 * haloy);
     dt = m_cfl * std::min(dx, dy);
     startx = start_[1] - dx;
     starty = start_[2] - dy;

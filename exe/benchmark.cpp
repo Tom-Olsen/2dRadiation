@@ -12,8 +12,8 @@ using namespace std;
 double FlatTest(Stencil stencil, StreamingType streamingType, double cfl, double kappa0, double kappa1, double kappaA, double eta, double ux)
 {
     // Create Radiation object:
-    size_t nx = 400;
-    size_t ny = 400;
+    size_t nx = 401;
+    size_t ny = 401;
     Coord start(4, 4);
     Coord end(8, 8);
     Grid grid(nx, ny, start, end);
@@ -79,8 +79,8 @@ double FlatTest(Stencil stencil, StreamingType streamingType, double cfl, double
 double CurvedTest(Stencil stencil, StreamingType streamingType, double cfl, double kappa0, double kappa1, double kappaA, double eta, double ux)
 {
     // Create Radiation object:
-    size_t nx = 400;
-    size_t ny = 400;
+    size_t nx = 401;
+    size_t ny = 401;
     Coord start(4, 4);
     Coord end(8, 8);
     Grid grid(nx, ny, start, end);

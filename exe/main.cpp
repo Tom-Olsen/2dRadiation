@@ -12,8 +12,8 @@ using namespace std;
 Logger SphereWave(Stencil stencil, StreamingType streamingType, double cfl)
 {
     // Create Radiation object:
-    size_t nx = 300;
-    size_t ny = 300;
+    size_t nx = 301;
+    size_t ny = 301;
     Coord start(-1, -1);
     Coord end(1, 1);
     Grid grid(nx, ny, start, end);
@@ -88,8 +88,8 @@ void SphereWaveAnalysis(int n)
 Logger Shadow(Stencil stencil, StreamingType streamingType, double cfl)
 {
     // Create Radiation object:
-    size_t nx = 190;
-    size_t ny = 190;
+    size_t nx = 191;
+    size_t ny = 191;
     Coord start(-0.2, -0.2);
     Coord end(1.7, 1.7);
     Grid grid(nx, ny, start, end);
@@ -160,8 +160,8 @@ void ShadowAnalysis(int n)
 Logger Star(Stencil stencil, StreamingType streamingType, double cfl, double kappaA)
 {
     // Create Radiation object:
-    size_t nx = 400;
-    size_t ny = 400;
+    size_t nx = 401;
+    size_t ny = 401;
     Coord start(-4, -4);
     Coord end(4, 4);
     Grid grid(nx, ny, start, end);
@@ -244,8 +244,8 @@ void StarAnalysis(int n)
 Logger BeamCrossing(Stencil stencil, StreamingType streamingType, double cfl)
 {
     // Create Radiation object:
-    size_t nx = 200;
-    size_t ny = 100;
+    size_t nx = 201;
+    size_t ny = 101;
     Coord start(-0.5, -0.25);
     Coord end(0.5, 0.25);
     Grid grid(nx, ny, start, end);
@@ -350,8 +350,8 @@ void BeamCrossingAnalysis(int n)
 Logger Diffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl, double correctionFactor)
 {
     // Create Radiation object:
-    size_t nx = 200;
-    size_t ny = 200;
+    size_t nx = 201;
+    size_t ny = 201;
     Coord start(-0.5, -0.5);
     Coord end(0.5, 0.5);
     Grid grid(nx, ny, start, end);
@@ -428,8 +428,8 @@ void DiffusionAnalysis(int n)
 Logger MovingDiffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl, double correctionFactor, double ux)
 {
     // Create Radiation object:
-    size_t nx = 300;
-    size_t ny = 100;
+    size_t nx = 301;
+    size_t ny = 101;
     Coord start(-1.0, -0.5);
     Coord end(2.0, 0.5);
     Grid grid(nx, ny, start, end);
@@ -531,8 +531,8 @@ void MovingDiffusionAnalysis(int n)
 
 Logger CurvedBeam(Stencil stencil, StreamingType streamingType, double cfl, int nF = 5, bool updateFourierHarmonics = false)
 {
-    size_t nx = 250;
-    size_t ny = 200;
+    size_t nx = 251;
+    size_t ny = 201;
     Coord start(0, 0);
     Coord end(5, 4);
     Grid grid(nx, ny, start, end);
@@ -605,8 +605,8 @@ void CurvedBeamAnalysis(int n)
 
 Logger CurvedDiffusion(Stencil stencil, StreamingType streamingType, double kappaS, double lambda, double cfl)
 {
-    size_t nx = 400;
-    size_t ny = 400;
+    size_t nx = 401;
+    size_t ny = 401;
     Coord start(-4, -4);
     Coord end(4, 4);
     Grid grid(nx, ny, start, end);
