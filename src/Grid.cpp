@@ -1,7 +1,7 @@
 #include "Grid.h"
 
 // Constructors:
-Grid::Grid(size_t nx_, size_t ny_, Coord start_, Coord end_, size_t halox = 1, size_t haloy = 1)
+Grid::Grid(size_t nx_, size_t ny_, Coord start_, Coord end_, size_t halox, size_t haloy)
 {
     if (end_[1] < start_[1])
         ExitOnError("Grid x€[a,b] has b<a!");
@@ -39,6 +39,84 @@ double Grid::GetCFL()
 {
     return m_cfl;
 }
+
+// Subgrid Tools:
+Grid Grid::Subgrid()
+{
+    int rank, size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    int width = 0;
+    int height = 0;
+    int bestN = 0;
+    FindSubgridSize(nx - 2, ny - 2, size, width, height, bestN);
+    if (bestN != size)
+    {
+        throw std::invalid_argument("Use other number of nodes");
+    }
+    int numberRanksHorizontal = (nx - 2) / width;
+    int numberRanksVertical = (ny - 2) / height;
+    int subX = rank % (numberRanksHorizontal); // subgrid number horizontal
+    int subY = rank / (numberRanksHorizontal); // subgrid number vertical
+    Coord newStart(startx + subX * width * dx + dx, starty + subY * height * dy + dy);
+    Coord newEnd(startx + subX * width * dx + width * dx, starty + subY * height * dy + height * dy);
+    Grid subgrid(width, height, newStart, newEnd);
+    subgrid.SetCFL(GetCFL());
+    if (subY == 0)
+    {
+        subgrid.up = -1;
+    }
+    else
+    {
+        subgrid.up = (subY - 1) * numberRanksHorizontal + subX;
+    }
+    if (subX == 0)
+    {
+        subgrid.left = -1;
+    }
+    else
+    {
+        subgrid.left = subY * numberRanksHorizontal + (subX - 1);
+    }
+    if (subY == numberRanksVertical - 1)
+    {
+        subgrid.down = -1;
+    }
+    else
+    {
+        subgrid.down = (subY + 1) * numberRanksHorizontal + subX;
+    }
+    if (subX == numberRanksHorizontal - 1)
+    {
+        subgrid.right = -1;
+    }
+    else
+    {
+        subgrid.right = subY * numberRanksHorizontal + (subX + 1);
+    }
+    subgrid.subgridX = subX; // subgrid number horizontal
+    subgrid.subgridY = subY; // subgrid number vertical
+    return subgrid;
+}
+
+bool Grid::InsideSubgrid(size_t i, size_t j)
+{
+    size_t startX = subgridX * (nx - 2);
+    size_t startY = subgridY * (ny - 2);
+    size_t endX = startX + nx;
+    size_t endY = startY + ny;
+    if (i >= startX && i < endX && j >= startY && j < endY)
+        return true;
+    return false;
+}
+
+size_t Grid::GridToSubgridIndex(size_t i, size_t j)
+{
+    size_t startX = subgridX * (nx - 2);
+    size_t startY = subgridY * (ny - 2);
+    return (i - startX) + (j - startY) * nx;
+}
+
 
 // Grid Access Tools:
 size_t Grid::Index(size_t i, size_t j)

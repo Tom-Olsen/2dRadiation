@@ -5,6 +5,7 @@
 #include "FourierHarmonics.h"       // Fourier harmonic functions and fourier transforms.
 #include "Logger.hh"                // logs final results.
 #include "Config.hh"                // Config for simulation parameters.
+#include <mpi.h>
 
 class Radiation
 {
@@ -18,6 +19,7 @@ private:
 
 public:
     Grid &grid;
+    Grid &maingrid;
     Metric &metric;
     Stencil &stencil;
     Stencil &streamingStencil;
@@ -58,6 +60,10 @@ public:
     RealBuffer Pxy_LF;
     RealBuffer Pyy_LF;
     RealBuffer F_LF; // only for saving
+    RealBuffer M_E_LF; // only for saving maingrid
+    RealBuffer M_Fx_LF; // only for saving maingrid
+    RealBuffer M_Fy_LF; // only for saving maingrid
+    RealBuffer M_F_LF; // only for saving maingrid
 
     // Fluid properties:
     RealBuffer kappa0;
@@ -78,13 +84,48 @@ public:
     RealBuffer coefficientsCx;
     RealBuffer coefficientsCy;
 
+    // Buffer for MPI sending and receiving data left and right
+    RealBuffer lSendRotationAngleNew;
+    RealBuffer lRecRotationAngleNew;
+
+    RealBuffer rSendRotationAngleNew;
+    RealBuffer rRecRotationAngleNew;
+
+    RealBuffer lSendI;
+    RealBuffer lRecI;
+
+    RealBuffer rSendI;
+    RealBuffer rRecI;
+
+    RealBuffer lSendCoefficientsS;
+    RealBuffer lSendCoefficientsX;
+    RealBuffer lSendCoefficientsY;
+    RealBuffer lSendCoefficientsCx;
+    RealBuffer lSendCoefficientsCy;
+    RealBuffer rSendCoefficientsS;
+    RealBuffer rSendCoefficientsX;
+    RealBuffer rSendCoefficientsY;
+    RealBuffer rSendCoefficientsCx;
+    RealBuffer rSendCoefficientsCy;
+
+    RealBuffer lRecCoefficientsS;
+    RealBuffer lRecCoefficientsX;
+    RealBuffer lRecCoefficientsY;
+    RealBuffer lRecCoefficientsCx;
+    RealBuffer lRecCoefficientsCy;
+    RealBuffer rRecCoefficientsS;
+    RealBuffer rRecCoefficientsX;
+    RealBuffer rRecCoefficientsY;
+    RealBuffer rRecCoefficientsCx;
+    RealBuffer rRecCoefficientsCy;
+
     // Testing:
     IntBuffer itterationCount;
     int maxItterationCount = 0;
     double averageItterationCount = 0;
 
     Radiation() = delete;
-    Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil, Config config);
+    Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil, Config config, Grid &main);
     ~Radiation();
 
     size_t Index(size_t ij, size_t d);
@@ -115,5 +156,11 @@ public:
     void Collide();
 
     void RunSimulation();
+
+    // MPI functions
+    void DistributeRotNew();
+    void DistributeI();
+    void DistributeCoefficients();
+    void GatherData();
 };
 #endif //__INCLUDE_GUARD_Radiation_h__

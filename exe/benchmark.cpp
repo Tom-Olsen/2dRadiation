@@ -40,7 +40,7 @@ double FlatTest(Stencil stencil, StreamingType streamingType, double cfl, double
         };
 
     // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
+    Radiation radiation(metric, stencil, streamingStencil, config, grid);
 
     // Initial Data:
     Coord center = (start + end) / 2;
@@ -107,7 +107,7 @@ double CurvedTest(Stencil stencil, StreamingType streamingType, double cfl, doub
         };
 
     // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
+    Radiation radiation(metric, stencil, streamingStencil, config, grid);
 
     // Initial Data:
     Coord center = (start + end) / 2;

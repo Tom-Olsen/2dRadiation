@@ -1,3 +1,4 @@
+#include <mpi.h>
 #include <iostream>
 #include "../src/Radiation.h"
 using namespace std;
@@ -40,7 +41,7 @@ Logger SphereWave(Stencil stencil, StreamingType streamingType, double cfl)
         };
 
     // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
+    Radiation radiation(metric, stencil, streamingStencil, config, grid);
 
     // Initial Data:
     double emissionRadius = 0.05;
@@ -116,7 +117,7 @@ Logger Shadow(Stencil stencil, StreamingType streamingType, double cfl)
         };
 
     // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
+    Radiation radiation(metric, stencil, streamingStencil, config, grid);
 
     // Initial Data:
     Coord planetPos(0.75, 0.75);
@@ -188,7 +189,7 @@ Logger Star(Stencil stencil, StreamingType streamingType, double cfl, double kap
         };
 
     // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
+    Radiation radiation(metric, stencil, streamingStencil, config, grid);
 
     // Initial Data:
     double starRadius = 1;
@@ -250,7 +251,8 @@ Logger BeamCrossing(Stencil stencil, StreamingType streamingType, double cfl)
     Coord end(0.5, 0.25);
     Grid grid(nx, ny, start, end);
     grid.SetCFL(cfl);
-    Minkowski metric(grid, 1.0, 0.0);
+    Grid subgrid = grid.Subgrid();
+    Minkowski metric(subgrid, 1.0, 0.0);
     Stencil streamingStencil(5, 0, false);
 
     InitialDataType initialDataType = InitialDataType::Moments;
@@ -276,7 +278,7 @@ Logger BeamCrossing(Stencil stencil, StreamingType streamingType, double cfl)
         };
 
     // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
+    Radiation radiation(metric, stencil, streamingStencil, config, grid);
 
     // Initial Data:
     Tensor2 dir0 = Tensor2(0.3,  0.1).EuklNormalized();
@@ -306,34 +308,38 @@ Logger BeamCrossing(Stencil stencil, StreamingType streamingType, double cfl)
     for (size_t j = 0; j < grid.ny; j++)
         for (size_t i = 0; i < grid.nx; i++)
         {
-            size_t ij = grid.Index(i, j);
-            Coord xy = grid.xy(i, j);
-            double x = xy[1];
-            double y = xy[2];
-            radiation.kappa0[ij] = 0;
-            radiation.kappa1[ij] = 0;
-            radiation.kappaA[ij] = 0;
-            radiation.eta[ij] = 0;
+            if (subgrid.InsideSubgrid(i, j))
+            {
+                size_t ij = subgrid.GridToSubgridIndex(i, j);
+                // size_t ij = grid.Index(i, j);
+                Coord xy = grid.xy(i, j);
+                double x = xy[1];
+                double y = xy[2];
+                radiation.kappa0[ij] = 0;
+                radiation.kappa1[ij] = 0;
+                radiation.kappaA[ij] = 0;
+                radiation.eta[ij] = 0;
 
-            // Beam 0, from bottom to top:
-            if ( -0.45 - grid.dx < x && x <= -0.45 && -0.20 < y && y < -0.15)
-            {
-                radiation.isInitialGridPoint[ij] = true;
-                radiation.initialE_LF[ij] = 1;
-                radiation.initialFx_LF[ij] = dir0[1];
-                radiation.initialFy_LF[ij] = dir0[2];
-                // Only used for FlatFixed streaming:
-                radiation.initialI[radiation.Index(ij, d0)] = 1.0 / stencil.W(d0);
-            }
-            // Beam 1, from bottom to top:
-            if ( -0.45 - grid.dx < x && x <= -0.45 && 0.15 < y && y < 0.20)
-            {
-                radiation.isInitialGridPoint[ij] = true;
-                radiation.initialE_LF[ij] = 1;
-                radiation.initialFx_LF[ij] = dir1[1];
-                radiation.initialFy_LF[ij] = dir1[2];
-                // Only used for FlatFixed streaming:
-                radiation.initialI[radiation.Index(ij, d1)] = 1.0 / stencil.W(d1);
+                // Beam 0, from bottom to top:
+                if ( -0.45 - grid.dx < x && x <= -0.45 && -0.20 < y && y < -0.15)
+                {
+                    radiation.isInitialGridPoint[ij] = true;
+                    radiation.initialE_LF[ij] = 1;
+                    radiation.initialFx_LF[ij] = dir0[1];
+                    radiation.initialFy_LF[ij] = dir0[2];
+                    // Only used for FlatFixed streaming:
+                    radiation.initialI[radiation.Index(ij, d0)] = 1.0 / stencil.W(d0);
+                }
+                // Beam 1, from bottom to top:
+                if ( -0.45 - grid.dx < x && x <= -0.45 && 0.15 < y && y < 0.20)
+                {
+                    radiation.isInitialGridPoint[ij] = true;
+                    radiation.initialE_LF[ij] = 1;
+                    radiation.initialFx_LF[ij] = dir1[1];
+                    radiation.initialFy_LF[ij] = dir1[2];
+                    // Only used for FlatFixed streaming:
+                    radiation.initialI[radiation.Index(ij, d1)] = 1.0 / stencil.W(d1);
+                }
             }
         }
     radiation.RunSimulation();
@@ -387,7 +393,7 @@ Logger Diffusion(Stencil stencil, StreamingType streamingType, double kappaS, do
         };
 
     // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
+    Radiation radiation(metric, stencil, streamingStencil, config, grid);
 
     for (size_t j = 0; j < grid.ny; j++)
         for (size_t i = 0; i < grid.nx; i++)
@@ -475,7 +481,7 @@ Logger MovingDiffusion(Stencil stencil, StreamingType streamingType, double kapp
         };
 
     // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
+    Radiation radiation(metric, stencil, streamingStencil, config, grid);
 
     for (size_t j = 0; j < grid.ny; j++)
         for (size_t i = 0; i < grid.nx; i++)
@@ -560,7 +566,7 @@ Logger CurvedBeam(Stencil stencil, StreamingType streamingType, double cfl, int 
         };
 
     // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
+    Radiation radiation(metric, stencil, streamingStencil, config, grid);
     // Turn this on to overwrite sigma (needed to create 'wrong' simultion for Appendix).
     // radiation.sigmaOverwrite = std::min(1.5 * stencil.sigmaMax, 500.0);
 
@@ -640,7 +646,7 @@ Logger CurvedDiffusion(Stencil stencil, StreamingType streamingType, double kapp
         };
 
     // Radiation:
-    Radiation radiation(metric, stencil, streamingStencil, config);
+    Radiation radiation(metric, stencil, streamingStencil, config, grid);
 
     // Initial Data:
     PARALLEL_FOR(2)
@@ -753,15 +759,17 @@ void MetricDataForLukasCurvedBeam()
 
 int main(int argc, char *argv[])
 {
+    MPI_Init(&argc, &argv);
+
     int n = 1;
     if (argc > 1)
         n = atoi(argv[1]);
-        
+
     // Paper:
     // SphereWaveAnalysis(n);               // Done
     // ShadowAnalysis(n);                   // Done
     // StarAnalysis(n);                     // Done
-    // BeamCrossingAnalysis(n);             // Done
+    BeamCrossingAnalysis(n);             // Done
     // DiffusionAnalysis(n);                // Done
     // MovingDiffusionAnalysis(n);          // Done
     // CurvedBeamAnalysis(n);               // Done
@@ -769,4 +777,6 @@ int main(int argc, char *argv[])
 
     // StreamingTypePerformanceAnalysis(n); // Done
     // MetricDataForLukasCurvedBeam();
+
+    MPI_Finalize();
 }

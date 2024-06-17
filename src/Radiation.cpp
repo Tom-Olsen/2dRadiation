@@ -1,7 +1,7 @@
 #include "Radiation.h"
 
-Radiation::Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil, Config config)
-    : grid(metric.grid), metric(metric), stencil(stencil), streamingStencil(streamingStencil), config(config), logger(stencil, streamingStencil, metric)
+Radiation::Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil, Config config, Grid &main)
+    : grid(metric.grid), metric(metric), stencil(stencil), streamingStencil(streamingStencil), config(config), logger(stencil, streamingStencil, metric), maingrid(main)
 {
     isInitialGridPoint = new bool[grid.nxy]();
     initialE_LF.resize(grid.nxy);
@@ -16,6 +16,12 @@ Radiation::Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil
     rotationAngle.resize(grid.nxy);
     rotationAngleNew.resize(grid.nxy);
 
+    lSendRotationAngleNew.resize(grid.ny - 2);
+    lRecRotationAngleNew.resize(grid.ny - 2);
+
+    rSendRotationAngleNew.resize(grid.ny - 2);
+    rRecRotationAngleNew.resize(grid.ny - 2);
+
     E.resize(grid.nxy);
     Fx.resize(grid.nxy);
     Fy.resize(grid.nxy);
@@ -29,6 +35,11 @@ Radiation::Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil
     Pxy_LF.resize(grid.nxy);
     Pyy_LF.resize(grid.nxy);
     F_LF.resize(grid.nxy);
+    // Moments to safe maingrid
+    M_E_LF.resize(maingrid.nxy);
+    M_Fx_LF.resize(maingrid.nxy);
+    M_Fy_LF.resize(maingrid.nxy);
+    M_F_LF.resize(maingrid.nxy);
 
     kappa0.resize(grid.nxy);
     kappa1.resize(grid.nxy);
@@ -40,11 +51,39 @@ Radiation::Radiation(Metric &metric, Stencil &stencil, Stencil &streamingStencil
     I.resize(grid.nxy * stencil.nDir);
     Inew.resize(grid.nxy * stencil.nDir);
 
+    lSendI.resize((grid.ny - 2) * stencil.nDir);
+    lRecI.resize((grid.ny - 2) * stencil.nDir);
+
+    rSendI.resize((grid.ny - 2) * stencil.nDir);
+    rRecI.resize((grid.ny - 2) * stencil.nDir);
+
     coefficientsS.resize(grid.nxy * streamingStencil.nCoefficients);
     coefficientsX.resize(grid.nxy * streamingStencil.nCoefficients);
     coefficientsY.resize(grid.nxy * streamingStencil.nCoefficients);
     coefficientsCx.resize(grid.nxy * streamingStencil.nCoefficients);
     coefficientsCy.resize(grid.nxy * streamingStencil.nCoefficients);
+
+    lSendCoefficientsS.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    lSendCoefficientsX.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    lSendCoefficientsY.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    lSendCoefficientsCx.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    lSendCoefficientsCy.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    rSendCoefficientsS.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    rSendCoefficientsX.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    rSendCoefficientsY.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    rSendCoefficientsCx.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    rSendCoefficientsCy.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+
+    lRecCoefficientsS.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    lRecCoefficientsX.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    lRecCoefficientsY.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    lRecCoefficientsCx.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    lRecCoefficientsCy.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    rRecCoefficientsS.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    rRecCoefficientsX.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    rRecCoefficientsY.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    rRecCoefficientsCx.resize((grid.ny - 2) * streamingStencil.nCoefficients);
+    rRecCoefficientsCy.resize((grid.ny - 2) * streamingStencil.nCoefficients);
 
     itterationCount.resize(grid.nxy);
 
@@ -640,8 +679,8 @@ void Radiation::Collide()
 {
     PROFILE_FUNCTION();
     PARALLEL_FOR(2)
-    for (size_t j = HALO; j < grid.ny - HALO; j++)
-        for (size_t i = HALO; i < grid.nx - HALO; i++)
+    for (size_t j = 0; j < grid.ny; j++)
+        for (size_t i = 0; i < grid.nx; i++)
         {
             if (metric.InsideBH(grid.xy(i, j)))
                 continue;
@@ -735,6 +774,9 @@ void Radiation::Collide()
 
 void Radiation::RunSimulation()
 {
+    int rank, size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
     // Initialize Profiler:
     Profiler::Session &session = Profiler::Session::Get();
     session.Start(config.name, "output/" + config.name + "/profileResults.json");
@@ -775,7 +817,9 @@ void Radiation::RunSimulation()
         {
             ComputeMomentsIF();
             ComputeMomentsLF();
-            grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
+            GatherData();
+            if(rank == 0)
+                maingrid.WriteFrametoCsv(currentTime, M_E_LF, M_Fx_LF, M_Fy_LF, M_F_LF, logger.directoryPath + "/Moments/");
             timeSinceLastFrame = 0;
         }
         for (int n = 0; n < logger.timeSteps; n++)
@@ -785,7 +829,10 @@ void Radiation::RunSimulation()
 
             // Update stuff:
             if (config.updateFourierHarmonics)
+            {
                 UpdateFourierCoefficients();
+                DistributeCoefficients();
+            }
             if (config.keepSourceNodesActive)
                 LoadInitialData();
             // Stream:
@@ -796,6 +843,7 @@ void Radiation::RunSimulation()
                 break;
             case (StreamingType::FlatAdaptive):
                 UpdateRotationMatrizes();
+                DistributeRotNew();
                 StreamFlatAdaptive();
                 break;
             case (StreamingType::CurvedFixed):
@@ -803,13 +851,17 @@ void Radiation::RunSimulation()
                 break;
             case (StreamingType::CurvedAdaptive):
                 UpdateRotationMatrizes();
+                DistributeRotNew();
                 StreamCurvedAdaptive();
                 break;
             case (StreamingType::GeodesicFixed):
                 UpdateRotationMatrizes();
+                DistributeRotNew();
                 StreamGeodesicFixed();
                 break;
             }
+
+            DistributeI();
 
             // Collide:
             ComputeMomentsIF();
@@ -823,7 +875,9 @@ void Radiation::RunSimulation()
             {
                 ComputeMomentsIF();
                 ComputeMomentsLF();
-                grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
+                GatherData();
+                if(rank == 0)
+                    maingrid.WriteFrametoCsv(currentTime, M_E_LF, M_Fx_LF, M_Fy_LF, M_F_LF, logger.directoryPath + "/Moments/");
                 timeSinceLastFrame = 0;
             }
         }
@@ -833,7 +887,9 @@ void Radiation::RunSimulation()
         {
             ComputeMomentsIF();
             ComputeMomentsLF();
-            grid.WriteFrametoCsv(currentTime, E_LF, Fx_LF, Fy_LF, F_LF, logger.directoryPath + "/Moments/");
+            GatherData();
+            if(rank == 0)
+                maingrid.WriteFrametoCsv(currentTime, M_E_LF, M_Fx_LF, M_Fy_LF, M_F_LF, logger.directoryPath + "/Moments/");
             timeSinceLastFrame = 0;
         }
     }
@@ -875,4 +931,329 @@ void Radiation::RunSimulation()
     if (config.writeData)
         logger.Write();
     // --------------------------------------------------------
+}
+
+void Radiation::DistributeRotNew()
+{
+    PROFILE_FUNCTION();
+    MPI_Request reqsA[4];
+    int curReq = 0;
+
+    if (grid.right != -1)
+    {
+        for (int i = 0; i < grid.ny - 2; i++)
+        {
+            rSendRotationAngleNew[i] = rotationAngleNew[grid.Index(grid.nx - 2, i + 1)];
+        }
+        MPI_Isend(&rSendRotationAngleNew[0], grid.ny - 2, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&rRecRotationAngleNew[0], grid.ny - 2, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+    }
+    if (grid.left != -1)
+    {
+        for (int i = 0; i < grid.ny - 2; i++)
+        {
+            lSendRotationAngleNew[i] = rotationAngleNew[grid.Index(1, i + 1)];
+        }
+        MPI_Isend(&lSendRotationAngleNew[0], grid.ny - 2, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&lRecRotationAngleNew[0], grid.ny - 2, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+    }
+    MPI_Status array_of_statusesA[4];
+    MPI_Waitall(curReq, reqsA, array_of_statusesA);
+
+    // copy left and right data to correct position in arrays
+    if (grid.right != -1)
+    {
+        for (int i = 0; i < grid.ny - 2; i++)
+        {
+            rotationAngleNew[grid.Index(grid.nx - 1, i + 1)] = rRecRotationAngleNew[i];
+        }
+    }
+    if (grid.left != -1)
+    {
+        for (int i = 0; i < grid.ny - 2; i++)
+        {
+            rotationAngleNew[grid.Index(0, i + 1)] = lRecRotationAngleNew[i];
+        }
+    }
+
+    MPI_Request reqs[4];
+    curReq = 0;
+
+    if (grid.up != -1)
+    {
+        MPI_Isend(&rotationAngleNew[grid.nx], grid.nx, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Irecv(&rotationAngleNew[0], grid.nx, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+    }
+    if (grid.down != -1)
+    {
+        MPI_Isend(&rotationAngleNew[(grid.nxy - grid.nx * 2)], grid.nx, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Irecv(&rotationAngleNew[(grid.nxy - grid.nx)], grid.nx, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+    }
+
+    MPI_Status array_of_statuses[4];
+    MPI_Waitall(curReq, reqs, array_of_statuses);
+}
+
+void Radiation::DistributeI()
+{
+    PROFILE_FUNCTION();
+    MPI_Request reqsA[4];
+    int curReq = 0;
+
+    if (grid.right != -1)
+    {
+        for (int i = 0; i < grid.ny - 2; i++)
+        {
+            for (int n = 0; n < stencil.nDir; n++)
+            {
+                rSendI[i * stencil.nDir + n] = I[grid.Index(grid.nx - 2, i + 1) * stencil.nDir + n];
+            }
+        }
+        MPI_Isend(&rSendI[0], (grid.ny - 2) * stencil.nDir, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&rRecI[0], (grid.ny - 2) * stencil.nDir, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+    }
+    if (grid.left != -1)
+    {
+        for (int i = 0; i < grid.ny - 2; i++)
+        {
+            for (int n = 0; n < stencil.nDir; n++)
+            {
+                lSendI[i * stencil.nDir + n] = I[grid.Index(1, i + 1) * stencil.nDir + n];
+            }
+        }
+        MPI_Isend(&lSendI[0], (grid.ny - 2) * stencil.nDir, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&lRecI[0], (grid.ny - 2) * stencil.nDir, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+    }
+    MPI_Status array_of_statusesA[4];
+    MPI_Waitall(curReq, reqsA, array_of_statusesA);
+
+    // copy left and right data to correct position in arrays
+    if (grid.right != -1)
+    {
+        for (int i = 0; i < grid.ny - 2; i++)
+        {
+            for (int n = 0; n < stencil.nDir; n++)
+            {
+                I[grid.Index(grid.nx - 1, i + 1) * stencil.nDir + n] = rRecI[i * stencil.nDir + n];
+            }
+        }
+    }
+    if (grid.left != -1)
+    {
+        for (int i = 0; i < grid.ny - 2; i++)
+        {
+            for (int n = 0; n < stencil.nDir; n++)
+            {
+                I[grid.Index(0, i + 1) * stencil.nDir + n] = lRecI[i * stencil.nDir + n];
+            }
+        }
+    }
+
+    MPI_Request reqs[4];
+    curReq = 0;
+
+    if (grid.up != -1)
+    {
+        MPI_Isend(&I[grid.nx * stencil.nDir], grid.nx * stencil.nDir, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Irecv(&I[0], grid.nx * stencil.nDir, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+    }
+    if (grid.down != -1)
+    {
+        MPI_Isend(&I[(grid.nxy - grid.nx * 2) * stencil.nDir], grid.nx * stencil.nDir, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Irecv(&I[(grid.nxy - grid.nx) * stencil.nDir], grid.nx * stencil.nDir, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+    }
+
+    MPI_Status array_of_statuses[4];
+    MPI_Waitall(curReq, reqs, array_of_statuses);
+}
+
+void Radiation::DistributeCoefficients()
+{
+    PROFILE_FUNCTION();
+    MPI_Request reqsA[20];
+    int curReq = 0;
+
+    int sendN = (grid.ny - 2) * streamingStencil.nCoefficients;
+    if (grid.right != -1)
+    {
+        for (int i = 0; i < grid.ny - 2; i++)
+        {
+            for (int n = 0; n < streamingStencil.nCoefficients; n++)
+            {
+                rSendCoefficientsS[i * streamingStencil.nCoefficients + n] = coefficientsS[grid.Index(grid.nx - 2, i + 1) * streamingStencil.nCoefficients + n];
+                rSendCoefficientsX[i * streamingStencil.nCoefficients + n] = coefficientsX[grid.Index(grid.nx - 2, i + 1) * streamingStencil.nCoefficients + n];
+                rSendCoefficientsY[i * streamingStencil.nCoefficients + n] = coefficientsY[grid.Index(grid.nx - 2, i + 1) * streamingStencil.nCoefficients + n];
+                rSendCoefficientsCx[i * streamingStencil.nCoefficients + n] = coefficientsCx[grid.Index(grid.nx - 2, i + 1) * streamingStencil.nCoefficients + n];
+                rSendCoefficientsCy[i * streamingStencil.nCoefficients + n] = coefficientsCy[grid.Index(grid.nx - 2, i + 1) * streamingStencil.nCoefficients + n];
+            }
+        }
+        MPI_Isend(&rSendCoefficientsS[0], sendN, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Isend(&rSendCoefficientsX[0], sendN, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Isend(&rSendCoefficientsY[0], sendN, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Isend(&rSendCoefficientsCx[0], sendN, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Isend(&rSendCoefficientsCy[0], sendN, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&rRecCoefficientsS[0], sendN, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&rRecCoefficientsX[0], sendN, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&rRecCoefficientsY[0], sendN, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&rRecCoefficientsCx[0], sendN, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&rRecCoefficientsCy[0], sendN, MPI_DOUBLE, grid.right, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+    }
+    if (grid.left != -1)
+    {
+        for (int i = 0; i < grid.ny - 2; i++)
+        {
+            for (int n = 0; n < streamingStencil.nCoefficients; n++)
+            {
+                lSendCoefficientsS[i * streamingStencil.nCoefficients + n] = coefficientsS[grid.Index(1, i + 1) * streamingStencil.nCoefficients + n];
+                lSendCoefficientsX[i * streamingStencil.nCoefficients + n] = coefficientsX[grid.Index(1, i + 1) * streamingStencil.nCoefficients + n];
+                lSendCoefficientsY[i * streamingStencil.nCoefficients + n] = coefficientsY[grid.Index(1, i + 1) * streamingStencil.nCoefficients + n];
+                lSendCoefficientsCx[i * streamingStencil.nCoefficients + n] = coefficientsCx[grid.Index(1, i + 1) * streamingStencil.nCoefficients + n];
+                lSendCoefficientsCy[i * streamingStencil.nCoefficients + n] = coefficientsCy[grid.Index(1, i + 1) * streamingStencil.nCoefficients + n];
+            }
+        }
+        MPI_Isend(&lSendCoefficientsS[0], sendN, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Isend(&lSendCoefficientsX[0], sendN, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Isend(&lSendCoefficientsY[0], sendN, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Isend(&lSendCoefficientsCx[0], sendN, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Isend(&lSendCoefficientsCy[0], sendN, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&lRecCoefficientsS[0], sendN, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&lRecCoefficientsX[0], sendN, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&lRecCoefficientsY[0], sendN, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&lRecCoefficientsCx[0], sendN, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+        MPI_Irecv(&lRecCoefficientsCy[0], sendN, MPI_DOUBLE, grid.left, 0, MPI_COMM_WORLD, &reqsA[curReq++]);
+    }
+    MPI_Status array_of_statusesA[20];
+    MPI_Waitall(curReq, reqsA, array_of_statusesA);
+
+    // copy left and right data to correct position in arrays
+    if (grid.right != -1)
+    {
+        for (int i = 0; i < grid.ny - 2; i++)
+        {
+            for (int n = 0; n < streamingStencil.nCoefficients; n++)
+            {
+
+                coefficientsS[grid.Index(grid.nx - 1, i + 1) * streamingStencil.nCoefficients + n] = rRecCoefficientsS[i * streamingStencil.nCoefficients + n];
+                coefficientsX[grid.Index(grid.nx - 1, i + 1) * streamingStencil.nCoefficients + n] = rRecCoefficientsX[i * streamingStencil.nCoefficients + n];
+                coefficientsY[grid.Index(grid.nx - 1, i + 1) * streamingStencil.nCoefficients + n] = rRecCoefficientsY[i * streamingStencil.nCoefficients + n];
+                coefficientsCx[grid.Index(grid.nx - 1, i + 1) * streamingStencil.nCoefficients + n] = rRecCoefficientsCx[i * streamingStencil.nCoefficients + n];
+                coefficientsCy[grid.Index(grid.nx - 1, i + 1) * streamingStencil.nCoefficients + n] = rRecCoefficientsCy[i * streamingStencil.nCoefficients + n];
+            }
+        }
+    }
+    if (grid.left != -1)
+    {
+        for (int i = 0; i < grid.ny - 2; i++)
+        {
+            for (int n = 0; n < streamingStencil.nCoefficients; n++)
+            {
+                coefficientsS[grid.Index(0, i + 1) * streamingStencil.nCoefficients + n] = lRecCoefficientsS[i * streamingStencil.nCoefficients + n];
+                coefficientsX[grid.Index(0, i + 1) * streamingStencil.nCoefficients + n] = lRecCoefficientsX[i * streamingStencil.nCoefficients + n];
+                coefficientsY[grid.Index(0, i + 1) * streamingStencil.nCoefficients + n] = lRecCoefficientsY[i * streamingStencil.nCoefficients + n];
+                coefficientsCx[grid.Index(0, i + 1) * streamingStencil.nCoefficients + n] = lRecCoefficientsCx[i * streamingStencil.nCoefficients + n];
+                coefficientsCy[grid.Index(0, i + 1) * streamingStencil.nCoefficients + n] = lRecCoefficientsCy[i * streamingStencil.nCoefficients + n];
+            }
+        }
+    }
+
+    MPI_Request reqs[20];
+    curReq = 0;
+
+    sendN = grid.nx * streamingStencil.nCoefficients;
+    if (grid.up != -1)
+    {
+        MPI_Isend(&coefficientsS[sendN], sendN, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Isend(&coefficientsX[sendN], sendN, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Isend(&coefficientsY[sendN], sendN, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Isend(&coefficientsCx[sendN], sendN, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Isend(&coefficientsCy[sendN], sendN, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+
+        MPI_Irecv(&coefficientsS[0], sendN, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Irecv(&coefficientsX[0], sendN, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Irecv(&coefficientsY[0], sendN, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Irecv(&coefficientsCx[0], sendN, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Irecv(&coefficientsCy[0], sendN, MPI_DOUBLE, grid.up, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+    }
+    if (grid.down != -1)
+    {
+        MPI_Isend(&coefficientsS[(grid.nxy - grid.nx * 2) * streamingStencil.nCoefficients], sendN, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Isend(&coefficientsX[(grid.nxy - grid.nx * 2) * streamingStencil.nCoefficients], sendN, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Isend(&coefficientsY[(grid.nxy - grid.nx * 2) * streamingStencil.nCoefficients], sendN, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Isend(&coefficientsCx[(grid.nxy - grid.nx * 2) * streamingStencil.nCoefficients], sendN, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Isend(&coefficientsCy[(grid.nxy - grid.nx * 2) * streamingStencil.nCoefficients], sendN, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+
+        MPI_Irecv(&coefficientsS[(grid.nxy - grid.nx) * streamingStencil.nCoefficients], sendN, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Irecv(&coefficientsX[(grid.nxy - grid.nx) * streamingStencil.nCoefficients], sendN, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Irecv(&coefficientsY[(grid.nxy - grid.nx) * streamingStencil.nCoefficients], sendN, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Irecv(&coefficientsCx[(grid.nxy - grid.nx) * streamingStencil.nCoefficients], sendN, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+        MPI_Irecv(&coefficientsCy[(grid.nxy - grid.nx) * streamingStencil.nCoefficients], sendN, MPI_DOUBLE, grid.down, 0, MPI_COMM_WORLD, &reqs[curReq++]);
+    }
+
+    MPI_Status array_of_statuses[20];
+    MPI_Waitall(curReq, reqs, array_of_statuses);
+}
+
+void Radiation::GatherData()
+{
+    PROFILE_FUNCTION();
+    int rank, size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    if (rank == 0)
+    {
+        RealBuffer RecE_LF(grid.nxy);
+        RealBuffer RecFx_LF(grid.nxy);
+        RealBuffer RecFy_LF(grid.nxy);
+        RealBuffer RecF_LF(grid.nxy);
+        for (int i = 1; i < size; i++)
+        {
+            MPI_Request reqs[4];
+            MPI_Irecv(&RecE_LF[0], grid.nxy, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, &reqs[0]);
+            MPI_Irecv(&RecFx_LF[0], grid.nxy, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, &reqs[1]);
+            MPI_Irecv(&RecFy_LF[0], grid.nxy, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, &reqs[2]);
+            MPI_Irecv(&RecF_LF[0], grid.nxy, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, &reqs[3]);
+            MPI_Status array_of_statuses[4];
+            MPI_Waitall(4, reqs, array_of_statuses);
+            // move data to maingrid moments for saving
+            int numberRanksHorizontal = (maingrid.nx - 2) / (grid.nx - 2);
+            int subX = i % (numberRanksHorizontal);
+            int subY = i / (numberRanksHorizontal);
+            size_t startx = subX * (grid.nx - 2);
+            size_t starty = subY * (grid.ny - 2);
+            size_t endx = startx + grid.nx;
+            size_t endy = starty + grid.ny;
+            // x and y grid position in maingrid
+            for (size_t j = starty; j < endy; j++)
+                for (size_t i = startx; i < endx; i++)
+                {
+                    size_t ij = (i - startx) + (j - starty) * grid.nx;
+                    size_t mij = maingrid.Index(i, j);
+                    M_E_LF[mij] = RecE_LF[ij];
+                    M_Fx_LF[mij] = RecFx_LF[ij];
+                    M_Fy_LF[mij] = RecFy_LF[ij];
+                    M_F_LF[mij] = RecF_LF[ij];
+                }
+        }
+        // x and y grid position in maingrid
+        for (size_t j = 0; j < grid.ny; j++)
+            for (size_t i = 0; i < grid.nx; i++)
+            {
+                size_t ij = i + j * grid.nx;
+                size_t mij = maingrid.Index(i, j);
+                M_E_LF[mij] = E_LF[ij];
+                M_Fx_LF[mij] = Fx_LF[ij];
+                M_Fy_LF[mij] = Fy_LF[ij];
+                M_F_LF[mij] = F_LF[ij];
+            }
+    }
+    else
+    {
+        MPI_Request reqs[4];
+        MPI_Isend(&E_LF[0], grid.nxy, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &reqs[0]);
+        MPI_Isend(&Fx_LF[0], grid.nxy, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &reqs[1]);
+        MPI_Isend(&Fy_LF[0], grid.nxy, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &reqs[2]);
+        MPI_Isend(&F_LF[0], grid.nxy, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &reqs[3]);
+        MPI_Status array_of_statuses[4];
+        MPI_Waitall(4, reqs, array_of_statuses);
+    }
 }

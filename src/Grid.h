@@ -1,10 +1,12 @@
 #ifndef __INCLUDE_GUARD_Grid_h__
 #define __INCLUDE_GUARD_Grid_h__
+#include <mpi.h>
 #include <fstream>        // File input/output.
 #include "ControlFlow.hh" // Template arguments and profiling macros.
 #include "Utility.hh"     // Utility functions.
 #include "DataTypes.hh"   // General relativity tensors.
 #include "Profiler.hh"    // Time measurement profiler.
+#include "Helper.hh"      // Helper functions.
 
 class Grid
 {
@@ -17,6 +19,9 @@ public:
     double dx, dy, dt;
     double startx, starty;
     double endx, endy;
+    // Subgrid Members:
+    int up, right, down, left;
+    int subgridX, subgridY;
 
     // Constructors:
     Grid() = delete;
@@ -26,6 +31,11 @@ public:
     // Setters/Getters:
     void SetCFL(double cfl);
     double GetCFL();
+
+    // Subgrid Tools:
+    Grid Subgrid();
+    bool InsideSubgrid(size_t i, size_t j);
+    size_t GridToSubgridIndex(size_t i, size_t j);
 
     // Grid Access Tools:
     size_t Index(size_t i, size_t j);

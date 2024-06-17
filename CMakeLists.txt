@@ -13,6 +13,14 @@ set(CMAKE_CXX_STANDARD 20)
 # Find packages:
 find_package(OpenMP REQUIRED)
 
+# mpi
+# Require MPI for this project:
+find_package(MPI REQUIRED)
+set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
+set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
+include_directories(${MPI_INCLUDE_PATH})
+LINK_LIBRARIES(${MPI_CXX_LIBRARIES})
+
 # Find all src files in src folder:
 file(GLOB srcs src/*.cpp)
 
@@ -50,3 +58,4 @@ target_link_libraries(myMathTest.out OpenMP::OpenMP_CXX)
 target_link_libraries(stencilTest.out OpenMP::OpenMP_CXX)
 target_link_libraries(metricTest.out OpenMP::OpenMP_CXX)
 target_link_libraries(geodesicEquationSolverTest.out OpenMP::OpenMP_CXX)
+target_link_libraries(main.out ${MPI_LIBRARIES})
