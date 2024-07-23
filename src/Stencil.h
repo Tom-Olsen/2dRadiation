@@ -65,10 +65,10 @@ public:
 
 private:
     // Internal Buffers:
-    RealBuffer w;
-    RealBuffer phi;
-    RealBuffer cx;
-    RealBuffer cy;
+    DoubleBuffer w;
+    DoubleBuffer phi;
+    DoubleBuffer cx;
+    DoubleBuffer cy;
     // Initialization:
     void SortDirections();
     void PopulateLookUpTable();

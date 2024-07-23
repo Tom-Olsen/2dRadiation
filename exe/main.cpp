@@ -497,10 +497,14 @@ Logger MovingDiffusion(Stencil stencil, StreamingType streamingType, double kapp
             double E = 1.0 / t0 * exp(-r * r / (4.0 * D * t0));
             double Fx = (x * E) / (2.0 * t0 * (1.0 + correctionFactor * PE));
             double Fy = (y * E) / (2.0 * t0 * (1.0 + correctionFactor * PE));
+            double Pxx = E / (2.0 * (1.0 + correctionFactor * PE));
+            double Pxy = 0.0;
+            double Pyx = 0.0;
+            double Pyy = E / (2.0 * (1.0 + correctionFactor * PE));
 
             // Lab Frame Moments:
             Tensor3x3 boost = BoostMatrix(Tensor2(-ux, 0));
-            Tensor3x3 Tff = Tensor3x3(E, Fx, Fy, Fx, 0, 0, Fy, 0, 0);
+            Tensor3x3 Tff = Tensor3x3(E, Fx, Fy, Fx, Pxx, Pxy, Fy, Pyx, Pyy);
             Tensor3x3 Tlf(0);
             for (int i = 0; i < 3; i++)
                 for (int j = 0; j < 3; j++)
@@ -763,7 +767,7 @@ int main(int argc, char *argv[])
     // StarAnalysis(n);                     // Done
     // BeamCrossingAnalysis(n);             // Done
     // DiffusionAnalysis(n);                // Done
-    // MovingDiffusionAnalysis(n);          // Done
+    MovingDiffusionAnalysis(n);          // Done
     // CurvedBeamAnalysis(n);               // Done
     // StencilAnalysis();
 

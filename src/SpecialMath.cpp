@@ -148,8 +148,40 @@ Tensor2 Vec2ObservedByEulObs(const Tensor3 &u, const Coord &xy, Metric &metric)
         return Tensor2((u[1] + beta_u[1]) / alpha, (u[2] + beta_u[2]) / alpha);
     }
 }
+template <class FrameIn, class FrameOut>
+Tensor2 Vec2ObservedByEulObs(const Tensor3 &u, const size_t &ij, Metric &metric)
+{
+    if constexpr (std::is_same<FrameIn, IF>::value && std::is_same<FrameOut, IF>::value)
+    { // IF -> IF
+        double alpha = metric.GetAlpha(ij);
+        return Tensor2(u[1] / alpha, u[2] / alpha);
+    }
+    if constexpr (std::is_same<FrameIn, IF>::value && std::is_same<FrameOut, LF>::value)
+    { // IF -> LF
+        double alpha = metric.GetAlpha(ij);
+        Tensor2 v(u[1] / alpha, u[2] / alpha);
+        return TransformIFtoLF(v, metric.GetTetrad(ij));
+    }
+    if constexpr (std::is_same<FrameIn, LF>::value && std::is_same<FrameOut, IF>::value)
+    { // LF -> IF
+        double alpha = metric.GetAlpha(ij);
+        Tensor2 beta_u = metric.GetBeta_u(ij);
+        Tensor2 v((u[1] + beta_u[1]) / alpha, (u[2] + beta_u[2]) / alpha);
+        return TransformLFtoIF(v, metric.GetTetradInverse(ij));
+    }
+    if constexpr (std::is_same<FrameIn, LF>::value && std::is_same<FrameOut, LF>::value)
+    { // LF -> LF
+        double alpha = metric.GetAlpha(ij);
+        Tensor2 beta_u = metric.GetBeta_u(ij);
+        return Tensor2((u[1] + beta_u[1]) / alpha, (u[2] + beta_u[2]) / alpha);
+    }
+}
 
 template Tensor2 Vec2ObservedByEulObs<IF, IF>(const Tensor3 &u, const Coord &xy, Metric &metric);
 template Tensor2 Vec2ObservedByEulObs<IF, LF>(const Tensor3 &u, const Coord &xy, Metric &metric);
 template Tensor2 Vec2ObservedByEulObs<LF, IF>(const Tensor3 &u, const Coord &xy, Metric &metric);
 template Tensor2 Vec2ObservedByEulObs<LF, LF>(const Tensor3 &u, const Coord &xy, Metric &metric);
+template Tensor2 Vec2ObservedByEulObs<IF, IF>(const Tensor3 &u, const size_t &ij, Metric &metric);
+template Tensor2 Vec2ObservedByEulObs<IF, LF>(const Tensor3 &u, const size_t &ij, Metric &metric);
+template Tensor2 Vec2ObservedByEulObs<LF, IF>(const Tensor3 &u, const size_t &ij, Metric &metric);
+template Tensor2 Vec2ObservedByEulObs<LF, LF>(const Tensor3 &u, const size_t &ij, Metric &metric);

@@ -28,55 +28,55 @@ public:
     // Initial data is set from the outside (in code units):
     bool *isInitialGridPoint;
     // config.initialDataType = InitialDataType::Intensities
-    RealBuffer initialI;
-    RealBuffer initialFluxAngle_IF;
+    DoubleBuffer initialI;
+    DoubleBuffer initialFluxAngle_IF;
     // config.initialDataType = InitialDataType::Moments
-    RealBuffer initialE_LF;
-    RealBuffer initialFx_LF;
-    RealBuffer initialFy_LF;
-    RealBuffer initialPxx_LF;
-    RealBuffer initialPxy_LF;
-    RealBuffer initialPyy_LF;
+    DoubleBuffer initialE_LF;
+    DoubleBuffer initialFx_LF;
+    DoubleBuffer initialFy_LF;
+    DoubleBuffer initialPxx_LF;
+    DoubleBuffer initialPxy_LF;
+    DoubleBuffer initialPyy_LF;
 
     // Rotation angle of stencils:
-    RealBuffer rotationAngle;
-    RealBuffer rotationAngleNew;
+    DoubleBuffer rotationAngle;
+    DoubleBuffer rotationAngleNew;
 
     // Inertial frame moments:
-    RealBuffer E;
-    RealBuffer Fx;
-    RealBuffer Fy;
-    RealBuffer Pxx;
-    RealBuffer Pxy;
-    RealBuffer Pyy;
+    DoubleBuffer E;
+    DoubleBuffer Fx;
+    DoubleBuffer Fy;
+    DoubleBuffer Pxx;
+    DoubleBuffer Pxy;
+    DoubleBuffer Pyy;
 
     // Lab frame moments:
-    RealBuffer E_LF;
-    RealBuffer Fx_LF;
-    RealBuffer Fy_LF;
-    RealBuffer Pxx_LF;
-    RealBuffer Pxy_LF;
-    RealBuffer Pyy_LF;
-    RealBuffer F_LF; // only for saving
+    DoubleBuffer E_LF;
+    DoubleBuffer Fx_LF;
+    DoubleBuffer Fy_LF;
+    DoubleBuffer Pxx_LF;
+    DoubleBuffer Pxy_LF;
+    DoubleBuffer Pyy_LF;
+    DoubleBuffer F_LF; // only for saving
 
     // Fluid properties:
-    RealBuffer kappa0;
-    RealBuffer kappa1;
-    RealBuffer kappaA;
-    RealBuffer eta;
-    RealBuffer ux;
-    RealBuffer uy;
+    DoubleBuffer kappa0;
+    DoubleBuffer kappa1;
+    DoubleBuffer kappaA;
+    DoubleBuffer eta;
+    DoubleBuffer ux;
+    DoubleBuffer uy;
 
     // Population intensities:
-    RealBuffer I;
-    RealBuffer Inew;
+    DoubleBuffer I;
+    DoubleBuffer Inew;
 
     // Fourier coefficients for geodesic streaming:
-    RealBuffer coefficientsS;
-    RealBuffer coefficientsX;
-    RealBuffer coefficientsY;
-    RealBuffer coefficientsCx;
-    RealBuffer coefficientsCy;
+    DoubleBuffer coefficientsS;
+    DoubleBuffer coefficientsX;
+    DoubleBuffer coefficientsY;
+    DoubleBuffer coefficientsCx;
+    DoubleBuffer coefficientsCy;
 
     // Testing:
     IntBuffer itterationCount;

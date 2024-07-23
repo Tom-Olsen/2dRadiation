@@ -24,4 +24,6 @@ Tensor3x3 BoostMatrix(const Tensor2 & u);
 
 template <class FrameIn, class FrameOut>
 Tensor2 Vec2ObservedByEulObs(const Tensor3 &u, const Coord &xy, Metric &metric);
+template <class FrameIn, class FrameOut>
+Tensor2 Vec2ObservedByEulObs(const Tensor3 &u, const size_t &ij, Metric &metric);
 #endif //__INCLUDE_GUARD_AdvancedMath_h__

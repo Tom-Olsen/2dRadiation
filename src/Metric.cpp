@@ -335,7 +335,7 @@ void Metric::InitializeAdmComponentsOnGrid()
         }
 }
 
-double Metric::InterpolateArrayTo_ij(const RealBuffer &array, const Coord &ij)
+double Metric::InterpolateArrayTo_ij(const DoubleBuffer &array, const Coord &ij)
 {
     size_t i0 = std::floor(ij[1]);
     size_t j0 = std::floor(ij[2]);
@@ -346,7 +346,7 @@ double Metric::InterpolateArrayTo_ij(const RealBuffer &array, const Coord &ij)
                                  array[grid.Index(i0, j0)], array[grid.Index(i0, j1)],
                                  array[grid.Index(i1, j0)], array[grid.Index(i1, j1)]);
 }
-double Metric::InterpolateArrayTo_ij(const RealBuffer &array, double i, double j)
+double Metric::InterpolateArrayTo_ij(const DoubleBuffer &array, double i, double j)
 {
     size_t i0 = std::floor(i);
     size_t j0 = std::floor(j);

@@ -469,6 +469,7 @@ void Radiation::StreamCurvedFixed()
                 continue;
             }
 
+            double alpha = metric.GetAlpha(ij);
             for (size_t d = 0; d < stencil.nDir; d++)
             {
                 // Index of population d at lattice point ij:
@@ -498,7 +499,6 @@ void Radiation::StreamCurvedFixed()
                 size_t j1 = j0 + 1;
 
                 // Intensity interpolation:
-                double alpha = metric.GetAlpha(ij);
                 double intensityAt_i0j0 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i0, j0))) * IntensityAt(grid.Index(i0, j0), vTempIF);
                 double intensityAt_i0j1 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i0, j1))) * IntensityAt(grid.Index(i0, j1), vTempIF);
                 double intensityAt_i1j0 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i1, j0))) * IntensityAt(grid.Index(i1, j0), vTempIF);
@@ -528,6 +528,9 @@ void Radiation::StreamCurvedAdaptive()
                 continue;
             }
 
+            double alpha = metric.GetAlpha(ij);
+            Tensor3x3 tetrad = metric.GetTetrad(ij);
+            Tensor2x2 subTetrad = (tetrad[{1,1}], tetrad[{1,2}], tetrad[{2,1}], tetrad[{2,2}]);
             for (size_t d = 0; d < stencil.nDir; d++)
             {
                 // Index of population d at lattice point ij:
@@ -558,11 +561,52 @@ void Radiation::StreamCurvedAdaptive()
                 size_t j1 = j0 + 1;
 
                 // Intensity interpolation:
-                double alpha = metric.GetAlpha(ij);
                 double intensityAt_i0j0 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i0, j0))) * IntensityAt(grid.Index(i0, j0), vTempIF);
                 double intensityAt_i0j1 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i0, j1))) * IntensityAt(grid.Index(i0, j1), vTempIF);
                 double intensityAt_i1j0 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i1, j0))) * IntensityAt(grid.Index(i1, j0), vTempIF);
                 double intensityAt_i1j1 = IntegerPow<3>(alpha / metric.GetAlpha(grid.Index(i1, j1))) * IntensityAt(grid.Index(i1, j1), vTempIF);
+                
+                // Try basis change between tetrads:
+                // size_t i0j0 = grid.Index(i0, j0);
+                // size_t i0j1 = grid.Index(i0, j1);
+                // size_t i1j0 = grid.Index(i1, j0);
+                // size_t i1j1 = grid.Index(i1, j1);
+                // Tensor3x3 tetradi0j0 = metric.GetTetrad(i0j0);
+                // Tensor3x3 tetradi0j1 = metric.GetTetrad(i0j1);
+                // Tensor3x3 tetradi1j0 = metric.GetTetrad(i1j0);
+                // Tensor3x3 tetradi1j1 = metric.GetTetrad(i1j1);
+                // Tensor2x2 subTetradi0j0 = (tetradi0j0[{1,1}], tetradi0j0[{1,2}], tetradi0j0[{2,1}], tetradi0j0[{2,2}]);
+                // Tensor2x2 subTetradi0j1 = (tetradi0j1[{1,1}], tetradi0j1[{1,2}], tetradi0j1[{2,1}], tetradi0j1[{2,2}]);
+                // Tensor2x2 subTetradi1j0 = (tetradi1j0[{1,1}], tetradi1j0[{1,2}], tetradi1j0[{2,1}], tetradi1j0[{2,2}]);
+                // Tensor2x2 subTetradi1j1 = (tetradi1j1[{1,1}], tetradi1j1[{1,2}], tetradi1j1[{2,1}], tetradi1j1[{2,2}]);
+                // Tensor2 vTempIFi0j0 = ((subTetradi0j0.Invert() * subTetrad) * vTempIF).EuklNormalized();
+                // Tensor2 vTempIFi0j1 = ((subTetradi0j1.Invert() * subTetrad) * vTempIF).EuklNormalized();
+                // Tensor2 vTempIFi1j0 = ((subTetradi1j0.Invert() * subTetrad) * vTempIF).EuklNormalized();
+                // Tensor2 vTempIFi1j1 = ((subTetradi1j1.Invert() * subTetrad) * vTempIF).EuklNormalized();
+                // double intensityAt_i0j0 = IntegerPow<3>(alpha / metric.GetAlpha(i0j0)) * IntensityAt(i0j0, vTempIFi0j0);
+                // double intensityAt_i0j1 = IntegerPow<3>(alpha / metric.GetAlpha(i0j1)) * IntensityAt(i0j1, vTempIFi0j1);
+                // double intensityAt_i1j0 = IntegerPow<3>(alpha / metric.GetAlpha(i1j0)) * IntensityAt(i1j0, vTempIFi1j0);
+                // double intensityAt_i1j1 = IntegerPow<3>(alpha / metric.GetAlpha(i1j1)) * IntensityAt(i1j1, vTempIFi1j1);
+
+                // Try to transform vTempIF from xy to four neighbors (must be wrong, results are horrible):
+                // Tensor3 uTempIF = alpha * Tensor3(1, vTempIF[1], vTempIF[2]);
+                // Tensor3 uTempLF = TransformIFtoLF(uTempIF, tetrad);
+                // size_t i0j0 = grid.Index(i0, j0);
+                // size_t i0j1 = grid.Index(i0, j1);
+                // size_t i1j0 = grid.Index(i1, j0);
+                // size_t i1j1 = grid.Index(i1, j1);
+                // Tensor3 uTempLFi0j0 = NullNormalize(uTempLF, metric.GetMetric_ll(i0j0));
+                // Tensor3 uTempLFi0j1 = NullNormalize(uTempLF, metric.GetMetric_ll(i0j1));
+                // Tensor3 uTempLFi1j0 = NullNormalize(uTempLF, metric.GetMetric_ll(i1j0));
+                // Tensor3 uTempLFi1j1 = NullNormalize(uTempLF, metric.GetMetric_ll(i1j1));
+                // Tensor2 vTempLFi0j0 = Vec2ObservedByEulObs<LF, IF>(uTempLFi0j0, i0j0, metric);
+                // Tensor2 vTempLFi0j1 = Vec2ObservedByEulObs<LF, IF>(uTempLFi0j1, i0j1, metric);
+                // Tensor2 vTempLFi1j0 = Vec2ObservedByEulObs<LF, IF>(uTempLFi1j0, i1j0, metric);
+                // Tensor2 vTempLFi1j1 = Vec2ObservedByEulObs<LF, IF>(uTempLFi1j1, i1j1, metric);
+                // double intensityAt_i0j0 = IntegerPow<3>(alpha / metric.GetAlpha(i0j0)) * IntensityAt(i0j0, vTempLFi0j0);
+                // double intensityAt_i0j1 = IntegerPow<3>(alpha / metric.GetAlpha(i0j1)) * IntensityAt(i0j1, vTempLFi0j1);
+                // double intensityAt_i1j0 = IntegerPow<3>(alpha / metric.GetAlpha(i1j0)) * IntensityAt(i1j0, vTempLFi1j0);
+                // double intensityAt_i1j1 = IntegerPow<3>(alpha / metric.GetAlpha(i1j1)) * IntensityAt(i1j1, vTempLFi1j1);
 
                 // Interpolate intensity from neighbouring 4 lattice points to temporary point:
                 Inew[index] = IntegerPow<3>(s) * BilinearInterpolation(iTemp - i0, jTemp - j0, intensityAt_i0j0, intensityAt_i0j1, intensityAt_i1j0, intensityAt_i1j1);
@@ -863,7 +907,7 @@ void Radiation::RunSimulation()
             session.PrintFunctionDuration(names[i]);
         if (names[i] == "Total Time")
             totalTime = session.GetTotalTime(names[i]);
-        if (names[i] == "void Grid::WriteFrametoCsv(float, const RealBuffer&, const RealBuffer&, const RealBuffer&, const RealBuffer&, std::string, std::string)")
+        if (names[i] == "void Grid::WriteFrametoCsv(float, const DoubleBuffer&, const DoubleBuffer&, const DoubleBuffer&, const DoubleBuffer&, std::string, std::string)")
             writingTime = session.GetTotalTime(names[i]);
         logger.AddTimeMeasurement(names[i], session.GetTotalTime(names[i]));
     }

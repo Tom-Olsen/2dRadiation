@@ -256,6 +256,13 @@ public:
         return Tensor3((*this)[0] - other[0], (*this)[1] - other[1], (*this)[2] - other[2]);
     }
 
+    // Basic Math:
+    static double Dot(const Tensor3 &a, const Tensor3 &b)
+    {
+        return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    }
+
+
     // Output:
     void Print(std::string name, bool newline = false, int precision = 6) const
     {
@@ -275,15 +282,15 @@ inline std::ostream &operator<<(std::ostream &os, const Tensor3 &v)
 }
 inline Tensor3 operator*(const double &scalar, const Tensor3 &tensor)
 {
-    return Tensor3(scalar * tensor[1], scalar * tensor[2], scalar * tensor[3]);
+    return Tensor3(scalar * tensor[0], scalar * tensor[1], scalar * tensor[2]);
 }
 inline Tensor3 operator*(const Tensor3 &tensor, const double &scalar)
 {
-    return Tensor3(scalar * tensor[1], scalar * tensor[2], scalar * tensor[3]);
+    return Tensor3(scalar * tensor[0], scalar * tensor[1], scalar * tensor[2]);
 }
 inline Tensor3 operator/(const Tensor3 &tensor, const double &scalar)
 {
-    return Tensor3(tensor[1] / scalar, tensor[2] / scalar, tensor[3] / scalar);
+    return Tensor3(tensor[0] / scalar, tensor[1] / scalar, tensor[2] / scalar);
 }
 
 struct Tensor2x2
@@ -316,6 +323,18 @@ public:
         return data[(index.i - 1) * 2 + (index.j - 1)];
     }
 
+    // Operator overloading:
+    Tensor2x2 operator*(const Tensor2x2 &other) const
+    {
+        Tensor2x2 result(0);
+        for(int i = 1; i < 3; i++)
+            for(int j = 1; j < 3; j++)
+                for(int k = 1; k < 3; k++)
+                    result[{i,j}] += (*this)[{i,k}] * other[{k,j}];
+        return result;
+    }
+
+
     // Basic Math:
     Tensor2x2 Invert()
     {
@@ -346,6 +365,11 @@ inline std::ostream &operator<<(std::ostream &os, const Tensor2x2 &v)
     os << "(" << v[{1, 1}] << "," << v[{1, 2}]
        << "|" << v[{2, 1}] << "," << v[{2, 2}] << ")";
     return os;
+}
+inline Tensor2 operator*(const Tensor2x2 &matrix, const Tensor2 &vector)
+{
+    return Tensor2(matrix[{1, 1}] * vector[1] + matrix[{1, 2}] * vector[2],
+                   matrix[{2, 1}] * vector[1] + matrix[{2, 2}] * vector[2]);
 }
 
 struct Tensor3x3
@@ -383,6 +407,10 @@ public:
     const double &operator[](const rank2Indices &index) const
     {
         return data[index.i * 3 + index.j];
+    }
+    const Tensor3 GetColumn(int index) const
+    {
+        return Tensor3(data[index], data[index + 3], data[index + 6]);
     }
 
     // Basic Math:

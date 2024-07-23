@@ -340,6 +340,44 @@ void LorentzBoostToFluidFrame()
     T_FF.Print("T_FF");
 }
 
+void NullVelocityTransformations()
+{
+    size_t nx, ny;
+    nx = ny = 101;
+    Coord start(2, 2);
+    Coord end(3, 3);
+    Grid grid(nx, ny, start, end);
+    KerrSchild metric(grid, 1.0, 0.5);
+
+    Coord xy(2.4, 2.6);
+
+    Tensor2 vIF = Tensor2(0.1, 0.2).EuklNormalized();
+    Tensor3 uIF = metric.GetAlpha(xy) * Tensor3(1, vIF[1], vIF[2]);
+    Tensor3x3 tetrad = metric.GetTetrad(xy);
+    Tensor3 uLF = TransformIFtoLF(uIF, tetrad);
+
+    vIF.Print("vIF");
+    PrintDouble(vIF.EuklNorm(), "|vIF|");
+    uIF.Print("uIF");
+    PrintDouble(Norm2(uIF,metric.GetMinkowskiMetric_ll(xy)), "|uIF|");
+
+    uLF.Print("uLF");
+    PrintDouble(Norm2(uLF, metric.GetMetric_ll(xy)), "|uLF|");
+
+    vIF = Vec2ObservedByEulObs<LF, IF>(uLF, xy, metric);
+    vIF.Print("vIF");
+    PrintDouble(vIF.EuklNorm(), "|vIF|", true);
+
+    Coord xy2(2.41, 2.61);
+    Tensor3 uLF2 = NullNormalize(uLF, metric.GetMetric_ll(xy2));
+    Tensor2 vIF2 = Vec2ObservedByEulObs<LF, IF>(uLF2, xy2, metric);
+    
+    uLF2.Print("uLF2");
+    PrintDouble(Norm2(uLF2, metric.GetMetric_ll(xy2)), "|uLF2|");
+    vIF2.Print("vIF2");
+    PrintDouble(vIF2.EuklNorm(), "|vIF2|", true);
+}
+
 void UndefinedTest()
 {
     // Partial test, can be deleted
@@ -350,14 +388,102 @@ void UndefinedTest()
     Grid grid(nx, ny, start, end);
     KerrSchild metric(grid, 1.0, 0.5);
 
-    Coord xy(2.2, 2.8);
-    Tensor3 uLF(1, 0.1, 0.2);
-    uLF = NullNormalize(uLF, metric.GetMetric_ll(xy));
-    Tensor2 vLF = Vec2ObservedByEulObs<LF, LF>(uLF, xy, metric);
-    uLF.Print("uLF");
-    PrintDouble(Norm2(uLF, metric.GetMetric_ll(xy)), "|uLF|");
-    vLF.Print("vLF");
-    PrintDouble(Norm2(vLF, metric.GetGamma_ll(xy)), "|vLF|");
+    Coord xy0(2.4, 2.6);
+    Coord xy1(2.42, 2.62);
+
+    Tensor3x3 tetrad0 = metric.GetTetrad(xy0);
+    Tensor3x3 tetrad1 = metric.GetTetrad(xy1);
+    Tensor3x3 invTetrad0 = tetrad0.Invert();
+    Tensor3x3 invTetrad1 = tetrad1.Invert();
+
+    Tensor2 vIF0 = Tensor2(0.1, 0.2).EuklNormalized();
+    Tensor3 uIF0 = metric.GetAlpha(xy0) * Tensor3(1, vIF0[1], vIF0[2]);
+    vIF0.Print("vIF0");
+    PrintDouble(vIF0.EuklNorm(), "|vIF0|");
+    uIF0.Print("uIF0");
+    PrintDouble(Norm2(uIF0,metric.GetMinkowskiMetric_ll(xy0)), "|uIF0|");
+
+    Tensor3 uLF = TransformIFtoLF(uIF0, tetrad0);
+
+    Tensor3 uIF1 = TransformLFtoIF(uLF, tetrad1);
+    Tensor2 vIF1 = Tensor2(uIF1[1], uIF1[2]) / metric.GetAlpha(xy1);
+    vIF1.Print("vIF1");
+    PrintDouble(vIF1.EuklNorm(), "|vIF1|");
+    uIF1.Print("uIF1");
+    PrintDouble(Norm2(uIF1,metric.GetMinkowskiMetric_ll(xy1)), "|uIF1|");
+
+    Tensor3 n0 = Tensor3(1, -metric.GetBeta_u(xy0)[1], -metric.GetBeta_u(xy0)[2]) / metric.GetAlpha(xy0);
+    Tensor3 n1 = Tensor3(1, -metric.GetBeta_u(xy1)[1], -metric.GetBeta_u(xy1)[2]) / metric.GetAlpha(xy1);
+    n0.Print("n0");
+    n1.Print("n1");
+}
+
+void BasisChange()
+{
+    size_t nx, ny;
+    nx = ny = 101;
+    Coord start(2, 2);
+    Coord end(3, 3);
+    Grid grid(nx, ny, start, end);
+    KerrSchild metric(grid, 1.0, 0.5);
+
+    Coord xy0(2.4, 2.6);
+    Coord xy1(2.42, 2.62);
+
+    Tensor3x3 tetrad0 = metric.GetTetrad(xy0);
+    Tensor3x3 tetrad1 = metric.GetTetrad(xy1);
+
+    Tensor2x2 subTetrad0(tetrad0[{1,1}], tetrad0[{1,2}], tetrad0[{2,1}], tetrad0[{2,2}]);
+    Tensor2x2 subTetrad1(tetrad1[{1,1}], tetrad1[{1,2}], tetrad1[{2,1}], tetrad1[{2,2}]);
+
+    tetrad0.Print("tetrad0");
+    tetrad1.Print("tetrad1");
+    subTetrad0.Print("subTetrad0");
+    subTetrad1.Print("subTetrad1");
+
+    Tensor2x2 T = subTetrad1.Invert() * subTetrad0;
+    T.Print("T");
+
+    Tensor2 v0 = Tensor2(0.3,0.5).EuklNormalized();
+    Tensor2 v1 = T * v0;
+    v0.Print("v0");
+    v1.Print("v1");
+    PrintDouble(v1.EuklNorm(), "|v1|");
+    v1.EuklNormalized().Print("v1");
+
+    Tensor2x2 A(3,  1, 1, 3);
+    Tensor2x2 B(3, -1, 0, 3);
+    Tensor2x2 C = B.Invert() * A;
+    Tensor2 vA(1,1);
+    Tensor2 vB = C * vA;
+    A.Print("A");
+    B.Print("B");
+    C.Print("C");
+    vA.Print("vA");
+    vB.Print("vB");
+}
+
+void Rank2TensorRotation()
+{
+    Tensor2x2 T(1,0, 0,2);
+    double angle = M_PI / 4.0;
+    double s = MySin(angle);
+    double c = MyCos(angle);
+    Tensor2x2 R(c, -s, s, c);
+
+    Tensor2x2 Trot;
+    for(int i=1; i<3; i++)
+    for(int j=1; j<3; j++)
+    {
+        Trot[{i,j}] = 0;
+        for(int k=1; k<3; k++)
+        for(int l=1; l<3; l++)
+            Trot[{i,j}] += R[{i,k}] * R[{j,l}] * T[{k,l}];
+    }
+
+    T.Print("T");
+    R.Print("R");
+    Trot.Print("Trot");
 }
 
 int main()
@@ -369,7 +495,11 @@ int main()
     // LambdaIteration();
     // UnitConversion();
     // LorentzBoostToFluidFrame();
-    UndefinedTest();
+    // NullVelocityTransformations();
+    // UndefinedTest();
+    // BasisChange();
+    Rank2TensorRotation();
+    
 
     // for(int i = 0; i < 16; i++)
     // {

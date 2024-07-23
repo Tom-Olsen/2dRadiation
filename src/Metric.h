@@ -16,53 +16,53 @@ public:
 // protected:
 public:
     // Metrik Data:
-    RealBuffer g00_ll;    RealBuffer g00_uu;
-    RealBuffer g01_ll;    RealBuffer g01_uu;
-    RealBuffer g02_ll;    RealBuffer g02_uu;
-    RealBuffer g11_ll;    RealBuffer g11_uu;
-    RealBuffer g12_ll;    RealBuffer g12_uu;
-    RealBuffer g22_ll;    RealBuffer g22_uu;
-    RealBuffer d0_g00_lll;    RealBuffer d1_g00_lll;    RealBuffer d2_g00_lll;
-    RealBuffer d0_g01_lll;    RealBuffer d1_g01_lll;    RealBuffer d2_g01_lll;
-    RealBuffer d0_g02_lll;    RealBuffer d1_g02_lll;    RealBuffer d2_g02_lll;
-    RealBuffer d0_g11_lll;    RealBuffer d1_g11_lll;    RealBuffer d2_g11_lll;
-    RealBuffer d0_g12_lll;    RealBuffer d1_g12_lll;    RealBuffer d2_g12_lll;
-    RealBuffer d0_g22_lll;    RealBuffer d1_g22_lll;    RealBuffer d2_g22_lll;
-    RealBuffer d0_g00_luu;    RealBuffer d1_g00_luu;    RealBuffer d2_g00_luu;
-    RealBuffer d0_g01_luu;    RealBuffer d1_g01_luu;    RealBuffer d2_g01_luu;
-    RealBuffer d0_g02_luu;    RealBuffer d1_g02_luu;    RealBuffer d2_g02_luu;
-    RealBuffer d0_g11_luu;    RealBuffer d1_g11_luu;    RealBuffer d2_g11_luu;
-    RealBuffer d0_g12_luu;    RealBuffer d1_g12_luu;    RealBuffer d2_g12_luu;
-    RealBuffer d0_g22_luu;    RealBuffer d1_g22_luu;    RealBuffer d2_g22_luu;
+    DoubleBuffer g00_ll;    DoubleBuffer g00_uu;
+    DoubleBuffer g01_ll;    DoubleBuffer g01_uu;
+    DoubleBuffer g02_ll;    DoubleBuffer g02_uu;
+    DoubleBuffer g11_ll;    DoubleBuffer g11_uu;
+    DoubleBuffer g12_ll;    DoubleBuffer g12_uu;
+    DoubleBuffer g22_ll;    DoubleBuffer g22_uu;
+    DoubleBuffer d0_g00_lll;    DoubleBuffer d1_g00_lll;    DoubleBuffer d2_g00_lll;
+    DoubleBuffer d0_g01_lll;    DoubleBuffer d1_g01_lll;    DoubleBuffer d2_g01_lll;
+    DoubleBuffer d0_g02_lll;    DoubleBuffer d1_g02_lll;    DoubleBuffer d2_g02_lll;
+    DoubleBuffer d0_g11_lll;    DoubleBuffer d1_g11_lll;    DoubleBuffer d2_g11_lll;
+    DoubleBuffer d0_g12_lll;    DoubleBuffer d1_g12_lll;    DoubleBuffer d2_g12_lll;
+    DoubleBuffer d0_g22_lll;    DoubleBuffer d1_g22_lll;    DoubleBuffer d2_g22_lll;
+    DoubleBuffer d0_g00_luu;    DoubleBuffer d1_g00_luu;    DoubleBuffer d2_g00_luu;
+    DoubleBuffer d0_g01_luu;    DoubleBuffer d1_g01_luu;    DoubleBuffer d2_g01_luu;
+    DoubleBuffer d0_g02_luu;    DoubleBuffer d1_g02_luu;    DoubleBuffer d2_g02_luu;
+    DoubleBuffer d0_g11_luu;    DoubleBuffer d1_g11_luu;    DoubleBuffer d2_g11_luu;
+    DoubleBuffer d0_g12_luu;    DoubleBuffer d1_g12_luu;    DoubleBuffer d2_g12_luu;
+    DoubleBuffer d0_g22_luu;    DoubleBuffer d1_g22_luu;    DoubleBuffer d2_g22_luu;
     // ADM Data:
-    RealBuffer alpha;
-    RealBuffer beta1_u;    RealBuffer beta1_l;
-    RealBuffer beta2_u;    RealBuffer beta2_l;
-    RealBuffer gamma11_ll;    RealBuffer gamma11_uu;
-    RealBuffer gamma12_ll;    RealBuffer gamma12_uu;
-    RealBuffer gamma22_ll;    RealBuffer gamma22_uu;
-    RealBuffer d1_alpha_l;
-    RealBuffer d2_alpha_l;
-    RealBuffer d1_beta1_lu;    RealBuffer d1_beta2_lu;
-    RealBuffer d2_beta1_lu;    RealBuffer d2_beta2_lu;
-    RealBuffer d1_beta1_ll;    RealBuffer d1_beta2_ll;
-    RealBuffer d2_beta1_ll;    RealBuffer d2_beta2_ll;
-    RealBuffer d1_gamma11_lll;    RealBuffer d2_gamma11_lll;
-    RealBuffer d1_gamma12_lll;    RealBuffer d2_gamma12_lll;
-    RealBuffer d1_gamma22_lll;    RealBuffer d2_gamma22_lll;
-    RealBuffer d1_gamma11_luu;    RealBuffer d2_gamma11_luu;
-    RealBuffer d1_gamma12_luu;    RealBuffer d2_gamma12_luu;
-    RealBuffer d1_gamma22_luu;    RealBuffer d2_gamma22_luu;
-    RealBuffer K11_ll;
-    RealBuffer K12_ll;
-    RealBuffer K22_ll;
+    DoubleBuffer alpha;
+    DoubleBuffer beta1_u;    DoubleBuffer beta1_l;
+    DoubleBuffer beta2_u;    DoubleBuffer beta2_l;
+    DoubleBuffer gamma11_ll;    DoubleBuffer gamma11_uu;
+    DoubleBuffer gamma12_ll;    DoubleBuffer gamma12_uu;
+    DoubleBuffer gamma22_ll;    DoubleBuffer gamma22_uu;
+    DoubleBuffer d1_alpha_l;
+    DoubleBuffer d2_alpha_l;
+    DoubleBuffer d1_beta1_lu;    DoubleBuffer d1_beta2_lu;
+    DoubleBuffer d2_beta1_lu;    DoubleBuffer d2_beta2_lu;
+    DoubleBuffer d1_beta1_ll;    DoubleBuffer d1_beta2_ll;
+    DoubleBuffer d2_beta1_ll;    DoubleBuffer d2_beta2_ll;
+    DoubleBuffer d1_gamma11_lll;    DoubleBuffer d2_gamma11_lll;
+    DoubleBuffer d1_gamma12_lll;    DoubleBuffer d2_gamma12_lll;
+    DoubleBuffer d1_gamma22_lll;    DoubleBuffer d2_gamma22_lll;
+    DoubleBuffer d1_gamma11_luu;    DoubleBuffer d2_gamma11_luu;
+    DoubleBuffer d1_gamma12_luu;    DoubleBuffer d2_gamma12_luu;
+    DoubleBuffer d1_gamma22_luu;    DoubleBuffer d2_gamma22_luu;
+    DoubleBuffer K11_ll;
+    DoubleBuffer K12_ll;
+    DoubleBuffer K22_ll;
     // Tetrad Data:
-    RealBuffer tetrad00_ul;    RealBuffer tetrad01_ul;    RealBuffer tetrad02_ul;
-    RealBuffer tetrad10_ul;    RealBuffer tetrad11_ul;    RealBuffer tetrad12_ul;
-    RealBuffer tetrad20_ul;    RealBuffer tetrad21_ul;    RealBuffer tetrad22_ul;
-    RealBuffer tetrad00_lu;    RealBuffer tetrad01_lu;    RealBuffer tetrad02_lu;
-    RealBuffer tetrad10_lu;    RealBuffer tetrad11_lu;    RealBuffer tetrad12_lu;
-    RealBuffer tetrad20_lu;    RealBuffer tetrad21_lu;    RealBuffer tetrad22_lu;
+    DoubleBuffer tetrad00_ul;    DoubleBuffer tetrad01_ul;    DoubleBuffer tetrad02_ul;
+    DoubleBuffer tetrad10_ul;    DoubleBuffer tetrad11_ul;    DoubleBuffer tetrad12_ul;
+    DoubleBuffer tetrad20_ul;    DoubleBuffer tetrad21_ul;    DoubleBuffer tetrad22_ul;
+    DoubleBuffer tetrad00_lu;    DoubleBuffer tetrad01_lu;    DoubleBuffer tetrad02_lu;
+    DoubleBuffer tetrad10_lu;    DoubleBuffer tetrad11_lu;    DoubleBuffer tetrad12_lu;
+    DoubleBuffer tetrad20_lu;    DoubleBuffer tetrad21_lu;    DoubleBuffer tetrad22_lu;
 
 public:
     // Constructors/Destructor:
@@ -80,8 +80,8 @@ public:
     Tensor3x3 InverseMetricDeriv(const Coord& xy);
     void InitializeMetricDerivativesOnGrid();
     void InitializeAdmComponentsOnGrid();
-    double InterpolateArrayTo_ij(const RealBuffer& array, const Coord& ij);
-    double InterpolateArrayTo_ij(const RealBuffer& array, double i, double j);
+    double InterpolateArrayTo_ij(const DoubleBuffer& array, const Coord& ij);
+    double InterpolateArrayTo_ij(const DoubleBuffer& array, double i, double j);
 
 public:
     // Boolean checks:

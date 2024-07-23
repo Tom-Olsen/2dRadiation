@@ -115,7 +115,7 @@ public:
     {
         for (int i = 0; i < timeMeasurements.size(); i++)
         {
-            if (timeNames[i] == "void Grid::WriteFrametoCsv(float, const RealBuffer&, const RealBuffer&, const RealBuffer&, const RealBuffer&, std::string, std::string)")
+            if (timeNames[i] == "void Grid::WriteFrametoCsv(float, const DoubleBuffer&, const DoubleBuffer&, const DoubleBuffer&, const DoubleBuffer&, std::string, std::string)")
                 return timeMeasurements[i];
         }
         return 0;
