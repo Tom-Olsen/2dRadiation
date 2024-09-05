@@ -4,6 +4,10 @@ The code is not coupled to a matter fluid code yet, making all interactions betw
 The master branch is parallelized via openMP.
 Tim Brohn developed the MPI branch in his Bachelor thesis, "MPI parallelization analysis of lattice Boltzmann methods for radiative transport in computational astrophysics", which allows for multi-node simulations.
 
+
+
+How To use:
+The code was developed on Linux. I have not tested it on other systems and do not guarantee it will work there.
 Do not forget to download submodules as well:
 -git submodule init
 -git submodule update
