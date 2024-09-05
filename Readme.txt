@@ -17,6 +17,8 @@ Or clone first and then init submodels:
 -git submodule init
 -git submodule update
 
+Dont forget to create the output dir and change the global output path in ControlFlow.hh
+
 The following libraries are necessary to compile the code:
 openmp:     -sudo apt-get install libomp-dev
 
