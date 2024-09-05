@@ -33,7 +33,7 @@ and add the c++ flags to it (analogous to 'main.cpp'):
 Then run cmake inside the build folder, and afterward the makefile:
 -cd build
 -cmake ..
--make
+-make <executable name>
 
 The src folder contains all the source code, including the submodule eigen.
 The exe folder contains all .cpp files that get compiled into executable .out files.
