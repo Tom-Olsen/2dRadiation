@@ -177,7 +177,8 @@
         "valueobject": "cpp",
         "plane": "cpp",
         "boundingbox": "cpp",
-        "boundingsphere": "cpp"
+        "boundingsphere": "cpp",
+        "timer": "cpp"
     },
     "cmake.configureOnOpen": true,
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"

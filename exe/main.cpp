@@ -151,10 +151,12 @@ Logger Shadow(Stencil stencil, StreamingType streamingType, double cfl)
 void ShadowAnalysis(int n)
 {
     double cfl = 0.9;
-    if (n == 0) Shadow(Stencil(100,  0), StreamingType::FlatFixed, cfl);
-    if (n == 1) Shadow(Stencil(200,  0), StreamingType::FlatFixed, cfl);
-    if (n == 2) Shadow(Stencil( 80, 20), StreamingType::FlatAdaptive, cfl);
-    if (n == 3) Shadow(Stencil(160, 40), StreamingType::FlatAdaptive, cfl);
+    if (n == 0) Shadow(Stencil(50,  0), StreamingType::FlatFixed, cfl);
+    if (n == 1) Shadow(Stencil(100,  0), StreamingType::FlatFixed, cfl);
+    if (n == 2) Shadow(Stencil(200,  0), StreamingType::FlatFixed, cfl);
+    if (n == 3) Shadow(Stencil( 40, 10), StreamingType::FlatAdaptive, cfl);
+    if (n == 4) Shadow(Stencil( 80, 20), StreamingType::FlatAdaptive, cfl);
+    if (n == 5) Shadow(Stencil(160, 40), StreamingType::FlatAdaptive, cfl);
 }
 
 Logger Star(Stencil stencil, StreamingType streamingType, double cfl, double kappaA)
@@ -763,14 +765,16 @@ int main(int argc, char *argv[])
         
     // Paper:
     // SphereWaveAnalysis(n);               // Done
-    // ShadowAnalysis(n);                   // Done
+    ShadowAnalysis(n);                   // Done
     // StarAnalysis(n);                     // Done
     // BeamCrossingAnalysis(n);             // Done
     // DiffusionAnalysis(n);                // Done
-    MovingDiffusionAnalysis(n);          // Done
+    // MovingDiffusionAnalysis(n);          // Done
     // CurvedBeamAnalysis(n);               // Done
     // StencilAnalysis();
 
     // StreamingTypePerformanceAnalysis(n); // Done
     // MetricDataForLukasCurvedBeam();
+    
+    CurvedBeam(Stencil( 80, 20), StreamingType::CurvedAdaptive, 0.9, 5);
 }

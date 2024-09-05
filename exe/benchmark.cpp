@@ -239,24 +239,24 @@ int main(int argc, char *argv[])
     
     // Scaling analysis. Run this with different OMP_NUM_THREADS:
     // OMP_NUM_THREADS=N ./benchmark.out
-    const char* omp_num_threads_env = std::getenv("OMP_NUM_THREADS");
-    int omp_num_threads = 1;
-    if (omp_num_threads_env != nullptr)
-    {
-        omp_num_threads = std::stoi(omp_num_threads_env);
-        omp_set_num_threads(omp_num_threads);
-    }
-    double maxLups = -1;
-    for(int i=0; i<10; i++)
-    {
-        double lups =  CurvedTest(Stencil(160,40), StreamingType::CurvedAdaptive, cfl, kappa0, kappa1, kappaA, eta, ux);
-        maxLups = std::max(maxLups, lups);
-    }
-    std::cout << "# Threads, MLUPS" << std::endl;
-    std::cout << omp_num_threads_env << ", " << maxLups << std::endl;
+    // const char* omp_num_threads_env = std::getenv("OMP_NUM_THREADS");
+    // int omp_num_threads = 1;
+    // if (omp_num_threads_env != nullptr)
+    // {
+        // omp_num_threads = std::stoi(omp_num_threads_env);
+        // omp_set_num_threads(omp_num_threads);
+    // }
+    // double maxLups = -1;
+    // for(int i=0; i<10; i++)
+    // {
+        // double lups =  CurvedTest(Stencil(160,40), StreamingType::CurvedAdaptive, cfl, kappa0, kappa1, kappaA, eta, ux);
+        // maxLups = std::max(maxLups, lups);
+    // }
+    // std::cout << "# Threads, MLUPS" << std::endl;
+    // std::cout << omp_num_threads_env << ", " << maxLups << std::endl;
 
     // Test if setup is correct:
-    // if (n == 0)   FlatTest(Stencil(100,  0), StreamingType::FlatFixed     , cfl, 0, 0, 0, 0, 0);
+    // if (n == 0)   std::cout << "P = " << FlatTest(Stencil(100,  0), StreamingType::FlatFixed     , cfl, 0, 0, 0, 0, 0) << "MLUPS" << std:: endl;
     // if (n == 1)   FlatTest(Stencil(100,  0), StreamingType::FlatFixed     , cfl, kappa0, kappa1, kappaA, eta, ux);
     // if (n == 2)   FlatTest(Stencil( 80, 20), StreamingType::FlatAdaptive  , cfl, 0, 0, 0, 0, 0);
     // if (n == 3)   FlatTest(Stencil( 80, 20), StreamingType::FlatAdaptive  , cfl, kappa0, kappa1, kappaA, eta, ux);

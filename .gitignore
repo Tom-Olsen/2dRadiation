@@ -1,5 +1,6 @@
 # VsCode:
 .vscode
+.vscode/*
 
 # Obj files:
 *.o

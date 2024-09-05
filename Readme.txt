@@ -11,14 +11,14 @@ Examples for code usage can be found in exe/main.cpp.
 
 To build the code add your .cpp file in the 'CMakeLists.txt' as an executable,
 and add the c++ flags to it (analougus to 'main.cpp'):
--add_executable(myCode.out exe/main.cpp ${srcs})
+-add_executable(myCode.out exe/myCode.cpp ${srcs})
 -target_compile_options(myCode.out PUBLIC -O3 -ffast-math)
 -target_link_libraries(myCode.out OpenMP::OpenMP_CXX)
 
 Then run cmake inside the build folder, and afterwards the makefile:
 -cd build
 -cmake ..
--make -j
+-make
 
 The src folder contains all the source code, including the submodule eigen.
 The exe folder contains all .cpp files that get compiled into executable .out files.
