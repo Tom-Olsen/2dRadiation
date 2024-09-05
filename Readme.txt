@@ -8,7 +8,12 @@ Tim Brohn developed the MPI branch in his Bachelor thesis, "MPI parallelization 
 
 How To use:
 The code was developed on Linux. I have not tested it on other systems and do not guarantee it will work there.
-Do not forget to download submodules as well:
+
+Download with submodules:
+-git clone --recurse-submodules <repository-url>
+
+Or clone first and then init submodels:
+-git clone <repository-url>
 -git submodule init
 -git submodule update
 
